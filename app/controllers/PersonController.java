@@ -15,12 +15,12 @@ import static play.libs.Json.toJson;
 public class PersonController extends Controller {
 
     private final FormFactory formFactory;
-    private final JPAApi jpaApi;
+    //private final JPAApi jpaApi;
 
     @Inject
-    public PersonController(FormFactory formFactory, JPAApi jpaApi) {
+    public PersonController(FormFactory formFactory) {
         this.formFactory = formFactory;
-        this.jpaApi = jpaApi;
+        //this.jpaApi = jpaApi;
     }
 
     public Result index() {
@@ -30,15 +30,16 @@ public class PersonController extends Controller {
 
     @Transactional
     public Result addPerson() {
-        Person person = formFactory.form(Person.class).bindFromRequest().get();
-        jpaApi.em().persist(person);
+        //Person person = formFactory.form(Person.class).bindFromRequest().get();
+        //jpaApi.em().persist(person);
         return redirect(routes.PersonController.index());
     }
 
     @Transactional(readOnly = true)
     public Result getPersons() {
-        List<Person> persons = (List<Person>) jpaApi.em().createQuery("select p from Person p").getResultList();
-        return ok(toJson(persons));
+        //List<Person> persons = (List<Person>) jpaApi.em().createQuery("select p from Person p").getResultList();
+        //return ok(toJson(persons));
+        return ok();
     }
 
 }
