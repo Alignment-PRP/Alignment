@@ -8,7 +8,9 @@ POST    /person                     controllers.PersonController.addPerson()
 GET     /persons                    controllers.PersonController.getPersons
 
 
+# Preliminary site-navigation
 GET     /login                      controllers.ApplicationController.login()
+GET     /main                       controllers.ApplicationController.dashboard()
 
 
 # Map static resources from the /public folder to the /assets URL path
