@@ -12,4 +12,9 @@ public class ApplicationController extends Controller {
     }
 
 
+    public Result dashboard() {
+        return ok(views.html.dashboard.render());
+    }
+
+
 }
