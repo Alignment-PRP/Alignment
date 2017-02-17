@@ -1,12 +1,10 @@
-@(webJarAssets: WebJarAssets, title: String)(content: Html)
+@(title: String)(content: Html)
 
 <!DOCTYPE html>
 
 <html>
     <head>
         <title>@title</title>
-
-        <script type='text/javascript' src='@routes.WebJarAssets.at(webJarAssets.fullPath("react", "react.js"))'></script>
     <body>
         @content
     </body>
