@@ -67,7 +67,11 @@ browserifyTask := {
     println("Running browserify")
     val outputFile = browserifyOutputDir.value / "main.js"
     browserifyOutputDir.value.mkdirs
-    "./node_modules/.bin/browserify --fast -t [ babelify --presets [ es2015 react ] ] app/assets/javascripts/main.jsx -o "+outputFile.getPath !;
+    if (sys.props("os.name").contains("Windows")) {
+      "./node_modules/.bin/browserify.cmd --fast -t [ babelify --presets [ es2015 react ] ] app/assets/javascripts/main.jsx -o "+outputFile.getPath !;
+    } else {
+      "./node_modules/.bin/browserify --fast -t [ babelify --presets [ es2015 react ] ] app/assets/javascripts/main.jsx -o "+outputFile.getPath !;
+    }
   }
   Nil
 
