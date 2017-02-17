@@ -1,14 +1,14 @@
-@(webJarAssets: WebJarAssets)
+@()
 
 <!DOCTYPE html>
 
 <html>
     <title></title>
-    <script type='text/javascript' src='@routes.WebJarAssets.at(webJarAssets.fullPath("react", "react.js"))'></script>
-    <script type='text/javascript' src='@routes.WebJarAssets.at(webJarAssets.fullPath("react", "react-dom.js"))'></script>
+    <link rel="stylesheet" href='@routes.Assets.at("stylesheets/main.css")'/>
 
     <body>
-        <div id="application"></div>
+        <div id="app"></div>
+
+        <script type='text/javascript' src='@routes.Assets.at("main.js")'></script>
     </body>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/App.js")'></script>
 </html>
