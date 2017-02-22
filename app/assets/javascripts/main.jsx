@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppBar from 'material-ui/AppBar';
-import Navbar from './sidebar.jsx';
+import Sidebar from './sidebar.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends React.Component {
@@ -10,10 +10,8 @@ class App extends React.Component {
 
         return (
             <div>
-                <MuiThemeProvider>
-                    <AppBar/>
-                </MuiThemeProvider>
-                <Navbar/>
+                <Sidebar/>
+                <div className="main-content"></div>
             </div>
         );
     }
