@@ -1,3 +1,5 @@
+import java.io.File
+
 name := """play-java-intro"""
 
 version := "1.0-SNAPSHOT"
@@ -33,9 +35,24 @@ val browserifyTask = taskKey[Seq[File]]("Run browserify")
 val browserifyOutputDir = settingKey[File]("Browserify output directory")
 browserifyOutputDir := target.value / "web" / "browserify"
 
-
 browserifyTask := {
-  def modified(): Boolean = {
+  val reactFiles = List(
+    "./node_modules/react/react.js",
+    "./node_modules/react-dom/index.js"
+  )
+  val reactOutput = "target/web/browserify/react.js"
+  val appOutput = "target/web/browserify/main.js"
+  val appFolder = "app/assets/javascripts"
+  val appStartingPoint = "app/assets/javascripts/main.jsx"
+
+  def browserify: String = {
+    def isWindows: Boolean = {
+      sys.props("os.name").contains("Windows")
+    }
+    if (isWindows) "browserify.cmd" else "browserify"
+  }
+
+  def modified(target: String, fileFolder: String): Boolean = {
     def getListOfFiles(dir: String): List[File] = {
       def files(list: List[File]): List[File] = {
         list match {
@@ -55,23 +72,35 @@ browserifyTask := {
       }
       List[File]()
     }
-
-    val l = getListOfFiles("app/assets/javascripts")
-    val f = new File("target/web/browserify/main.js")
-    val ll = l.filter(_.lastModified() > f.lastModified())
-
-    if (ll.isEmpty) false else true
+    val files = getListOfFiles(fileFolder)
+    compare(target, files)
   }
 
-  if (modified()) {
-    println("Running browserify")
+  def compare(target: String, files: List[Any]): Boolean = {
+    def compareLastModified(target: File, files: List[File]): Boolean = {
+      val ll = files.filter(_.lastModified > target.lastModified)
+      ll.nonEmpty
+    }
+
+    val fileList: List[File] = files.map({
+      case s: String => new File(s)
+      case f: File => f
+    })
+    compareLastModified(new File(target), fileList)
+  }
+
+  if (compare(reactOutput, reactFiles)) {
+    println("%React: Running browserify")
+    val outputVendorFile = browserifyOutputDir.value / "react.js"
+    browserifyOutputDir.value.mkdirs
+    "./node_modules/.bin/"+browserify+" --fast -o "+ outputVendorFile+" -r react -r react-dom -r react-addons-transition-group -r material-ui" !;
+  }
+
+  if (modified(appOutput, appFolder)) {
+    println("%Client: Running browserify")
     val outputFile = browserifyOutputDir.value / "main.js"
     browserifyOutputDir.value.mkdirs
-    if (sys.props("os.name").contains("Windows")) {
-      "./node_modules/.bin/browserify.cmd --fast -t [ babelify --presets [ es2015 react ] ] app/assets/javascripts/main.jsx -o "+outputFile.getPath !;
-    } else {
-      "./node_modules/.bin/browserify --fast -t [ babelify --presets [ es2015 react ] ] app/assets/javascripts/main.jsx -o "+outputFile.getPath !;
-    }
+    "./node_modules/.bin/"+browserify+" --fast -t [ babelify --presets [ es2015 react ] ] "+appStartingPoint+" -o "+outputFile.getPath+" -x=react -x=react-dom -x=material-ui -x=react-addons-transition-group" !;
   }
   Nil
 
@@ -79,3 +108,4 @@ browserifyTask := {
 
 sourceGenerators in Assets += browserifyTask.taskValue
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/main.js"
+unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/react.js"
