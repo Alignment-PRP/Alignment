@@ -20,9 +20,7 @@ libraryDependencies += javaJdbc
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"
 
-<<<<<<< HEAD
 libraryDependencies += "org.mindrot" % "jbcrypt" % "0.4"
-=======
 /*
 libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.5.0",
@@ -112,4 +110,3 @@ browserifyTask := {
 sourceGenerators in Assets += browserifyTask.taskValue
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/main.js"
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/react.js"
->>>>>>> ea1a80e324f0e8bafc8316e8812446cde003ff68
