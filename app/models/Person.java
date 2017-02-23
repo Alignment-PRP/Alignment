@@ -1,5 +1,7 @@
 package models;
 
+import controllers.DatabaseController;
+
 import javax.persistence.*;
 
 @Entity
