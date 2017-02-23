@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
 import models.User;
 import play.api.db.DB;
-import play.api.db.Database;
+import play.db.Database;
+import play.libs.Json;
 import play.mvc.Controller;
 
 import javax.inject.Inject;
@@ -14,9 +15,21 @@ import javax.inject.Inject;
  */
 public class UserController extends Controller {
 
+    private QueryHandler qh;
+
+    @Inject
+    public UserController(Database db) {
+        this.qh = new QueryHandler(db);
+    }
 
 
-    public static User getUserFromDB(String userID){
+
+
+
+    public User makeUserFromUserName(String username){
+        JsonNode userData =  qh.getUserByName(username);
+        System.out.println(userData);
+        return Json.fromJson(userData.get(0), User.class);
 
     }
 }

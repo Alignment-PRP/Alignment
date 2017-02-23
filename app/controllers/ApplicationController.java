@@ -1,14 +1,18 @@
 package controllers;
 
+import database.Authenticator;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import session.SessionHandler;
 
+import javax.inject.Inject;
+
 
 public class ApplicationController extends Controller {
 
-
+    @Inject
+    Authenticator authenticator;
     /**
      * Called when first requesting the index page.
      * Checks you have visited the page(if you have a cookie)
@@ -44,7 +48,7 @@ public class ApplicationController extends Controller {
     private Result loggedIn(){
 
         //Checks if the session has been tampered with and the like.
-        SessionHandler.validateSession();
+        authenticator.validateSession();
 
         //Gets the userID
         String userID = session("connected");

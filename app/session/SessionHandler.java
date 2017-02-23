@@ -8,13 +8,5 @@ import play.mvc.Controller;
  */
 public class SessionHandler extends Controller {
 
-    public static void validateSession(){
-        if(session().isDirty){
-            session().clear();
-        }
-        if(session().isEmpty()){
-            session("validity", "empty");
-        }
-        session("validity", "good");
-    }
+
 }

@@ -1,11 +1,12 @@
 package controllers;
 
 
+import models.User;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Result;
 import database.Authenticator;
 
+import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -15,6 +16,11 @@ import java.util.Map;
 public class LoginController extends Controller{
     int fails = 0;
 
+    @Inject
+    Authenticator authenticator;
+
+    @Inject
+    UserController userController;
 
     public Result login() {
         return ok(views.html.login.render());
@@ -23,13 +29,15 @@ public class LoginController extends Controller{
     public Result authenticate(){
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-        String username = values.get("username")[0];
-        String password = values.get("password")[0];
-        String authentication = Authenticator.authenticate(username, password);
+        String receivedUsername = values.get("uname")[0];
+        String reveivedPassword = values.get("psw")[0];
+        User user = userController.makeUserFromUserName(receivedUsername);
+
+        String authentication = authenticator.authenticate(reveivedPassword, user);
 
         if(authentication == null){
             session().clear();
-            session("connected", username);
+            session("connected", user.UserID);
             session("timestamp", LocalDateTime.now().toString());
             return ok(views.html.main.render());
         }
@@ -42,7 +50,7 @@ public class LoginController extends Controller{
             if(fails >= 3){
                 return unauthorized("CAPCHA");
             }
-            return unauthorized(views.html.login.render());
+            return unauthorized(authentication);
         }
 
     }
