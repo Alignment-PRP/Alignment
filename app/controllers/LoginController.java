@@ -1,6 +1,5 @@
 package controllers;
 
-
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,13 +13,16 @@ import java.util.Map;
  * Created by andrfo on 16.02.2017.
  */
 public class LoginController extends Controller{
-    int fails = 0;
+
+    private final Authenticator authenticator;
+    private final UserController userController;
+    private int fails = 0;
 
     @Inject
-    Authenticator authenticator;
-
-    @Inject
-    UserController userController;
+    public LoginController(Authenticator authenticator, UserController userController) {
+        this.authenticator = authenticator;
+        this.userController = userController;
+    }
 
     public Result login() {
         return ok(views.html.login.render());
