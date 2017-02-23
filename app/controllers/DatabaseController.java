@@ -26,10 +26,5 @@ public class DatabaseController extends Controller {
   }
 
 
-  public JsonNode getUser(String UID){
-    JsonNode userData = databaseHandler.getUserByID(UID);
-    return userData;
-
-  }
 
 }
