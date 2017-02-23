@@ -17,3 +17,5 @@ libraryDependencies += "org.hibernate" % "hibernate-core" % "5.2.5.Final"
 libraryDependencies += javaJdbc
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"
+
+libraryDependencies += "org.mindrot" % "jbcrypt" % "0.4"
