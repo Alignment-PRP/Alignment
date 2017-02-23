@@ -1,0 +1,38 @@
+{
+  "name": "vitaminbjorner",
+  "version": "1.0.0",
+  "description": "Not sure if we want a README but I'll leave this here just in case",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "material-ui": "^0.17.0",
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-addons-transition-group": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-tap-event-plugin": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Risvaag/vitaminbjorner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Risvaag/vitaminbjorner/issues"
+  },
+  "homepage": "https://github.com/Risvaag/vitaminbjorner#readme"
+}
