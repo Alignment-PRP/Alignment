@@ -48,8 +48,6 @@ public class ApplicationController extends Controller {
     private Result loggedIn(){
 
         //Checks if the session has been tampered with and the like.
-        authenticator.validateSession();
-
         //Gets the userID
         String userID = session("connected");
         if(userID != null) {
@@ -60,4 +58,9 @@ public class ApplicationController extends Controller {
 
         //else return(views.html.login.render())
     }
+    public Result dashboard() {
+        return ok(views.html.dashboard.render());
+    }
+
+
 }
