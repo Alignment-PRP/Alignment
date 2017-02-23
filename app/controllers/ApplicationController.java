@@ -1,10 +1,10 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import database.Authenticator;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import session.SessionHandler;
 
 import javax.inject.Inject;
 
@@ -40,6 +40,9 @@ public class ApplicationController extends Controller {
         }
     }
 
+    public Result getProjects(){
+        return ok();
+    }
     /**
      * Checks if logged in.
      * If so, give home page. If not, give login page.
