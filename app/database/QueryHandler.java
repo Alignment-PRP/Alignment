@@ -36,6 +36,9 @@ public class QueryHandler {
         return executeQuery(Statement.GET_USER_BY_ID, ID);
     }
 
+    //TODO
+    //public JsonNode createUser()
+
     //TODO Doc
     public JsonNode executeQuery(Statement statement, Object... objects) {
         try {

@@ -5,8 +5,10 @@
 # Home page
 GET     /                           controllers.ApplicationController.init()
 GET     /login                      controllers.LoginController.login()
+GET     /sign-up                    controllers.SignupController.signUp()
 
 POST    /login                      controllers.LoginController.authenticate()
+POST    /sign-up                    controllers.SignupController.create()
 
 
 
