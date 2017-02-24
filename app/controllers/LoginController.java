@@ -24,9 +24,7 @@ public class LoginController extends Controller{
         this.userController = userController;
     }
 
-    public Result login() {
-        return ok(views.html.login.render());
-    }
+
 
     public Result authenticate(){
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
@@ -38,9 +36,7 @@ public class LoginController extends Controller{
         String authentication = authenticator.authenticate(reveivedPassword, user);
 
         if(authentication == null){
-            session().clear();
-            session("connected", user.UserID);
-            session("timestamp", LocalDateTime.now().toString());
+
             return ok(views.html.main.render());
         }
         else{
@@ -52,7 +48,7 @@ public class LoginController extends Controller{
             if(fails >= 3){
                 return unauthorized("CAPCHA");
             }
-            return unauthorized(authentication);
+            return unauthorized(views.html.login.render());
         }
 
     }

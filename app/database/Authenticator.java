@@ -4,6 +4,8 @@ import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import play.mvc.Controller;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by andrfo on 16.02.2017.
  */
@@ -16,8 +18,10 @@ public class Authenticator extends Controller {
      * @return Returns null (success) or an error message.
      */
     public String authenticate(String password, User user){
-        System.out.println(user.toString());
         if(BCrypt.checkpw(password, user.Password)){
+            session().clear();
+            session("connected", user.UserID);
+            session("timestamp", LocalDateTime.now().toString());
             return null;
         }
         else{
@@ -25,13 +29,4 @@ public class Authenticator extends Controller {
         }
     }
 
-    public static void validateSession(){
-        if(session().isDirty){
-            session().clear();
-        }
-        if(session().isEmpty()){
-            session("validity", "empty");
-        }
-        session("validity", "good");
-    }
 }

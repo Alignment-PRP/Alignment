@@ -23,6 +23,10 @@ public class ApplicationController extends Controller {
      * or the main page(not first visit and logged in)
      * @return Response
      */
+
+    public Result login() {
+        return ok(views.html.login.render());
+    }
     public Result init(){
         Http.Request request = request();
         Http.Cookie cookieID = request.cookie("id");
@@ -43,9 +47,7 @@ public class ApplicationController extends Controller {
         }
     }
 
-    public Result getProjects(){
-        return ok();
-    }
+
     /**
      * Checks if logged in.
      * If so, give home page. If not, give login page.
