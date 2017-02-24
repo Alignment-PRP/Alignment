@@ -5,12 +5,22 @@ package models;
  */
 public class User {
 
-    public String UserID;
-    public String FirstName;
-    public String LastName;
-    public String Password;
-    public String Email;
-    public String Username;
+    public String userid;
+    public String firstname;
+    public String lastname;
+    public String password;
+    public String email;
+    public String username;
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid='" + userid + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

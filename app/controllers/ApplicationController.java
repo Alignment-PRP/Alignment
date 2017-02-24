@@ -1,6 +1,5 @@
 package controllers;
 
-import database.Authenticator;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -43,9 +42,6 @@ public class ApplicationController extends Controller {
         }
     }
 
-    public Result getProjects(){
-        return ok();
-    }
     /**
      * Checks if logged in.
      * If so, give home page. If not, give login page.
@@ -54,7 +50,7 @@ public class ApplicationController extends Controller {
     private Result loggedIn(){
 
         //Checks if the session has been tampered with and the like.
-        //Gets the userID
+        //Gets the userid
         String userID = session("connected");
         if(userID != null) {
             return ok(views.html.main.render());

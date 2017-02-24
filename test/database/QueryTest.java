@@ -29,8 +29,8 @@ public class QueryTest extends WithApplication {
 
     private static String[] tables = {
             "CREATE TABLE `Project` (`ID` int(11) NOT NULL AUTO_INCREMENT, `Name` varchar(40) NOT NULL, PRIMARY KEY (`ID`))",
-            "CREATE TABLE `User` (`ID` int(11) NOT NULL AUTO_INCREMENT,`Username` varchar(30) NOT NULL, `Email` varchar(50) NOT NULL, `Password` binary(60) NOT NULL,PRIMARY KEY (`ID`))",
-            "CREATE TABLE `PartOf` (`ProjectID` int(11) NOT NULL DEFAULT '0',`UserID` int(11) NOT NULL DEFAULT '0',PRIMARY KEY (`ProjectID`,`UserID`),CONSTRAINT `PartOf_UID_fk` FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),CONSTRAINT `PartOf_PID_fk` FOREIGN KEY (`ProjectID`) REFERENCES `Project` (`ID`))"
+            "CREATE TABLE `User` (`ID` int(11) NOT NULL AUTO_INCREMENT,`Username` varchar(30) NOT NULL, `Email` varchar(50) NOT NULL, `password` binary(60) NOT NULL,PRIMARY KEY (`ID`))",
+            "CREATE TABLE `PartOf` (`ProjectID` int(11) NOT NULL DEFAULT '0',`userid` int(11) NOT NULL DEFAULT '0',PRIMARY KEY (`ProjectID`,`userid`),CONSTRAINT `PartOf_UID_fk` FOREIGN KEY (`userid`) REFERENCES `User` (`ID`),CONSTRAINT `PartOf_PID_fk` FOREIGN KEY (`ProjectID`) REFERENCES `Project` (`ID`))"
     };
 
     private static String[][] users = {

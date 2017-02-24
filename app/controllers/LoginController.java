@@ -3,7 +3,6 @@ package controllers;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
-import database.Authenticator;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -34,12 +33,12 @@ public class LoginController extends Controller{
         String receivedUsername = values.get("uname")[0];
         String reveivedPassword = values.get("psw")[0];
         User user = userController.makeUserFromUserName(receivedUsername);
-
+        System.out.println(user.toString());
         String authentication = authenticator.authenticate(reveivedPassword, user);
 
         if(authentication == null){
             session().clear();
-            session("connected", user.UserID);
+            session("connected", user.userid);
             session("timestamp", LocalDateTime.now().toString());
             return ok(views.html.main.render());
         }
