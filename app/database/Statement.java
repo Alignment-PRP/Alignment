@@ -7,16 +7,15 @@ import java.sql.SQLException;
 
 //TODO Doc
 public enum Statement {
-
-  //Example statements
   GET_PROJECT_BY_ID("SELECT *  FROM project WHERE projectid=?"),
-  GET_PROJECT_RELATED_TO_USER(
-          "SELECT project.projectid, Project.name " +
+  GET_PROJECTS_RELATED_TO_USER(
+          "SELECT * " +
                   "FROM project " +
                   "JOIN partof " +
                   "ON project.projectid = partof.projectid " +
-                  "JOIN user ON partof.userid = user.userid " +
-                  "WHERE userid=?"),
+                  "JOIN user " +
+                  "ON partof.userid = user.userid " +
+                  "WHERE user.userid= ?"),
   GET_PUBLIC_PROJECTS(
           "SELECT * " +
                   "FROM project " +

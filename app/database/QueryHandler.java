@@ -26,7 +26,7 @@ public class QueryHandler {
         return executeQuery(Statement.GET_USER_BY_NAME, name);
     }
     public JsonNode getProjectRelatedToUser(String userID) {
-        return executeQuery(Statement.GET_USER_BY_NAME, userID);
+        return executeQuery(Statement.GET_PROJECTS_RELATED_TO_USER, userID);
     }
     public JsonNode getPublicProjects() {
         return executeQuery(Statement.GET_PUBLIC_PROJECTS);

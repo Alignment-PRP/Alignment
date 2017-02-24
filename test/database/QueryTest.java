@@ -79,7 +79,7 @@ public class QueryTest extends WithApplication {
     public void testUserPartOf() {
 
         for (int[] part : partof) {
-            JsonNode result = queryHandler.executeQuery(Statement.GET_PROJECT_RELATED_TO_USER, part[0]);
+            JsonNode result = queryHandler.executeQuery(Statement.GET_PROJECTS_RELATED_TO_USER, part[0]);
 
             Iterator<JsonNode> it = result.elements();
             while (it.hasNext()) {
