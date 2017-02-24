@@ -26,4 +26,5 @@ public class ProjectController extends Controller {
     public Result getRelatedProjects(){
         return ok(qh.getRelatedProjectsByID(session("connected")));
     }
+    
 }
