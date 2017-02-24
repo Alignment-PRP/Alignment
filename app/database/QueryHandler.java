@@ -21,10 +21,15 @@ public class QueryHandler {
         this.db = db;
     }
 
-    //Example
-    @Deprecated
+
     public JsonNode getUserByName(String name) {
         return executeQuery(Statement.GET_USER_BY_NAME, name);
+    }
+    public JsonNode getProjectRelatedToUser(String userID) {
+        return executeQuery(Statement.GET_USER_BY_NAME, userID);
+    }
+    public JsonNode getPublicProjects() {
+        return executeQuery(Statement.GET_PUBLIC_PROJECTS);
     }
 
     public JsonNode getUserByID(String ID) {
@@ -39,7 +44,8 @@ public class QueryHandler {
             c.close();
             return json;
         } catch (SQLException e) {
-            return Json.toJson("Something went wrong");
+            e.printStackTrace();
+            return Json.toJson("SQL Exception");
         }
     }
 

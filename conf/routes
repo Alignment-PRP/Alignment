@@ -12,7 +12,8 @@ POST    /login                      controllers.LoginController.authenticate()
 
 # Preliminary site-navigation
 GET     /main                       controllers.ApplicationController.dashboard()
-GET     /projects                   controllers.ApplicationController.getProjects()
+GET     /projects                   controllers.ProjectController.getUserRelatedProjects()
+GET     /public/projects            controllers.ProjectController.getPublicProjects()
 
 
 # Map static resources from the /public folder to the /assets URL path

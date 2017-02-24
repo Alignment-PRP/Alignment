@@ -9,10 +9,21 @@ import java.sql.SQLException;
 public enum Statement {
 
   //Example statements
-  GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE id=?"),
-  GET_PROJECT_RELATED_TO_USER("SELECT Project.ID, Project.Name FROM Project JOIN PartOf ON Project.ID = PartOf.ProjectID LEFT JOIN User ON PartOf.UserID = User.ID WHERE UserID=?"),
-  GET_USER_BY_ID("SELECT * FROM User WHERE id=?"),
-  GET_USER_BY_NAME("SELECT * FROM User WHERE username=?");
+  GET_PROJECT_BY_ID("SELECT *  FROM project WHERE projectid=?"),
+  GET_PROJECT_RELATED_TO_USER(
+          "SELECT project.projectid, Project.name " +
+                  "FROM project " +
+                  "JOIN partof " +
+                  "ON project.projectid = partof.projectid " +
+                  "LEFT JOIN user ON partof.userid = user.userid " +
+                  "WHERE userid=?"),
+  GET_PUBLIC_PROJECTS(
+          "SELECT *" +
+                  "FROM project" +
+                  "WHERE ispublic = 1"
+  ),
+  GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
+  GET_USER_BY_NAME("SELECT * FROM user WHERE username=?");
 
   private final String statement;
 

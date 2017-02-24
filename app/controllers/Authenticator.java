@@ -1,8 +1,11 @@
-package database;
+package controllers;
 
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import play.mvc.Controller;
+import play.mvc.Result;
+
+import java.util.concurrent.Callable;
 
 /**
  * Created by andrfo on 16.02.2017.
@@ -16,8 +19,7 @@ public class Authenticator extends Controller {
      * @return Returns null (success) or an error message.
      */
     public String authenticate(String password, User user){
-        System.out.println(user.toString());
-        if(BCrypt.checkpw(password, user.Password)){
+        if(BCrypt.checkpw(password, user.password)){
             return null;
         }
         else{
@@ -25,13 +27,19 @@ public class Authenticator extends Controller {
         }
     }
 
-    public static void validateSession(){
-        if(session().isDirty){
-            session().clear();
+    public Result validateSession(Callable<Result> func){
+        if(session("connected") != null){
+            try{
+                return func.call();
+            }
+            catch (Exception e){
+                //TODO: Logging
+                e.printStackTrace();
+                return unauthorized();
+            }
         }
-        if(session().isEmpty()){
-            session("validity", "empty");
+        else{
+            return unauthorized(views.html.login.render());
         }
-        session("validity", "good");
     }
 }
