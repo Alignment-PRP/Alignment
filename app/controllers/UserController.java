@@ -22,14 +22,21 @@ public class UserController extends Controller {
         this.qh = new QueryHandler(db);
     }
 
+    public JsonNode makeJsonNode(String username){
+        JsonNode userData = qh.getUserByName(username);
+        System.out.println(userData);
+        return userData;
+    }
 
+    public User makeUserFromJson(JsonNode userData){
+        return Json.fromJson(userData.get(0), User.class);
+    }
 
-
-
+    /*@deprecated
     public User makeUserFromUserName(String username){
         JsonNode userData =  qh.getUserByName(username);
         System.out.println("user data: " + userData);
         return Json.fromJson(userData.get(0), User.class);
 
-    }
+    }*/
 }
