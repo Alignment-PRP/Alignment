@@ -3,6 +3,7 @@ package controllers;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -32,7 +33,13 @@ public class LoginController extends Controller{
 
         String receivedUsername = values.get("uname")[0];
         String reveivedPassword = values.get("psw")[0];
-        User user = userController.makeUserFromUserName(receivedUsername);
+        JsonNode userData = userController.makeJsonNode(receivedUsername);
+        if(userData.findValuesAsText("username").isEmpty()){
+          //TODO propper Errorhandling!
+          return ok("no");
+        }
+        //User user = userController.makeUserFromUserName(receivedUsername);
+        User user = userController.makeUserFromJson(userData);
         System.out.println(user.toString());
         String authentication = authenticator.authenticate(reveivedPassword, user);
 
