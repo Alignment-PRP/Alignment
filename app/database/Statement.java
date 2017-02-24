@@ -10,7 +10,12 @@ public enum Statement {
 
   //Example statements
   GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE id=?"),
-  GET_PROJECT_RELATED_TO_USER("SELECT Project.ID, Project.Name FROM Project JOIN PartOf ON Project.ID = PartOf.ProjectID LEFT JOIN User ON PartOf.UserID = User.ID WHERE UserID=?"),
+  GET_PROJECT_RELATED_TO_USER(
+                  "SELECT Project.ID, Project.Name " +
+                  "FROM Project " +
+                  "JOIN PartOf ON Project.ID = PartOf.ProjectID " +
+                  "LEFT JOIN User ON PartOf.UserID = User.ID " +
+                  "WHERE UserID=?"),
   GET_USER_BY_ID("SELECT * FROM User WHERE id=?"),
   GET_USER_BY_NAME("SELECT * FROM User WHERE username=?");
 
