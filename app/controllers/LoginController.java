@@ -36,7 +36,7 @@ public class LoginController extends Controller{
         JsonNode userData = userController.makeJsonNode(receivedUsername);
         if(userData.findValuesAsText("username").isEmpty()){
           //TODO propper Errorhandling!
-          return ok("no");
+          return errorHandling("invalid username or pass");
         }
         //User user = userController.makeUserFromUserName(receivedUsername);
         User user = userController.makeUserFromJson(userData);
@@ -49,17 +49,19 @@ public class LoginController extends Controller{
             session("timestamp", LocalDateTime.now().toString());
             return ok(views.html.main.render());
         }
-        else{
-            fails += 1;
-            if(fails >= 10){
-                return unauthorized("BAN");
-                //TODO: Figure out how to respond properly to lots of fails. Ban IP?
-            }
-            if(fails >= 3){
-                return unauthorized("CAPCHA");
-            }
-            return unauthorized(authentication);
-        }
+        return errorHandling("invalid username or pass");
+    }
 
+    private Result errorHandling(String message){
+        fails += 1;
+        if(fails >= 10){
+            fails = 0;
+            return unauthorized("BAN");
+            //TODO: Figure out how to respond properly to lots of fails. Ban IP?
+        }
+        if(fails >= 3){
+            return unauthorized("CAPCHA");
+        }
+        return unauthorized(message);
     }
 }
