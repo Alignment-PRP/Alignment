@@ -21,14 +21,17 @@ public class QueryHandler {
         this.db = db;
     }
 
-    //Example
-    @Deprecated
+
     public JsonNode getUserByName(String name) {
         return executeQuery(Statement.GET_USER_BY_NAME, name);
     }
 
+
     public JsonNode getUserByID(String ID) {
         return executeQuery(Statement.GET_USER_BY_ID, ID);
+    }
+    public JsonNode getRelatedProjectsByID(String ID) {
+        return executeQuery(Statement.GET_PROJECT_RELATED_TO_USER, ID);
     }
 
     //TODO Doc
