@@ -1,6 +1,5 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import database.Authenticator;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -8,11 +7,15 @@ import play.mvc.Result;
 
 import javax.inject.Inject;
 
-
 public class ApplicationController extends Controller {
 
+    private final Authenticator authenticator;
+
     @Inject
-    Authenticator authenticator;
+    public ApplicationController(Authenticator authenticator) {
+        this.authenticator = authenticator;
+    }
+
     /**
      * Called when first requesting the index page.
      * Checks you have visited the page(if you have a cookie)
