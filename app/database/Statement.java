@@ -15,11 +15,11 @@ public enum Statement {
                   "FROM project " +
                   "JOIN partof " +
                   "ON project.projectid = partof.projectid " +
-                  "LEFT JOIN user ON partof.userid = user.userid " +
+                  "JOIN user ON partof.userid = user.userid " +
                   "WHERE userid=?"),
   GET_PUBLIC_PROJECTS(
-          "SELECT *" +
-                  "FROM project" +
+          "SELECT * " +
+                  "FROM project " +
                   "WHERE ispublic = 1"
   ),
   GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
