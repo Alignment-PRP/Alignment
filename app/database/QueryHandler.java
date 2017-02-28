@@ -32,6 +32,7 @@ public class QueryHandler {
         return executeQuery(Statement.GET_PUBLIC_PROJECTS);
     }
 
+
     public JsonNode getUserByID(String ID) {
         return executeQuery(Statement.GET_USER_BY_ID, ID);
     }

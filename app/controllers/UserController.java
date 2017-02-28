@@ -35,7 +35,6 @@ public class UserController extends Controller {
     /*@deprecated
     public User makeUserFromUserName(String username){
         JsonNode userData =  qh.getUserByName(username);
-        System.out.println("user data: " + userData);
         return Json.fromJson(userData.get(0), User.class);
 
     }*/
