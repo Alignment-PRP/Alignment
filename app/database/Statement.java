@@ -11,10 +11,10 @@ public enum Statement {
   GET_PROJECTS_RELATED_TO_USER(
 
           //TODO: Should probably make the nested queries into views.
-          "SELECT * " +
+          "SELECT pid, p_name, p_desc, po_username, po_userid, pm_username, pm_userid, public " +
                   "FROM " +
                         //Gets all user related projects
-                        "(SELECT p.projectid AS 'pid', p.name AS 'p_name', p.description AS 'p_desc' " +
+                        "(SELECT p.projectid AS 'pid', p.name AS 'p_name', p.description AS 'p_desc', p.ispublic AS 'public'" +
                             "FROM project p " +
                             "JOIN partof " +
                             "ON p.projectid = partof.projectid " +
