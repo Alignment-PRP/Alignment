@@ -9,7 +9,6 @@ import java.sql.SQLException;
 public enum Statement {
   GET_PROJECT_BY_ID("SELECT *  FROM project WHERE projectid=?"),
   GET_PROJECTS_RELATED_TO_USER(
-
           //TODO: Should probably make the nested queries into views.
           "SELECT pid, p_name, p_desc, po_username, po_userid, pm_username, pm_userid, public " +
                   "FROM " +
@@ -46,6 +45,7 @@ public enum Statement {
   ),
   GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
   GET_USER_BY_NAME("SELECT * FROM user WHERE username=?");
+
 
   private final String statement;
 

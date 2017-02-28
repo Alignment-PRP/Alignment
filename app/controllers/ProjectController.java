@@ -2,22 +2,29 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
+import models.User;
+
 import play.db.Database;
 import play.mvc.Controller;
 import play.mvc.Result;
-
+import static play.mvc.Results.ok;
 import javax.inject.Inject;
+
 
 /**
  * Created by andrfo on 24.02.2017.
  */
 public class ProjectController extends Controller {
+
+
+
     private QueryHandler qh;
 
     @Inject
     public ProjectController(Database db) {
         this.qh = new QueryHandler(db);
     }
+
 
     public Result getUserRelatedProjects(){
         String userID = session("connected");
@@ -33,5 +40,6 @@ public class ProjectController extends Controller {
     public Result getPublicProjects(){
         return ok(qh.getPublicProjects());
     }
+    
 
 }
