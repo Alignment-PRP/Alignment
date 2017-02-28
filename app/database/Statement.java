@@ -23,9 +23,9 @@ public enum Statement {
                   "WHERE ispublic = 1"
   ),
   GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
-  GET_USER_BY_NAME("SELECT * FROM user WHERE username=?");
+  GET_USER_BY_NAME("SELECT * FROM user WHERE username=?"),
 
-  CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?)");
+  CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
   private final String statement;
 
@@ -48,6 +48,17 @@ public enum Statement {
   //TODO Doc
   public ResultSet prepareAndExecute(Connection c, Object... objects) throws SQLException {
     return prepare(c, objects).executeQuery();
+  }
+
+  public void prepareAndExecuteNewUser(Connection c, String firstname, String lastname, String email, String username, String password) throws SQLException{
+      PreparedStatement ps = c.prepareStatement(statement);
+      //TODO set username = unique in db
+      ps.setString(1, firstname);
+      ps.setString(2, lastname);
+      ps.setString(3, email);
+      ps.setString(4, username);
+      ps.setString(5, password);
+      ps.executeUpdate();
   }
 
 }

@@ -47,7 +47,7 @@ public class LoginController extends Controller{
             session().clear();
             session("connected", user.userid);
             session("timestamp", LocalDateTime.now().toString());
-            session.getAuthenticityToken();
+            //session().getAuthenticityToken();
             return ok(views.html.main.render());
         }
         return errorHandling("invalid username or pass");

@@ -22,6 +22,7 @@ public class QueryHandler {
     }
 
 
+
     public JsonNode getUserByName(String name) {
         return executeQuery(Statement.GET_USER_BY_NAME, name);
     }
@@ -38,6 +39,10 @@ public class QueryHandler {
 
     //TODO
     //public JsonNode createUser()
+    public void createUser(String firstname, String lastname, String email, String username, String password){
+        //TODO: make executeInsert instead?
+        insertUser(Statement.CREATE_USER, firstname, lastname, email, username, password);
+    }
 
     //TODO Doc
     public JsonNode executeQuery(Statement statement, Object... objects) {
@@ -49,6 +54,19 @@ public class QueryHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             return Json.toJson("SQL Exception");
+        }
+    }
+
+    private void insertUser(Statement statement, String firstname, String lastname, String email, String username, String password){
+        //taken out so we can do validation stuffs with the variables if desireable (I think it will be)
+        //Validation stuffs here
+        //
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewUser(c, firstname, lastname, email, username, password);
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
 

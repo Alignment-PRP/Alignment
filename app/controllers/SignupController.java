@@ -7,8 +7,18 @@ import play.mvc.Result;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+import com.fasterxml.jackson.databind.JsonNode;
+
 
 public class SignupController extends Controller{
+
+    private final UserController uc;
+
+    @Inject
+    public SignupController(UserController userController){
+        this.uc = userController;
+    }
 
     private String hashPass(String pass){
         //TODO check all of this
@@ -17,14 +27,15 @@ public class SignupController extends Controller{
     }
 
     public Result create(){
-        //TODO expand
+        //TODO expand HTML WITH lastname, mail, usernam
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         //String uname = values.get("uname")[0];
         String pass = values.get("psw")[0];
         //String email = values.get("mail")[0];
         //String
         pass = hashPass(pass);
-        return ok(uname+" "+pass);
+        uc.createUser("bob", "bobson", "bob@bob.com", values.get("uname")[0], pass);
+        return ok("hello");
     }
 
     public Result signUp(){
