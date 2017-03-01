@@ -1,23 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppBar from 'material-ui/AppBar';
+import Home from './Home.jsx';
 import Sidebar from './sidebar.jsx';
+import Projects from './Projects.jsx';
+import Root from './Root.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {Router, Route, browserHistory} from "react-router";
 
 class App extends React.Component {
 
     render() {
 
         return (
-            <div>
-                <Sidebar/>
-                <div className="main-content"></div>
-            </div>
+            <Router history={browserHistory}>
+                <Route path={"/"} component={Root}/>
+                    <Route path={"projects"} component={Projects}/>
+            </Router>
         );
     }
 }
 
 ReactDOM.render(
     React.createElement(App, null),
-    document.getElementById("app")
+    window.document.getElementById("app")
 );
