@@ -6,7 +6,6 @@
 GET     /                           controllers.ApplicationController.init()
 
 GET     /login                      controllers.ApplicationController.login()
-
 POST    /login                      controllers.LoginController.authenticate()
 GET     /logout                     controllers.LoginController.logout()
 
@@ -16,10 +15,11 @@ POST    /sign-up                    controllers.SignupController.create()
 
 
 # Preliminary site-navigation
-GET     /main                       controllers.ApplicationController.dashboard()
-
+GET     /home                       controllers.ApplicationController.dashboard()
 GET     /projects                   controllers.ProjectController.getUserRelatedProjects()
 GET     /public/projects            controllers.ProjectController.getPublicProjects()
+
+
 
 
 

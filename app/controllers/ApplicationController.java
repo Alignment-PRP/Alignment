@@ -42,7 +42,7 @@ public class ApplicationController extends Controller {
             */
             Http.Cookie cookie = new Http.Cookie("id", "andreas", null, "/", null, false, true);
             response().setCookie(cookie);
-            return ok(views.html.index.render());
+            return ok(views.html.dashboard.render());
         }
     }
     /**
@@ -56,7 +56,7 @@ public class ApplicationController extends Controller {
         //Gets the userid
         String userID = session("connected");
         if(userID != null) {
-            return ok(views.html.main.render());
+            return ok(views.html.dashboard.render());
         } else {
             return unauthorized(views.html.login.render());
         }
