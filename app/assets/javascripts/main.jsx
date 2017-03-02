@@ -9,13 +9,15 @@ class App extends React.Component {
     render() {
         return (
             <Router history={browserHistory}>
-                <Route path={"/"} component={Root}/>
-                <Route path={"login"} component={Root}/>
-                <Route path={"projects"} component={Projects}/>
+                <Route path={"/"} component={Root}>
+                    <Route path={"login"} component={Root}/>
+                    <Route path={"projects"} component={Projects}/>
+                </Route>
             </Router>
         );
     }
-}
+
+    }
 
 ReactDOM.render(
     React.createElement(App, null),
