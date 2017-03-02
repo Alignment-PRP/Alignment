@@ -10,7 +10,7 @@ export default class Root extends React.Component {
             <div>
                 <Header/>
                 <Sidebar/>
-                    <div>
+                    <div id="pagecontainer">
                         {this.props.children}
                     </div>
                 <Footer/>

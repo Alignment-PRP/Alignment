@@ -5,6 +5,7 @@ body {
 }
 
 #pagecontainer {
+    margin-left: 300px;
     display: flex;
     flex-direction: row;
 }
