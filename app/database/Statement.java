@@ -24,6 +24,7 @@ public enum Statement {
   ),
   GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
   GET_USER_BY_NAME("SELECT * FROM user WHERE username=?"),
+    GET_USER_NAME_EXISTS("SELECT count(1) as bool FROM user WHERE username=?"),
 
   CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
