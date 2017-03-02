@@ -24,6 +24,12 @@ public class LoginController extends Controller{
         this.userController = userController;
     }
 
+    public Result logout(){
+        session("connected", ""); //just to be sure. Not completely sure how session works yet.
+        session().clear();
+        return ok(views.html.index.render());
+    }
+
 
 
     public Result authenticate(){

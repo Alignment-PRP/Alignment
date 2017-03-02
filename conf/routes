@@ -7,6 +7,7 @@ GET     /                           controllers.ApplicationController.init()
 GET     /login                      controllers.ApplicationController.login()
 
 POST    /login                      controllers.LoginController.authenticate()
+GET     /logout                     controllers.LoginController.logout()
 
 
 
