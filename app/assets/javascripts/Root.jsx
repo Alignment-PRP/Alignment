@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from './sidebar.jsx';
+import Sidebar from './Sidebar.jsx';
 
 
 
