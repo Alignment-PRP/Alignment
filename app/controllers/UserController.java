@@ -36,6 +36,12 @@ public class UserController extends Controller {
         qh.createUser(firstname, lastname, email, username, password);
     }
 
+    public boolean usernameExists(String username){
+        JsonNode exists = qh.userExists(username);
+        System.out.println(exists.get(0));
+        return exists.get(0).asBoolean();
+    }
+
     /*@deprecated
     public User makeUserFromUserName(String username){
         JsonNode userData =  qh.getUserByName(username);
