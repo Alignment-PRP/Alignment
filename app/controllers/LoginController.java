@@ -31,6 +31,7 @@ public class LoginController extends Controller{
 
         String receivedUsername = values.get("uname")[0];
         String reveivedPassword = values.get("psw")[0];
+
         JsonNode userData = userController.makeJsonNode(receivedUsername);
         if(userData.findValuesAsText("username").isEmpty()){
           //TODO propper Errorhandling!

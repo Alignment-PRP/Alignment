@@ -16,6 +16,8 @@ GET     /main                       controllers.ApplicationController.dashboard(
 GET     /projects                   controllers.ProjectController.getUserRelatedProjects()
 GET     /public/projects            controllers.ProjectController.getPublicProjects()
 
+POST    /projects                   controllers.ProjectController.newProject()
+
 
 
 # Map static resources from the /public folder to the /assets URL path

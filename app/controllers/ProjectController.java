@@ -37,6 +37,11 @@ public class ProjectController extends Controller {
         }
     }
 
+    public Result newProject(){
+
+        return ok();
+    }
+
     public Result getPublicProjects(){
         return ok(qh.getPublicProjects());
     }
