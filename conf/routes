@@ -16,7 +16,7 @@ GET     /main                       controllers.ApplicationController.dashboard(
 GET     /projects                   controllers.ProjectController.getUserRelatedProjects()
 GET     /public/projects            controllers.ProjectController.getPublicProjects()
 
-GET     /requirements/category      controllers.RequirementController.getRequirementsByCategoryID()
+GET     /requirements/category/:id   controllers.RequirementController.getRequirementsByCategoryID(id: String)
 GET     /requirements/all           controllers.RequirementController.getAllRequirements()
 
 # Map static resources from the /public folder to the /assets URL path
