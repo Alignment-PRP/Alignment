@@ -1,19 +1,21 @@
 import React from 'react';
-import Header from './Layout/Header.jsx';
-import Sidebar from './Layout/Sidebar.jsx';
-import Footer from './Layout/Footer.jsx';
+import Header from './layout/Header.jsx';
+import Sidebar from './layout/Sidebar.jsx';
+import SideMeny from './layout/sidemeny/SideMeny.jsx';
 
 export default class Root extends React.Component {
 
     render() {
         return (
             <div>
-                <Header/>
                 <Sidebar/>
+                <Header/>
+                <div id="container">
+                    <SideMeny/>
                     <div id="pagecontainer">
                         {this.props.children}
                     </div>
-                <Footer/>
+                </div>
             </div>
         );
     }
