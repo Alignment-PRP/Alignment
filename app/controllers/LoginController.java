@@ -27,7 +27,7 @@ public class LoginController extends Controller{
     public Result logout(){
         session("connected", ""); //just to be sure. Not completely sure how session works yet.
         session().clear();
-        return ok(views.html.index.render());
+        return ok(views.html.dashboard.render());
     }
 
 
@@ -51,8 +51,8 @@ public class LoginController extends Controller{
             session().clear();
             session("connected", user.userid);
             session("timestamp", LocalDateTime.now().toString());
-            //session().getAuthenticityToken();
-            return ok(views.html.main.render());
+
+            return ok(views.html.dashboard.render());
         }
         return errorHandling("invalid username or pass");
     }

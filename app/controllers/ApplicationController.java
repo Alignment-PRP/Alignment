@@ -63,9 +63,4 @@ public class ApplicationController extends Controller {
 
         //else return(views.html.login.render())
     }
-    public Result dashboard() {
-        return ok(views.html.dashboard.render());
-    }
-
-
 }
