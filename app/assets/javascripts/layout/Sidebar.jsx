@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
+import {Link} from 'react-router';
 
 export default class Sidebar extends React.Component {
 
@@ -20,7 +21,7 @@ export default class Sidebar extends React.Component {
                 left: '-220px',
                 transform: 'translate(0,0)',
                 transition: '0.3s',
-                backgroundColor: 'skyblue',
+                backgroundColor: '#1f4293',
                 display: 'block',
                 position: 'fixed',
                 zIndex: '500'
@@ -29,7 +30,7 @@ export default class Sidebar extends React.Component {
                 textAlign: 'center',
                 lineHeight: '24px',
                 fontSize: '24px',
-                backgroundColor: 'darkblue',
+                backgroundColor: '#082b57',
                 margin: '6px',
                 width: '24px',
                 height: '24px',
@@ -44,7 +45,7 @@ export default class Sidebar extends React.Component {
     open() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(220px, 0)';
-        sidebar.backgroundColor = 'pink';
+        sidebar.backgroundColor = '#1f4293';
         this.style.sidebar = sidebar;
         this.setState({open: true});
     }
@@ -52,7 +53,7 @@ export default class Sidebar extends React.Component {
     close() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(0, 0)';
-        sidebar.backgroundColor = 'skyblue';
+        sidebar.backgroundColor = '#1f4293';
         this.style.sidebar = sidebar;
         this.setState({open: false});
     }
@@ -62,9 +63,11 @@ export default class Sidebar extends React.Component {
             <div style={this.style.sidebar} onMouseEnter={this.open} onMouseLeave={this.close}>
                 <MuiThemeProvider>
                     <Menu autoWidth={false} width={290}>
-                        <MenuItem primaryText="Hjem" rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
-                        <MenuItem primaryText="Prosjekt" rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
-                        <MenuItem primaryText="Krav" rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                        <MenuItem primaryText="Hjem" containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
+                        <MenuItem primaryText="Prosjekter"containerElement={<Link to="projects" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
+                        <MenuItem primaryText="Nytt Prosjekt"containerElement={<Link to="newproject" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">build</FontIcon>} />
+                        <MenuItem primaryText="Krav"containerElement={<Link to="requirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                        <MenuItem primaryText="Logg ut"containerElement={<Link to="logout" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                     </Menu>
                 </MuiThemeProvider>
             </div>
