@@ -32,6 +32,17 @@ public class UserController extends Controller {
         return Json.fromJson(userData.get(0), User.class);
     }
 
+    public void createUser(String firstname, String lastname, String email, String username, String password){
+        qh.createUser(firstname, lastname, email, username, password);
+    }
+
+    public boolean usernameExists(String username){
+        JsonNode exists = qh.userExists(username);
+        //System.out.println(exists.get(0).get("bool"));
+        //System.out.println(exists.get(0).get("bool").asInt() == 1);
+        return exists.get(0).get("bool").asInt() == 1;
+    }
+
     /*@deprecated
     public User makeUserFromUserName(String username){
         JsonNode userData =  qh.getUserByName(username);
