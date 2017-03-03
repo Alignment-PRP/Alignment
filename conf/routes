@@ -21,10 +21,8 @@ GET     /public/projects            controllers.ProjectController.getPublicProje
 GET     /newproject                 controllers.ProjectController.getNewProjectView()
 POST    /projects                   controllers.ProjectController.newProject()
 
-
-
-
-
+GET     /requirements/category/:id   controllers.RequirementController.getRequirementsByCategoryID(id: String)
+GET     /requirements/all           controllers.RequirementController.getAllRequirements()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

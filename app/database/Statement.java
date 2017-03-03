@@ -7,6 +7,16 @@ import java.sql.SQLException;
 
 //TODO Doc
 public enum Statement {
+
+  GET_ALL_REQUIREMENTS("SELECT * FROM requirement"),
+  GET_REQUIREMENTS_BY_ID("SELECT * FROM requirement WHERE requirementid=?"),
+  GET_REQUIREMENTS_BY_CATEGORY_ID("SELECT requirement.*, category.name as cname " +//category.name AS 'cname', category.description AS 'cdesc' " +
+          "FROM requirement " +
+          "JOIN requirementcategory " +
+          "ON requirement.requirementid = requirementcategory.requirementid " +
+          "JOIN category " +
+          "ON requirementcategory.categoryid = category.categoryid " +
+          "WHERE category.categoryid=?"),
   GET_PROJECT_BY_ID("SELECT *  FROM project WHERE projectid=?"),
   GET_PROJECTS_RELATED_TO_USER(
           //TODO: Should probably make the nested queries into views.
