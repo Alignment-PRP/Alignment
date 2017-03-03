@@ -28,6 +28,7 @@ public class RequirementController extends Controller{
         if(userID != null){
             //Returns and 200 OK with a JsonNode as Body.
             //return ok(qh.getRequirementByCategoryID(categoryid));
+            return ok();
         }
         else{
             return unauthorized(views.html.login.render());
@@ -40,7 +41,9 @@ public class RequirementController extends Controller{
         String userID = session("connected");
         if(userID != null){
             //Returns and 200 OK with a JsonNode as Body.
-            return ok(qh.getAllRequirements());
+            JsonNode req = qh.getAllRequirements();
+            System.out.println(req);
+            return ok(req);
         }
         else{
             return unauthorized(views.html.login.render());
