@@ -11,6 +11,8 @@ export default class NewProject extends React.Component {
         return (
             <div>
                 <h1>Nytt Prosjekt</h1>
+                <p>add form here!</p>
+
             </div>
         );
     }
