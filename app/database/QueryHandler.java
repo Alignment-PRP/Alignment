@@ -22,6 +22,7 @@ public class QueryHandler {
     }
 
 
+
     public JsonNode getUserByName(String name) {
         return executeQuery(Statement.GET_USER_BY_NAME, name);
     }
@@ -37,6 +38,17 @@ public class QueryHandler {
         return executeQuery(Statement.GET_USER_BY_ID, ID);
     }
 
+
+    public void createUser(String firstname, String lastname, String email, String username, String password){
+        //TODO: make executeInsert instead?
+        //TODO change pointer to insertUser once you're sure it's not changing
+        insertUser(Statement.CREATE_USER, firstname, lastname, email, username, password);
+    }
+
+    public JsonNode userExists(String username){
+        return executeQuery(Statement.GET_USER_NAME_EXISTS, username);
+    }
+
     //TODO Doc
     public JsonNode executeQuery(Statement statement, Object... objects) {
         try {
@@ -47,6 +59,19 @@ public class QueryHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             return Json.toJson("SQL Exception");
+        }
+    }
+
+    private void insertUser(Statement statement, String firstname, String lastname, String email, String username, String password){
+        //taken out so we can do validation stuffs with the variables if desireable (I think it will be)
+        //Validation stuffs here
+        //Call the userExists from here instead of checking in Signup?
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewUser(c, firstname, lastname, email, username, password);
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
 
