@@ -31,6 +31,7 @@ public class ProjectController extends Controller {
         //TODO checkAuthenticity();   HERE?
         if(userID != null){
             //Returns and 200 OK with a JsonNode as Body.
+
             return ok(qh.getProjectRelatedToUser(userID));
         }
         else{

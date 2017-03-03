@@ -1,9 +1,44 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+    margin-top: 0;
+}
+
+
+#header {
+    color: white;
+    height: 100px;
+    background-color: #3565d1;
+    text-align: center;
+
+}
+
+#container {
+    display: flex;
+}
+
+
+#sidemeny {
+    margin-left: 70px;
+    color: white;
+    flex: 1;
+    background-color: #7493f8;
 }
 
 #pagecontainer {
-    display: flex;
-    flex-direction: row;
+    flex: 4;
+    background-color: rgba(121, 149, 255, 0.33);
 }
+
+#footer {
+    position:absolute;
+    height: 100px;
+    left:0px;
+    bottom:0px;
+    background-color: #2025e2;
+}
+
