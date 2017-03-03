@@ -26,7 +26,7 @@ public class QueryHandler {
         return executeQuery(Statement.GET_REQUIREMENTS_BY_ID);
     }
     public JsonNode getRequirementByCategoryID(int id){
-        return executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID);
+        return executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID, id);
     }
     public JsonNode getAllRequirements(){
         return executeQuery(Statement.GET_ALL_REQUIREMENTS);
@@ -66,7 +66,7 @@ public class QueryHandler {
             while (rs.next()) {
                 Map<String, String> map = new HashMap<>();
                 for (int i = 1; i<= rs.getMetaData().getColumnCount(); i++) {
-                    String k = rs.getMetaData().getColumnName(i);
+                    String k = rs.getMetaData().getColumnLabel(i);
                     String v = rs.getString(k);
                     map.put(k, v);
                 }

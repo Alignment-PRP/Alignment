@@ -21,14 +21,13 @@ public class RequirementController extends Controller{
         this.qh = new QueryHandler(db);
     }
 
-    public Result getRequirementsByCategoryID(){
-        //int categoryid = getCategoryID();
+    public Result getRequirementsByCategoryID(String id){
+        int categoryid = Integer.parseInt(id);
         //Might as well keep the user check.
         String userID = session("connected");
         if(userID != null){
             //Returns and 200 OK with a JsonNode as Body.
-            //return ok(qh.getRequirementByCategoryID(categoryid));
-            return ok();
+            return ok(qh.getRequirementByCategoryID(categoryid));
         }
         else{
             return unauthorized(views.html.login.render());
