@@ -104,15 +104,15 @@ public enum Statement {
     public void prepareAndExecuteNewProjectManager(Connection c, int projectid, int managerid) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
         //TODO set username = unique in db
-        ps.setInt(1, projectid);
-        ps.setInt(2, managerid);
+        ps.setInt(1, managerid);
+        ps.setInt(2, projectid);
         ps.executeUpdate();
     }
     public void prepareAndExecuteNewProjectOwner(Connection c, int projectid, int ownerid) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
         //TODO set username = unique in db
-        ps.setInt(1, projectid);
-        ps.setInt(2, ownerid);
+        ps.setInt(1, ownerid);
+        ps.setInt(2, projectid);
         ps.executeUpdate();
     }
 }
