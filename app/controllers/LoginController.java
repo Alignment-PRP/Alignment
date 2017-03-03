@@ -27,7 +27,7 @@ public class LoginController extends Controller{
     public Result logout(){
         session("connected", ""); //just to be sure. Not completely sure how session works yet.
         session().clear();
-        return ok(views.html.dashboard.render());
+        return ok(views.html.login.render());
     }
 
 
