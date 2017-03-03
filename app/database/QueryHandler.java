@@ -32,21 +32,78 @@ public class QueryHandler {
     public JsonNode getPublicProjects() {
         return executeQuery(Statement.GET_PUBLIC_PROJECTS);
     }
-
-
     public JsonNode getUserByID(String ID) {
         return executeQuery(Statement.GET_USER_BY_ID, ID);
     }
-
-
+    public JsonNode userExists(String username){
+        return executeQuery(Statement.GET_USER_NAME_EXISTS, username);
+    }
+    public JsonNode projectNameExists(String name){
+        return executeQuery(Statement.GET_PROJECT_NAME_EXISTS, name);
+    }
+    public JsonNode getProjectIDByName(String name){
+        return executeQuery(Statement.GET_PROJECTID_BY_NAME, name);
+    }
     public void createUser(String firstname, String lastname, String email, String username, String password){
         //TODO: make executeInsert instead?
         //TODO change pointer to insertUser once you're sure it's not changing
         insertUser(Statement.CREATE_USER, firstname, lastname, email, username, password);
     }
+    public void createProject(String name, String description, String ispublic, String managerID, String ownerID){
+        insertProject(Statement.CREATE_PROJECT, name, description, Integer.parseInt(ispublic));
+        int projectID = getProjectIDByName(name).get(0).get("projectid").asInt();
+        insertProjectManager(Statement.CREATE_PROJECT_MANAGER, projectID, Integer.parseInt(managerID));
+        insertProjectOwner(Statement.CREATE_PROJECT_OWNER, projectID, Integer.parseInt(ownerID));
+    }
 
-    public JsonNode userExists(String username){
-        return executeQuery(Statement.GET_USER_NAME_EXISTS, username);
+    private void insertUser(Statement statement, String firstname, String lastname, String email, String username, String password){
+        //taken out so we can do validation stuffs with the variables if desireable (I think it will be)
+        //Validation stuffs here
+        //Call the userExists from here instead of checking in Signup?
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewUser(c, firstname, lastname, email, username, password);
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void insertProject(Statement statement, String name, String description, int ispublic){
+        //taken out so we can do validation stuffs with the variables if desireable (I think it will be)
+        //Validation stuffs here
+        //Call the userExists from here instead of checking in Signup?
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewProject(c, name, description, ispublic);
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void insertProjectManager(Statement statement, int projectid, int managerid){
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewProjectManager(c, projectid, managerid);
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void insertProjectOwner(Statement statement, int projectid, int ownerid){
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewProjectOwner(c, projectid, ownerid);
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     //TODO Doc
@@ -59,19 +116,6 @@ public class QueryHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             return Json.toJson("SQL Exception");
-        }
-    }
-
-    private void insertUser(Statement statement, String firstname, String lastname, String email, String username, String password){
-        //taken out so we can do validation stuffs with the variables if desireable (I think it will be)
-        //Validation stuffs here
-        //Call the userExists from here instead of checking in Signup?
-        try{
-            Connection c = db.getConnection();
-            statement.prepareAndExecuteNewUser(c, firstname, lastname, email, username, password);
-        }
-        catch(Exception e){
-            e.printStackTrace();
         }
     }
 
