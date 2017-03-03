@@ -22,6 +22,16 @@ public class QueryHandler {
     }
 
 
+    public JsonNode getRequirementsByID(int id){
+        return executeQuery(Statement.GET_REQUIREMENTS_BY_ID);
+    }
+    public JsonNode getRequirementByCategoryID(int id){
+        return executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID);
+    }
+    public JsonNode getAllRequirements(){
+        return executeQuery(Statement.GET_ALL_REQUIREMENTS);
+    }
+
     public JsonNode getUserByName(String name) {
         return executeQuery(Statement.GET_USER_BY_NAME, name);
     }
@@ -69,5 +79,7 @@ public class QueryHandler {
         }
         return Json.toJson(list);
     }
+
+
 
 }
