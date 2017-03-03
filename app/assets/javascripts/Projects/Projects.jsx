@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ProjectList from './ProjectList.jsx';
 
 export default class Projects extends React.Component {
 
@@ -7,30 +8,34 @@ export default class Projects extends React.Component {
         super(props);
 
         this.state = {
-            project: [{}]
+            project: []
         };
     }
 
     componentDidMount() {
         axios.get('http://localhost:9000/projects')
             .then( response => {
-                console.log(response);
                     this.setState({
                         project: response.data
                     })
-
                 }
             );
+    }
 
-    };
+    generateProjectList(){
+        return this.state.project.map((item, index) => {
+            return <ProjectList key={index} name={item.p_name} descripton={item.p_desc} owner={item.po_username} manager={item.pm_username} /> }
+        )
+    }
+
 
     render() {
-
-        console.log(this.state.project);
-
         return (
             <div>
-                <h1>{this.state.project[0].p_name}</h1>
+                <h1>Prosjekter</h1>
+                <ul>
+                    {this.generateProjectList()}
+                </ul>
             </div>
         );
     }
