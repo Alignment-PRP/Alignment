@@ -45,8 +45,16 @@ public enum Statement {
   ),
   GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
   GET_USER_BY_NAME("SELECT * FROM user WHERE username=?"),
-    GET_USER_NAME_EXISTS("SELECT count(1) as bool FROM user WHERE username=?"),
-
+  GET_USER_NAME_EXISTS("SELECT count(1) as bool FROM user WHERE username=?"),
+  GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
+  GET_PROJECTID_BY_NAME(
+          "SELECT projectid " +
+                  "FROM project " +
+                  "WHERE name = ?"
+  ),
+  CREATE_PROJECT("INSERT INTO project (name, description, ispublic) VALUES (?, ?, ?)"),
+  CREATE_PROJECT_MANAGER("INSERT INTO projectmanager (userid, projectid) VALUES (?, ?)"),
+  CREATE_PROJECT_OWNER("INSERT INTO projectowner (userid, projectid) VALUES (?, ?)"),
   CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
 
@@ -84,4 +92,27 @@ public enum Statement {
       ps.executeUpdate();
   }
 
+    public void prepareAndExecuteNewProject(Connection c, String name, String description, int ispublic) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        //TODO set username = unique in db
+        ps.setString(1, name);
+        ps.setString(2, description);
+        ps.setInt(3, ispublic);
+        ps.executeUpdate();
+    }
+
+    public void prepareAndExecuteNewProjectManager(Connection c, int projectid, int managerid) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        //TODO set username = unique in db
+        ps.setInt(1, projectid);
+        ps.setInt(2, managerid);
+        ps.executeUpdate();
+    }
+    public void prepareAndExecuteNewProjectOwner(Connection c, int projectid, int ownerid) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        //TODO set username = unique in db
+        ps.setInt(1, projectid);
+        ps.setInt(2, ownerid);
+        ps.executeUpdate();
+    }
 }

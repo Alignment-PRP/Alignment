@@ -18,7 +18,9 @@ POST    /sign-up                    controllers.SignupController.create()
 GET     /projects                   controllers.ProjectController.getUserRelatedProjects()
 GET     /public/projects            controllers.ProjectController.getPublicProjects()
 
+GET     /newproject                 controllers.ProjectController.getNewProjectView()
 POST    /projects                   controllers.ProjectController.newProject()
+
 
 
 
