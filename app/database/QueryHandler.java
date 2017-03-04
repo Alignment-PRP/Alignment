@@ -50,6 +50,13 @@ public class QueryHandler {
     public JsonNode projectNameExists(String name){
         return executeQuery(Statement.GET_PROJECT_NAME_EXISTS, name);
     }
+    public JsonNode projectRequirementNameExists(String name){
+        return executeQuery(Statement.GET_PROJECT_REQUIREMENT_NAME_EXISTS, name);
+    }
+    public JsonNode userPartOfProject(String userid){
+        //TODO: pass userid and projectid into the query to check if a user is part of a project.
+        return executeQuery(Statement.GET_USER_IS_PART_OF_PROJECT, userid);
+    }
     public JsonNode getProjectIDByName(String name){
         return executeQuery(Statement.GET_PROJECTID_BY_NAME, name);
     }
@@ -64,7 +71,35 @@ public class QueryHandler {
         insertProjectManager(Statement.CREATE_PROJECT_MANAGER, projectID, Integer.parseInt(managerID));
         insertProjectOwner(Statement.CREATE_PROJECT_OWNER, projectID, Integer.parseInt(ownerID));
     }
+    public JsonNode getProjectRequirementIDByName(String name){
+        return executeQuery(Statement.GET_PROJECT_REQUIREMENTID_BY_NAME, name);
+    }
+    public void createProjectRequirement(String projectid,
+                                         String ispublic,
+                                         String name,
+                                         String description,
+                                         String source,
+                                         String stimlus,
+                                         String artifact,
+                                         String response,
+                                         String responsemeasure,
+                                         String environment){
+        insertProjectRequirement(
+                Statement.CREATE_PROJECT_REQUIREMENT,
+                Integer.parseInt(ispublic),
+                name,
+                description,
+                source,
+                stimlus,
+                artifact,
+                response,
+                responsemeasure,
+                environment
+                );
+        int projectRequirementID = getProjectRequirementIDByName(name).get(0).get("id").asInt();
+        insertLocalRequirement(Statement.CREATE_LOCAL_REQUIREMENT, Integer.parseInt(projectid), projectRequirementID);
 
+    }
     private void insertUser(Statement statement, String firstname, String lastname, String email, String username, String password){
         //taken out so we can do validation stuffs with the variables if desireable (I think it will be)
         //Validation stuffs here
@@ -72,6 +107,37 @@ public class QueryHandler {
         try{
             Connection c = db.getConnection();
             statement.prepareAndExecuteNewUser(c, firstname, lastname, email, username, password);
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void insertProjectRequirement(Statement statement,
+                                          int ispublic,
+                                          String name,
+                                          String description,
+                                          String source,
+                                          String stimlus,
+                                          String artifact,
+                                          String response,
+                                          String responsemeasure,
+                                          String environment){
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewProjectRequirement(c, ispublic, name, description, source, stimlus, artifact, response, responsemeasure, environment);
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void insertLocalRequirement(Statement statement, int projectid, int projectrequirementid){
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewLocalRequirement(c, projectid, projectrequirementid);
             c.close();
         }
         catch(Exception e){
