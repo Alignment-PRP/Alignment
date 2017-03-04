@@ -36,6 +36,10 @@ public class ProjectController extends Controller {
         return ok(qh.getProjectRelatedToUser(userID));
     }
 
+    /**
+     * for testing.
+     * @return a simple html view for inserting a new project.
+     */
     public Result getNewProjectView(){
         return ok(views.html.newproject.render());
     }
@@ -67,5 +71,6 @@ public class ProjectController extends Controller {
         //System.out.println(exists.get(0).get("bool").asInt() == 1);
         return exists.get(0).get("bool").asInt() == 1;
     }
+
 
 }
