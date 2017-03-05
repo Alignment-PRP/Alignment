@@ -79,5 +79,22 @@ public class ProjectController extends Controller {
         return exists.get(0).get("bool").asInt() == 1;
     }
 
+    /** For single project view
+     * Getting a project from project ID
+     */
+    public Result getProjectByProjectID(String id){
+        String projectid = id;
+        //Might as well keep the user check.
+        String userID = session("connected");
+        if(userID != null){
+            //Returns and 200 OK with a JsonNode as Body.
+            return ok(qh.getProjectByProjectID(projectid));
+        }
+        else{
+            return unauthorized(views.html.login.render());
+        }
+    }
+
+
 
 }
