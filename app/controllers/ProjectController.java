@@ -59,7 +59,7 @@ public class ProjectController extends Controller {
             return status(200, "Project name is taken");
         }
         qh.createProject(name, desc, ispublic, userID, userID);
-        return ok();
+        return ok(views.html.dashboard.render());
     }
 
     public Result getPublicProjects(){
