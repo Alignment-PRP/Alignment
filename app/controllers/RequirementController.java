@@ -39,15 +39,13 @@ public class RequirementController extends Controller{
     public Result getAllRequirements(){
         //Might as well keep the user check.
         String userID = session("connected");
-        if(userID != null){
-            //Returns and 200 OK with a JsonNode as Body.
-            JsonNode req = qh.getAllRequirements();
-            System.out.println(req);
-            return ok(req);
-        }
-        else{
+        if(userID == null){
             return unauthorized(views.html.login.render());
         }
+        //Returns and 200 OK with a JsonNode as Body.
+        JsonNode req = qh.getAllRequirements();
+        System.out.println(req);
+        return ok(req);
     }
     public Result newProjectRequirement(){
         String userID = session("connected");
