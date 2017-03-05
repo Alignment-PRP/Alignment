@@ -58,7 +58,7 @@ public class ProjectController extends Controller {
             //TODO determine a good http response for "recource is ok and all but needs a different value"
             return status(200, "Project name is taken");
         }
-        qh.createProject(name, desc, ispublic, userID, userID);
+        qh.createProject(name, desc, ispublic, userID, userID, userID);
         return ok();
     }
 
