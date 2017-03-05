@@ -58,6 +58,11 @@ public class ProjectController extends Controller {
             //TODO determine a good http response for "recource is ok and all but needs a different value"
             return status(200, "Project name is taken");
         }
+        /** TODO:
+         *  The one creating the project is now set to be both manager and owner of the project.
+         *  Also sets the user as partof. This needs to be done properly. As in you when you set
+         *  manager and owner those are set to part of(and checking if they are part of already).
+         */
 
         qh.createProject(name, desc, ispublic, userID, userID, userID);
         return ok();
