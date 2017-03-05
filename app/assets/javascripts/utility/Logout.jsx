@@ -1,14 +1,18 @@
 import React from 'react';
 
-export default class Home extends React.Component {
+export default class Logout extends React.Component {
 
     constructor(props) {
         super(props);
     }
 
+    componentDidMount() {
+        window.location = "http://localhost:9000/logout";
+    }
+
     render() {
         return (
-            <h1>Du er logget ut!</h1>
+            <p></p>
         );
     }
 }
