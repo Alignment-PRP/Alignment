@@ -5,7 +5,7 @@ package models;
  */
 public class Requirement {
     public String RequirementID;
-    public String isPulbic;
+    public String isPublic;
     public String Name;
     public String Description;
     public String Source;
