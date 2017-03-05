@@ -8,6 +8,7 @@ import java.sql.SQLException;
 //TODO Doc
 public enum Statement {
 
+    //TODO:Requirements can be public or not. Need different methods for these.
     GET_ALL_REQUIREMENTS("SELECT * FROM requirement"),
     GET_REQUIREMENTS_BY_ID("SELECT * FROM requirement WHERE requirementid=?"),
     GET_REQUIREMENTS_BY_CATEGORY_ID("SELECT requirement.*, category.name as cname " +//category.name AS 'cname', category.description AS 'cdesc' " +
