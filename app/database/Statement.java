@@ -76,6 +76,7 @@ public enum Statement {
     CREATE_PROJECT("INSERT INTO project (name, description, ispublic) VALUES (?, ?, ?)"),
     CREATE_PROJECT_MANAGER("INSERT INTO projectmanager (userid, projectid) VALUES (?, ?)"),
     CREATE_PROJECT_OWNER("INSERT INTO projectowner (userid, projectid) VALUES (?, ?)"),
+    CREATE_PART_OF("INSERT INTO partof (userid, projectid) VALUES (?, ?)"),
     CREATE_PROJECT_REQUIREMENT("INSERT INTO projectrequirement " +
             "(" +
             "ispublic, " +
@@ -157,6 +158,14 @@ public enum Statement {
         PreparedStatement ps = c.prepareStatement(statement);
         //TODO set username = unique in db
         ps.setInt(1, ownerid);
+        ps.setInt(2, projectid);
+        ps.executeUpdate();
+    }
+
+    public void prepareAndExecuteNewPartOf(Connection c, int projectid, int userid) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        //TODO set username = unique in db
+        ps.setInt(1, userid);
         ps.setInt(2, projectid);
         ps.executeUpdate();
     }
