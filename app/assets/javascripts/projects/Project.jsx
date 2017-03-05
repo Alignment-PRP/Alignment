@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 
 export default class Project extends React.Component {
 
@@ -6,26 +8,53 @@ export default class Project extends React.Component {
         super(props);
 
         this.state = {
-            id: null
+            id: null,
+            url: null,
+            project: []
         }
     }
 
     componentDidMount() {
-
         const id = this.props.params.id;
-        this.setState({
-            id: id
-        })
+        const url = 'http://localhost:9000/project/' + id;
+
+        axios.get(url)
+            .then( response => {
+                    this.setState({
+                        project: response.data
+                    })
+                }
+            );
 
     }
 
+    project(){
+        let id = "";
+        let name = "";
+        let desc = "";
+
+        this.state.project.map((item)=>{
+            id = item.projectid;
+            name = item.name;
+            desc = item.description;
+        });
+
+        return(
+            <div>
+                <h1>{name}</h1>
+                <p>ID: {id}</p>
+                <p>Beskrivelse:{desc}</p>
+            </div>
+
+        );
+    }
+
+
 
     render() {
-
-
         return (
             <div>
-                <h1>Prosjekt {this.state.id}</h1>
+                {this.project()}
             </div>
         );
     }
