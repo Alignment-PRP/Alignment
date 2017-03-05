@@ -10,8 +10,6 @@ export default class ProjectList extends React.Component {
     render() {
 
         const url = "project/" + this.props.index;
-        console.log(url);
-
 
         return (
             <div>
