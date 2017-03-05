@@ -1,17 +1,15 @@
 @()
+    <link rel="stylesheet" href='@routes.Assets.at("stylesheets/main.css")'/>
+    <div class="transparent"></div>
+    <div id="loginForm"> 
+        <h1> Login </h1>
+        <form action="/login" method="post">
+            <label>Username</label>
+            <br> <input id="loginUsername" type="text" placeholder="Enter Username" name="uname" required>
 
-    <h1> Login </h1>
-    <form action="/login" method="post">
-        <label><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
+            <br><label>Password</label>
+            <br><input id="loginPassword" type="password" placeholder="Enter password" name="psw" required>
 
-        <label><b>password</b></label>
-        <input type="password" placeholder="Enter password" name="psw" required>
-
-        <button type="submit">Login</button>
-
-    </form>
-    <h1> Sign-up </h1>
-    <form action="/sign-up" method="get">
-        <button type="submit">Sign up</button>
-    </form>
+            <br><button id="loginButton" type="submit">Login</button>
+        </form>
+    </div>
