@@ -10,15 +10,19 @@ export default class NewProject extends React.Component {
     render() {
         return (
                 <form action="/projects" method="post">
-                    <label><b>Project name</b></label>
+                    <label><b>Project name:</b></label>
                     <input type="text" placeholder="" name="name" required/>
 
-                    <label><b>Project description</b></label>
+                    <label><b>Project description:</b></label>
                     <input type="text" placeholder="" name="desc" required/>
-                  <label>Public project</label>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                  </select>
+
+                    <label><b>Public project?</b></label>
+                      <select name="value">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                      </select>
+
+
 
                     <button type="submit">Submit</button>
 
