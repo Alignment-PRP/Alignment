@@ -92,6 +92,7 @@ public enum Statement {
     CREATE_LOCAL_REQUIREMENT(
             "INSERT INTO localrequirement (projectid, projectrequirementid) VALUES (?, ?)"
     ),
+    CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, enviroment) VALUES (?,?,?,?,?,?,?,?)"),
     CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
 
@@ -182,6 +183,21 @@ public enum Statement {
         ps.setString(7, response);
         ps.setString(8, responsemeasure);
         ps.setString(9, environment);
+        ps.executeUpdate();
+    }
+
+    //TODO remove old prepareAndExecuteNewProjectRequirement and replace with general purpouse one
+    //also check if responsemeasure should be in both
+    public void prepareAndInsertRequirement(Connection c, boolean global, int isPublic, String name, String description, String source, String stimulus, String artifact, String response, String entironment) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, isPublic);
+        ps.setString(2, name);
+        ps.setString(3, description);
+        ps.setString(4, source);
+        ps.setString(5, stimulus);
+        ps.setString(6, artifact);
+        ps.setString(7, response);
+        ps.setString(8, entironment);
         ps.executeUpdate();
     }
 }
