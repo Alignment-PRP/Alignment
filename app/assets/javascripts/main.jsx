@@ -4,6 +4,7 @@ import Root from './Root.jsx';
 import Home from './Home.jsx';
 import Projects from './projects/Projects.jsx';
 import NewProject from './projects/NewProject.jsx';
+import Logout from './utility/Logout.jsx'
 import {Router, Route, browserHistory} from "react-router";
 
 class App extends React.Component {
@@ -15,6 +16,7 @@ class App extends React.Component {
                     <Route path={"login"} component={Home}/>
                     <Route path={"projects"} component={Projects}/>
                     <Route path={"newproject"} component={NewProject}/>
+                    <Route path={"logout"} component={Logout}/>
                 </Route>
             </Router>
         );
