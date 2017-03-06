@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import Requirements from '../requirements/Requirements.jsx';
+import AllRequirements from '../requirements/AllRequirements.jsx';
 
 
 export default class Project extends React.Component {
@@ -58,7 +58,7 @@ export default class Project extends React.Component {
             <div className="container">
                 {this.project()}
                 <div className="projectRequirements">
-                <Requirements/>
+                <AllRequirements/>
                 </div>
             </div>
         );
