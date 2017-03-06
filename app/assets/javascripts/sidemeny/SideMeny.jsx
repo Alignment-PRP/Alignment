@@ -9,10 +9,6 @@ export default class SideMeny extends React.Component {
     }
 
     render() {
-        var currentLocation = this.props.location.pathname;
-        console.log(currentLocation);
-
-
         return (
             <div id="sidemeny">
                 <h4> Meny </h4>
