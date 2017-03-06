@@ -31,7 +31,6 @@ public class QueryHandler {
     public JsonNode getAllRequirements(){
         return executeQuery(Statement.GET_ALL_REQUIREMENTS);
     }
-
     public JsonNode getUserByName(String name) {
         return executeQuery(Statement.GET_USER_BY_NAME, name);
     }
