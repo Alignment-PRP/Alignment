@@ -130,6 +130,19 @@ public enum Statement {
 
     ADD_REQUIREMENT_CATEGORY("INSERT INTO requirementcategory (requirementid, categoryid) VALUES (?,?)"),
 
+    /*GET_PROJECT_REQUIREMENT_CATEGORY("SELECT projectrequirement.*, category.name AS cname, category.description AS cdesc" +
+    "FROM projectrequirement INNER JOIN projectrequirementcategory" +
+    "ON projectrequirement.requirement = projectrequirementcategory.projectrequirementid" +
+    "INNER JOIN category ON category.categoryid = projectrequirementcategory.categoryid" +
+    "WHERE projectrequirement.projectrequirement = ?"),*/
+
+    GET_PROJECT_REQUIREMENTS("SELECT projectrequirement.* FROM projectrequirement "+
+    "WHERE projectrequirement.projectrequirement IN (SELECT localrequirement.projectrequirementid "+
+    "FROM localrequirement WHERE localrequirement.projectid = ?)"),
+    /*("SELECT projectrequirement FROM projectrequirement INNER JOIN "+
+    "ON localrequirement.projectrequirementid = projectrequirement.projectrequirement "
+    "WHERE localrequirement.projectid = ?"),*/
+
     CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
     //NOTE LEAVE ALL OF THIS FOR WHEN WE GET TO DELETIONS (THEY'RE A FUCKING PAIN)
