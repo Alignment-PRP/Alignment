@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './layout/Header.jsx';
 import Sidebar from './layout/Sidebar.jsx';
-import SideMeny from './layout/sidemeny/SideMeny.jsx';
+import SideMeny from './sidemeny/SideMeny.jsx';
 
 export default class Root extends React.Component {
 
