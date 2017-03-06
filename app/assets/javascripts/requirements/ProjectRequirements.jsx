@@ -17,7 +17,6 @@ export default class ProjectRequirements extends React.Component {
         const url = 'http://localhost:9000/all-projectrequirements?id=' + id;
         axios.get(url)
             .then( response => {
-                console.log(response);
                     this.setState({
                         requirement: response.data
                     })
