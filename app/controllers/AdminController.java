@@ -105,4 +105,38 @@ public class AdminController extends Controller {
         return unauthorized("no such requirement");
     }
 
+
+    //================================ CREATE CATEGORY ================================================
+
+    public Result addCategory(){
+        return( ok(views.html.addCategroy.render()));
+    }
+
+    public Result createCategory(){
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        String name = values.get("name")[0];
+        if(qh.executeQuery(Statement.CATEGORY_NAME_EXISTS, name).get(0).get("bool").asInt() == 1){
+            return unauthorized("category name is allready taken do you wish to update it instead?");
+        }
+        String description = values.get("description")[0];
+        qh.insertCategory(Statement.CREATE_CATEGORY, name, description);
+        return ok();
+    }
+
+    //=========================== ADD SUBCATEGORY =======================================
+
+    public Result addSubcategory(){
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        String parent = values.get("parent")[0];
+        String child = values.get("child")[0];
+        //note: this should also cover the case of parent = child (returns 1 but not 2)
+        JsonNode exists = qh.executeQuery(Statement.CATEGORY_EXISTS, parent, child);
+        System.out.println(exists);
+        if(exists.get(0).get("bool").asInt() != 2){
+            return unauthorized("one or more of the selected categories do not exist");
+        }
+        qh.addTableRelation(Statement.ADD_SUBCATEGORY, Integer.parseInt(parent), Integer.parseInt(child));
+        return ok("new parent/child relationship established");
+    }
+
 }
