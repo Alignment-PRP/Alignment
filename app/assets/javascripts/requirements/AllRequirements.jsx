@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import RequirementList from './RequirementList.jsx';
 
-export default class Requirements extends React.Component {
+export default class AllRequirements extends React.Component {
 
     constructor(props) {
         super(props);
@@ -34,7 +34,7 @@ export default class Requirements extends React.Component {
     render() {
         return (
             <div>
-                <h1>Krav</h1>
+                <h1>Alle Krav</h1>
                 <ul>
                     {this.generateRequirementList()}
                 </ul>

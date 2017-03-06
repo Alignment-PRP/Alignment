@@ -5,7 +5,7 @@ import Home from './Home.jsx';
 import Projects from './projects/Projects.jsx';
 import Project from './projects/Project.jsx';
 import NewProject from './projects/NewProject.jsx';
-import Requirements from './requirements/Requirements.jsx';
+import Requirements from './requirements/AllRequirements.jsx';
 import Logout from './utility/Logout.jsx'
 import {Router, Route, browserHistory} from "react-router";
 
