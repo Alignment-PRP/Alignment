@@ -17,7 +17,7 @@ export default class NewProject extends React.Component {
                     <input type="text" placeholder="" name="desc" required/>
 
                     <label><b>Public project?</b></label>
-                      <select name="value">
+                      <select name="ispublic">
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                       </select>
