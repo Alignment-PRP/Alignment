@@ -18,7 +18,7 @@ export default class Project extends React.Component {
 
     componentDidMount() {
         const id = this.props.params.id;
-        const url = 'http://localhost:9000/project/' + id;
+        const url = 'http://localhost:9000/project/id/' + id;
 
         axios.get(url)
             .then( response => {

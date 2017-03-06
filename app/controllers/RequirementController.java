@@ -67,10 +67,6 @@ public class RequirementController extends Controller{
         String environment = values.get("environment")[0];
         //TODO: Check if the user is authorized to edit the project. (If the user is part of the project)
         //TODO: Check if the project referenced by projectid actually exists
-        if(projectRequirementNameExists(name)) {
-            //TODO determine a good http response for "recource is ok and all but needs a different value"
-            return status(200, "ProjectRequirement name is taken");
-        }
         qh.createProjectRequirement(projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
         return ok();
     }

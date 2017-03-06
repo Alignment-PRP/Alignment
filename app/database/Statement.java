@@ -91,11 +91,7 @@ public enum Statement {
                     "FROM project " +
                     "WHERE name = ?"
     ),
-    GET_PROJECT_REQUIREMENTID_BY_NAME(
-            "SELECT projectrequirement AS id " +
-                    "FROM projectrequirement " +
-                    "WHERE name = ?"
-    ),
+    SELECT_LAST_INSERT_ID("SELECT LAST_INSERT_ID()"),
     CREATE_PROJECT("INSERT INTO project (name, description, ispublic) VALUES (?, ?, ?)"),
     CREATE_PROJECT_MANAGER("INSERT INTO projectmanager (userid, projectid) VALUES (?, ?)"),
     CREATE_PROJECT_OWNER("INSERT INTO projectowner (userid, projectid) VALUES (?, ?)"),
@@ -120,6 +116,8 @@ public enum Statement {
     CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, enviroment) VALUES (?,?,?,?,?,?,?,?)"),
 
     GET_GLOBAL_REQUIREMENTS("SELECT * FROM requirement"),
+
+    GET_GLOBAL_REQUIREMENT("SELECT * FROM requirement WHERE requirementid = ?"),
 
     UPDATE_GLOBAL_REQUIREMENT("UPDATE requirement SET ispublic=?, name=?, description=?, source=?, stimulus=?, artifact=?, response=?, enviroment=? WHERE requirementid=?"),
 
