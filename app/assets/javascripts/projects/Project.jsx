@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import Requirements from '../requirements/reqirements.jsx';
+import Requirements from '../requirements/Requirements.jsx';
 
 
 export default class Project extends React.Component {
@@ -42,7 +42,7 @@ export default class Project extends React.Component {
         });
 
         return(
-            <div>
+            <div className="singleProject">
                 <h1>{name}</h1>
                 <p>ID: {id}</p>
                 <p>Beskrivelse:{desc}</p>
@@ -55,9 +55,11 @@ export default class Project extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 {this.project()}
+                <div className="projectRequirements">
                 <Requirements/>
+                </div>
             </div>
         );
     }
