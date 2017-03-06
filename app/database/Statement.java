@@ -10,15 +10,26 @@ import java.sql.SQLException;
 //TODO Doc
 public enum Statement {
 
-    GET_ALL_REQUIREMENTS("SELECT * FROM requirement"),
+
+    //TODO:Requirements can be public or not. Need different methods for these.
+    GET_ALL_REQUIREMENTS(
+            "SELECT r.*, c.name AS cname, c.description AS cdesc " +
+                    "FROM requirement AS r " +
+                    "INNER JOIN requirementcategory AS rc " +
+                    "ON r.requirementid = rc.requirementid " +
+                    "INNER JOIN category AS c " +
+                    "ON c.categoryid = rc.categoryid "
+    ),
     GET_REQUIREMENTS_BY_ID("SELECT * FROM requirement WHERE requirementid=?"),
-    GET_REQUIREMENTS_BY_CATEGORY_ID("SELECT requirement.*, category.name as cname " +//category.name AS 'cname', category.description AS 'cdesc' " +
+    GET_REQUIREMENTS_BY_CATEGORY_ID(
+            "SELECT requirement.*, category.name as cname, category.description AS cdesc " +
             "FROM requirement " +
             "JOIN requirementcategory " +
             "ON requirement.requirementid = requirementcategory.requirementid " +
             "JOIN category " +
             "ON requirementcategory.categoryid = category.categoryid " +
-            "WHERE category.categoryid=?"),
+            "WHERE category.categoryid=?"
+    ),
     GET_PROJECT_BY_ID("SELECT *  FROM project WHERE projectid=?"),
     GET_PROJECTS_RELATED_TO_USER(
             //TODO: Should probably make the nested queries into views.
@@ -78,6 +89,7 @@ public enum Statement {
     CREATE_PROJECT("INSERT INTO project (name, description, ispublic) VALUES (?, ?, ?)"),
     CREATE_PROJECT_MANAGER("INSERT INTO projectmanager (userid, projectid) VALUES (?, ?)"),
     CREATE_PROJECT_OWNER("INSERT INTO projectowner (userid, projectid) VALUES (?, ?)"),
+    CREATE_PART_OF("INSERT INTO partof (userid, projectid) VALUES (?, ?)"),
     CREATE_PROJECT_REQUIREMENT("INSERT INTO projectrequirement " +
             "(" +
             "ispublic, " +
@@ -199,6 +211,14 @@ public enum Statement {
         PreparedStatement ps = c.prepareStatement(statement);
         //TODO set username = unique in db
         ps.setInt(1, ownerid);
+        ps.setInt(2, projectid);
+        ps.executeUpdate();
+    }
+
+    public void prepareAndExecuteNewPartOf(Connection c, int projectid, int userid) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        //TODO set username = unique in db
+        ps.setInt(1, userid);
         ps.setInt(2, projectid);
         ps.executeUpdate();
     }

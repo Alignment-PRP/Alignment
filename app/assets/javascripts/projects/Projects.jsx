@@ -23,8 +23,8 @@ export default class Projects extends React.Component {
     }
 
     generateProjectList(){
-        return this.state.project.map((item, index) => {
-            return <ProjectList key={index} name={item.p_name} descripton={item.p_desc} owner={item.po_username} manager={item.pm_username} /> }
+        return this.state.project.map((item) => {
+            return <ProjectList index={item.pid} name={item.p_name} descripton={item.p_desc} owner={item.po_username} manager={item.pm_username} /> }
         )
     }
 
