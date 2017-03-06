@@ -25,8 +25,13 @@ GET     /project/:id                controllers.ProjectController.getProjectByPr
 GET     /requirements/category/:id  controllers.RequirementController.getRequirementsByCategoryID(id: String)
 GET     /requirements/all           controllers.RequirementController.getAllRequirements()
 
+GET     /projectrequirementsForm    controllers.ProjectController.getProjectRequirementForm()
+GET     /all-projectrequirements   controllers.ProjectController.getProjectRequirements(id)
+
 GET     /project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
 POST    /project/requirement        controllers.RequirementController.newProjectRequirement()
+GET     /category/names             controllers.RequirementController.getCategories()
+GET     /category/byname/:name      controllers.RequirementController.getRequirementsByCategoryName(name: String)
 
 GET     /add-requirement            controllers.AdminController.addRequirement()
 POST    /add-requirement            controllers.AdminController.addReq()
@@ -34,7 +39,7 @@ POST    /add-requirement            controllers.AdminController.addReq()
 GET     /get-requirement            controllers.AdminController.getReq()
 
 GET     /update-requirement         controllers.AdminController.updateReq()
-POST    /update-requirement          controllers.AdminController.updateRequirement()
+POST    /update-requirement         controllers.AdminController.updateRequirement()
 
 GET     /add-category               controllers.AdminController.addCategory()
 POST    /add-category               controllers.AdminController.createCategory()

@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
 import models.User;
+import database.Statement;
 
 import play.db.Database;
 import play.mvc.Controller;
@@ -95,6 +96,18 @@ public class ProjectController extends Controller {
         }
     }
 
+
+
+    public Result getProjectRequirements(String id){
+        int projectID = Integer.parseInt(id);
+        //TODO validate access permition
+        JsonNode projectRequirements = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENTS, projectID);
+        return ok(projectRequirements);
+    }
+
+    public Result getProjectRequirementForm(){
+        return ok(views.html.getProjectRequirements.render());
+    }
 
 
 }

@@ -23,12 +23,22 @@ public enum Statement {
     GET_REQUIREMENTS_BY_ID("SELECT * FROM requirement WHERE requirementid=?"),
     GET_REQUIREMENTS_BY_CATEGORY_ID(
             "SELECT requirement.*, category.name as cname, category.description AS cdesc " +
-            "FROM requirement " +
-            "JOIN requirementcategory " +
-            "ON requirement.requirementid = requirementcategory.requirementid " +
-            "JOIN category " +
-            "ON requirementcategory.categoryid = category.categoryid " +
-            "WHERE category.categoryid=?"
+                    "FROM requirement " +
+                    "JOIN requirementcategory " +
+                    "ON requirement.requirementid = requirementcategory.requirementid " +
+                    "JOIN category " +
+                    "ON requirementcategory.categoryid = category.categoryid " +
+                    "WHERE category.categoryid=?"
+    ),
+    GET_CATEGORY_NAMES("SELECT name FROM category"),
+    GET_REQUIREMENTS_BY_CATEGORY_NAME(
+            "SELECT r.*, c.name AS cname, c.description AS cdesc  " +
+                    "FROM requirement AS r " +
+                    "INNER JOIN requirementcategory AS rc " +
+                    "ON r.requirementid = rc.requirementid " +
+                    "INNER JOIN category AS c " +
+                    "ON c.categoryid = rc.categoryid " +
+                    "WHERE c.name = ?"
     ),
     GET_PROJECT_BY_ID("SELECT *  FROM project WHERE projectid=?"),
     GET_PROJECTS_RELATED_TO_USER(
@@ -90,17 +100,17 @@ public enum Statement {
     CREATE_PROJECT_MANAGER("INSERT INTO projectmanager (userid, projectid) VALUES (?, ?)"),
     CREATE_PROJECT_OWNER("INSERT INTO projectowner (userid, projectid) VALUES (?, ?)"),
     CREATE_PART_OF("INSERT INTO partof (userid, projectid) VALUES (?, ?)"),
-    CREATE_PROJECT_REQUIREMENT("INSERT INTO projectrequirement " +
-            "(" +
-            "ispublic, " +
-            "name, " +
-            "description, " +
-            "source, " +
-            "stimulus, " +
-            "artifact, " +
-            "response, " +
-            "responsemeasure, " +
-            "environment" +
+    CREATE_PROJECT_REQUIREMENT(
+            "INSERT INTO projectrequirement (" +
+                    "ispublic, " +
+                    "name, " +
+                    "description, " +
+                    "source, " +
+                    "stimulus, " +
+                    "artifact, " +
+                    "response, " +
+                    "responsemeasure, " +
+                    "environment" +
             " ) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"),
     CREATE_LOCAL_REQUIREMENT(
@@ -129,6 +139,19 @@ public enum Statement {
     PROJECT_EXISTS("SELECT count(1) as bool FROM project WHERE projectid = ?"),
 
     ADD_REQUIREMENT_CATEGORY("INSERT INTO requirementcategory (requirementid, categoryid) VALUES (?,?)"),
+
+    /*GET_PROJECT_REQUIREMENT_CATEGORY("SELECT projectrequirement.*, category.name AS cname, category.description AS cdesc" +
+    "FROM projectrequirement INNER JOIN projectrequirementcategory" +
+    "ON projectrequirement.requirement = projectrequirementcategory.projectrequirementid" +
+    "INNER JOIN category ON category.categoryid = projectrequirementcategory.categoryid" +
+    "WHERE projectrequirement.projectrequirement = ?"),*/
+
+    GET_PROJECT_REQUIREMENTS("SELECT projectrequirement.* FROM projectrequirement "+
+    "WHERE projectrequirement.projectrequirement IN (SELECT localrequirement.projectrequirementid "+
+    "FROM localrequirement WHERE localrequirement.projectid = ?)"),
+    /*("SELECT projectrequirement FROM projectrequirement INNER JOIN "+
+    "ON localrequirement.projectrequirementid = projectrequirement.projectrequirement "
+    "WHERE localrequirement.projectid = ?"),*/
 
     CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
