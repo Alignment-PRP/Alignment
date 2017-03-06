@@ -1,0 +1,27 @@
+@()
+
+
+<h1> Sign-up </h1>
+<form action="/project/addReq" method="post">
+
+    <label><b>ProjectID</b></label><br>
+    <input type="number" name="projectid" min="0" required>
+
+    <br>
+    <label><b>Requirement ID</b></label><br>
+    <input type="number" name="requirementid" min="0" required>
+
+    <br>
+    <label><b>Requirement ID</b></label><br>
+    <input type="number" name="requirementid" min="0" required>
+
+    <input id=reqid type="checkbox">
+    <input id='testNameHidden' type='hidden' value='id' name='testName'>
+
+    <br>
+    <button type="submit">Add requirement</button>
+</form>
+
+<script> /*if(!document.getElementById("reqid").checked){
+  document.getElementById("testNameHidden").disabled = true;
+}*/</script>

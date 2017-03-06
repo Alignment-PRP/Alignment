@@ -109,5 +109,32 @@ public class ProjectController extends Controller {
         return ok(views.html.getProjectRequirements.render());
     }
 
+    public Result addReq(){
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        String projectid = values.get("projectid")[0];
+        String[] requirementid = values.get("requirementid");
+        for(int i = 0; i < requirementid.length; i++){
+            if(qh.executeQuery(Statement.REQUIREMENT_EXISTS, requirementid[i]).get(0).get("bool").asInt() != 1){
+                return unauthorized(requirementid[i] + " is not a valid requirement");
+            }
+        }
+        if(qh.executeQuery(Statement.PROJECT_EXISTS, projectid).get(0).get("bool").asInt() != 1){
+            return unauthorized(projectid + " is not a valid projectid");
+        }
+        for(int i=0; i < requirementid.length; i++){
+            JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT, requirementid[i]).get(0);
+            qh.createProjectRequirement(projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
+            globalReq.get("description").asText(), globalReq.get("source").asText(), globalReq.get("stimulus").asText(),
+            globalReq.get("artifact").asText(), globalReq.get("response").asText(), globalReq.get("responsemeasure").asText(),
+            globalReq.get("environment").asText());
+        }
+        return ok("ok");
+
+    }
+
+    public Result addReqForm(){
+        return ok(views.html.addGlobalReqToProject.render());
+    }
+
 
 }
