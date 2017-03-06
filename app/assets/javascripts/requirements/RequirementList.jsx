@@ -9,13 +9,16 @@ export default class RequirementList extends React.Component {
     render() {
         return (
             <div>
-                <h1>{this.props.name}</h1>
-                <p>{this.props.descripton}</p>
-                <p>Source: {this.props.source}</p>
-                <p>Stimulus: {this.props.stimulus}</p>
-                <p>Artifact: {this.props.artifact}</p>
-                <p>Response: {this.props.response}</p>
-                <p>Environment: {this.props.environment}</p>
+                <h1>{this.props.Name}</h1>
+                <p><i>{this.props.Description}</i></p>
+                <p>Source: {this.props.Source}</p>
+                <p>Stimulus: {this.props.Stimulus}</p>
+                <p>Artifact: {this.props.Artifact}</p>
+                <p>Response: {this.props.Response}</p>
+                <p>ResponseMeasure: {this.props.ResponseMeasure}</p>
+                <p>Environment: {this.props.Environment}</p>
+                <p>Category: {this.props.Category}</p>
+                <p>Category Description: {this.props.CategoryDescription}</p>
             </div>
         );
     }

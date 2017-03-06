@@ -12,7 +12,7 @@ export default class ProjectList extends React.Component {
         const url = "project/" + this.props.index;
 
         return (
-            <div>
+            <div className="projectListItem">
                 <h1>{this.props.name}</h1>
                 <p>{this.props.descripton}</p>
                 <p>Prosjekt Eier: {this.props.owner}</p>
