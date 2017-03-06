@@ -121,6 +121,8 @@ public enum Statement {
 
     GET_GLOBAL_REQUIREMENTS("SELECT * FROM requirement"),
 
+    GET_GLOBAL_REQUIREMENT("SELECT * FROM requirement WHERE requirementid = ?"),
+
     UPDATE_GLOBAL_REQUIREMENT("UPDATE requirement SET ispublic=?, name=?, description=?, source=?, stimulus=?, artifact=?, response=?, enviroment=? WHERE requirementid=?"),
 
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM requirement WHERE requirementid = ?"),

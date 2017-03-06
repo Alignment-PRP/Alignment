@@ -20,7 +20,7 @@ GET     /public/projects            controllers.ProjectController.getPublicProje
 
 GET     /newproject                 controllers.ProjectController.getNewProjectView()
 POST    /projects                   controllers.ProjectController.newProject()
-GET     /project/:id                controllers.ProjectController.getProjectByProjectID(id: String)
+#GET     /project/:id                controllers.ProjectController.getProjectByProjectID(id: String)
 
 GET     /requirements/category/:id  controllers.RequirementController.getRequirementsByCategoryID(id: String)
 GET     /requirements/all           controllers.RequirementController.getAllRequirements()
@@ -30,6 +30,10 @@ GET     /all-projectrequirements   controllers.ProjectController.getProjectRequi
 
 GET     /project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
 POST    /project/requirement        controllers.RequirementController.newProjectRequirement()
+
+GET     /project/addReq             controllers.ProjectController.addReqForm()
+POST    /project/addReq             controllers.ProjectController.addReq()
+
 GET     /category/names             controllers.RequirementController.getCategories()
 GET     /category/byname/:name      controllers.RequirementController.getRequirementsByCategoryName(name: String)
 
