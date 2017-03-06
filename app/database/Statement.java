@@ -114,6 +114,22 @@ public enum Statement {
 
     CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
+    //NOTE LEAVE ALL OF THIS FOR WHEN WE GET TO DELETIONS (THEY'RE A FUCKING PAIN)
+    //DELETE_PROJECT_MANAGER(),
+
+    //DELETE_PROJECT_OWNER(),
+
+    /*DELETE_PROJECT("DELETE project, projectowner, projectmanager FROM " +
+            "project INNER JOIN projectowner INNER JOIN projectmanager " +
+            "WHERE project.projectid = projectowner.projectid AND project.projectid = projectmanager.projectid " +
+            "AND project.projectid= ?")*/
+    /*
+    DELETE_PROJECT_PEOPLE("DELETE projectowner, projectmanager, partof " +
+            "FROM projectowner INNER JOIN projectmanager INNER JOIN partof " +
+            "WHERE projectowner.projectid = projectmanager.projectid AND projectowner.projectid = partof.projectid AND projectowner.projectid = ?"),
+
+    DELETE_PROJECT("DELETE project");*/
+
 
     private final String statement;
 
@@ -249,5 +265,14 @@ public enum Statement {
         PreparedStatement ps = c.prepareStatement(statement);
         ps.setInt(1, parent);
         ps.setInt(2, child);
+        ps.executeUpdate();
     }
+
+
+    //DANGER ZONE (anything bellow here should be deletions)
+    /*public void deleteProject(Connection c, int id) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+    }*/
 }
