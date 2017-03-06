@@ -5,7 +5,7 @@ export default class SideMeny extends React.Component {
     render() {
         return (
             <div id="sidemeny">
-                <p>hallo</p>
+                <h4>sidemeny</h4>
             </div>
         );
     }

@@ -28,6 +28,7 @@ h1{
 
 #sidemeny {
     margin-left: 70px;
+    padding: 5px;
     color: white;
     flex: 1;
     background-color: #7493f8;
