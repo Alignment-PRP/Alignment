@@ -10,14 +10,14 @@ export default class Project extends React.Component {
         super(props);
 
         this.state = {
-            id: null,
+            id: this.props.params.id,
             url: null,
             project: []
         }
     }
 
     componentDidMount() {
-        const id = this.props.params.id;
+        const id = this.state.id;
         const url = 'http://localhost:9000/project/id/' + id;
 
         axios.get(url)
