@@ -65,11 +65,13 @@ public class QueryHandler {
         //TODO change pointer to insertUser once you're sure it's not changing
         insertUser(Statement.CREATE_USER, firstname, lastname, email, username, password);
     }
-    public void createProject(String name, String description, String ispublic, String managerID, String ownerID){
+    public JsonNode getProjectByProjectID(String id) {return executeQuery(Statement.GET_PROJECT_BY_ID, id); }
+    public void createProject(String name, String description, String ispublic, String managerID, String ownerID, String userid){
         insertProject(Statement.CREATE_PROJECT, name, description, Integer.parseInt(ispublic));
         int projectID = getProjectIDByName(name).get(0).get("projectid").asInt();
         insertProjectManager(Statement.CREATE_PROJECT_MANAGER, projectID, Integer.parseInt(managerID));
         insertProjectOwner(Statement.CREATE_PROJECT_OWNER, projectID, Integer.parseInt(ownerID));
+        insertPartOf(Statement.CREATE_PART_OF, projectID, Integer.parseInt(userid));
     }
     public JsonNode getProjectRequirementIDByName(String name){
         return executeQuery(Statement.GET_PROJECT_REQUIREMENTID_BY_NAME, name);
@@ -180,7 +182,6 @@ public class QueryHandler {
             e.printStackTrace();
         }
     }
-
     public void addReq(boolean global, String pub, String name, String desc, String source, String stimulus, String artifact, String response, String environment){
         //TODO fix project req to also use this (change global=true to global dependent on project or global when you do)
         insertReq(Statement.CREATE_REQUIREMENT, true, Integer.parseInt(pub), name, desc, source, stimulus, artifact, response, environment);
@@ -206,16 +207,26 @@ public class QueryHandler {
         }
     }
 
-    public void insertCategory(Statement statement, String name, String description){
-        try{
+    public void insertCategory(Statement statement, String name, String description) {
+        try {
             Connection c = db.getConnection();
             statement.prepareAndInsertCategory(c, name, description);
             c.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+        public void insertPartOf(Statement statement, int projectid, int userid){
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteNewPartOf(c, projectid, userid);
+            c.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     //TODO Doc
     public JsonNode executeQuery(Statement statement, Object... objects) {
