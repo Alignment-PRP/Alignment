@@ -53,6 +53,7 @@ public class RequirementController extends Controller{
             return unauthorized(views.html.login.render());
         }
 
+        //TODO: Add relevant category.
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         String projectID = values.get("projectid")[0];
         String name = values.get("name")[0];
@@ -81,5 +82,25 @@ public class RequirementController extends Controller{
     public boolean projectRequirementNameExists(String name){
         JsonNode exists = qh.projectRequirementNameExists(name);
         return exists.get(0).get("bool").asInt() == 1;
+    }
+
+    public Result getCategories(){
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        //Returns and 200 OK with a JsonNode as Body.
+        JsonNode req = qh.getCategoryNames();
+        return ok(req);
+    }
+
+    public Result getRequirementsByCategoryName(String name){
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        //Returns and 200 OK with a JsonNode as Body.
+        JsonNode req = qh.getRequirementByCategoryName(name);
+        return ok(req);
     }
 }
