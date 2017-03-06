@@ -1,5 +1,7 @@
 package database;
 
+import net.bytebuddy.dynamic.scaffold.MethodRegistry;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -100,6 +102,15 @@ public enum Statement {
     UPDATE_GLOBAL_REQUIREMENT("UPDATE requirement SET ispublic=?, name=?, description=?, source=?, stimulus=?, artifact=?, response=?, enviroment=? WHERE requirementid=?"),
 
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM requirement WHERE requirementid = ?"),
+    //TODO combine all of these into "SELECT count(1) as bool FROM ? WHERE ? = ? or some such
+    CATEGORY_NAME_EXISTS("SELECT count(1) as bool FROM category WHERE name = ?"),
+
+    CREATE_CATEGORY("INSERT INTO category (name, description) VALUES (?,?)"),
+
+    CATEGORY_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid IN (?, ?)"),
+
+    //TODO combine all of these into "INSERT INTO ? (?,?) VALUES (?,?) for all table relationships
+    ADD_SUBCATEGORY("INSERT INTO categorycategory (parentid, childid) VALUES (?,?)"),
 
     CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
@@ -224,5 +235,19 @@ public enum Statement {
         ps.setString(8, environment);
         ps.setInt(9, id);
         ps.executeUpdate();
+    }
+
+    public void prepareAndInsertCategory(Connection c, String name, String description) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setString(1, name);
+        ps.setString(2, description);
+        ps.executeUpdate();
+    }
+
+    //ADDS PARENT CHILD RELATION
+    public void addTableRelation(Connection c, int parent, int child) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, parent);
+        ps.setInt(2, child);
     }
 }

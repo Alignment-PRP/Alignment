@@ -35,6 +35,11 @@ GET     /get-requirement            controllers.AdminController.getReq()
 GET     /update-requirement         controllers.AdminController.updateReq()
 POST    /update-requirement          controllers.AdminController.updateRequirement()
 
+GET     /add-category               controllers.AdminController.addCategory()
+POST    /add-category               controllers.AdminController.createCategory()
+
+POST    /add-subcategory            controllers.AdminController.addSubcategory()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 

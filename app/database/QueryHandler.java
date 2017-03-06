@@ -206,6 +206,16 @@ public class QueryHandler {
         }
     }
 
+    public void insertCategory(Statement statement, String name, String description){
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndInsertCategory(c, name, description);
+            c.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     //TODO Doc
     public JsonNode executeQuery(Statement statement, Object... objects) {
@@ -240,6 +250,15 @@ public class QueryHandler {
         return Json.toJson(list);
     }
 
-
+    //USE WHENEVER YOU ARE REFERING TO A TABLE THAT LOOKS LIKE THIS:    |ID1|ID2|   (ex categorycategory)
+    public void addTableRelation(Statement statement, int parent, int child){
+        try{
+            Connection c = db.getConnection();
+            statement.addTableRelation(c, parent, child);
+            c.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }
