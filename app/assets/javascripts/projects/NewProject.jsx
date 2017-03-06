@@ -22,8 +22,6 @@ export default class NewProject extends React.Component {
                         <option value="0">No</option>
                       </select>
 
-
-
                     <button type="submit">Submit</button>
 
                 </form>
