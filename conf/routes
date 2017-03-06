@@ -30,6 +30,8 @@ GET     /all-projectrequirements   controllers.ProjectController.getProjectRequi
 
 GET     /project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
 POST    /project/requirement        controllers.RequirementController.newProjectRequirement()
+GET     /category/names             controllers.RequirementController.getCategories()
+GET     /category/byname/:name      controllers.RequirementController.getRequirementsByCategoryName(name: String)
 
 GET     /add-requirement            controllers.AdminController.addRequirement()
 POST    /add-requirement            controllers.AdminController.addReq()

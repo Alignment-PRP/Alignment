@@ -43,6 +43,12 @@ public class QueryHandler {
     public JsonNode getUserByID(String ID) {
         return executeQuery(Statement.GET_USER_BY_ID, ID);
     }
+    public JsonNode getCategoryNames(){
+        return executeQuery(Statement.GET_CATEGORY_NAMES);
+    }
+    public JsonNode getRequirementByCategoryName(String name){
+        return executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_NAME, name);
+    }
     public JsonNode userExists(String username){
         return executeQuery(Statement.GET_USER_NAME_EXISTS, username);
     }

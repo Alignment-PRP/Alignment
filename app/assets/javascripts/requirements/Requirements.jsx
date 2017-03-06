@@ -8,7 +8,7 @@ export default class Requirements extends React.Component {
         super(props);
 
         this.state = {
-            project: []
+            requirement: []
         };
     }
 
@@ -24,8 +24,9 @@ export default class Requirements extends React.Component {
 
     generateRequirementList(){
         return this.state.requirement.map((item, index) => {
-            return <ProjectList key={index} Name={index.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
-                                Artifact={item.artifact} Environment={item.environment} Response={item.response}/> }
+            return <RequirementList key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
+                                    Artifact={item.artifact} Environment={item.environment} Response={item.response} ResponseMeasure={item.responsemeasure}
+                                    Category={item.cname} CategoryDescription={item.cdesc}/> }
         )
     }
 
@@ -33,7 +34,7 @@ export default class Requirements extends React.Component {
     render() {
         return (
             <div>
-                <h1>Prosjekter</h1>
+                <h1>Krav</h1>
                 <ul>
                     {this.generateRequirementList()}
                 </ul>
