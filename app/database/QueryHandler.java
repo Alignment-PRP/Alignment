@@ -64,6 +64,7 @@ public class QueryHandler {
         //TODO change pointer to insertUser once you're sure it's not changing
         insertUser(Statement.CREATE_USER, firstname, lastname, email, username, password);
     }
+    public JsonNode getProjectByProjectID(String id) {return executeQuery(Statement.GET_PROJECT_BY_ID, id); }
     public void createProject(String name, String description, String ispublic, String managerID, String ownerID, String userid){
         insertProject(Statement.CREATE_PROJECT, name, description, Integer.parseInt(ispublic));
         int projectID = getProjectIDByName(name).get(0).get("projectid").asInt();
