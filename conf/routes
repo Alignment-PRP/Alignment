@@ -28,6 +28,25 @@ GET     /requirements/all           controllers.RequirementController.getAllRequ
 GET     /project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
 POST    /project/requirement        controllers.RequirementController.newProjectRequirement()
 
+GET     /add-requirement            controllers.AdminController.addRequirement()
+POST    /add-requirement            controllers.AdminController.addReq()
+
+GET     /get-requirement            controllers.AdminController.getReq()
+
+GET     /update-requirement         controllers.AdminController.updateReq()
+POST    /update-requirement          controllers.AdminController.updateRequirement()
+
+GET     /add-category               controllers.AdminController.addCategory()
+POST    /add-category               controllers.AdminController.createCategory()
+
+POST    /add-subcategory            controllers.AdminController.addSubcategory()
+
+GET     /add-requirementcategeory   controllers.AdminController.addCategeroyToRequirement()
+POST    /add-requirementcategeory   controllers.AdminController.insertRequirementCategory()
+
+#GET     /delete-project             controllers.AdminController.deleteProjects()
+#POST    /delete-project             controllers.AdminController.deleteProject()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 

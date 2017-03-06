@@ -1,5 +1,7 @@
 package database;
 
+import net.bytebuddy.dynamic.scaffold.MethodRegistry;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -104,7 +106,47 @@ public enum Statement {
     CREATE_LOCAL_REQUIREMENT(
             "INSERT INTO localrequirement (projectid, projectrequirementid) VALUES (?, ?)"
     ),
+
+    CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, enviroment) VALUES (?,?,?,?,?,?,?,?)"),
+
+    GET_GLOBAL_REQUIREMENTS("SELECT * FROM requirement"),
+
+    UPDATE_GLOBAL_REQUIREMENT("UPDATE requirement SET ispublic=?, name=?, description=?, source=?, stimulus=?, artifact=?, response=?, enviroment=? WHERE requirementid=?"),
+
+    REQUIREMENT_EXISTS("SELECT count(1) as bool FROM requirement WHERE requirementid = ?"),
+    //TODO combine all of these into "SELECT count(1) as bool FROM ? WHERE ? = ? or some such
+    CATEGORY_NAME_EXISTS("SELECT count(1) as bool FROM category WHERE name = ?"),
+
+    CREATE_CATEGORY("INSERT INTO category (name, description) VALUES (?,?)"),
+
+    CATEGORIES_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid IN (?, ?)"),
+    //TODO join these by using int... and for int in list setInt(i,liste[i])
+    CATEGORY_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid = ?"),
+
+    //TODO combine all of these into "INSERT INTO ? (?,?) VALUES (?,?) for all table relationships
+    ADD_SUBCATEGORY("INSERT INTO categorycategory (parentid, childid) VALUES (?,?)"),
+
+    PROJECT_EXISTS("SELECT count(1) as bool FROM project WHERE projectid = ?"),
+
+    ADD_REQUIREMENT_CATEGORY("INSERT INTO requirementcategory (requirementid, categoryid) VALUES (?,?)"),
+
     CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
+
+    //NOTE LEAVE ALL OF THIS FOR WHEN WE GET TO DELETIONS (THEY'RE A FUCKING PAIN)
+    //DELETE_PROJECT_MANAGER(),
+
+    //DELETE_PROJECT_OWNER(),
+
+    /*DELETE_PROJECT("DELETE project, projectowner, projectmanager FROM " +
+            "project INNER JOIN projectowner INNER JOIN projectmanager " +
+            "WHERE project.projectid = projectowner.projectid AND project.projectid = projectmanager.projectid " +
+            "AND project.projectid= ?")*/
+    /*
+    DELETE_PROJECT_PEOPLE("DELETE projectowner, projectmanager, partof " +
+            "FROM projectowner INNER JOIN projectmanager INNER JOIN partof " +
+            "WHERE projectowner.projectid = projectmanager.projectid AND projectowner.projectid = partof.projectid AND projectowner.projectid = ?"),
+
+    DELETE_PROJECT("DELETE project");*/
 
 
     private final String statement;
@@ -204,4 +246,59 @@ public enum Statement {
         ps.setString(9, environment);
         ps.executeUpdate();
     }
+
+    //TODO remove old prepareAndExecuteNewProjectRequirement and replace with general purpouse one
+    //also check if responsemeasure should be in both
+    public void prepareAndInsertRequirement(Connection c, boolean global, int isPublic, String name, String description, String source, String stimulus, String artifact, String response, String entironment)
+            throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, isPublic);
+        ps.setString(2, name);
+        ps.setString(3, description);
+        ps.setString(4, source);
+        ps.setString(5, stimulus);
+        ps.setString(6, artifact);
+        ps.setString(7, response);
+        ps.setString(8, entironment);
+        ps.executeUpdate();
+    }
+
+    public void prepareAndUpdateRequirement(Connection c, int id, boolean global, int isPublic, String name, String description, String source, String stimulus, String artifact, String response, String environment)
+        throws SQLException{
+        //TODO merge with prepareAndInsertRequirement and every method for local requirements
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, isPublic);
+        ps.setString(2, name);
+        ps.setString(3, description);
+        ps.setString(4, source);
+        ps.setString(5, stimulus);
+        ps.setString(6, artifact);
+        ps.setString(7, response);
+        ps.setString(8, environment);
+        ps.setInt(9, id);
+        ps.executeUpdate();
+    }
+
+    public void prepareAndInsertCategory(Connection c, String name, String description) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setString(1, name);
+        ps.setString(2, description);
+        ps.executeUpdate();
+    }
+
+    //ADDS PARENT CHILD RELATION
+    public void addTableRelation(Connection c, int parent, int child) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, parent);
+        ps.setInt(2, child);
+        ps.executeUpdate();
+    }
+
+
+    //DANGER ZONE (anything bellow here should be deletions)
+    /*public void deleteProject(Connection c, int id) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+    }*/
 }

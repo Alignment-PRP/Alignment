@@ -181,8 +181,42 @@ public class QueryHandler {
             e.printStackTrace();
         }
     }
+    public void addReq(boolean global, String pub, String name, String desc, String source, String stimulus, String artifact, String response, String environment){
+        //TODO fix project req to also use this (change global=true to global dependent on project or global when you do)
+        insertReq(Statement.CREATE_REQUIREMENT, true, Integer.parseInt(pub), name, desc, source, stimulus, artifact, response, environment);
+    }
+    public void updateReq(boolean global,String id,  String pub, String name, String desc, String source, String stimulus, String artifact, String response, String environment){
+        Statement statement = Statement.UPDATE_GLOBAL_REQUIREMENT;
+        try{
+            Connection c = db.getConnection();
+            statement.prepareAndUpdateRequirement(c, Integer.parseInt(id), global, Integer.parseInt(pub), name, desc, source, stimulus, artifact, response, environment);
+            c.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
-    public void insertPartOf(Statement statement, int projectid, int userid){
+    public void insertReq(Statement statement, boolean global, int pub, String name, String desc, String source, String stimulus, String artifact, String response, String environment) {
+        try {
+            Connection c = db.getConnection();
+            statement.prepareAndInsertRequirement(c, global, pub, name, desc, source, stimulus, artifact, response, environment);
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertCategory(Statement statement, String name, String description) {
+        try {
+            Connection c = db.getConnection();
+            statement.prepareAndInsertCategory(c, name, description);
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+        public void insertPartOf(Statement statement, int projectid, int userid){
         try{
             Connection c = db.getConnection();
             statement.prepareAndExecuteNewPartOf(c, projectid, userid);
@@ -226,6 +260,26 @@ public class QueryHandler {
         return Json.toJson(list);
     }
 
+    //USE WHENEVER YOU ARE REFERING TO A TABLE THAT LOOKS LIKE THIS:    |ID1|ID2|   (ex categorycategory)
+    public void addTableRelation(Statement statement, int parent, int child){
+        try{
+            Connection c = db.getConnection();
+            statement.addTableRelation(c, parent, child);
+            c.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    //WELCOME TO THE DANGER ZONE
+    /*public void deleteProject(Statement statement, int id){
+        try{
+            Connection c = db.getConnection();
+            statement.deleteProject(c,id);
+            c.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }*/
 
 }
