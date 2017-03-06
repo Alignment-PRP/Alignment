@@ -139,4 +139,17 @@ public class AdminController extends Controller {
         return ok("new parent/child relationship established");
     }
 
+    //================================ DELETE PROJECT =======================================
+    /*public Result deleteProjects(){
+        return ok(views.html.deleteProject.render());
+    }
+
+    public Result deleteProject(){
+        //SERIOUSLY BE CAREFULL WITH THIS SHIT LATER
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        int id = Integer.parseInt(values.get("id")[0]);
+        qh.deleteProject(Statement.DELETE_PROJECT, id);
+        return ok();
+    }*/
+
 }
