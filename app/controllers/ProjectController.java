@@ -65,7 +65,7 @@ public class ProjectController extends Controller {
          */
 
         qh.createProject(name, desc, ispublic, userID, userID, userID);
-        return ok();
+        return ok(views.html.dashboard.render());
 
     }
 
