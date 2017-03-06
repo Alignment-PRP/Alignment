@@ -27,8 +27,13 @@ GET     /requirements/all           controllers.RequirementController.getAllRequ
 GET     /project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
 POST    /project/requirement        controllers.RequirementController.newProjectRequirement()
 
-GET     /add-requirement            controllers.AdminController.test()
+GET     /add-requirement            controllers.AdminController.addRequirement()
 POST    /add-requirement            controllers.AdminController.addReq()
+
+GET     /get-requirement            controllers.AdminController.getReq()
+
+GET     /update-requirement         controllers.AdminController.updateReq()
+POST    /update-requirement          controllers.AdminController.updateRequirement()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
