@@ -40,6 +40,9 @@ POST    /add-category               controllers.AdminController.createCategory()
 
 POST    /add-subcategory            controllers.AdminController.addSubcategory()
 
+GET     /add-requirementcategeory   controllers.AdminController.addCategeroyToRequirement()
+POST    /add-requirementcategeory   controllers.AdminController.insertRequirementCategory()
+
 #GET     /delete-project             controllers.AdminController.deleteProjects()
 #POST    /delete-project             controllers.AdminController.deleteProject()
 

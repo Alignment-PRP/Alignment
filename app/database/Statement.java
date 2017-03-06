@@ -107,10 +107,16 @@ public enum Statement {
 
     CREATE_CATEGORY("INSERT INTO category (name, description) VALUES (?,?)"),
 
-    CATEGORY_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid IN (?, ?)"),
+    CATEGORIES_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid IN (?, ?)"),
+    //TODO join these by using int... and for int in list setInt(i,liste[i])
+    CATEGORY_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid = ?"),
 
     //TODO combine all of these into "INSERT INTO ? (?,?) VALUES (?,?) for all table relationships
     ADD_SUBCATEGORY("INSERT INTO categorycategory (parentid, childid) VALUES (?,?)"),
+
+    PROJECT_EXISTS("SELECT count(1) as bool FROM project WHERE projectid = ?"),
+
+    ADD_REQUIREMENT_CATEGORY("INSERT INTO requirementcategory (requirementid, categoryid) VALUES (?,?)"),
 
     CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
