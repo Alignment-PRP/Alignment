@@ -78,8 +78,8 @@ public class QueryHandler {
         insertProjectOwner(Statement.CREATE_PROJECT_OWNER, projectID, Integer.parseInt(ownerID));
         insertPartOf(Statement.CREATE_PART_OF, projectID, Integer.parseInt(userid));
     }
-    public JsonNode getProjectRequirementIDByName(String name){
-        return executeQuery(Statement.GET_PROJECT_REQUIREMENTID_BY_NAME, name);
+    public JsonNode getLastInsertID(){
+        return executeQuery(Statement.SELECT_LAST_INSERT_ID);
     }
     public void createProjectRequirement(String projectid,
                                          String ispublic,
@@ -103,7 +103,9 @@ public class QueryHandler {
                 responsemeasure,
                 environment
                 );
-        int projectRequirementID = getProjectRequirementIDByName(name).get(0).get("id").asInt();
+
+        //TODO: SELECT LAST_INSERT_ID(); This need to be donw while the db connection is still not closed yet.
+        int projectRequirementID = getLastInsertID().get(0).get("LAST_INSERT_ID()").asInt();
         insertLocalRequirement(Statement.CREATE_LOCAL_REQUIREMENT, Integer.parseInt(projectid), projectRequirementID);
 
     }
