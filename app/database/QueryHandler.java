@@ -185,17 +185,27 @@ public class QueryHandler {
         //TODO fix project req to also use this (change global=true to global dependent on project or global when you do)
         insertReq(Statement.CREATE_REQUIREMENT, true, Integer.parseInt(pub), name, desc, source, stimulus, artifact, response, environment);
     }
-
-    public void insertReq(Statement statement, boolean global, int pub, String name, String desc, String source, String stimulus, String artifact, String response, String environment){
+    public void updateReq(boolean global,String id,  String pub, String name, String desc, String source, String stimulus, String artifact, String response, String environment){
+        Statement statement = Statement.UPDATE_GLOBAL_REQUIREMENT;
         try{
             Connection c = db.getConnection();
-            statement.prepareAndInsertRequirement(c, global, pub, name, desc, source, stimulus, artifact, response, environment);
+            statement.prepareAndUpdateRequirement(c, Integer.parseInt(id), global, Integer.parseInt(pub), name, desc, source, stimulus, artifact, response, environment);
             c.close();
-        }
-        catch(Exception e){
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
+
+    public void insertReq(Statement statement, boolean global, int pub, String name, String desc, String source, String stimulus, String artifact, String response, String environment) {
+        try {
+            Connection c = db.getConnection();
+            statement.prepareAndInsertRequirement(c, global, pub, name, desc, source, stimulus, artifact, response, environment);
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //TODO Doc
     public JsonNode executeQuery(Statement statement, Object... objects) {
