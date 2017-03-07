@@ -66,7 +66,7 @@ export default class Sidebar extends React.Component {
                         <MenuItem primaryText="Hjem" containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                         <MenuItem primaryText="Prosjekter"containerElement={<Link to="projects" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
                         <MenuItem primaryText="Nytt Prosjekt"containerElement={<Link to="newproject" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">build</FontIcon>} />
-                        <MenuItem primaryText="Krav"containerElement={<Link to="requirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                        <MenuItem primaryText="Krav"containerElement={<Link to="allrequirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
                         <MenuItem primaryText="Logg ut"containerElement={<Link to="logout" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                     </Menu>
                 </MuiThemeProvider>

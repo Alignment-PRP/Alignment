@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
+import ProjectRequirements from '../requirements/ProjectRequirements.jsx';
+
 
 export default class Project extends React.Component {
 
@@ -8,14 +10,14 @@ export default class Project extends React.Component {
         super(props);
 
         this.state = {
-            id: null,
+            id: this.props.params.id,
             url: null,
             project: []
         }
     }
 
     componentDidMount() {
-        const id = this.props.params.id;
+        const id = this.state.id;
         const url = 'http://localhost:9000/project/id/' + id;
 
         axios.get(url)
@@ -40,7 +42,7 @@ export default class Project extends React.Component {
         });
 
         return(
-            <div>
+            <div className="singleProject">
                 <h1>{name}</h1>
                 <p>ID: {id}</p>
                 <p>Beskrivelse:{desc}</p>
@@ -50,11 +52,13 @@ export default class Project extends React.Component {
     }
 
 
-
     render() {
         return (
-            <div>
+            <div className="container">
                 {this.project()}
+                <div className="projectRequirements">
+                <ProjectRequirements id={this.state.id}/>
+                </div>
             </div>
         );
     }

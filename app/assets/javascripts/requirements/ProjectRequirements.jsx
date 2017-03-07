@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import RequirementList from './RequirementList.jsx';
+import RequirementListItem from './RequirementListItem.jsx';
 
-export default class Requirements extends React.Component {
+export default class ProjectRequirements extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +13,9 @@ export default class Requirements extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:9000/requirements/all ')
+        const id = this.props.id;
+        const url = 'http://localhost:9000/all-projectrequirements?id=' + id;
+        axios.get(url)
             .then( response => {
                     this.setState({
                         requirement: response.data
@@ -24,7 +26,7 @@ export default class Requirements extends React.Component {
 
     generateRequirementList(){
         return this.state.requirement.map((item, index) => {
-            return <RequirementList key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
+            return <RequirementListItem key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
                                     Artifact={item.artifact} Environment={item.environment} Response={item.response} ResponseMeasure={item.responsemeasure}
                                     Category={item.cname} CategoryDescription={item.cdesc}/> }
         )
@@ -34,7 +36,7 @@ export default class Requirements extends React.Component {
     render() {
         return (
             <div>
-                <h1>Krav</h1>
+                <h1>Prosjekt Krav</h1>
                 <ul>
                     {this.generateRequirementList()}
                 </ul>

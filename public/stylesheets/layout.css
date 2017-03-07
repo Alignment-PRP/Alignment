@@ -21,13 +21,14 @@ h1{
 
 }
 
-#container {
+.container {
     display: flex;
 }
 
 
 #sidemeny {
     margin-left: 70px;
+    padding: 5px;
     color: white;
     flex: 1;
     background-color: #7493f8;

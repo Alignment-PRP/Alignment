@@ -5,9 +5,9 @@ import Home from './Home.jsx';
 import Projects from './projects/Projects.jsx';
 import Project from './projects/Project.jsx';
 import NewProject from './projects/NewProject.jsx';
-import Requirements from './requirements/Requirements.jsx';
+import AllRequirements from './requirements/AllRequirements.jsx';
 import Logout from './utility/Logout.jsx'
-import {Router, Route, browserHistory} from "react-router";
+import {Router, Route, IndexRoute, browserHistory} from "react-router";
 
 class App extends React.Component {
 
@@ -15,11 +15,12 @@ class App extends React.Component {
         return (
             <Router history={browserHistory}>
                 <Route path={"/"} component={Root}>
+                    <IndexRoute component={Home}/>
                     <Route path={"login"} component={Home}/>
                     <Route path={"projects"} component={Projects}/>
                     <Route path={"project/:id"} component={Project}/>
                     <Route path={"newproject"} component={NewProject}/>
-                    <Route path={"requirements"} component={Requirements}/>
+                    <Route path={"allrequirements"} component={AllRequirements}/>
                     <Route path={"logout"} component={Logout}/>
                 </Route>
             </Router>
