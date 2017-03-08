@@ -12,14 +12,14 @@ export default class ProjectList extends React.Component {
         const url = "project/" + this.props.index;
 
         return (
-            <div className="projectListItem">
-                <h1>{this.props.name}</h1>
-                <p>{this.props.descripton}</p>
-                <p>Prosjekt Eier: {this.props.owner}</p>
-                <p>Prosjekt Sjef: {this.props.manager}</p>
-                <p>Index: {this.props.index}</p>
-                <Link to={url}>{this.props.name}</Link>
-            </div>
+                <tr>
+                    <td>{this.props.name}</td>
+                    <td>{this.props.descripton}</td>
+                    <td>{this.props.owner}</td>
+                    <td>{this.props.manager}</td>
+                    <td>{this.props.index}</td>
+                    <td><Link to={url}><button>Edit</button></Link></td>
+                </tr>
         );
     }
 }

@@ -31,11 +31,22 @@ export default class Projects extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="all-project-list">
                 <h1>Prosjekter</h1>
-                <ul>
-                    {this.generateProjectList()}
-                </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Beskrivelse</th>
+                            <th>Project owner</th>
+                            <th>Project manager</th>
+                            <th>Stuff</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.generateProjectList()}
+                    </tbody>
+                </table>
             </div>
         );
     }
