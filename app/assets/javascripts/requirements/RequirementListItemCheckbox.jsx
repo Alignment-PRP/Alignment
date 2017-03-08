@@ -8,22 +8,20 @@ export default class RequirementListItemCheckbox extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>{this.props.Name}</h1>
-                <p><i>{this.props.Description}</i></p>
+            <tr>
+                <td>{this.props.Name}</td>
+                <td>{this.props.Description}</td>
+                <td>{this.props.Source}</td>
+                <td>{this.props.Stimulus}</td>
+                <td>{this.props.Artifact}</td>
+                <td>{this.props.Response}</td>
+                <td>{this.props.ResonseMeasure}</td>
+                <td>{this.props.Environment}</td>
+                <td>{this.props.Category}</td>
+                <td>{this.props.CategoryDescription}</td>
+                <td><button>Rediger</button></td>
+            </tr>
 
-                <ul>
-                    <li><p>Source: {this.props.Source}</p></li>
-                    <li> <p>Stimulus: {this.props.Stimulus}</p></li>
-                    <li> <p>Artifact: {this.props.Artifact}</p></li>
-                    <li><p>Response: {this.props.Response}</p></li>
-                    <li><p>ResponseMeasure: {this.props.ResponseMeasure}</p></li>
-                    <li><p>Environment: {this.props.Environment}</p></li>
-                    <li><p>Category: {this.props.Category}</p></li>
-                    <li><p>Category Description: {this.props.CategoryDescription}</p></li>
-                </ul>
-
-            </div>
         );
     }
 }
