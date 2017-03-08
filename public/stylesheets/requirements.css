@@ -1,0 +1,16 @@
+.singleProject {
+    flex: 2;
+}
+
+.projectRequirements {
+    flex: 3;
+}
+
+.all-requirements-list table td th {
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.all-requirements-list table {
+    width: 100%;
+}
