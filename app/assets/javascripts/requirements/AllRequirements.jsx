@@ -15,7 +15,6 @@ export default class AllRequirements extends React.Component {
     componentDidMount() {
         axios.get('http://localhost:9000/requirements/all ')
             .then( response => {
-                console.log(response);
                     this.setState({
                         requirement: response.data
                     })
