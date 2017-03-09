@@ -12,9 +12,11 @@ export default class Projects extends React.Component {
         };
     }
 
+    //Get information from html body and creates a Json object.
     componentDidMount() {
         axios.get('http://localhost:9000/projects')
             .then( response => {
+                console.log(response);
                     this.setState({
                         project: response.data
                     })
@@ -24,7 +26,11 @@ export default class Projects extends React.Component {
 
     generateProjectList(){
         return this.state.project.map((item) => {
-            return <ProjectList index={item.pid} name={item.p_name} descripton={item.p_desc} owner={item.po_username} manager={item.pm_username} /> }
+            return <ProjectList index={item.pid}
+                                name={item.p_name}
+                                descripton={item.p_desc}
+                                owner={item.po_username}
+                                manager={item.pm_username} /> }
         )
     }
 

@@ -11,7 +11,7 @@ export default class SideMeny extends React.Component {
     render() {
         return (
             <div id="sidemeny">
-                <h4> Meny </h4>
+                <h4> SideMeny </h4>
                 <ul>
                     <Link to="#"> <p>Kategoriliste</p></Link>
                 </ul>
