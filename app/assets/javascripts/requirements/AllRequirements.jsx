@@ -24,9 +24,19 @@ export default class AllRequirements extends React.Component {
 
     generateRequirementList(){
         return this.state.requirement.map((item, index) => {
-            return <RequirementListItemCheckobx key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
-                                    Artifact={item.artifact} Environment={item.environment} Response={item.response} ResponseMeasure={item.responsemeasure}
-                                    Category={item.cname} CategoryDescription={item.cdesc}/> }
+            return <RequirementListItemCheckobx key={index}
+                                                Name={item.name}
+                                                isPublic={item.ispublic}
+                                                Description={item.description}
+                                                Source={item.source}
+                                                Stimulus={item.stimulus}
+                                                Artifact={item.artifact}
+                                                Environment={item.environment}
+                                                Response={item.response}
+                                                ResponseMeasure={item.responsemeasure}
+                                                Category={item.cname}
+                                                CategoryDescription={item.cdesc}/>
+            }
         )
     }
 

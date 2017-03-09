@@ -16,6 +16,8 @@ export default class Project extends React.Component {
         }
     }
 
+
+    //Get information from html body and creates a Json object.
     componentDidMount() {
         const id = this.state.id;
         const url = 'http://localhost:9000/project/id/' + id;
@@ -30,6 +32,7 @@ export default class Project extends React.Component {
 
     }
 
+    //Return the a div tag with a single project information
     project(){
         let id = "";
         let name = "";
