@@ -12,6 +12,8 @@ import {Router, Route, IndexRoute, browserHistory} from "react-router";
 import {Provider} from "react-redux";
 import store from './redux/store.jsx';
 
+
+//Defining client links
 class App extends React.Component {
 
     render() {
