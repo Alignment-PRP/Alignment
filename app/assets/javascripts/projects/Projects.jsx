@@ -16,7 +16,6 @@ export default class Projects extends React.Component {
     componentDidMount() {
         axios.get('http://localhost:9000/projects')
             .then( response => {
-                console.log(response);
                     this.setState({
                         project: response.data
                     })
