@@ -10,7 +10,7 @@ import ReduxTests from './ReduxTests.jsx';
 import Logout from './utility/Logout.jsx'
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
 import {Provider} from "react-redux";
-import store from './store.jsx';
+import store from './redux/store.jsx';
 
 class App extends React.Component {
 
