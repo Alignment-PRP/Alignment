@@ -1,0 +1,9 @@
+import {createStore, combineReducers, applyMiddleware} from "redux";
+import logger from "redux-logger";
+
+import math from "./reducers/mathReducer.jsx";
+import user from "./reducers/userReducer.jsx";
+
+export default createStore(
+    combineReducers({ math, user }),{}, applyMiddleware(logger())
+);
