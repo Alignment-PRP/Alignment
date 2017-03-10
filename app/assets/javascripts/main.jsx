@@ -6,6 +6,7 @@ import Projects from './projects/Projects.jsx';
 import Project from './projects/Project.jsx';
 import NewProject from './projects/NewProject.jsx';
 import AllRequirements from './requirements/AllRequirements.jsx';
+import ReduxTests from './ReduxTests.jsx';
 import Logout from './utility/Logout.jsx'
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
 import {Provider} from "react-redux";
@@ -24,6 +25,7 @@ class App extends React.Component {
                         <Route path={"project/:id"} component={Project}/>
                         <Route path={"newproject"} component={NewProject}/>
                         <Route path={"allrequirements"} component={AllRequirements}/>
+                        <Route path={"reduxtests"} component={ReduxTests}/>
                         <Route path={"logout"} component={Logout}/>
                     </Route>
                 </Router>
