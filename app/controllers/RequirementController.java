@@ -44,7 +44,7 @@ public class RequirementController extends Controller{
         }
         //Returns and 200 OK with a JsonNode as Body.
         JsonNode req = qh.getAllRequirements();
-        System.out.println(req);
+        //System.out.println(req);
         return ok(req);
     }
     public Result newProjectRequirement(){
