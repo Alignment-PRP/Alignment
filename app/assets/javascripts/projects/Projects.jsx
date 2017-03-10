@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import ProjectList from './ProjectList.jsx';
+import ProjectListItem from './ProjectListItem.jsx';
 
 export default class Projects extends React.Component {
 
@@ -25,11 +25,11 @@ export default class Projects extends React.Component {
 
     generateProjectList(){
         return this.state.project.map((item) => {
-            return <ProjectList index={item.pid}
-                                name={item.p_name}
-                                descripton={item.p_desc}
-                                owner={item.po_username}
-                                manager={item.pm_username} /> }
+            return <ProjectListItem index={item.pid}
+                                    name={item.p_name}
+                                    descripton={item.p_desc}
+                                    owner={item.po_username}
+                                    manager={item.pm_username} /> }
         )
     }
 

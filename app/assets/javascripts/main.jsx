@@ -6,7 +6,7 @@ import Projects from './projects/Projects.jsx';
 import Project from './projects/Project.jsx';
 import NewProject from './projects/NewProject.jsx';
 import AllRequirements from './requirements/AllRequirements.jsx';
-import ReduxTests from './ReduxTests.jsx';
+import ReduxTests from './utility/ReduxTests.jsx';
 import Logout from './utility/Logout.jsx'
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
 import {Provider} from "react-redux";
