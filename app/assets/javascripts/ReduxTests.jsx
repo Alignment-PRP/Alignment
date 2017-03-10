@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { setName } from "./actions/userActions.jsx";
+import { setName } from "./redux/actions/userActions.jsx";
 
 class ReduxTests extends React.Component {
 
