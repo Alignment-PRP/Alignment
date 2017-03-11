@@ -19,7 +19,7 @@ export default class RequirementListItemCheckbox extends React.Component {
                 <td>{this.props.Environment}</td>
                 <td>{this.props.Category}</td>
                 <td>{this.props.CategoryDescription}</td>
-                <input type="checkbox" name="" value=""/>
+                <td><input type="checkbox" name="" value=""/></td>
                 <td><button>Rediger</button></td>
             </tr>
 
