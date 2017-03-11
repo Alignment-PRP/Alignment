@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { setName } from "../redux/actions/userActions.jsx";
+import { getRequrements } from "../redux/actions/requirementActions.jsx";
 
 class ReduxTests extends React.Component {
 
@@ -30,6 +31,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setName: (name) => {
             dispatch(setName(name));
+        },
+        getRequriements: () => {
+            dispatch
         }
     };
 };

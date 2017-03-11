@@ -3,7 +3,8 @@ import logger from "redux-logger";
 
 import math from "./reducers/mathReducer.jsx";
 import user from "./reducers/userReducer.jsx";
+import requirementReducer from "./reducers/requirementReducer.jsx";
 
 export default createStore(
-    combineReducers({ math, user }), {}, applyMiddleware(logger())
+    combineReducers({ math, user, requirementReducer }), {}, applyMiddleware(logger())
 );
