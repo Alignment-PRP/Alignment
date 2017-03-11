@@ -58,10 +58,13 @@ export default class Project extends React.Component {
     render() {
         return (
             <div className="container">
+
                 {this.project()}
+
                 <div className="projectRequirements">
-                <ProjectRequirements id={this.state.id}/>
+                    <ProjectRequirements id={this.state.id}/>
                 </div>
+
             </div>
         );
     }
