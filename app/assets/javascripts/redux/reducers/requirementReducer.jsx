@@ -2,9 +2,9 @@ const requirementReducer = (state = {
     requirements: []
 }, action) => {
     switch (action.type) {
-        case "GET_REQUIREMENTS":
+        case "GET_ALL_REQUIREMENTS":
             state = {
-                requirements: [state.requirements.push(action.payload)]
+                requirements: action.payload
             };
             break;
         case "SUBTRACT":

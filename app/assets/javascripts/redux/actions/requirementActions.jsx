@@ -1,9 +1,19 @@
+import axios from 'axios';
 
+export function getAllRequirements() {
 
-export function getReqirements() {
+    const data = [];
+
+    axios.get('http://localhost:9000/requirements/all ')
+        .then( response => {
+                response.data.map((object) => {
+                    data.push(object)
+                });
+            });
+
     return {
-        type: "GET_REQUIREMENTS",
-        payload: requirements
-    };
+        type: "GET_ALL_REQUIREMENTS",
+        payload: data
+    }
 }
 

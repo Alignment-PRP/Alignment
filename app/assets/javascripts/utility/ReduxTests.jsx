@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { setName } from "../redux/actions/userActions.jsx";
-import { getRequrements } from "../redux/actions/requirementActions.jsx";
+import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
 
 class ReduxTests extends React.Component {
 
@@ -14,7 +14,10 @@ class ReduxTests extends React.Component {
             <div>
                 <h1>Testing some redux state updates</h1>
                 <p>My name is {this.props.user.name}</p>
+                <p>MY requirements is {console.log(this.props.requirements)} </p>
                 <button onClick={() => this.props.setName('Max')}>Change the Username</button>
+                <button onClick={() => this.props.setName('Glenn')}>Change the Username</button>
+                <button onClick={() => this.props.getAllRequirements()}>Get all Requirements</button>
             </div>
         );
     }
@@ -23,7 +26,7 @@ class ReduxTests extends React.Component {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        math: state.math
+        requirements: state.requirementReducer
     };
 };
 
@@ -32,8 +35,8 @@ const mapDispatchToProps = (dispatch) => {
         setName: (name) => {
             dispatch(setName(name));
         },
-        getRequriements: () => {
-            dispatch
+        getAllRequirements: () =>{
+            dispatch(getAllRequirements());
         }
     };
 };
