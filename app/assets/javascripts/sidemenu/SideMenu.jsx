@@ -20,8 +20,8 @@ class SideMenu extends React.Component {
             default:
                 return (
                     <div>
-                        <h2>Menu</h2>
-                        <p>Legg til stuff?</p>
+                        <h2>Meny</h2>
+                        <p>Legg til stuff</p>
                     </div>
                 );
         }
