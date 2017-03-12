@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectListItem from './ProjectListItem.jsx';
+import ProjectListItem from './presentational/ProjectListItem.jsx';
 import {connect} from "react-redux";
 import { getAllProjects } from "../redux/actions/projectActions.jsx";
 

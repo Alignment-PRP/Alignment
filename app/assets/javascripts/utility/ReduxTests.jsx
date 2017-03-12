@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import { setName } from "../redux/actions/userActions.jsx";
 import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
-import RequirementListItem from '../requirements/RequirementListItem.jsx';
+import RequirementListItem from '../requirements/presentational/RequirementListItem.jsx';
 
 class ReduxTests extends React.Component {
 

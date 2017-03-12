@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import RequirementListItemCheckbox from './RequirementListItemCheckbox.jsx';
+import RequirementListItemCheckbox from './presentational/RequirementListItemCheckbox.jsx';
 import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
 
 class AllRequirements extends React.Component {
