@@ -1,5 +1,5 @@
 const sideMenuReducer = (state = {
-    mode: "",
+    mode: "MENU",
 }, action) => {
     switch (action.type) {
         case "CHANGE_SIDE_MENU_MODE":
