@@ -2,12 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux'
 import ProjectRequirements from '../requirements/ProjectRequirements.jsx';
 import { getProjectById } from "../redux/actions/projectActions.jsx";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
 
 class Project extends React.Component {
 
     componentDidMount() {
         this.props.getProjectById(this.props.params.id);
+        this.props.changeSideMenuMode("FILTER");
     }
 
     renderProject(){
@@ -53,6 +55,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getProjectById: (id) => {
             dispatch(getProjectById(id))
+        },
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
         }
     };
 };

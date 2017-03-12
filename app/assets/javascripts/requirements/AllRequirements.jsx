@@ -2,11 +2,13 @@ import React from 'react';
 import {connect} from "react-redux";
 import RequirementListItemCheckbox from './presentational/RequirementListItemCheckbox.jsx';
 import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
 class AllRequirements extends React.Component {
 
     componentDidMount(){
         this.props.getAllRequirements();
+        this.props.changeSideMenuMode("FILTER");
     }
 
     generateRequirementList(){
@@ -66,6 +68,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllRequirements: () => {
             dispatch(getAllRequirements())
+        },
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
         }
     };
 };
