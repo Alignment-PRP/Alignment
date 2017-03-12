@@ -16,7 +16,6 @@ export function getAllRequirements() {
 
 }
 
-
 function getAllRequirementsAsync(data) {
     return {
         type: "GET_ALL_REQUIREMENTS",

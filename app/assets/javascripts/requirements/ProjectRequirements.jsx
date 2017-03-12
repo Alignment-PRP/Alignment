@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import RequirementListItem from './RequirementListItem.jsx';
+import RequirementListItem from './presentational/RequirementListItem.jsx';
 
 export default class ProjectRequirements extends React.Component {
 
