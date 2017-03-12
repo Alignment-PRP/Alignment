@@ -1,30 +1,16 @@
 import React from 'react';
-import axios from 'axios';
 import ProjectListItem from './ProjectListItem.jsx';
+import {connect} from "react-redux";
+import { getAllProjects } from "../redux/actions/projectActions.jsx";
 
-export default class Projects extends React.Component {
+class Projects extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            project: []
-        };
-    }
-
-    //Get information from html body and creates a Json object.
-    componentDidMount() {
-        axios.get('http://localhost:9000/projects')
-            .then( response => {
-                    this.setState({
-                        project: response.data
-                    })
-                }
-            );
+    componentDidMount(){
+        this.props.getAllProjects();
     }
 
     generateProjectList(){
-        return this.state.project.map((item, index) => {
+        return this.props.projects.map((item, index) => {
             return <ProjectListItem key={index}
                                     index={item.pid}
                                     name={item.p_name}
@@ -57,3 +43,19 @@ export default class Projects extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        projects: state.projectReducer.projects
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllProjects: () => {
+            dispatch(getAllProjects())
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);
