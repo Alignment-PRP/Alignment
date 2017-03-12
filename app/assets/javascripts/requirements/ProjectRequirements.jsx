@@ -10,7 +10,6 @@ class ProjectRequirements extends React.Component {
     }
 
     generateRequirementList(){
-        console.log(this.props.projectRequirements);
         return this.props.projectRequirements.map((item, index) => {
             return <RequirementListItem key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
                                     Artifact={item.artifact} Environment={item.environment} Response={item.response} ResponseMeasure={item.responsemeasure}
