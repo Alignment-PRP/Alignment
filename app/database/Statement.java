@@ -193,15 +193,40 @@ public enum Statement {
         return prepare(c, objects).executeQuery();
     }
 
-    prepareObject(PreparedStatement ps, Object object, int index){
+    public void prepareAndExecuteInsert(Connection c, Object object1, Object... objects) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        prepareObject(ps, object1, 1);
+        if (objects.length > 0) {
+            for (int i = 0; i < objects.length; i++) {
+                prepareObject(ps, objects[i], i + 2);
+            }
+        }
+        ps.executeUpdate();
+    }
+
+    public void prepareObject(PreparedStatement ps, Object object, int index) throws SQLException{
     //NOTE define datatype to SQL conversion here
         if(object instanceof Integer){
-            ps.setInt(index, object);
+            //cast to Integer (should already be a damn Integer but Java wants to know in advance.
+            //((Integer) object).intValue();
+            ps.setInt(index, ((Integer) object));
         }
         else{
-            ps.setString(index, object);
+            //toString (should already be a damn string but Java wants to know in advance.
+            ps.setString(index, object.toString());
         }
     }
+
+    public void addTableRelation(Connection c, int parent, int child) throws SQLException{
+        PreparedStatement ps = c.prepareStatement(statement);
+        ps.setInt(1, parent);
+        ps.setInt(2, child);
+        ps.executeUpdate();
+    }
+
+    /*public void setInteger(PreparedStatement ps, int object, int index){
+        ps.setInt(index,object);
+    }*/
 
 
     //DANGER ZONE (anything bellow here should be deletions)
