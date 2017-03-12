@@ -46,4 +46,25 @@ function getProjectByIdAsync(data) {
     }
 }
 
+export function getRequirementsByProjectId(id) {
+    return dispatch => {
+        axios.get('http://localhost:9000/all-projectrequirements?id=' + id)
+            .then( response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                    return data
+                });
+                dispatch(getRequirementsByProjectIdAsync(data))
+            });
 
+    }
+
+}
+
+function getRequirementsByProjectIdAsync(data) {
+    return {
+        type: "GET_REQUIREMENTS_BY_PROJECT_ID",
+        payload: data
+    }
+}
