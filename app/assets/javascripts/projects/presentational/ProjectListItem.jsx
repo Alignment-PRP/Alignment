@@ -12,7 +12,7 @@ export default class ProjectList extends React.Component {
                     <td>{this.props.owner}</td>
                     <td>{this.props.manager}</td>
                     <td>{this.props.index}</td>
-                    <td><Link to={url}><button>Edit</button></Link></td>
+                    <td><Link to={url}><button>Rediger</button></Link></td>
                 </tr>
         );
     }
