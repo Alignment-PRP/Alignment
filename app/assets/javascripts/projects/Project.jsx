@@ -11,7 +11,6 @@ export default class Project extends React.Component {
 
         this.state = {
             id: this.props.params.id,
-            url: null,
             project: []
         }
     }
