@@ -5,6 +5,7 @@ import play.db.Database;
 import play.libs.Json;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,14 +23,15 @@ public class QueryHandler {
     }
 
 
-    prepareInsert(Statement statement, Object object1, Object... objects){
-    PreparedStatement ps = c.prepareStatement(statement);
-    prepareObject(ps, object1, 1);
-    for(int i = 0; i < objects.length; i++){
-        prepareObject(ps, object[i], i+2);
+    public void prepareInsert(Statement statement, Object object1, Object... objects) throws SQLException{
+        try {
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteInsert(c, object1, objects);
+            c.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
-    ps.executeUpdate();
-}
 
 
     public JsonNode executeQuery(Statement statement, Object... objects) {

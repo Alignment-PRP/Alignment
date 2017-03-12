@@ -7,8 +7,10 @@ import play.api.db.DB;
 import play.db.Database;
 import play.libs.Json;
 import play.mvc.Controller;
+import database.Statement;
 
 import javax.inject.Inject;
+import java.sql.SQLException;
 
 /**
  * Created by andrfo on 16.02.2017.
@@ -23,7 +25,8 @@ public class UserController extends Controller {
     }
 
     public JsonNode makeJsonNode(String username){
-        JsonNode userData = qh.getUserByName(username);
+        //CHANGED
+        JsonNode userData = qh.executeQuery(Statement.GET_USER_BY_NAME,username);
         System.out.println(userData);
         return userData;
     }
@@ -33,11 +36,15 @@ public class UserController extends Controller {
     }
 
     public void createUser(String firstname, String lastname, String email, String username, String password){
-        qh.createUser(firstname, lastname, email, username, password);
+        try {
+            qh.prepareInsert(Statement.CREATE_USER ,firstname, lastname, email, username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean usernameExists(String username){
-        JsonNode exists = qh.userExists(username);
+        JsonNode exists = qh.executeQuery(Statement.GET_USER_NAME_EXISTS,username);
         //System.out.println(exists.get(0).get("bool"));
         //System.out.println(exists.get(0).get("bool").asInt() == 1);
         return exists.get(0).get("bool").asInt() == 1;
