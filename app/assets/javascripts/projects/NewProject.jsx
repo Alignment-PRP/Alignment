@@ -1,6 +1,13 @@
 import React from 'react';
 
-export default class NewProject extends React.Component {
+import {connect} from "react-redux";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
+
+class NewProject extends React.Component {
+
+    componentDidMount(){
+        this.props.changeSideMenuMode("MENU");
+    }
 
     render() {
         return (
@@ -23,3 +30,19 @@ export default class NewProject extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        mode: state.sideMenuReducer.mode
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewProject);

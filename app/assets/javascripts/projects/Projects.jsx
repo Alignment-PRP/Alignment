@@ -2,11 +2,14 @@ import React from 'react';
 import ProjectListItem from './presentational/ProjectListItem.jsx';
 import {connect} from "react-redux";
 import { getAllProjects } from "../redux/actions/projectActions.jsx";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
 class Projects extends React.Component {
 
     componentDidMount(){
         this.props.getAllProjects();
+        this.props.changeSideMenuMode("MENU");
+
     }
 
     generateProjectList(){
@@ -54,6 +57,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllProjects: () => {
             dispatch(getAllProjects())
+        },
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
         }
     };
 };

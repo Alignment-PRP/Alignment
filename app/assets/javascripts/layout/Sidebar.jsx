@@ -5,7 +5,10 @@ import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
 import {Link} from 'react-router';
 
-export default class Sidebar extends React.Component {
+import {connect} from "react-redux";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
+
+class Sidebar extends React.Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +27,7 @@ export default class Sidebar extends React.Component {
                 backgroundColor: '#1f4293',
                 display: 'block',
                 position: 'fixed',
-                zIndex: '500',
+                zIndex: '500'
             },
             rightIcon: {
                 textAlign: 'center',
@@ -63,7 +66,7 @@ export default class Sidebar extends React.Component {
             <div style={this.style.sidebar} onMouseEnter={this.open} onMouseLeave={this.close}>
                 <MuiThemeProvider>
                     <Menu autoWidth={false} width={290}>
-                        <MenuItem primaryText="Hjem" containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
+                        <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                         <MenuItem primaryText="Prosjekter"containerElement={<Link to="projects" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
                         <MenuItem primaryText="Nytt Prosjekt"containerElement={<Link to="newproject" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">build</FontIcon>} />
                         <MenuItem primaryText="Krav"containerElement={<Link to="allrequirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
@@ -74,3 +77,19 @@ export default class Sidebar extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        mode: state.sideMenuReducer.mode
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

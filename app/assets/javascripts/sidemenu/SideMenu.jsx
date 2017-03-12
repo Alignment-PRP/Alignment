@@ -14,7 +14,6 @@ class SideMenu extends React.Component {
                     <h2>Filter</h2>
                     <p>Sikkerhet<input type="checkbox" name="" value=""/></p>
                     <p>Pålitelighet<input type="checkbox" name="" value=""/></p>
-                    <button onClick={() => this.props.changeSideMenuMode("MENY")}> Gå til meny </button>
                 </div>
                );
                 break;
@@ -23,7 +22,6 @@ class SideMenu extends React.Component {
                     <div>
                         <h2>Menu</h2>
                         <p>Legg til stuff?</p>
-                        <button onClick={() => this.props.changeSideMenuMode("FILTER")}> Gå til filter </button>
                     </div>
                 );
         }
