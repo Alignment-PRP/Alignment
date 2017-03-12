@@ -26,12 +26,13 @@ h1{
 }
 
 
-#sidemeny {
+#sidemenu {
     margin-left: 70px;
     padding: 5px;
     color: white;
     flex: 1;
     background-color: #7493f8;
+    text-align: center;
 }
 
 #pagecontainer {
