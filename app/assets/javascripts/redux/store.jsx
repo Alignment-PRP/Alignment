@@ -4,7 +4,8 @@ import thunk from "redux-thunk";
 
 import requirementReducer from "./reducers/requirementReducer.jsx";
 import projectReducer from "./reducers/projectReducer.jsx";
+import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
 
 export default createStore(
-    combineReducers({ requirementReducer, projectReducer }), {}, applyMiddleware(logger(), thunk)
+    combineReducers({ requirementReducer, projectReducer, sideMenuReducer }), {}, applyMiddleware(logger(), thunk)
 );
