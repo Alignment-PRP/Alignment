@@ -3,14 +3,8 @@ import {Link} from 'react-router';
 
 export default class ProjectList extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-
         const url = "project/" + this.props.index;
-
         return (
                 <tr>
                     <td>{this.props.name}</td>

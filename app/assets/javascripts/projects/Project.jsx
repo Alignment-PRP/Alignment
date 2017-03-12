@@ -1,41 +1,21 @@
 import React from 'react';
-import axios from 'axios';
-
+import {connect} from 'react-redux'
 import ProjectRequirements from '../requirements/ProjectRequirements.jsx';
+import { getProjectById } from "../redux/actions/projectActions.jsx";
 
 
-export default class Project extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            id: this.props.params.id,
-            url: null,
-            project: []
-        }
-    }
+class Project extends React.Component {
 
     componentDidMount() {
-        const id = this.state.id;
-        const url = 'http://localhost:9000/project/id/' + id;
-
-        axios.get(url)
-            .then( response => {
-                    this.setState({
-                        project: response.data
-                    })
-                }
-            );
-
+        this.props.getProjectById(this.props.params.id);
     }
 
-    project(){
+    renderProject(){
         let id = "";
         let name = "";
         let desc = "";
 
-        this.state.project.map((item)=>{
+        this.props.project.map((item)=>{
             id = item.projectid;
             name = item.name;
             desc = item.description;
@@ -51,15 +31,30 @@ export default class Project extends React.Component {
         );
     }
 
-
     render() {
         return (
             <div className="container">
-                {this.project()}
+                {this.renderProject()}
                 <div className="projectRequirements">
-                <ProjectRequirements id={this.state.id}/>
+                    <ProjectRequirements id={this.props.params.id}/>
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        project: state.projectReducer.project
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getProjectById: (id) => {
+            dispatch(getProjectById(id))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Project);
