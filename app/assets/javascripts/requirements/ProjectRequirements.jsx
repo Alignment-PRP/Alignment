@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RequirementListItem from './presentational/RequirementListItem.jsx';
-import { getRequirementsByProjectId } from '../redux/actions/requirementActions.jsx';
+import { getRequirementsByProjectId } from '../redux/actions/projectActions.jsx';
 
 class ProjectRequirements extends React.Component {
 
@@ -31,7 +31,7 @@ class ProjectRequirements extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        projectRequirements: state.requirementReducer.projectRequirements
+        projectRequirements: state.projectReducer.projectRequirements
     };
 };
 
