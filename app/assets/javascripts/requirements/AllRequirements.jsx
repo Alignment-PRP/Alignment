@@ -1,30 +1,17 @@
 import React from 'react';
-import axios from 'axios';
-import RequirementListItemCheckobx from './RequirementListItemCheckbox.jsx';
+import {connect} from "react-redux";
+import RequirementListItemCheckbox from './RequirementListItemCheckbox.jsx';
+import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
 
-export default class AllRequirements extends React.Component {
+class AllRequirements extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            requirement: []
-        };
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:9000/requirements/all ')
-            .then( response => {
-                    this.setState({
-                        requirement: response.data
-                    })
-                }
-            );
+    componentDidMount(){
+        this.props.getAllRequirements();
     }
 
     generateRequirementList(){
-        return this.state.requirement.map((item, index) => {
-            return <RequirementListItemCheckobx key={index}
+        return this.props.requirements.map((item, index) => {
+            return <RequirementListItemCheckbox key={index}
                                                 Name={item.name}
                                                 isPublic={item.ispublic}
                                                 Description={item.description}
@@ -68,3 +55,19 @@ export default class AllRequirements extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        requirements: state.requirementReducer.requirements
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllRequirements: () => {
+            dispatch(getAllRequirements())
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllRequirements);
