@@ -16,13 +16,13 @@ export function getAllProjects() {
 
 }
 
-
 function getAllProjectsAsync(data) {
     return {
         type: "GET_ALL_PROJECTS",
         payload: data
     }
 }
+
 
 export function getProjectById(id) {
     return dispatch => {

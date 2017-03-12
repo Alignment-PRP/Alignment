@@ -6,8 +6,6 @@ import { getProjectById } from "../redux/actions/projectActions.jsx";
 
 class Project extends React.Component {
 
-
-
     componentDidMount() {
         this.props.getProjectById(this.props.params.id);
     }

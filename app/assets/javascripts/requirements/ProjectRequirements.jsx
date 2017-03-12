@@ -1,37 +1,22 @@
 import React from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import RequirementListItem from './presentational/RequirementListItem.jsx';
+import { getRequirementsByProjectId } from '../redux/actions/requirementActions.jsx';
 
-export default class ProjectRequirements extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            requirement: []
-        };
-    }
+class ProjectRequirements extends React.Component {
 
     componentDidMount() {
-        const id = this.props.id;
-        const url = 'http://localhost:9000/all-projectrequirements?id=' + id;
-        axios.get(url)
-            .then( response => {
-                    this.setState({
-                        requirement: response.data
-                    })
-                }
-            );
+        this.props.getRequirementsByProjectId(this.props.id);
     }
 
     generateRequirementList(){
-        return this.state.requirement.map((item, index) => {
+        console.log(this.props.projectRequirements);
+        return this.props.projectRequirements.map((item, index) => {
             return <RequirementListItem key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
                                     Artifact={item.artifact} Environment={item.environment} Response={item.response} ResponseMeasure={item.responsemeasure}
                                     Category={item.cname} CategoryDescription={item.cdesc}/> }
         )
     }
-
 
     render() {
         return (
@@ -44,3 +29,19 @@ export default class ProjectRequirements extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        projectRequirements: state.requirementReducer.projectRequirements
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getRequirementsByProjectId: (id) => {
+            dispatch(getRequirementsByProjectId(id))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectRequirements);
