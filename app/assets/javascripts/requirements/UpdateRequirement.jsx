@@ -27,7 +27,7 @@ class UpdateRequirement extends React.Component {
 				<input type="number" defaultValue={this.props.requirement.requirementid} name="id" min="0" required/>
 
 				<br/>
-				<label><b>KravName</b></label><br/>
+				<label><b>KravNavn</b></label><br/>
 				<input type="text" defaultValue={this.props.requirement.name} name="name" required/>
 
                 <br/>

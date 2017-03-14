@@ -12,20 +12,21 @@ class NewProject extends React.Component {
     render() {
         return (
                 <form action="/projects" method="post">
-                    <label><b>Project name:</b></label><br/>
+                    <h1>Nytt Prosjekt</h1>
+                    <label><b>Prosjektnavn</b></label><br/>
                     <input type="text" placeholder="" name="name" required/>
 
                     <br/>
 
-                    <label><b>Project description:</b></label><br/>
+                    <label><b>Prosjektbeskrivelse</b></label><br/>
                     <input type="text" placeholder="" name="desc" required/>
 
                     <br/>
 
-                    <label><b>Public project?</b></label><br/>
+                    <label><b>Public prosjekt?</b></label><br/>
                       <select name="ispublic">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option value="1">Ja</option>
+                        <option value="0">Nei</option>
                       </select>
 
                     <br />

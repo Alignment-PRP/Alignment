@@ -113,7 +113,7 @@ public enum Statement {
             "INSERT INTO localrequirement (projectid, projectrequirementid) VALUES (?, ?)"
     ),
 
-    CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, enviroment) VALUES (?,?,?,?,?,?,?,?)"),
+    CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, environment) VALUES (?,?,?,?,?,?,?,?)"),
 
     GET_GLOBAL_REQUIREMENTS("SELECT * FROM requirement"),
 
