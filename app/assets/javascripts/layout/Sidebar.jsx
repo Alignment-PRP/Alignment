@@ -27,7 +27,8 @@ class Sidebar extends React.Component {
                 backgroundColor: '#1f4293',
                 display: 'block',
                 position: 'fixed',
-                zIndex: '500'
+                zIndex: '500',
+                boxShadow: '2px 2px 3px black'
             },
             rightIcon: {
                 textAlign: 'center',

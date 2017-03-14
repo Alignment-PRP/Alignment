@@ -1,26 +1,48 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default class RequirementListItemCheckbox extends React.Component {
+import {connect} from "react-redux";
+import { updateRequirement } from "../../redux/actions/requirementActions.jsx";;
+
+class RequirementListItemCheckbox extends React.Component {
+    constructor(props){
+        super(props)
+
+        this.handleOnClick = this.handleOnClick.bind(this);
+
+    }
+
+    handleOnClick() {
+        this.props.updateRequirement(this.props.requirement);
+    }
 
     render() {
+        const requirement = this.props.requirement;
         return (
-        //const url = "project/" + this.props.index;
             <tr>
-                <td>{this.props.Name}</td>
-                <td>{this.props.Description}</td>
-                <td>{this.props.Source}</td>
-                <td>{this.props.Stimulus}</td>
-                <td>{this.props.Artifact}</td>
-                <td>{this.props.Response}</td>
-                <td>{this.props.ResonseMeasure}</td>
-                <td>{this.props.Environment}</td>
-                <td>{this.props.Category}</td>
-                <td>{this.props.CategoryDescription}</td>
-                <td><input type="checkbox" name="" value=""/></td>
-                <td><Link to="editrequirement"><button>Rediger</button></Link></td>
+                <td>{requirement.name}</td>
+                <td>{requirement.description}</td>
+                <td>{requirement.source}</td>
+                <td>{requirement.stimulus}</td>
+                <td>{requirement.artifact}</td>
+                <td>{requirement.response}</td>
+                <td>{requirement.resonsemeasure}</td>
+                <td>{requirement.environment}</td>
+                <td>{requirement.cname}</td>
+                <td>{requirement.cdesc}</td>
+                <td><Link to="editrequirement"><button onClick={() => this.handleOnClick()}>Rediger</button></Link></td>
             </tr>
 
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateRequirement: (requirement) => {
+            dispatch(updateRequirement(requirement))
+        }
+    };
+};
+
+export default connect(null, mapDispatchToProps)(RequirementListItemCheckbox);
