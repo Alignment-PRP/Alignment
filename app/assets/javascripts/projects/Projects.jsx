@@ -35,7 +35,6 @@ class Projects extends React.Component {
                             <th>Beskrivelse</th>
                             <th>Project owner</th>
                             <th>Project manager</th>
-                            <th>Stuff</th>
                         </tr>
                     </thead>
                     <tbody>
