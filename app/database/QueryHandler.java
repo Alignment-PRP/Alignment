@@ -23,7 +23,15 @@ public class QueryHandler {
     }
 
 
-    public void prepareInsert(Statement statement, Object object1, Object... objects) throws SQLException{
+    public voic multiStatementInsert(Map<Statement, Itterable<Object>> shit){
+        
+    }
+
+    public void prepareInsert(Statement statements, Object object1, Object... objects) throws SQLException{
+        /*
+        *Takes as argument a Statement (SQL) object and a minimum of 1 object to insert, creates a database connection and passes the Connection
+        *and the objects to the prepareAndExecuteInsert
+        */
         try {
             Connection c = db.getConnection();
             statement.prepareAndExecuteInsert(c, object1, objects);
