@@ -11,6 +11,7 @@ class SideMenu extends React.Component {
 
         this.updateMenuFilter = this.updateMenuFilter.bind(this);
         this.filterRequirementList = this.filterRequirementList.bind(this);
+        this.generateFilterMenuCheckboxes = this.generateFilterMenuCheckboxes.bind(this);
     }
 
     filterRequirementList() {
@@ -48,14 +49,29 @@ class SideMenu extends React.Component {
 
     }
 
+    generateFilterMenuCheckboxes(){
+        const allRequirements = this.props.requirements;
+        let categoryList = [];
+
+        for (let requirement of allRequirements){
+            categoryList.push(requirement.cname);
+        }
+
+        const uniqueCategoryList = Array.from(new Set(categoryList));
+
+        return uniqueCategoryList.map((category) => {
+                return <p>{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></p>
+            }
+        )
+    }
+
     renderMenu() {
         switch(this.props.mode) {
             case "FILTER":
                return (
                 <div>
                     <h2>Filter</h2>
-                    <p>Sikkerhet<input onChange={this.updateMenuFilter} type="checkbox" name="sikkerhet" value="Sikkerhet"/></p>
-                    <p>Pålitelighet<input onChange={this.updateMenuFilter} type="checkbox" name="pålitelighet" value="Pålitelighet"/></p>
+                    {this.generateFilterMenuCheckboxes()}
                     <button onClick={this.filterRequirementList}>Oppdater</button>
                 </div>
                );
