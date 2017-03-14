@@ -31,7 +31,7 @@ public class UserController extends Controller {
     public Result getUser(){
         //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
         Map<String, String> map = new HashMap<>();
-        String userName = qh.executeQuery(Statement.GET_USER_NAME, session("connected")).get(0).get("userName").asText();
+        String userName = qh.executeQuery(Statement.GET_USER_NAME, session("connected")).get(0).get("username").asText();
         map.put("username", userName);
         map.put("userClass", "UserClassPlaceholder");
         JsonNode result = Json.toJson(map);
