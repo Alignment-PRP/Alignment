@@ -8,7 +8,7 @@ class Projects extends React.Component {
 
     componentDidMount(){
         this.props.getAllProjects();
-        this.props.changeSideMenuMode("MENU");
+        this.props.changeSideMenuMode("PROJECTS_MENU");
 
     }
 
