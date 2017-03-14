@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { changeSideMenuMode } from '../redux/actions/sideMenuActions.jsx';
 import { updateFilter } from '../redux/actions/requirementActions.jsx';
@@ -75,7 +76,8 @@ class SideMenu extends React.Component {
                     <h4><b>Kategori</b></h4>
                     {this.generateFilterMenuCheckboxes()}
                     <h4><b>Struktur</b></h4>
-                    <button onClick={this.filterRequirementList}>Oppdater</button>
+                    <button onClick={this.filterRequirementList}>Oppdater</button><br/>
+                    <Link to="newrequirement"><button>Legg til nytt krav</button></Link>
                 </div>
                );
                 break;
