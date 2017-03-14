@@ -38,12 +38,14 @@ class SideMenu extends React.Component {
             const newFilter = this.props.filter;
             newFilter.push(e.target.value);
             this.props.updateFilter(newFilter);
+            this.filterRequirementList();
         }else{
 
             const removeCategory = e.target.value;
             const oldFilter = this.props.filter;
             const newFilter = oldFilter.filter(item => item !== removeCategory);
             this.props.updateFilter(newFilter);
+            this.filterRequirementList();
 
         }
 

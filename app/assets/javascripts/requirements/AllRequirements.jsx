@@ -12,7 +12,13 @@ class AllRequirements extends React.Component {
     }
 
     generateRequirementList(){
-        return this.props.filterRequirementList.map((item, index) => {
+        let renderRequirement = [];
+        if(this.props.filter.length == 0){
+            renderRequirement = this.props.requirements;
+        }else{
+            renderRequirement = this.props.filterRequirementList;
+        }
+        return renderRequirement.map((item, index) => {
             return <RequirementListItemCheckbox key={index}
                                                 Name={item.name}
                                                 isPublic={item.ispublic}
@@ -60,7 +66,9 @@ class AllRequirements extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        filterRequirementList: state.requirementReducer.filterRequirementList
+        filterRequirementList: state.requirementReducer.filterRequirementList,
+        requirements: state.requirementReducer.requirements,
+        filter: state.requirementReducer.filter
     };
 };
 
