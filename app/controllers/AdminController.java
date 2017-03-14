@@ -100,7 +100,7 @@ public class AdminController extends Controller {
             String desc = values.get("description")[0];
 
             qh.updateReq(true, id, pub, name, desc, source, stimulus, artifact, response, environment);
-            return ok("requirement updated");
+            return ok(views.html.dashboard.render());
         }
         return unauthorized("no such requirement");
     }

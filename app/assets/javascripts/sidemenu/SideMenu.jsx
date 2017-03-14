@@ -59,8 +59,8 @@ class SideMenu extends React.Component {
 
         const uniqueCategoryList = Array.from(new Set(categoryList));
 
-        return uniqueCategoryList.map((category) => {
-                return <p>{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></p>
+        return uniqueCategoryList.map((category, index) => {
+                return <p key={index}>{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></p>
             }
         )
     }

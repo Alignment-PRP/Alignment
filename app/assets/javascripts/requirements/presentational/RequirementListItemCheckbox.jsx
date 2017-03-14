@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export default class RequirementListItemCheckbox extends React.Component {
 
     render() {
         return (
+        //const url = "project/" + this.props.index;
             <tr>
                 <td>{this.props.Name}</td>
                 <td>{this.props.Description}</td>
@@ -16,7 +18,7 @@ export default class RequirementListItemCheckbox extends React.Component {
                 <td>{this.props.Category}</td>
                 <td>{this.props.CategoryDescription}</td>
                 <td><input type="checkbox" name="" value=""/></td>
-                <td><button>Rediger</button></td>
+                <td><Link to="editrequirement"><button>Rediger</button></Link></td>
             </tr>
 
         );
