@@ -69,7 +69,7 @@ public class ProjectController extends Controller {
 
         //qh.createProject(name, desc, ispublic, userID, userID, userID);
         try {
-            qh.prepareInsert(Statement.CREATE_PROJECT,name, desc, ispublic, userID, userID, userID);
+            qh.prepareInsert(Statement.CREATE_PROJECT,name, desc, ispublic);//, userID, userID, userID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
