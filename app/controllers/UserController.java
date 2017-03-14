@@ -12,7 +12,9 @@ import play.mvc.Result;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by andrfo on 16.02.2017.
@@ -28,11 +30,11 @@ public class UserController extends Controller {
 
     public Result getUser(){
         //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
-        List<String> liste = new ArrayList<>();
+        Map<String, String> map = new HashMap<>();
         String userName = qh.executeQuery(Statement.GET_USER_NAME, session("connected")).get(0).get("userName").asText();
-        liste.add(userName);
-        liste.add("UserClassPlaceholder");
-        JsonNode result = Json.toJson(liste);
+        map.put("username", userName);
+        map.put("userClass", "UserClassPlaceholder");
+        JsonNode result = Json.toJson(map);
         return ok(result);
     }
 
