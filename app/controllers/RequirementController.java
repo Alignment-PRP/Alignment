@@ -3,8 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
 import database.Statement;
-import models.User;
-import play.api.libs.iteratee.Cont;
 import play.db.Database;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -72,11 +70,7 @@ public class RequirementController extends Controller{
         //TODO: Check if the user is authorized to edit the project. (If the user is part of the project)
         //TODO: Check if the project referenced by projectid actually exists
         //qh.createProjectRequirement(projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
-        try {
-            qh.prepareInsert(Statement.CREATE_PROJECT_REQUIREMENT,projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
         return ok();
     }
 
