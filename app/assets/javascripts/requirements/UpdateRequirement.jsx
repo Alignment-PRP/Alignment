@@ -6,7 +6,7 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 class UpdateRequirement extends React.Component {
 
 	componentDidMount(){
-		this.props.changeSideMenuMode("MENU");
+		this.props.changeSideMenuMode("UPDATE_REQUIREMENTS_MENU");
 	}
 
 	renderCheckbox(){

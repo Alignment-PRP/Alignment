@@ -72,20 +72,56 @@ class SideMenu extends React.Component {
             case "FILTER":
                return (
                 <div>
-                    <h2>Filter</h2>
-                    <h4><b>Kategori</b></h4>
+                    <h1>Filter</h1>
+                    <h2><b>Kategori</b></h2>
                     {this.generateFilterMenuCheckboxes()}
-                    <h4><b>Struktur</b></h4>
-                    <button onClick={this.filterRequirementList}>Oppdater</button><br/>
+                    <h2><b>Struktur</b></h2>
+                    <p>Source<input type="checkbox" name="placeholder"/></p>
+                    <p>Stimulus<input type="checkbox" name="placeholder"/></p>
+                    <p>Artifact<input type="checkbox" name="placeholder"/></p>
+                    <button onClick={this.filterRequirementList}>Oppdater kravliste</button><br/>
+                    <h4><b>Krav Meny</b></h4>
                     <Link to="newrequirement"><button>Legg til nytt krav</button></Link>
                 </div>
                );
                 break;
+            case "REQUIREMENTS_MENU":
+                return (
+                    <div>
+                        <h2>Krav Meny</h2>
+                        <Link to="allrequirements"><button>Vis kravliste</button></Link>
+                    </div>
+                );
+                break;
+            case "UPDATE_REQUIREMENTS_MENU":
+                return (
+                    <div>
+                        <h2>Krav Meny</h2>
+                        <Link to="allrequirements"><button>Vis kravliste</button></Link>
+                    </div>
+                );
+                break;
+            case "PROJECTS_MENU":
+                return (
+                    <div>
+                        <h2>Prosjekt Meny</h2>
+                        <Link to="newproject"><button>Nytt prosjekt</button></Link>
+                    </div>
+                );
+                break;
+            case "NEW_PROJECT_MENU":
+                return (
+                    <div>
+                        <h2>Prosjekt Meny</h2>
+                        <Link to="projects"><button>Vis prosjekter</button></Link>
+                    </div>
+                );
+                break;
             default:
                 return (
                     <div>
-                        <h2>Meny</h2>
-                        <p>Legg til stuff</p>
+                        <h2>Hjem</h2>
+                        <p>Du er logget inn som: placeholder</p>
                     </div>
                 );
         }
