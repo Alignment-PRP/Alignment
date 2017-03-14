@@ -22,3 +22,17 @@ function getAllRequirementsAsync(data) {
         payload: data
     }
 }
+
+export function updateFilterRequirementList(newFilterRequirementList) {
+    return {
+        type: 'UPDATE_FILTER_REQUIREMENT_LIST',
+        payload: newFilterRequirementList
+    }
+}
+
+export function updateFilter(newFilter) {
+    return {
+        type: 'UPDATE_FILTER',
+        payload: newFilter
+    }
+}
