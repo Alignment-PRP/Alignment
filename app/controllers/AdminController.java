@@ -56,7 +56,7 @@ public class AdminController extends Controller {
 
 
         qh.addReq(true, pub, name, desc, source, stimulus, artifact, response, environment);
-        return ok("added requirement");
+        return ok(views.html.dashboard.render());
     }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String environment){
