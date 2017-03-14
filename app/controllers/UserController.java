@@ -34,7 +34,9 @@ public class UserController extends Controller {
         String userName = qh.executeQuery(Statement.GET_USER_NAME, session("connected")).get(0).get("username").asText();
         map.put("username", userName);
         map.put("userClass", "UserClassPlaceholder");
-        JsonNode result = Json.toJson(map);
+        List<Map<String,String>> list = new ArrayList<>();
+        list.add(map);
+        JsonNode result = Json.toJson(list);
         return ok(result);
     }
 
