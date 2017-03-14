@@ -13,7 +13,7 @@ import NewProject from './projects/NewProject.jsx';
 
 //Requirements
 import AllRequirements from './requirements/AllRequirements.jsx';
-import EditRequirement from './requirements/EditRequirement.jsx';
+import UpdateRequirement from './requirements/UpdateRequirement.jsx';
 
 //Utility
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
@@ -36,7 +36,7 @@ class App extends React.Component {
                         <Route path={"newproject"} component={NewProject}/>
                         <Route path={"allrequirements"} component={AllRequirements}/>
                         <Route path={"update-requirement"} component={AllRequirements}/>
-                        <Route path={"editrequirement"} component={EditRequirement}/>
+                        <Route path={"editrequirement"} component={UpdateRequirement}/>
                         <Route path={"logout"} component={Logout}/>
                     </Route>
                 </Router>
