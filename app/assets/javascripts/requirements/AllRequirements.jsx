@@ -19,18 +19,7 @@ class AllRequirements extends React.Component {
             renderRequirement = this.props.filterRequirementList;
         }
         return renderRequirement.map((item, index) => {
-            return <RequirementListItemCheckbox key={index}
-                                                Name={item.name}
-                                                isPublic={item.ispublic}
-                                                Description={item.description}
-                                                Source={item.source}
-                                                Stimulus={item.stimulus}
-                                                Artifact={item.artifact}
-                                                Environment={item.environment}
-                                                Response={item.response}
-                                                ResponseMeasure={item.responsemeasure}
-                                                Category={item.cname}
-                                                CategoryDescription={item.cdesc}/>
+            return <RequirementListItemCheckbox key={index} requirement={item}/>
             }
         )
     }

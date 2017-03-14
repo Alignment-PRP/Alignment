@@ -59,11 +59,12 @@ class SideMenu extends React.Component {
 
         const uniqueCategoryList = Array.from(new Set(categoryList));
 
-        return uniqueCategoryList.map((category) => {
-                return <p>{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></p>
+        return uniqueCategoryList.map((category, index) => {
+            return <p key={index} >{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></p>
             }
         )
     }
+
 
     renderMenu() {
         switch(this.props.mode) {
@@ -71,7 +72,9 @@ class SideMenu extends React.Component {
                return (
                 <div>
                     <h2>Filter</h2>
+                    <h4><b>Kategori</b></h4>
                     {this.generateFilterMenuCheckboxes()}
+                    <h4><b>Struktur</b></h4>
                     <button onClick={this.filterRequirementList}>Oppdater</button>
                 </div>
                );

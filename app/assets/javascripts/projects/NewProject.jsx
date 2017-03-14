@@ -12,19 +12,25 @@ class NewProject extends React.Component {
     render() {
         return (
                 <form action="/projects" method="post">
-                    <label><b>Project name:</b></label>
+                    <label><b>Project name:</b></label><br/>
                     <input type="text" placeholder="" name="name" required/>
 
-                    <label><b>Project description:</b></label>
+                    <br/>
+
+                    <label><b>Project description:</b></label><br/>
                     <input type="text" placeholder="" name="desc" required/>
 
-                    <label><b>Public project?</b></label>
+                    <br/>
+
+                    <label><b>Public project?</b></label><br/>
                       <select name="ispublic">
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                       </select>
 
-                    <button type="submit">Submit</button>
+                    <br />
+
+                    <button type="submit">Legg til</button>
 
                 </form>
         );
