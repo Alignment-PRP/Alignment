@@ -15,14 +15,20 @@ class NewProject extends React.Component {
                     <label><b>Project name:</b></label>
                     <input type="text" placeholder="" name="name" required/>
 
+                    <br/>
+
                     <label><b>Project description:</b></label>
                     <input type="text" placeholder="" name="desc" required/>
+
+                    <br/>
 
                     <label><b>Public project?</b></label>
                       <select name="ispublic">
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                       </select>
+
+                    <br />
 
                     <button type="submit">Submit</button>
 
