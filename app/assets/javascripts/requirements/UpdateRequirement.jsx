@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
-class EditRequirement extends React.Component {
+class UpdateRequirement extends React.Component {
 
 	componentDidMount(){
 		this.props.changeSideMenuMode("MENU");
@@ -50,7 +50,7 @@ class EditRequirement extends React.Component {
 
                 <input type="checkbox" name="public" />
                 <br/>
-                <button type="submit">Add requirement</button>
+                <button type="submit">Oppdater</button>
 				</form>
 		);
 	}
@@ -70,4 +70,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditRequirement);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateRequirement);
