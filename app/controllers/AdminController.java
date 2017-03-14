@@ -3,7 +3,6 @@ package controllers;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.mysql.fabric.Response;
 import database.Statement;
 import play.db.Database;
 
@@ -56,11 +55,7 @@ public class AdminController extends Controller {
         String desc = values.get("description")[0];
 
 
-        try {
-            qh.prepareInsert(Statement.CREATE_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, environment);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, environment);
         return ok("added requirement");
     }
 
@@ -104,11 +99,8 @@ public class AdminController extends Controller {
             String name = values.get("name")[0];
             String desc = values.get("description")[0];
 
-            try {
-                qh.prepareInsert(Statement.UPDATE_GLOBAL_REQUIREMENT,true, id, pub, name, desc, source, stimulus, artifact, response, environment);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT,true, id, pub, name, desc, source, stimulus, artifact, response, environment);
+
             return ok("requirement updated");
         }
         return unauthorized("no such requirement");
@@ -128,11 +120,9 @@ public class AdminController extends Controller {
             return unauthorized("category name is allready taken do you wish to update it instead?");
         }
         String description = values.get("description")[0];
-        try {
-            qh.prepareInsert(Statement.CREATE_CATEGORY, name, description);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        qh.insertStatement(Statement.CREATE_CATEGORY, name, description);
+
         return ok();
     }
 

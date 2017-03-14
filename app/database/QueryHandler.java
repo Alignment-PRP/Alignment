@@ -22,12 +22,24 @@ public class QueryHandler {
         this.db = db;
     }
 
+    private Connection DBConnection;
 
-    public voic multiStatementInsert(Map<Statement, Itterable<Object>> shit){
-        
+    public String insertStatementWithReturnID(Statement statement, Object object1,  Object... objects){
+
+        try {
+            Connection c = db.getConnection();
+            statement.prepareAndExecuteInsert(c, object1, objects);
+            statement = Statement.SELECT_LAST_INSERT_ID;
+            JsonNode ID = resultSetToJson(statement.prepareAndExecute(c));;
+            c.close();
+            return ID.get(0).get("LAST_INSERT_ID()").asText();
+        }catch(SQLException e){
+            e.printStackTrace();
+            return "SQLException";
+        }
     }
 
-    public void prepareInsert(Statement statements, Object object1, Object... objects) throws SQLException{
+    public void insertStatement(Statement statement, Object object1, Object... objects){
         /*
         *Takes as argument a Statement (SQL) object and a minimum of 1 object to insert, creates a database connection and passes the Connection
         *and the objects to the prepareAndExecuteInsert

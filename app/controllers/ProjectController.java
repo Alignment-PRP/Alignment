@@ -2,7 +2,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
-import models.User;
 import database.Statement;
 
 import play.db.Database;
@@ -46,7 +45,9 @@ public class ProjectController extends Controller {
     public Result getNewProjectView(){
         return ok(views.html.newproject.render());
     }
+
     public Result newProject(){
+
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
@@ -66,13 +67,10 @@ public class ProjectController extends Controller {
          *  Also sets the user as partof. This needs to be done properly. As in you when you set
          *  manager and owner those are set to part of(and checking if they are part of already).
          */
-
-        //qh.createProject(name, desc, ispublic, userID, userID, userID);
-        try {
-            qh.prepareInsert(Statement.CREATE_PROJECT,name, desc, ispublic);//, userID, userID, userID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String ID = qh.insertStatementWithReturnID(Statement.CREATE_PROJECT,name, desc, ispublic);
+        qh.insertStatement(Statement.CREATE_PROJECT_OWNER, userID, Integer.parseInt(ID));
+        qh.insertStatement(Statement.CREATE_PROJECT_MANAGER, userID, Integer.parseInt(ID));
+        qh.insertStatement(Statement.CREATE_PART_OF, userID, Integer.parseInt(ID));
         return ok(views.html.dashboard.render());
 
     }
@@ -136,14 +134,10 @@ public class ProjectController extends Controller {
         for(int i=0; i < requirementid.length; i++){
             JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT, requirementid[i]).get(0);
             //qh.createProjectRequirement(projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
-            try {
-                qh.prepareInsert(Statement.CREATE_PROJECT_REQUIREMENT,projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
-                globalReq.get("description").asText(), globalReq.get("source").asText(), globalReq.get("stimulus").asText(),
-                globalReq.get("artifact").asText(), globalReq.get("response").asText(), globalReq.get("responsemeasure").asText(),
-                globalReq.get("environment").asText());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
+            globalReq.get("description").asText(), globalReq.get("source").asText(), globalReq.get("stimulus").asText(),
+            globalReq.get("artifact").asText(), globalReq.get("response").asText(), globalReq.get("responsemeasure").asText(),
+            globalReq.get("environment").asText());
         }
         return ok("ok");
 

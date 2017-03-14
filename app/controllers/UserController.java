@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
 import models.User;
-import play.api.db.DB;
 import play.db.Database;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -36,11 +35,9 @@ public class UserController extends Controller {
     }
 
     public void createUser(String firstname, String lastname, String email, String username, String password){
-        try {
-            qh.prepareInsert(Statement.CREATE_USER ,firstname, lastname, email, username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        qh.insertStatement(Statement.CREATE_USER ,firstname, lastname, email, username, password);
+
     }
 
     public boolean usernameExists(String username){
