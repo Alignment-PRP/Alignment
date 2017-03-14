@@ -4,7 +4,4 @@ export function changeSideMenuMode(mode) {
         type: 'CHANGE_SIDE_MENU_MODE',
         payload: mode
     }
-
 }
-
-

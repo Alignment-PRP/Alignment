@@ -9,7 +9,7 @@ class Project extends React.Component {
 
     componentDidMount() {
         this.props.getProjectById(this.props.params.id);
-        this.props.changeSideMenuMode("FILTER");
+        this.props.changeSideMenuMode("MENU");
     }
 
     renderProject(){
