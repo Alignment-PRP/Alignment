@@ -48,10 +48,6 @@ class SideMenu extends React.Component {
 
     }
 
-
-
-
-
     renderMenu() {
         switch(this.props.mode) {
             case "FILTER":
@@ -87,8 +83,8 @@ class SideMenu extends React.Component {
 const mapStateToProps = (state) => {
     return {
         mode: state.sideMenuReducer.mode,
-        filter: state.requirementReducer.filter,
         requirements: state.requirementReducer.requirements,
+        filter: state.requirementReducer.filter,
         filterRequirementList: state.requirementReducer.filterRequirementList
     };
 };
