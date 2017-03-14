@@ -6,7 +6,7 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 class NewProject extends React.Component {
 
     componentDidMount(){
-        this.props.changeSideMenuMode("MENU");
+        this.props.changeSideMenuMode("NEW_PROJECT_MENU");
     }
 
     render() {
@@ -29,7 +29,7 @@ class NewProject extends React.Component {
                         <option value="0">Nei</option>
                       </select>
 
-                    <br />
+                    <br/>
 
                     <button type="submit">Legg til</button>
 
