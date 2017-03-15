@@ -9,7 +9,6 @@ import play.mvc.Controller;
 import database.Statement;
 
 import javax.inject.Inject;
-import java.sql.SQLException;
 
 /**
  * Created by andrfo on 16.02.2017.
@@ -25,7 +24,7 @@ public class UserController extends Controller {
 
     public JsonNode makeJsonNode(String username){
         //CHANGED
-        JsonNode userData = qh.executeQuery(Statement.GET_USER_BY_NAME,username);
+        JsonNode userData = qh.executeQuery(Statement.GET_USER_BY_USERNAME,username);
         System.out.println(userData);
         return userData;
     }
@@ -41,7 +40,7 @@ public class UserController extends Controller {
     }
 
     public boolean usernameExists(String username){
-        JsonNode exists = qh.executeQuery(Statement.GET_USER_NAME_EXISTS,username);
+        JsonNode exists = qh.executeQuery(Statement.GET_USERNAME_EXISTS,username);
         //System.out.println(exists.get(0).get("bool"));
         //System.out.println(exists.get(0).get("bool").asInt() == 1);
         return exists.get(0).get("bool").asInt() == 1;

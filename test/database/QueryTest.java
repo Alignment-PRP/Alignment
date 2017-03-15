@@ -60,7 +60,7 @@ public class QueryTest extends WithApplication {
     public void testSelectUser() {
         for (String[] user : users) {
             String resultName = queryHandler.executeQuery(
-                    Statement.GET_USER_BY_NAME, user[0]).findValue("USERNAME").textValue();
+                    Statement.GET_USER_BY_USERNAME, user[0]).findValue("USERNAME").textValue();
             assertEquals(user[0], resultName);
         }
     }
@@ -79,7 +79,7 @@ public class QueryTest extends WithApplication {
     public void testUserPartOf() {
 
         for (int[] part : partof) {
-            JsonNode result = queryHandler.executeQuery(Statement.GET_PROJECTS_RELATED_TO_USER, part[0]);
+            JsonNode result = queryHandler.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, part[0]);
 
             Iterator<JsonNode> it = result.elements();
             while (it.hasNext()) {

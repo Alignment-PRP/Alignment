@@ -9,7 +9,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
-import java.sql.SQLException;
 import java.util.Map;
 
 
@@ -35,7 +34,7 @@ public class ProjectController extends Controller {
             return unauthorized(views.html.login.render());
         }
         //return ok(qh.getProjectRelatedToUser(userID));
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_RELATED_TO_USER,userID));
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER,userID));
     }
 
     /**
@@ -132,7 +131,7 @@ public class ProjectController extends Controller {
             return unauthorized(projectid + " is not a valid projectid");
         }
         for(int i=0; i < requirementid.length; i++){
-            JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT, requirementid[i]).get(0);
+            JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, requirementid[i]).get(0);
             //qh.createProjectRequirement(projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
             qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
             globalReq.get("description").asText(), globalReq.get("source").asText(), globalReq.get("stimulus").asText(),
