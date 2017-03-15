@@ -80,7 +80,7 @@ class SideMenu extends React.Component {
                     <p>Stimulus<input type="checkbox" name="placeholder"/></p>
                     <p>Artifact<input type="checkbox" name="placeholder"/></p>
                     <button onClick={this.filterRequirementList}>Oppdater kravliste</button><br/>
-                    <h4><b>Krav Meny</b></h4>
+                    <h2><b>Krav Meny</b></h2>
                     <Link to="newrequirement"><button>Legg til nytt krav</button></Link>
                 </div>
                );
@@ -121,12 +121,14 @@ class SideMenu extends React.Component {
                 return (
                     <div>
                         <h2>Hjem</h2>
-                        <p>Du er logget inn som: placeholder</p>
                     </div>
                 );
         }
 
     }
+
+
+
 
     render() {
         return (
@@ -142,7 +144,7 @@ const mapStateToProps = (state) => {
         mode: state.sideMenuReducer.mode,
         requirements: state.requirementReducer.requirements,
         filter: state.requirementReducer.filter,
-        filterRequirementList: state.requirementReducer.filterRequirementList
+        filterRequirementList: state.requirementReducer.filterRequirementList,
     };
 };
 
