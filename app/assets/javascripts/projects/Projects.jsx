@@ -1,30 +1,25 @@
 import React from 'react';
-import axios from 'axios';
-import ProjectList from './ProjectList.jsx';
+import ProjectListItem from './presentational/ProjectListItem.jsx';
+import {connect} from "react-redux";
+import { getAllProjects } from "../redux/actions/projectActions.jsx";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
-export default class Projects extends React.Component {
+class Projects extends React.Component {
 
-    constructor(props) {
-        super(props);
+    componentDidMount(){
+        this.props.getAllProjects();
+        this.props.changeSideMenuMode("MENU");
 
-        this.state = {
-            project: []
-        };
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:9000/projects')
-            .then( response => {
-                    this.setState({
-                        project: response.data
-                    })
-                }
-            );
     }
 
     generateProjectList(){
-        return this.state.project.map((item) => {
-            return <ProjectList index={item.pid} name={item.p_name} descripton={item.p_desc} owner={item.po_username} manager={item.pm_username} /> }
+        return this.props.projects.map((item, index) => {
+            return <ProjectListItem key={index}
+                                    index={item.pid}
+                                    name={item.p_name}
+                                    descripton={item.p_desc}
+                                    owner={item.po_username}
+                                    manager={item.pm_username} /> }
         )
     }
 
@@ -51,3 +46,22 @@ export default class Projects extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        projects: state.projectReducer.projects
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllProjects: () => {
+            dispatch(getAllProjects())
+        },
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);
