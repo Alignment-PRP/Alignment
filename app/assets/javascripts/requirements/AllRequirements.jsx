@@ -1,32 +1,37 @@
 import React from 'react';
-import axios from 'axios';
-import RequirementListItemCheckobx from './RequirementListItemCheckbox.jsx';
+import {connect} from "react-redux";
+import RequirementListItemCheckbox from './presentational/RequirementListItemCheckbox.jsx';
+import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
-export default class AllRequirements extends React.Component {
+class AllRequirements extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            requirement: []
-        };
-    }
-
-    componentDidMount() {
-        axios.get('http://localhost:9000/requirements/all ')
-            .then( response => {
-                    this.setState({
-                        requirement: response.data
-                    })
-                }
-            );
+    componentDidMount(){
+        this.props.getAllRequirements();
+        this.props.changeSideMenuMode("FILTER");
     }
 
     generateRequirementList(){
-        return this.state.requirement.map((item, index) => {
-            return <RequirementListItemCheckobx key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
-                                    Artifact={item.artifact} Environment={item.environment} Response={item.response} ResponseMeasure={item.responsemeasure}
-                                    Category={item.cname} CategoryDescription={item.cdesc}/> }
+        let renderRequirement = [];
+        if(this.props.filter.length == 0){
+            renderRequirement = this.props.requirements;
+        }else{
+            renderRequirement = this.props.filterRequirementList;
+        }
+        return renderRequirement.map((item, index) => {
+            return <RequirementListItemCheckbox key={index}
+                                                Name={item.name}
+                                                isPublic={item.ispublic}
+                                                Description={item.description}
+                                                Source={item.source}
+                                                Stimulus={item.stimulus}
+                                                Artifact={item.artifact}
+                                                Environment={item.environment}
+                                                Response={item.response}
+                                                ResponseMeasure={item.responsemeasure}
+                                                Category={item.cname}
+                                                CategoryDescription={item.cdesc}/>
+            }
         )
     }
 
@@ -58,3 +63,24 @@ export default class AllRequirements extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        filterRequirementList: state.requirementReducer.filterRequirementList,
+        requirements: state.requirementReducer.requirements,
+        filter: state.requirementReducer.filter
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllRequirements: () => {
+            dispatch(getAllRequirements())
+        },
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllRequirements);

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './layout/Header.jsx';
 import Sidebar from './layout/Sidebar.jsx';
-import SideMeny from './sidemeny/SideMeny.jsx';
+import SideMenu from './sidemenu/SideMenu.jsx';
 
 export default class Root extends React.Component {
 
@@ -11,7 +11,7 @@ export default class Root extends React.Component {
                 <Sidebar/>
                 <Header/>
                 <div className="container">
-                    <SideMeny/>
+                    <SideMenu/>
                     <div id="pagecontainer">
                         {this.props.children}
                     </div>
