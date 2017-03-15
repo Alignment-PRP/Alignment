@@ -10,7 +10,6 @@ import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -121,7 +120,7 @@ public class AdminController extends Controller {
         }
         String description = values.get("description")[0];
 
-        qh.insertStatement(Statement.CREATE_CATEGORY, name, description);
+        qh.insertStatement(Statement.INSERT_CATEGORY, name, description);
 
         return ok();
     }

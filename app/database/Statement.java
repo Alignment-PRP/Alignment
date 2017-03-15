@@ -10,148 +10,86 @@ import java.sql.SQLException;
 //TODO Doc
 public enum Statement {
 
+    SELECT_LAST_INSERT_ID("SELECT LAST_INSERT_ID()"),
+
+    /**
+     * ==========================================================================================================================
+     * ==========================================REQUIREMENTS====================================================================
+     * ==========================================================================================================================
+     */
+
+    //===========================================GLOBAL==========================================================================
+    CREATE_REQUIREMENT("INSERT INTO Requirement ()"),
+    REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirement WHERE ID = ?"),
+    GET_REQUIREMENTS_BY_CATEGORY_ID(""),//TODO
+    GET_GLOBAL_REQUIREMENTS("SELECT * FROM Requirement"),
+
+    GET_GLOBAL_REQUIREMENT_BY_ID("SELECT * FROM Requirement WHERE ID = ?"),
+    UPDATE_GLOBAL_REQUIREMENT(""),//TODO
+
+
+    //===========================================PROJECT=========================================================================
+    GET_PROJECT_REQUIREMENTS(""),//TODO
+    INSERT_PROJECT_REQUIREMENT(""),//TODO
 
     //TODO:Requirements can be public or not. Need different methods for these.
-    GET_ALL_REQUIREMENTS(
-            "SELECT r.*, c.name AS cname, c.description AS cdesc " +
-                    "FROM requirement AS r " +
-                    "INNER JOIN requirementcategory AS rc " +
-                    "ON r.requirementid = rc.requirementid " +
-                    "INNER JOIN category AS c " +
-                    "ON c.categoryid = rc.categoryid "
-    ),
-    GET_REQUIREMENTS_BY_ID("SELECT * FROM requirement WHERE requirementid=?"),
-    GET_REQUIREMENTS_BY_CATEGORY_ID(
-            "SELECT requirement.*, category.name as cname, category.description AS cdesc " +
-                    "FROM requirement " +
-                    "JOIN requirementcategory " +
-                    "ON requirement.requirementid = requirementcategory.requirementid " +
-                    "JOIN category " +
-                    "ON requirementcategory.categoryid = category.categoryid " +
-                    "WHERE category.categoryid=?"
-    ),
-    GET_CATEGORY_NAMES("SELECT name FROM category"),
-    GET_REQUIREMENTS_BY_CATEGORY_NAME(
-            "SELECT r.*, c.name AS cname, c.description AS cdesc  " +
-                    "FROM requirement AS r " +
-                    "INNER JOIN requirementcategory AS rc " +
-                    "ON r.requirementid = rc.requirementid " +
-                    "INNER JOIN category AS c " +
-                    "ON c.categoryid = rc.categoryid " +
-                    "WHERE c.name = ?"
-    ),
-    GET_PROJECT_BY_ID("SELECT *  FROM project WHERE projectid=?"),
-    GET_PROJECTS_RELATED_TO_USER(
-            //TODO: Should probably make the nested queries into views.
-            "SELECT pid, p_name, p_desc, po_username, po_userid, pm_username, pm_userid, public " +
-                    "FROM " +
-                    //Gets all user related projects
-                    "(SELECT p.projectid AS 'pid', p.name AS 'p_name', p.description AS 'p_desc', p.ispublic AS 'public'" +
-                    "FROM project p " +
-                    "JOIN partof " +
-                    "ON p.projectid = partof.projectid " +
-                    "JOIN user u " +
-                    "ON partof.userid = u.userid " +
-                    "WHERE u.userid= ?) AS part " +
 
-                    "INNER JOIN " +
-                    //Gets all the users that are projects owners of at least one project
-                    "(SELECT u.userid AS 'po_userid', u.username AS 'po_username', po.projectid AS 'po_pid' " +
-                    "FROM user u " +
-                    "JOIN projectowner po " +
-                    "ON u.userid = po.userid) AS pos " +
-                    "ON pos.po_pid = part.pid " +
 
-                    "INNER JOIN " +
-                    //Gets all the users that are project managers for at least one project
-                    "(SELECT u.userid AS 'pm_userid', u.username AS 'pm_username', pm.projectid AS 'pm_pid' " +
-                    "FROM user u " +
-                    "JOIN projectmanager pm " +
-                    "ON u.userid = pm.userid) AS pms " +
-                    "ON pms.pm_pid = part.pid"
 
-    ),
-    GET_PUBLIC_PROJECTS(
-            "SELECT * " +
-                    "FROM project " +
-                    "WHERE ispublic = 1"
-    ),
-    GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
-    GET_USER_BY_NAME("SELECT * FROM user WHERE username=?"),
-    GET_USER_NAME_EXISTS("SELECT count(1) as bool FROM user WHERE username=?"),
+    /**
+     * ==========================================================================================================================
+     * ==========================================CATEGORY========================================================================
+     * ==========================================================================================================================
+     */
+
+    GET_CATEGORIES("" +
+            "SELECT c.ID AS categoryID, sc.ID AS subCategoryID, c.name AS categoryName, c.desctription AS categoryDescription, sc.name AS subCategoryName, sc.description AS subCategoryDescription " +
+            "FROM Category AS c " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON sc.catID = c.ID"),
+    GET_CATEGORY_NAMES("" +
+            "SELECT c.ID AS categoryID, sc.ID AS subCategoryID, c.name AS categoryName, sc.name AS subCategoryName " +
+            "FROM Category AS c " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON sc.catID = c.ID"),
+    INSERT_CATEGORY("INSERT INTO Category (name, description) VALUES (?,?)"),
+    CATEGORY_EXISTS("SELECT count(1) as bool FROM Category WHERE ID = ?"),
+    INSERT_SUBCATEGORY("INSERT INTO SubCategory (catID, name, description) VALUES (?,?,?)"),
+
+
+
+
+    /**
+     * ==========================================================================================================================
+     * ==========================================PROJECT=========================================================================
+     * ==========================================================================================================================
+     */
+
+    PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
+    GET_PROJECT_BY_ID("SELECT *  FROM project WHERE ID=?"),
+    GET_PROJECTS_ACCESSIBLE_BY_USER(""),//TODO
+    GET_PUBLIC_PROJECTS("SELECT * FROM project WHERE ispublic = 1"),
+
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
-    GET_USER_IS_PART_OF_PROJECT("" +
-            //TODO: A check if user is part of a project.
-            //INPUTS: userid, projectid
-            "SELECT count(1) as bool"
-    ),
-    GET_PROJECT_REQUIREMENT_NAME_EXISTS("SELECT count(1) as bool FROM projectrequirement WHERE name=?"),
-    GET_PROJECTID_BY_NAME(
-            "SELECT projectid " +
-                    "FROM project " +
-                    "WHERE name = ?"
-    ),
-    SELECT_LAST_INSERT_ID("SELECT LAST_INSERT_ID()"),
-    CREATE_PROJECT("INSERT INTO project (name, description, ispublic) VALUES (?, ?, ?)"),
-    CREATE_PROJECT_MANAGER("INSERT INTO projectmanager (userid, projectid) VALUES (?, ?)"),
-    CREATE_PROJECT_OWNER("INSERT INTO projectowner (userid, projectid) VALUES (?, ?)"),
-    CREATE_PART_OF("INSERT INTO partof (userid, projectid) VALUES (?, ?)"),
-    CREATE_PROJECT_REQUIREMENT(
-            "INSERT INTO projectrequirement (" +
-                    "ispublic, " +
-                    "name, " +
-                    "description, " +
-                    "source, " +
-                    "stimulus, " +
-                    "artifact, " +
-                    "response, " +
-                    "responsemeasure, " +
-                    "environment" +
-            " ) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"),
-    CREATE_LOCAL_REQUIREMENT(
-            "INSERT INTO localrequirement (projectid, projectrequirementid) VALUES (?, ?)"
-    ),
 
-    CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, enviroment) VALUES (?,?,?,?,?,?,?,?)"),
+    CREATE_PROJECT(""),//TODO
 
-    GET_GLOBAL_REQUIREMENTS("SELECT * FROM requirement"),
 
-    GET_GLOBAL_REQUIREMENT("SELECT * FROM requirement WHERE requirementid = ?"),
 
-    UPDATE_GLOBAL_REQUIREMENT("UPDATE requirement SET ispublic=?, name=?, description=?, source=?, stimulus=?, artifact=?, response=?, enviroment=? WHERE requirementid=?"),
 
-    REQUIREMENT_EXISTS("SELECT count(1) as bool FROM requirement WHERE requirementid = ?"),
-    //TODO combine all of these into "SELECT count(1) as bool FROM ? WHERE ? = ? or some such
-    CATEGORY_NAME_EXISTS("SELECT count(1) as bool FROM category WHERE name = ?"),
+    /**
+     * ==========================================================================================================================
+     * ================================================USER======================================================================
+     * ==========================================================================================================================
+     */
 
-    CREATE_CATEGORY("INSERT INTO category (name, description) VALUES (?,?)"),
+    CREATE_USER("INSERT INTO user (firstName, lastName, email, USERNAME, password) VALUES (?,?,?,?,?)"),
+    GET_USER_BY_USERNAME("SELECT * FROM user WHERE USERNAME=?"),
+    GET_USERNAME_EXISTS("SELECT count(1) as bool FROM user WHERE USERNAME=?");
 
-    CATEGORIES_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid IN (?, ?)"),
-    //TODO join these by using int... and for int in list setInt(i,liste[i])
-    CATEGORY_EXISTS("SELECT count(1) as bool FROM category WHERE categoryid = ?"),
 
-    //TODO combine all of these into "INSERT INTO ? (?,?) VALUES (?,?) for all table relationships
-    ADD_SUBCATEGORY("INSERT INTO categorycategory (parentid, childid) VALUES (?,?)"),
 
-    PROJECT_EXISTS("SELECT count(1) as bool FROM project WHERE projectid = ?"),
 
-    ADD_REQUIREMENT_CATEGORY("INSERT INTO requirementcategory (requirementid, categoryid) VALUES (?,?)"),
-
-    /*GET_PROJECT_REQUIREMENT_CATEGORY("SELECT projectrequirement.*, category.name AS cname, category.description AS cdesc" +
-    "FROM projectrequirement INNER JOIN projectrequirementcategory" +
-    "ON projectrequirement.requirement = projectrequirementcategory.projectrequirementid" +
-    "INNER JOIN category ON category.categoryid = projectrequirementcategory.categoryid" +
-    "WHERE projectrequirement.projectrequirement = ?"),*/
-
-    GET_PROJECT_REQUIREMENTS("SELECT projectrequirement.* FROM projectrequirement "+
-    "WHERE projectrequirement.projectrequirement IN (SELECT localrequirement.projectrequirementid "+
-    "FROM localrequirement WHERE localrequirement.projectid = ?)"),
-    /*("SELECT projectrequirement FROM projectrequirement INNER JOIN "+
-    "ON localrequirement.projectrequirementid = projectrequirement.projectrequirement "
-    "WHERE localrequirement.projectid = ?"),*/
-
-    CREATE_USER("INSERT INTO user (firstname, lastname, email, username, password) VALUES (?,?,?,?,?)");
 
     //NOTE LEAVE ALL OF THIS FOR WHEN WE GET TO DELETIONS (THEY'RE A FUCKING PAIN)
     //DELETE_PROJECT_MANAGER(),
