@@ -193,127 +193,40 @@ public enum Statement {
         return prepare(c, objects).executeQuery();
     }
 
-    public void prepareAndExecuteNewUser(Connection c, String firstname, String lastname, String email, String username, String password) throws SQLException{
+    public void prepareAndExecuteInsert(Connection c, Object object1, Object... objects) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
-        //TODO set username = unique in db
-        ps.setString(1, firstname);
-        ps.setString(2, lastname);
-        ps.setString(3, email);
-        ps.setString(4, username);
-        ps.setString(5, password);
+        prepareObject(ps, object1, 1);
+        if (objects.length > 0) {
+            for (int i = 0; i < objects.length; i++) {
+                prepareObject(ps, objects[i], i + 2);
+            }
+        }
         ps.executeUpdate();
     }
 
-    public void prepareAndExecuteNewProject(Connection c, String name, String description, int ispublic) throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        //TODO set username = unique in db
-        ps.setString(1, name);
-        ps.setString(2, description);
-        ps.setInt(3, ispublic);
-        ps.executeUpdate();
+    public void prepareObject(PreparedStatement ps, Object object, int index) throws SQLException{
+    //NOTE define datatype to SQL conversion here
+        if(object instanceof Integer){
+            //cast to Integer (should already be a damn Integer but Java wants to know in advance.
+            //((Integer) object).intValue();
+            ps.setInt(index, ((Integer) object));
+        }
+        else{
+            //toString (should already be a damn string but Java wants to know in advance.
+            ps.setString(index, object.toString());
+        }
     }
 
-    public void prepareAndExecuteNewLocalRequirement(Connection c, int projectid, int projectrequrementid) throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        //TODO set username = unique in db
-        ps.setInt(1, projectid);
-        ps.setInt(2, projectrequrementid);
-        ps.executeUpdate();
-    }
-
-    public void prepareAndExecuteNewProjectManager(Connection c, int projectid, int managerid) throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        //TODO set username = unique in db
-        ps.setInt(1, managerid);
-        ps.setInt(2, projectid);
-        ps.executeUpdate();
-    }
-    public void prepareAndExecuteNewProjectOwner(Connection c, int projectid, int ownerid) throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        //TODO set username = unique in db
-        ps.setInt(1, ownerid);
-        ps.setInt(2, projectid);
-        ps.executeUpdate();
-    }
-
-    public void prepareAndExecuteNewPartOf(Connection c, int projectid, int userid) throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        //TODO set username = unique in db
-        ps.setInt(1, userid);
-        ps.setInt(2, projectid);
-        ps.executeUpdate();
-    }
-
-    public void prepareAndExecuteNewProjectRequirement(Connection c,
-                                                       int ispublic,
-                                                       String name,
-                                                       String description,
-                                                       String source,
-                                                       String stimlus,
-                                                       String artifact,
-                                                       String response,
-                                                       String responsemeasure,
-                                                       String environment) throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        //TODO set username = unique in db
-        ps.setInt(1, ispublic);
-        ps.setString(2, name);
-        ps.setString(3, description);
-        ps.setString(4, source);
-        ps.setString(5, stimlus);
-        ps.setString(6, artifact);
-        ps.setString(7, response);
-        ps.setString(8, responsemeasure);
-        ps.setString(9, environment);
-        ps.executeUpdate();
-    }
-
-    //TODO remove old prepareAndExecuteNewProjectRequirement and replace with general purpouse one
-    //also check if responsemeasure should be in both
-    public void prepareAndInsertRequirement(Connection c, boolean global, int isPublic, String name, String description, String source, String stimulus, String artifact, String response, String entironment)
-            throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        ps.setInt(1, isPublic);
-        ps.setString(2, name);
-        ps.setString(3, description);
-        ps.setString(4, source);
-        ps.setString(5, stimulus);
-        ps.setString(6, artifact);
-        ps.setString(7, response);
-        ps.setString(8, entironment);
-        ps.executeUpdate();
-    }
-
-    public void prepareAndUpdateRequirement(Connection c, int id, boolean global, int isPublic, String name, String description, String source, String stimulus, String artifact, String response, String environment)
-        throws SQLException{
-        //TODO merge with prepareAndInsertRequirement and every method for local requirements
-        PreparedStatement ps = c.prepareStatement(statement);
-        ps.setInt(1, isPublic);
-        ps.setString(2, name);
-        ps.setString(3, description);
-        ps.setString(4, source);
-        ps.setString(5, stimulus);
-        ps.setString(6, artifact);
-        ps.setString(7, response);
-        ps.setString(8, environment);
-        ps.setInt(9, id);
-        ps.executeUpdate();
-    }
-
-    public void prepareAndInsertCategory(Connection c, String name, String description) throws SQLException{
-        PreparedStatement ps = c.prepareStatement(statement);
-        ps.setString(1, name);
-        ps.setString(2, description);
-        ps.executeUpdate();
-    }
-
-    //ADDS PARENT CHILD RELATION
     public void addTableRelation(Connection c, int parent, int child) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
         ps.setInt(1, parent);
         ps.setInt(2, child);
         ps.executeUpdate();
     }
+
+    /*public void setInteger(PreparedStatement ps, int object, int index){
+        ps.setInt(index,object);
+    }*/
 
 
     //DANGER ZONE (anything bellow here should be deletions)
