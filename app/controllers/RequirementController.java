@@ -2,13 +2,13 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
-import models.User;
-import play.api.libs.iteratee.Cont;
+import database.Statement;
 import play.db.Database;
 import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -28,7 +28,8 @@ public class RequirementController extends Controller{
         String userID = session("connected");
         if(userID != null){
             //Returns and 200 OK with a JsonNode as Body.
-            return ok(qh.getRequirementByCategoryID(categoryid));
+            //return ok(qh.getRequirementByCategoryID(categoryid));
+            return ok(qh.executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID,categoryid));
         }
         else{
             return unauthorized(views.html.login.render());
@@ -43,8 +44,8 @@ public class RequirementController extends Controller{
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
-        JsonNode req = qh.getAllRequirements();
-        //System.out.println(req);
+        JsonNode req = qh.executeQuery(Statement.GET_ALL_REQUIREMENTS);
+        System.out.println(req);
         return ok(req);
     }
     public Result newProjectRequirement(){
@@ -67,7 +68,8 @@ public class RequirementController extends Controller{
         String environment = values.get("environment")[0];
         //TODO: Check if the user is authorized to edit the project. (If the user is part of the project)
         //TODO: Check if the project referenced by projectid actually exists
-        qh.createProjectRequirement(projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
+        //qh.createProjectRequirement(projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
+        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
         return ok();
     }
 
@@ -76,7 +78,8 @@ public class RequirementController extends Controller{
     }
 
     public boolean projectRequirementNameExists(String name){
-        JsonNode exists = qh.projectRequirementNameExists(name);
+        //JsonNode exists = qh.projectRequirementNameExists(name);
+        JsonNode exists = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENT_NAME_EXISTS,name);
         return exists.get(0).get("bool").asInt() == 1;
     }
 
@@ -86,7 +89,8 @@ public class RequirementController extends Controller{
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
-        JsonNode req = qh.getCategoryNames();
+        //JsonNode req = qh.getCategoryNames();
+        JsonNode req = qh.executeQuery(Statement.GET_CATEGORY_NAMES);
         return ok(req);
     }
 
@@ -96,7 +100,8 @@ public class RequirementController extends Controller{
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
-        JsonNode req = qh.getRequirementByCategoryName(name);
+        //JsonNode req = qh.getRequirementByCategoryName(name);
+        JsonNode req = qh.executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_NAME,name);
         return ok(req);
     }
 }
