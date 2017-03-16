@@ -10,6 +10,16 @@ class SideMenu extends React.Component {
     constructor(props) {
         super(props);
 
+        //CSS for hiding sidemenu
+        this.state = {
+            hide: {
+                visibility: 'hidden',
+                marginLeft: '60px',
+                width: '0px',
+                flex: '0',
+            }
+        };
+
         this.updateMenuFilter = this.updateMenuFilter.bind(this);
         this.filterRequirementList = this.filterRequirementList.bind(this);
         this.generateFilterMenuCheckboxes = this.generateFilterMenuCheckboxes.bind(this);
@@ -71,23 +81,23 @@ class SideMenu extends React.Component {
         switch(this.props.mode) {
             case "FILTER":
                return (
-                <div>
-                    <h1>Filter</h1>
-                    <h2><b>Kategori</b></h2>
-                    {this.generateFilterMenuCheckboxes()}
-                    <h2><b>Struktur</b></h2>
-                    <p>Source<input type="checkbox" name="placeholder"/></p>
-                    <p>Stimulus<input type="checkbox" name="placeholder"/></p>
-                    <p>Artifact<input type="checkbox" name="placeholder"/></p>
-                    <button onClick={this.filterRequirementList}>Oppdater kravliste</button><br/>
-                    <h2><b>Krav Meny</b></h2>
-                    <Link to="newrequirement"><button>Legg til nytt krav</button></Link>
-                </div>
+                   <div id="sidemenu">
+                       <h1>Filter</h1>
+                       <h2><b>Kategori</b></h2>
+                       {this.generateFilterMenuCheckboxes()}
+                       <h2><b>Struktur</b></h2>
+                       <p>Source<input type="checkbox" name="placeholder"/></p>
+                       <p>Stimulus<input type="checkbox" name="placeholder"/></p>
+                       <p>Artifact<input type="checkbox" name="placeholder"/></p>
+                       <button onClick={this.filterRequirementList}>Oppdater kravliste</button><br/>
+                       <h2><b>Krav Meny</b></h2>
+                       <Link to="newrequirement"><button>Legg til nytt krav</button></Link>
+                   </div>
                );
                 break;
             case "REQUIREMENTS_MENU":
                 return (
-                    <div>
+                    <div id="sidemenu">
                         <h2>Krav Meny</h2>
                         <Link to="allrequirements"><button>Vis kravliste</button></Link>
                     </div>
@@ -95,7 +105,7 @@ class SideMenu extends React.Component {
                 break;
             case "UPDATE_REQUIREMENTS_MENU":
                 return (
-                    <div>
+                    <div id="sidemenu">
                         <h2>Krav Meny</h2>
                         <Link to="allrequirements"><button>Vis kravliste</button></Link>
                     </div>
@@ -103,7 +113,7 @@ class SideMenu extends React.Component {
                 break;
             case "PROJECTS_MENU":
                 return (
-                    <div>
+                    <div id="sidemenu">
                         <h2>Prosjekt Meny</h2>
                         <Link to="newproject"><button>Nytt prosjekt</button></Link>
                     </div>
@@ -111,15 +121,22 @@ class SideMenu extends React.Component {
                 break;
             case "NEW_PROJECT_MENU":
                 return (
-                    <div>
+                    <div id="sidemenu">
                         <h2>Prosjekt Meny</h2>
                         <Link to="projects"><button>Vis prosjekter</button></Link>
                     </div>
                 );
                 break;
+            case "HIDE":
+                return (
+                    <div style={this.state.hide} id="sidemenu">
+                        <h2>hidden</h2>
+                    </div>
+                );
+                break;
             default:
                 return (
-                    <div>
+                    <div id="sidemenu">
                         <h2>Hjem</h2>
                     </div>
                 );
@@ -127,15 +144,8 @@ class SideMenu extends React.Component {
 
     }
 
-
-
-
     render() {
-        return (
-            <div id="sidemenu">
-                {this.renderMenu()}
-            </div>
-        );
+        return (this.renderMenu());
     }
 }
 

@@ -6,10 +6,15 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
 
 class Project extends React.Component {
+    constructor(props){
+        super(props)
+
+        this.handleOnClick = this.handleOnClick.bind(this);
+    }
 
     componentDidMount() {
         this.props.getProjectById(this.props.params.id);
-        this.props.changeSideMenuMode("MENU");
+        this.props.changeSideMenuMode("HIDE");
     }
 
     renderProject(){
@@ -33,12 +38,18 @@ class Project extends React.Component {
         );
     }
 
+    handleOnClick(){
+        $(button).on("sidemenu").hide();
+
+    }
+
     render() {
         return (
             <div className="container">
                 {this.renderProject()}
                 <div className="projectRequirements">
                     <ProjectRequirements id={this.props.params.id}/>
+                    <button onClick={this.handleOnClick}>hey</button>
                 </div>
             </div>
         );
