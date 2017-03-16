@@ -2,7 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
+# =================================LOGIN/SIGNUP======================================================================
+
 GET     /                           controllers.ApplicationController.init()
 
 GET     /login                      controllers.ApplicationController.login()
@@ -14,44 +15,36 @@ POST    /sign-up                    controllers.SignupController.create()
 
 
 
-# Preliminary site-navigation
-GET     /projects                   controllers.ProjectController.getUserRelatedProjects()
-GET     /public/projects            controllers.ProjectController.getPublicProjects()
+# =================================PROJECT============================================================================
 
-GET     /newproject                 controllers.ProjectController.getNewProjectView()
-POST    /projects                   controllers.ProjectController.newProject()
-GET     /project/id/:id             controllers.ProjectController.getProjectByProjectID(id: String)
+GET     /projects                   controllers.ProjectController.getProjectsAccessibleByUser()
+GET     /projects/public            controllers.ProjectController.getPublicProjects()
 
-GET     /requirements/category/:id  controllers.RequirementController.getRequirementsByCategoryID(id: String)
-GET     /requirements/all           controllers.RequirementController.getAllRequirements()
+GET     /project/form               controllers.ProjectController.getNewProjectView()
+POST    /project/add                controllers.ProjectController.newProject()
+GET     /project/get/:id            controllers.ProjectController.getProjectByProjectID(id: String)
 
-GET     /projectrequirementsForm    controllers.ProjectController.getProjectRequirementForm()
-GET     /all-projectrequirements    controllers.ProjectController.getProjectRequirements(id)
 
-GET     /project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
-POST    /project/requirement        controllers.RequirementController.newProjectRequirement()
+#==================================REQUIREMENTS=======================================================================
 
-GET     /project/addReq             controllers.ProjectController.addReqForm()
-POST    /project/addReq             controllers.ProjectController.addReq()
+
+GET     /requirement/category/:id   controllers.RequirementController.getRequirementsByCategoryID(id: String)
+GET     /requirements               controllers.RequirementController.getGlobalRequirements()
+
+GET     /project/requirement/form   controllers.ProjectController.getProjectRequirementForm()
+GET     /project/requirements/:id   controllers.ProjectController.getProjectRequirements(id: String)
+
+GET     /project/newrequirement     controllers.RequirementController.getNewRequirementView()
+POST    /project/requirement/add    controllers.RequirementController.newProjectRequirement()
+
+GET     /project/requirement/form   controllers.ProjectController.addReqForm()
+POST    /project/requirement/add    controllers.ProjectController.addReq()
+
+
+#==================================CATEGORY===========================================================================
 
 GET     /category/names             controllers.RequirementController.getCategories()
 GET     /category/byname/:name      controllers.RequirementController.getRequirementsByCategoryName(name: String)
-
-GET     /add-requirement            controllers.AdminController.addRequirement()
-POST    /add-requirement            controllers.AdminController.addReq()
-
-GET     /get-requirement            controllers.AdminController.getReq()
-
-GET     /update-requirement         controllers.AdminController.updateReq()
-POST    /update-requirement         controllers.AdminController.updateRequirement()
-
-GET     /add-category               controllers.AdminController.addCategory()
-POST    /add-category               controllers.AdminController.createCategory()
-
-POST    /add-subcategory            controllers.AdminController.addSubcategory()
-
-GET     /add-requirementcategeory   controllers.AdminController.addCategeroyToRequirement()
-POST    /add-requirementcategeory   controllers.AdminController.insertRequirementCategory()
 
 #GET     /delete-project             controllers.AdminController.deleteProjects()
 #POST    /delete-project             controllers.AdminController.deleteProject()

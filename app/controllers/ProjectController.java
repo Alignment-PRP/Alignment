@@ -27,7 +27,7 @@ public class ProjectController extends Controller {
     }
 
 
-    public Result getUserRelatedProjects(){
+    public Result getProjectsAccessibleByUser(){
         String userID = session("connected");
         //TODO checkAuthenticity();   HERE?
         if(userID == null){
