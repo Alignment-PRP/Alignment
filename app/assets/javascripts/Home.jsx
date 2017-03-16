@@ -28,7 +28,7 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="home">
                 <h1>Velkommen</h1>
                 {this.getUserData()}
             </div>
