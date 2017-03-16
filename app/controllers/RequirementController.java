@@ -37,7 +37,7 @@ public class RequirementController extends Controller{
     }
 
 
-    public Result getAllRequirements(){
+    public Result getGlobalRequirements(){
         //Might as well keep the user check.
         String userID = session("connected");
         if(userID == null){
