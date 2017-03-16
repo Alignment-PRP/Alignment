@@ -1,9 +1,5 @@
-.singleProject {
-    flex: 2;
-}
-
-.projectRequirements {
-    flex: 3;
+.all-requirements-list {
+    padding: 15px;
 }
 
 .all-requirements-list table td th {
@@ -13,4 +9,8 @@
 
 .all-requirements-list table {
     width: 100%;
+}
+
+.update-requirement {
+    padding: 15px;
 }

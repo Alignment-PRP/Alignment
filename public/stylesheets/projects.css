@@ -1,9 +1,15 @@
 .singleProject {
+    padding: 15px;
     flex: 2;
 }
 
 .projectRequirements {
+    padding: 15px;
     flex: 3;
+}
+
+.all-project-list{
+    padding: 15px;
 }
 
 .all-project-list table td th {

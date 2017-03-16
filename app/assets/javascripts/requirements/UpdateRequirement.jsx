@@ -20,47 +20,49 @@ class UpdateRequirement extends React.Component {
 	render() {
 
 		return (
-			<form action="/update-requirement" method="post">
-                <h1>Oppdater Krav</h1>
+		    <div className="update-requirement">
+		    	<form action="/update-requirement" method="post">
+                    <h1>Oppdater Krav</h1>
 
-				<label><b>KravId</b></label><br/>
-				<input type="number" defaultValue={this.props.requirement.requirementid} name="id" min="0" required/>
+                    <label><b>KravId</b></label><br/>
+                    <input type="number" defaultValue={this.props.requirement.requirementid} name="id" min="0" required/>
 
-				<br/>
-				<label><b>KravNavn</b></label><br/>
-				<input type="text" defaultValue={this.props.requirement.name} name="name" required/>
+                    <br/>
+                    <label><b>KravNavn</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.name} name="name" required/>
 
-                <br/>
-				<label><b>description</b></label><br/>
-				<input type="text" defaultValue={this.props.requirement.description} name="description" required/>
+                    <br/>
+                    <label><b>description</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.description} name="description" required/>
 
-                <br/>
+                    <br/>
 
-				<label> <b>Source</b></label><br/>
-				<input type="text" defaultValue={this.props.requirement.source} name="source" required/>
+                    <label> <b>Source</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.source} name="source" required/>
 
-                <br/>
-				<label><b>Stimulus</b></label><br/>
-				<input type="text" defaultValue={this.props.requirement.stimulus} name="stimulus" required/>
+                    <br/>
+                    <label><b>Stimulus</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.stimulus} name="stimulus" required/>
 
-                <br/>
-				<label> <b>Artifact</b></label><br/>
-				<input type="text" defaultValue={this.props.requirement.artifact} name="artifact" required/>
+                    <br/>
+                    <label> <b>Artifact</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.artifact} name="artifact" required/>
 
-                <br/>
-				<label> <b>Response</b></label><br/>
-				<input type="text" defaultValue={this.props.requirement.response} name="response" required/>
+                    <br/>
+                    <label> <b>Response</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.response} name="response" required/>
 
-                <br/>
-				<label> <b>Environment</b></label><br/>
-				<input type="text" defaultValue={this.props.requirement.environment} name="environment" required/>
+                    <br/>
+                    <label> <b>Environment</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.environment} name="environment" required/>
 
-                <br/>
-				<label><b>Public</b></label>
-                {this.renderCheckbox()}
-                <br/>
-                <button type="submit">Oppdater</button>
+                    <br/>
+                    <label><b>Public</b></label>
+                    {this.renderCheckbox()}
+                    <br/>
+                    <button type="submit">Oppdater</button>
 				</form>
+            </div>
 		);
 	}
 }

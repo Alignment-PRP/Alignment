@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import ProjectRequirements from '../requirements/ProjectRequirements.jsx';
 import { getProjectById } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
+import Filter from '../sidemenu/Filter.jsx'
 
 
 class Project extends React.Component {
@@ -46,10 +47,10 @@ class Project extends React.Component {
     render() {
         return (
             <div className="container">
+                <Filter />
                 {this.renderProject()}
                 <div className="projectRequirements">
                     <ProjectRequirements id={this.props.params.id}/>
-                    <button onClick={this.handleOnClick}>hey</button>
                 </div>
             </div>
         );
