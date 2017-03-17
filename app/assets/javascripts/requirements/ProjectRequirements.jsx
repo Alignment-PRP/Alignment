@@ -1,19 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import RequirementListItem from './presentational/RequirementListItem.jsx';
-import { getRequirementsByProjectId } from '../redux/actions/projectActions.jsx';
+import RequirementListItemMini from './presentational/RequirementListItemMini.jsx';
 
-class ProjectRequirements extends React.Component {
-
-    componentDidMount() {
-        this.props.getRequirementsByProjectId(this.props.id);
-    }
+export default class ProjectRequirements extends React.Component {
 
     generateRequirementList(){
-        return this.props.projectRequirements.map((item, index) => {
-            return <RequirementListItem key={index} Name={item.name} isPublic={item.ispublic} Description={item.description} Source={item.source}  Stimulus={item.stimulus}
-                                    Artifact={item.artifact} Environment={item.environment} Response={item.response} ResponseMeasure={item.responsemeasure}
-                                    Category={item.cname} CategoryDescription={item.cdesc}/> }
+
+        return this.props.requirements.map((item, index) => {
+                return <RequirementListItemMini key={index} requirement={item}/>
+            }
         )
     }
 
@@ -21,26 +15,18 @@ class ProjectRequirements extends React.Component {
         return (
             <div>
                 <h1>Prosjekt Krav</h1>
-                <ul>
-                    {this.generateRequirementList()}
-                </ul>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Beskrivelse</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.generateRequirementList()}
+                    </tbody>
+                </table>
             </div>
         );
     }
 }
-
-const mapStateToProps = (state) => {
-    return {
-        projectRequirements: state.projectReducer.projectRequirements
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getRequirementsByProjectId: (id) => {
-            dispatch(getRequirementsByProjectId(id))
-        }
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectRequirements);

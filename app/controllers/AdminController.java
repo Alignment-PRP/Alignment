@@ -3,7 +3,6 @@ package controllers;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.mysql.fabric.Response;
 import database.Statement;
 import play.db.Database;
 
@@ -11,6 +10,7 @@ import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -38,28 +38,31 @@ public class AdminController extends Controller {
         String stimulus = values.get("stimulus")[0];
         String artifact = values.get("artifact")[0];
         String response = values.get("response")[0];
+        String responsemeasure = values.get("responsemeasure")[0];
         String environment  = values.get("environment")[0];
 
-        validateReq(source, stimulus, artifact, response, environment);
+        //TODO determine and create correct validation for requirements
+        validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
 
         //TODO determine if private global reqs are a thing
-        String pub;
+        int pub;
         if(values.get("public") != null){
-            pub = "1";
+            pub = 1;
         }
         else {
-            pub = "0";
+            pub = 0;
         }
         String name = values.get("name")[0];
         String desc = values.get("description")[0];
 
 
-        qh.addReq(true, pub, name, desc, source, stimulus, artifact, response, environment);
-        return ok("added requirement");
+
+        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
+        return ok(views.html.dashboard.render());
     }
 
-    private boolean validateReq(String source, String stimulus, String artifact, String response, String environment){
+    private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
         return true;
     }
 
@@ -79,28 +82,33 @@ public class AdminController extends Controller {
     public Result updateRequirement(){
         //TODO: fix duplicates with add req and every local req
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String id = values.get("id")[0];
+        int id = Integer.parseInt(values.get("id")[0]);
+        System.out.println(id);
         JsonNode exists = qh.executeQuery(Statement.REQUIREMENT_EXISTS, id);
         if(exists.get(0).get("bool").asInt() == 1) {
             String source = values.get("source")[0];
             String stimulus = values.get("stimulus")[0];
             String artifact = values.get("artifact")[0];
             String response = values.get("response")[0];
+            String responsemeasure = values.get("responsemeasure")[0];
             String environment = values.get("environment")[0];
 
-            validateReq(source, stimulus, artifact, response, environment);
+            //TODO duplicate of addReq
+            validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
-            String pub;
+            int pub;
             if (values.get("public") != null) {
-                pub = "1";
+                pub = 1;
             } else {
-                pub = "0";
+                pub = 0;
             }
             String name = values.get("name")[0];
             String desc = values.get("description")[0];
 
-            qh.updateReq(true, id, pub, name, desc, source, stimulus, artifact, response, environment);
-            return ok("requirement updated");
+
+            qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment, id);
+
+            return ok(views.html.dashboard.render());
         }
         return unauthorized("no such requirement");
     }
@@ -119,7 +127,9 @@ public class AdminController extends Controller {
             return unauthorized("category name is allready taken do you wish to update it instead?");
         }
         String description = values.get("description")[0];
-        qh.insertCategory(Statement.CREATE_CATEGORY, name, description);
+
+        qh.insertStatement(Statement.CREATE_CATEGORY, name, description);
+
         return ok();
     }
 

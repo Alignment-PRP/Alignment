@@ -36,3 +36,10 @@ export function updateFilter(newFilter) {
         payload: newFilter
     }
 }
+
+export function updateRequirement(requirement) {
+    return {
+        type: 'UPDATE_REQUIREMENT',
+        payload: requirement
+    }
+}

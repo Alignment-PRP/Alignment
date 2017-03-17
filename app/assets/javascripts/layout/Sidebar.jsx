@@ -27,7 +27,8 @@ class Sidebar extends React.Component {
                 backgroundColor: '#1f4293',
                 display: 'block',
                 position: 'fixed',
-                zIndex: '500'
+                zIndex: '500',
+                boxShadow: '2px 2px 3px black'
             },
             rightIcon: {
                 textAlign: 'center',
@@ -68,7 +69,6 @@ class Sidebar extends React.Component {
                     <Menu autoWidth={false} width={290}>
                         <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                         <MenuItem primaryText="Prosjekter"containerElement={<Link to="projects" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
-                        <MenuItem primaryText="Nytt Prosjekt"containerElement={<Link to="newproject" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">build</FontIcon>} />
                         <MenuItem primaryText="Krav"containerElement={<Link to="allrequirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
                         <MenuItem primaryText="Logg ut"containerElement={<Link to="logout" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                     </Menu>

@@ -2,7 +2,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
-import models.User;
 import database.Statement;
 
 import play.db.Database;
@@ -10,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
+import java.sql.SQLException;
 import java.util.Map;
 
 
@@ -34,7 +34,8 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.getProjectRelatedToUser(userID));
+        //return ok(qh.getProjectRelatedToUser(userID));
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_RELATED_TO_USER,userID));
     }
 
     /**
@@ -44,7 +45,9 @@ public class ProjectController extends Controller {
     public Result getNewProjectView(){
         return ok(views.html.newproject.render());
     }
+
     public Result newProject(){
+
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
@@ -64,17 +67,21 @@ public class ProjectController extends Controller {
          *  Also sets the user as partof. This needs to be done properly. As in you when you set
          *  manager and owner those are set to part of(and checking if they are part of already).
          */
-
-        qh.createProject(name, desc, ispublic, userID, userID, userID);
+        String ID = qh.insertStatementWithReturnID(Statement.CREATE_PROJECT,name, desc, ispublic);
+        qh.insertStatement(Statement.CREATE_PROJECT_OWNER, userID, Integer.parseInt(ID));
+        qh.insertStatement(Statement.CREATE_PROJECT_MANAGER, userID, Integer.parseInt(ID));
+        qh.insertStatement(Statement.CREATE_PART_OF, userID, Integer.parseInt(ID));
         return ok(views.html.dashboard.render());
 
     }
 
     public Result getPublicProjects(){
-        return ok(qh.getPublicProjects());
+        //return ok(qh.getPublicProjects());
+        return ok(qh.executeQuery(Statement.GET_PUBLIC_PROJECTS));
     }
     public boolean projectNameExists(String name){
-        JsonNode exists = qh.projectNameExists(name);
+        //JsonNode exists = qh.projectNameExists(name);
+        JsonNode exists = qh.executeQuery(Statement.GET_PROJECT_NAME_EXISTS,name);
         //System.out.println(exists.get(0).get("bool"));
         //System.out.println(exists.get(0).get("bool").asInt() == 1);
         return exists.get(0).get("bool").asInt() == 1;
@@ -89,7 +96,8 @@ public class ProjectController extends Controller {
         String userID = session("connected");
         if(userID != null){
             //Returns and 200 OK with a JsonNode as Body.
-            return ok(qh.getProjectByProjectID(projectid));
+            //return ok(qh.getProjectByProjectID(projectid));
+            return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID,projectid));
         }
         else{
             return unauthorized(views.html.login.render());
@@ -105,7 +113,9 @@ public class ProjectController extends Controller {
         return ok(projectRequirements);
     }
 
+    //NOT SURE WHY IT'S MARKED AS WRONG, SOMEONE CHECK IT. ("getProjectRequirementForm.scala.html" seems to exist and is still marked as wrong [intelij error?])
     public Result getProjectRequirementForm(){
+        //return ok(views.html.getProjectRequirements.render());
         return ok(views.html.getProjectRequirements.render());
     }
 
@@ -123,7 +133,8 @@ public class ProjectController extends Controller {
         }
         for(int i=0; i < requirementid.length; i++){
             JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT, requirementid[i]).get(0);
-            qh.createProjectRequirement(projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
+            //qh.createProjectRequirement(projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
+            qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
             globalReq.get("description").asText(), globalReq.get("source").asText(), globalReq.get("stimulus").asText(),
             globalReq.get("artifact").asText(), globalReq.get("response").asText(), globalReq.get("responsemeasure").asText(),
             globalReq.get("environment").asText());
@@ -131,7 +142,7 @@ public class ProjectController extends Controller {
         return ok("ok");
 
     }
-
+    //SAME AS getProjectRequirementForm()
     public Result addReqForm(){
         return ok(views.html.addGlobalReqToProject.render());
     }

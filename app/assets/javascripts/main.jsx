@@ -1,20 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+//Importing components that will be rendered by url link
 import Root from './Root.jsx';
 import Home from './Home.jsx';
+import Logout from './utility/Logout.jsx';
+
+//Project
 import Projects from './projects/Projects.jsx';
 import Project from './projects/Project.jsx';
 import NewProject from './projects/NewProject.jsx';
+
+//Requirements
 import AllRequirements from './requirements/AllRequirements.jsx';
-import Logout from './utility/Logout.jsx';
+import UpdateRequirement from './requirements/UpdateRequirement.jsx';
+import NewRequirement from './requirements/NewRequirement.jsx';
 
+//Utility
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
-
 import {Provider} from "react-redux";
 import store from './redux/store.jsx';
 
 
-//Defining client links
+//Defining url links
 class App extends React.Component {
 
     render() {
@@ -28,6 +36,10 @@ class App extends React.Component {
                         <Route path={"project/:id"} component={Project}/>
                         <Route path={"newproject"} component={NewProject}/>
                         <Route path={"allrequirements"} component={AllRequirements}/>
+                        <Route path={"newrequirement"} component={NewRequirement}/>
+                        <Route path={"update-requirement"} component={AllRequirements}/>
+                        <Route path={"add-requirement"} component={AllRequirements}/>
+                        <Route path={"editrequirement"} component={UpdateRequirement}/>
                         <Route path={"logout"} component={Logout}/>
                     </Route>
                 </Router>

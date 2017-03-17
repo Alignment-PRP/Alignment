@@ -6,27 +6,35 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 class NewProject extends React.Component {
 
     componentDidMount(){
-        this.props.changeSideMenuMode("MENU");
+        this.props.changeSideMenuMode("NEW_PROJECT_MENU");
     }
 
     render() {
         return (
+            <div className="new-project">
                 <form action="/projects" method="post">
-                    <label><b>Project name:</b></label>
+                    <h1>Nytt Prosjekt</h1>
+                    <label><b>Prosjektnavn</b></label><br/>
                     <input type="text" placeholder="" name="name" required/>
 
-                    <label><b>Project description:</b></label>
+                    <br/>
+
+                    <label><b>Prosjektbeskrivelse</b></label><br/>
                     <input type="text" placeholder="" name="desc" required/>
 
-                    <label><b>Public project?</b></label>
+                    <br/>
+
+                    <label><b>Public prosjekt?</b></label><br/>
                       <select name="ispublic">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option value="1">Ja</option>
+                        <option value="0">Nei</option>
                       </select>
 
-                    <button type="submit">Submit</button>
+                    <br/>
 
+                    <button type="submit">Legg til</button>
                 </form>
+            </div>
         );
     }
 }
