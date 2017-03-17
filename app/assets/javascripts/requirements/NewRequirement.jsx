@@ -43,6 +43,10 @@ class NewRequirement extends React.Component {
                     <input type="text" placeholder="Response" name="response" required/>
 
                     <br/>
+                    <label> <b>Response measure</b></label><br/>
+                    <input type="text" placeholder="Response measure" name="responsemeasure" required/>
+
+                    <br/>
                     <label> <b>Environment</b></label><br/>
                     <input type="text" placeholder="Environment" name="environment" required/>
 

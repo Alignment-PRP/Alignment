@@ -53,6 +53,10 @@ class UpdateRequirement extends React.Component {
                     <input type="text" defaultValue={this.props.requirement.response} name="response" required/>
 
                     <br/>
+                    <label> <b>Response measure</b></label><br/>
+                    <input type="text" defaultValue={this.props.requirement.responsemeasure} name="responsemeasure" required/>
+
+                    <br/>
                     <label> <b>Environment</b></label><br/>
                     <input type="text" defaultValue={this.props.requirement.environment} name="environment" required/>
 
