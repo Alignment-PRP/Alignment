@@ -38,7 +38,7 @@ class SideMenu extends React.Component {
     renderMenu() {
         switch(this.props.mode) {
             case "FILTER":
-               return ( <Filter />);
+               return ( <Filter title="Filter" />);
                 break;
             case "REQUIREMENTS_MENU":
                 return (

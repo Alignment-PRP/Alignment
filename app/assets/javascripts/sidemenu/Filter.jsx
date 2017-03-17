@@ -68,7 +68,7 @@ class Filter extends React.Component {
     render() {
         return (
             <div id="filter">
-                <h1>Filter</h1>
+                <h2>{this.props.title}</h2>
                 <h2><b>Kategori</b></h2>
                 {this.generateFilterMenuCheckboxes()}
                 <h2><b>Struktur</b></h2>
