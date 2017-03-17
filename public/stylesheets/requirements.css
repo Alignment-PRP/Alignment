@@ -1,5 +1,6 @@
 .all-requirements-list {
     padding: 15px;
+    flex: 3;
 }
 
 .all-requirements-list table td th {
