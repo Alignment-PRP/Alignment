@@ -7,7 +7,6 @@ import models.User;
 import play.db.Database;
 import play.libs.Json;
 import play.mvc.Controller;
-<<<<<<< HEAD
 import play.mvc.Result;
 
 import javax.inject.Inject;
@@ -15,12 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-=======
-import database.Statement;
-
-import javax.inject.Inject;
-import java.sql.SQLException;
->>>>>>> refactoring1
 
 /**
  * Created by andrfo on 16.02.2017.

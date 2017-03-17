@@ -46,19 +46,19 @@ public class AdminController extends Controller {
 
 
         //TODO determine if private global reqs are a thing
-        String pub;
+        int pub;
         if(values.get("public") != null){
-            pub = "1";
+            pub = 1;
         }
         else {
-            pub = "0";
+            pub = 0;
         }
         String name = values.get("name")[0];
         String desc = values.get("description")[0];
 
 
 
-        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
+        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
         return ok("added requirement");
     }
 
@@ -82,7 +82,8 @@ public class AdminController extends Controller {
     public Result updateRequirement(){
         //TODO: fix duplicates with add req and every local req
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String id = values.get("id")[0];
+        int id = Integer.parseInt(values.get("id")[0]);
+        System.out.println(id);
         JsonNode exists = qh.executeQuery(Statement.REQUIREMENT_EXISTS, id);
         if(exists.get(0).get("bool").asInt() == 1) {
             String source = values.get("source")[0];
@@ -95,17 +96,17 @@ public class AdminController extends Controller {
             //TODO duplicate of addReq
             validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
-            String pub;
+            int pub;
             if (values.get("public") != null) {
-                pub = "1";
+                pub = 1;
             } else {
-                pub = "0";
+                pub = 0;
             }
             String name = values.get("name")[0];
             String desc = values.get("description")[0];
 
 
-            qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT,true, id, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
+            qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment, id);
 
             return ok("requirement updated");
         }
