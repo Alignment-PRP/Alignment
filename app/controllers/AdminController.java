@@ -38,9 +38,11 @@ public class AdminController extends Controller {
         String stimulus = values.get("stimulus")[0];
         String artifact = values.get("artifact")[0];
         String response = values.get("response")[0];
+        String responsemeasure = values.get("responsemeasure")[0];
         String environment  = values.get("environment")[0];
 
-        validateReq(source, stimulus, artifact, response, environment);
+        //TODO determine and create correct validation for requirements
+        validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
 
         //TODO determine if private global reqs are a thing
@@ -55,11 +57,11 @@ public class AdminController extends Controller {
         String desc = values.get("description")[0];
 
 
-        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, environment);
+        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
         return ok("added requirement");
     }
 
-    private boolean validateReq(String source, String stimulus, String artifact, String response, String environment){
+    private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
         return true;
     }
 
@@ -86,9 +88,11 @@ public class AdminController extends Controller {
             String stimulus = values.get("stimulus")[0];
             String artifact = values.get("artifact")[0];
             String response = values.get("response")[0];
+            String responsemeasure = values.get("responsemeasure")[0];
             String environment = values.get("environment")[0];
 
-            validateReq(source, stimulus, artifact, response, environment);
+            //TODO duplicate of addReq
+            validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
             String pub;
             if (values.get("public") != null) {
@@ -99,7 +103,7 @@ public class AdminController extends Controller {
             String name = values.get("name")[0];
             String desc = values.get("description")[0];
 
-            qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT,true, id, pub, name, desc, source, stimulus, artifact, response, environment);
+            qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT,true, id, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
 
             return ok("requirement updated");
         }
