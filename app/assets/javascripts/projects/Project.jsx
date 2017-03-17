@@ -3,18 +3,15 @@ import {connect} from 'react-redux'
 import ProjectRequirements from '../requirements/ProjectRequirements.jsx';
 import { getProjectById } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
+import { getRequirementsByProjectId } from '../redux/actions/projectActions.jsx';
 import Filter from '../sidemenu/Filter.jsx'
 
 
 class Project extends React.Component {
-    constructor(props){
-        super(props)
-
-        this.handleOnClick = this.handleOnClick.bind(this);
-    }
 
     componentDidMount() {
         this.props.getProjectById(this.props.params.id);
+        this.props.getRequirementsByProjectId(this.props.params.id);
         this.props.changeSideMenuMode("HIDE");
     }
 
@@ -39,18 +36,14 @@ class Project extends React.Component {
         );
     }
 
-    handleOnClick(){
-        $(button).on("sidemenu").hide();
-
-    }
 
     render() {
         return (
             <div className="container">
-                <Filter />
+                <Filter title="Filter" />
                 {this.renderProject()}
                 <div className="projectRequirements">
-                    <ProjectRequirements id={this.props.params.id}/>
+                    <ProjectRequirements requirements={this.props.projectRequirements}/>
                 </div>
             </div>
         );
@@ -59,7 +52,8 @@ class Project extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        project: state.projectReducer.project
+        project: state.projectReducer.project,
+        projectRequirements: state.projectReducer.projectRequirements
     };
 };
 
@@ -67,6 +61,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getProjectById: (id) => {
             dispatch(getProjectById(id))
+        },
+        getRequirementsByProjectId: (id) => {
+            dispatch(getRequirementsByProjectId(id))
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
