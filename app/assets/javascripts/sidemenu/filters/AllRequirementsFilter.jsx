@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { updateFilter } from '../redux/actions/requirementActions.jsx';
-import { updateFilterRequirementList } from '../redux/actions/requirementActions.jsx';
+import { updateFilter } from '../../redux/actions/requirementActions.jsx';
+import { updateFilterRequirementList } from '../../redux/actions/requirementActions.jsx';
 
-class Filter extends React.Component {
+class AllRequirementsFilter extends React.Component {
     constructor(props) {
         super(props);
 
@@ -102,4 +102,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default connect(mapStateToProps, mapDispatchToProps)(AllRequirementsFilter);
