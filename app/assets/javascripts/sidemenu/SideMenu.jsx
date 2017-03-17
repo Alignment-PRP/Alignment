@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Filter from './Filter.jsx';
+import Filter from './filters/AllRequirementsFilter.jsx';
 
 import { changeSideMenuMode } from '../redux/actions/sideMenuActions.jsx';
 

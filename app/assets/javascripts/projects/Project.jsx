@@ -4,8 +4,9 @@ import ProjectRequirements from '../requirements/ProjectRequirements.jsx';
 import { getProjectById } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { getRequirementsByProjectId } from '../redux/actions/projectActions.jsx';
-import Filter from '../sidemenu/Filter.jsx'
-
+import ProjectRequirementsFilter from '../sidemenu/filters/ProjectRequirementsFilter.jsx'
+import AddRequirementsToProjectFilter from '../sidemenu/filters/AddRequirementsToProjectFilter.jsx';
+import AllRequirementsAdd from '../requirements/AllRequirementsAdd.jsx';
 
 class Project extends React.Component {
 
@@ -40,11 +41,12 @@ class Project extends React.Component {
     render() {
         return (
             <div className="container">
-                <Filter title="Filter" />
-                {this.renderProject()}
+                <ProjectRequirementsFilter title="Project Requirement Filter" />
                 <div className="projectRequirements">
                     <ProjectRequirements requirements={this.props.projectRequirements}/>
                 </div>
+                <AllRequirementsAdd />
+                <AddRequirementsToProjectFilter title="Add Requirement To Project Filter" />
             </div>
         );
     }
