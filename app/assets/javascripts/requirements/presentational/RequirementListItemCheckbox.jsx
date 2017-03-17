@@ -26,7 +26,7 @@ class RequirementListItemCheckbox extends React.Component {
                 <td>{requirement.stimulus}</td>
                 <td>{requirement.artifact}</td>
                 <td>{requirement.response}</td>
-                <td>{requirement.resonsemeasure}</td>
+                <td>{requirement.responsemeasure}</td>
                 <td>{requirement.environment}</td>
                 <td>{requirement.cname}</td>
                 <td>{requirement.cdesc}</td>

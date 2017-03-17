@@ -59,7 +59,7 @@ public class AdminController extends Controller {
 
 
         qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
-        return ok("added requirement");
+        return ok(views.html.dashboard.render());
     }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
@@ -108,7 +108,7 @@ public class AdminController extends Controller {
 
             qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment, id);
 
-            return ok("requirement updated");
+            return ok(views.html.dashboard.render());
         }
         return unauthorized("no such requirement");
     }
