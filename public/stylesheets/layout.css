@@ -25,6 +25,17 @@ h1{
     display: flex;
 }
 
+#home{
+    padding: 15px;
+}
+
+#filter {
+    color: white;
+    flex: 1.35;
+    background-color: #7493f8;
+    text-align: center;
+}
+
 
 #sidemenu {
     margin-left: 70px;
@@ -37,7 +48,7 @@ h1{
 
 #pagecontainer {
     flex: 4;
-    background-color: rgba(121, 149, 255, 0.33);
+    background-color: rgba(250, 250, 255, 1);
 }
 
 #footer {

@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
+import database.Statement;
 import models.User;
 import play.db.Database;
 import play.mvc.Controller;
@@ -15,6 +16,7 @@ public class DatabaseController extends Controller {
 
   private final QueryHandler databaseHandler;
 
+  //TODO: USE PROPPER NAMING CONENTIONS!
   @Inject
   public DatabaseController(Database db) {
     databaseHandler = new QueryHandler(db);
@@ -22,7 +24,8 @@ public class DatabaseController extends Controller {
 
   //Example
   public Result userByName(String name) {
-    return ok(databaseHandler.getUserByName(name));
+    //return ok(databaseHandler.getUserByName(name));
+      return ok(databaseHandler.executeQuery(Statement.GET_USER_BY_NAME,name));
   }
 
 
