@@ -13,19 +13,19 @@ public class Authenticator extends Controller {
 
 
     /**
-     * Checks username/password combination to the database.
+     * Checks USERNAME/pass combination to the database.
      * @param password
      * @return Returns null (success) or an error message.
      */
     public String authenticate(String password, User user){
-        if(BCrypt.checkpw(password, user.password)){
+        if(BCrypt.checkpw(password, user.pass)){
             session().clear();
-            session("connected", user.userid);
+            session("connected", user.USERNAME);
             session("timestamp", LocalDateTime.now().toString());
             return null;
         }
         else{
-            return "password does not match";
+            return "pass does not match";
         }
     }
 

@@ -39,9 +39,9 @@ public class LoginController extends Controller{
         String reveivedPassword = values.get("psw")[0];
 
         JsonNode userData = userController.makeJsonNode(receivedUsername);
-        if(userData.findValuesAsText("username").isEmpty()){
+        if(userData.findValuesAsText("USERNAME").isEmpty()){
           //TODO propper Errorhandling!
-          return errorHandling("invalid username or pass");
+          return errorHandling("invalid USERNAME or pass");
         }
         //User user = userController.makeUserFromUserName(receivedUsername);
         User user = userController.makeUserFromJson(userData);
@@ -50,17 +50,17 @@ public class LoginController extends Controller{
 
         if(authentication == null){
             session().clear();
-            session("connected", user.userid);
+            session("connected", user.USERNAME);
             session("timestamp", LocalDateTime.now().toString());
 
             return ok(views.html.dashboard.render());
         }
-        return errorHandling("invalid username or pass");
+        return errorHandling("invalid USERNAME or pass");
     }
 
     private Result errorHandling(String message){
         fails += 1;
-        if(fails >= 10){
+        if(fails >= 1000){
             fails = 0;
             return unauthorized("BAN");
             //TODO: Figure out how to respond properly to lots of fails. Ban IP?

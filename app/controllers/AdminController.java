@@ -54,7 +54,7 @@ public class AdminController extends Controller {
         String desc = values.get("description")[0];
 
 
-        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, environment);
+        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, environment);
         return ok("added requirement");
     }
 
@@ -111,7 +111,7 @@ public class AdminController extends Controller {
     public Result addCategory(){
         return( ok(views.html.addCategroy.render()));
     }
-
+/*
     public Result createCategory(){
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         String name = values.get("name")[0];
@@ -159,7 +159,7 @@ public class AdminController extends Controller {
         }
         return unauthorized("category or requirement does not exist");
     }
-
+*/
     public Result addCategeroyToRequirement(){
         return ok(views.html.addRequirementCategory.render());
     }
