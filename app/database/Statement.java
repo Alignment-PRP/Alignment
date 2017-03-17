@@ -19,10 +19,14 @@ public enum Statement {
      */
 
     //===========================================GLOBAL==========================================================================
-    CREATE_REQUIREMENT("INSERT INTO Requirement ()"),
+    INSERT_REQUIREMENT("INSERT INTO Requirement ()"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirement WHERE ID = ?"),
     GET_REQUIREMENTS_BY_CATEGORY_ID(""),//TODO
-    GET_GLOBAL_REQUIREMENTS("SELECT * FROM Requirement"),
+    GET_GLOBAL_REQUIREMENTS("" +
+            "SELECT * " +
+            "FROM Requirements AS r " +
+            "INNER JOIN RequirementMetaData AS rm " +
+            "ON r.ID = rm.RID "),
 
     GET_GLOBAL_REQUIREMENT_BY_ID("SELECT * FROM Requirement WHERE ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
@@ -72,7 +76,7 @@ public enum Statement {
 
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
 
-    CREATE_PROJECT(""),//TODO
+    INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, isPublic) VALUES(?,?,?,?)"),//TODO
 
 
 
@@ -83,9 +87,9 @@ public enum Statement {
      * ==========================================================================================================================
      */
 
-    CREATE_USER("INSERT INTO user (firstName, lastName, email, USERNAME, password) VALUES (?,?,?,?,?)"),
-    GET_USER_BY_USERNAME("SELECT * FROM user WHERE USERNAME=?"),
-    GET_USERNAME_EXISTS("SELECT count(1) as bool FROM user WHERE USERNAME=?");
+    CREATE_USER("INSERT INTO Users (firstName, lastName, email, USERNAME, pass) VALUES (?,?,?,?,?)"),
+    GET_USER_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
+    GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?");
 
 
 

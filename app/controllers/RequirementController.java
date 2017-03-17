@@ -44,7 +44,7 @@ public class RequirementController extends Controller{
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
-        JsonNode req = qh.executeQuery(Statement.GET_ALL_REQUIREMENTS);
+        JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
         System.out.println(req);
         return ok(req);
     }
@@ -69,18 +69,12 @@ public class RequirementController extends Controller{
         //TODO: Check if the user is authorized to edit the project. (If the user is part of the project)
         //TODO: Check if the project referenced by projectid actually exists
         //qh.createProjectRequirement(projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
-        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
+        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT,projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
         return ok();
     }
 
     public Result getNewRequirementView(){
         return ok(views.html.newrequirement.render());
-    }
-
-    public boolean projectRequirementNameExists(String name){
-        //JsonNode exists = qh.projectRequirementNameExists(name);
-        JsonNode exists = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENT_NAME_EXISTS,name);
-        return exists.get(0).get("bool").asInt() == 1;
     }
 
     public Result getCategories(){
@@ -101,7 +95,7 @@ public class RequirementController extends Controller{
         }
         //Returns and 200 OK with a JsonNode as Body.
         //JsonNode req = qh.getRequirementByCategoryName(name);
-        JsonNode req = qh.executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_NAME,name);
+        JsonNode req = qh.executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID,name);
         return ok(req);
     }
 }
