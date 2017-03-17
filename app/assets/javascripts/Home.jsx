@@ -9,7 +9,7 @@ class Home extends React.Component {
        this.props.getUserData();
     }
 
-    getUserData(){
+    UserData(){
         let username = "";
         let userClass = "";
 
@@ -30,7 +30,7 @@ class Home extends React.Component {
         return (
             <div id="home">
                 <h1>Velkommen</h1>
-                {this.getUserData()}
+                {this.UserData()}
             </div>
         );
     }

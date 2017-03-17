@@ -11,6 +11,7 @@ class NewProject extends React.Component {
 
     render() {
         return (
+            <div className="new-project">
                 <form action="/projects" method="post">
                     <h1>Nytt Prosjekt</h1>
                     <label><b>Prosjektnavn</b></label><br/>
@@ -32,8 +33,8 @@ class NewProject extends React.Component {
                     <br/>
 
                     <button type="submit">Legg til</button>
-
                 </form>
+            </div>
         );
     }
 }

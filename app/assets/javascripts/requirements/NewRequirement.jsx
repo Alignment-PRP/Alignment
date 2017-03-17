@@ -12,45 +12,47 @@ class NewRequirement extends React.Component {
 	render() {
 
 		return (
-			<form action="/add-requirement" method="post">
-                <h1>Lag nytt krav</h1>
+		    <div className="new-requirement">
+                <form action="/add-requirement" method="post">
+                    <h1>Lag nytt krav</h1>
 
-                <br/>
+                    <br/>
 
-				<label><b>KravNavn</b></label><br/>
-				<input type="text" placeholder="Kravname" name="name" required/>
+                    <label><b>KravNavn</b></label><br/>
+                    <input type="text" placeholder="Kravname" name="name" required/>
 
-                <br/>
-				<label><b>Beskrivelse</b></label><br/>
-				<input type="text" placeholder="Beskrivelse" name="description" required/>
+                    <br/>
+                    <label><b>Beskrivelse</b></label><br/>
+                    <input type="text" placeholder="Beskrivelse" name="description" required/>
 
-                <br/>
+                    <br/>
 
-				<label> <b>Source</b></label><br/>
-				<input type="text" placeholder="Source" name="source" required/>
+                    <label> <b>Source</b></label><br/>
+                    <input type="text" placeholder="Source" name="source" required/>
 
-                <br/>
-				<label><b>Stimulus</b></label><br/>
-				<input type="text" placeholder="Stimulus" name="stimulus" required/>
+                    <br/>
+                    <label><b>Stimulus</b></label><br/>
+                    <input type="text" placeholder="Stimulus" name="stimulus" required/>
 
-                <br/>
-				<label> <b>Artifact</b></label><br/>
-				<input type="text" placeholder="Artifact" name="artifact" required/>
+                    <br/>
+                    <label> <b>Artifact</b></label><br/>
+                    <input type="text" placeholder="Artifact" name="artifact" required/>
 
-                <br/>
-				<label> <b>Response</b></label><br/>
-				<input type="text" placeholder="Response" name="response" required/>
+                    <br/>
+                    <label> <b>Response</b></label><br/>
+                    <input type="text" placeholder="Response" name="response" required/>
 
-                <br/>
-				<label> <b>Environment</b></label><br/>
-				<input type="text" placeholder="Environment" name="environment" required/>
+                    <br/>
+                    <label> <b>Environment</b></label><br/>
+                    <input type="text" placeholder="Environment" name="environment" required/>
 
-                <br/>
-				<label><b>Public</b></label>
-				<input type="checkbox" name="public"/>
-                <br/>
-                <button type="submit">Legg til</button>
-				</form>
+                    <br/>
+                    <label><b>Public</b></label>
+                    <input type="checkbox" name="public"/>
+                    <br/>
+                    <button type="submit">Legg til</button>
+                </form>
+            </div>
 		);
 	}
 }

@@ -21,7 +21,7 @@ class SideMenu extends React.Component {
         };
     }
 
-    renderWithDivIdIfMode(divID){
+    renderWithDivID(divID){
         let divTag = null;
         if(this.props.mode == "HIDE"){
             divTag =( <div style={this.state.hide} id={divID}>
@@ -91,7 +91,7 @@ class SideMenu extends React.Component {
 
     render() {
         return (
-            this.renderWithDivIdIfMode("sidemenu")
+            this.renderWithDivID("sidemenu")
         );
     }
 }
@@ -99,9 +99,6 @@ class SideMenu extends React.Component {
 const mapStateToProps = (state) => {
     return {
         mode: state.sideMenuReducer.mode,
-        requirements: state.requirementReducer.requirements,
-        filter: state.requirementReducer.filter,
-        filterRequirementList: state.requirementReducer.filterRequirementList,
     };
 };
 
@@ -110,13 +107,6 @@ const mapDispatchToProps = (dispatch) => {
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
         },
-        updateFilter: (newFilter) => {
-            dispatch(updateFilter(newFilter))
-        },
-        updateFilterRequirementList: (newRequirementList) => {
-            dispatch(updateFilterRequirementList(newRequirementList))
-        }
-
     }
 };
 

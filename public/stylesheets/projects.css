@@ -20,3 +20,7 @@
 .all-project-list table {
     width: 100%;
 }
+
+.new-project {
+    padding: 15px;
+}
