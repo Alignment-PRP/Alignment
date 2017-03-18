@@ -8,7 +8,6 @@ class RequirementListItemCheckbox extends React.Component {
     constructor(props){
         super(props)
 
-        this.handleOnClick = this.handleOnClick.bind(this);
 
     }
 

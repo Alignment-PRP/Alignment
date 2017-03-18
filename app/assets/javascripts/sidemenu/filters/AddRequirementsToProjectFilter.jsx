@@ -1,14 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import { updateFilter } from '../../redux/actions/requirementActions.jsx';
-import { updateFilterRequirementList } from '../../redux/actions/requirementActions.jsx';
-
-class AddRequirementsToProjectFilter extends React.Component {
+export default class AddRequirementsToProjectFilter extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateMenuFilter = this.updateMenuFilter.bind(this);
+        this.updateFilter = this.updateFilter.bind(this);
         this.filterRequirementList = this.filterRequirementList.bind(this);
         this.generateFilterMenuCheckboxes = this.generateFilterMenuCheckboxes.bind(this);
     }
@@ -21,7 +17,7 @@ class AddRequirementsToProjectFilter extends React.Component {
         for (let requirement of allRequirements){
             for (let category of categoryFilter){
                 if (category == requirement.cname){
-                   newFilterRequirementList.push(requirement);
+                    newFilterRequirementList.push(requirement);
                 }
 
             }
@@ -31,18 +27,20 @@ class AddRequirementsToProjectFilter extends React.Component {
 
     }
 
-    updateMenuFilter(e) {
+    updateFilter(e) {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
         if (value) {
             const newFilter = this.props.filter;
             newFilter.push(e.target.value);
-            this.props.updateFilter(newFilter);
+            console.log(newFilter);
+            this.props.onChangeHandler(newFilter);
         }else{
             const removeCategory = e.target.value;
             const oldFilter = this.props.filter;
             const newFilter = oldFilter.filter(item => item !== removeCategory);
-            this.props.updateFilter(newFilter);
+            console.log(newFilter);
+            this.props.onChangeHandler(newFilter);
 
         }
 
@@ -59,40 +57,24 @@ class AddRequirementsToProjectFilter extends React.Component {
         const uniqueCategoryList = Array.from(new Set(categoryList));
 
         return uniqueCategoryList.map((category, index) => {
-            return <p key={index} >{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></p>
+                return <p key={index} >{category}<input onChange={this.updateFilter} type="checkbox" name={category} value={category}/></p>
             }
         )
     }
+
+    onChangeHandler(newFilter){
+        this.props.onChangeHandler(newFilter);
+    }
+
 
     render() {
         return (
             <div id="filter">
                 <h4>{this.props.title}</h4>
                 <h2><b>Kategori</b></h2>
-                {this.generateFilterMenuCheckboxes()}
-                <button onClick={this.filterRequirementList}>Oppdater kravliste</button><br/>
+                <p>Sikkerhet<input onChange={this.updateFilter} type="checkbox" name="Sikkerhet" value="Sikkerhet"/></p>
+                <p>Pålitelighet<input onChange={this.updateFilter} type="checkbox" name="Pålitelighet" value="Pålitelighet"/></p>
             </div>
         );
     }
 }
-
-const mapStateToProps = (state) => {
-    return {
-        requirements: state.requirementReducer.requirements,
-        filter: state.requirementReducer.filter,
-        filterRequirementList: state.requirementReducer.filterRequirementList,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateFilter: (newFilter) => {
-            dispatch(updateFilter(newFilter))
-        },
-        updateFilterRequirementList: (newRequirementList) => {
-            dispatch(updateFilterRequirementList(newRequirementList))
-        }
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddRequirementsToProjectFilter);

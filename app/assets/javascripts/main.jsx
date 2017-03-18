@@ -22,7 +22,7 @@ import {Provider} from "react-redux";
 import store from './redux/store.jsx';
 
 
-//Defining url links
+//Defining URL links
 class App extends React.Component {
 
     render() {
@@ -41,13 +41,13 @@ class App extends React.Component {
                         <Route path={"add-requirement"} component={AllRequirements}/>
                         <Route path={"editrequirement"} component={UpdateRequirement}/>
                         <Route path={"logout"} component={Logout}/>
+                        <Route path={"testing"} component={Projects}/>
                     </Route>
                 </Router>
             </Provider>
         );
     }
-
-    }
+}
 
 ReactDOM.render(
     React.createElement(App, null),
