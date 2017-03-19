@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import {connect} from 'react-redux'
 import RequirementListItemMini from '../requirements/presentational/RequirementListItemMini.jsx'
 
@@ -9,9 +10,42 @@ import { getRequirementsByProjectId } from "../redux/actions/projectActions.jsx"
 import { getAllRequirements } from '../redux/actions/requirementActions.jsx';
 
 class Project extends React.Component {
+    constructor(props){
+        super(props);
 
-    componentDidMount(){
-        this.props.getRequirementsByProjectId(this.props.params.id)
+        this.state = {
+            projectRequirements: [],
+            allRequirements: []
+
+        }
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:9000/all-projectrequirements?id=' + this.props.params.id)
+            .then(response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                });
+
+                this.setState({
+                    projectRequirements: data
+                });
+
+            });
+
+        axios.get('http://localhost:9000/requirements/all ')
+            .then(response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                });
+
+                this.setState({
+                    allRequirements: data
+                });
+
+            });
     }
 
     componentWillMount(){
@@ -19,8 +53,14 @@ class Project extends React.Component {
     }
 
     renderProjectRequirementList(){
+        return this.state.projectRequirements.map((item, index) => {
+                return <RequirementListItemMini key={index} requirement={item}/>
+            }
+        )
+    }
 
-        return this.props.projectRequirements.map((item, index) => {
+    renderAllRequirementList(){
+        return this.state.allRequirements.map((item, index) => {
                 return <RequirementListItemMini key={index} requirement={item}/>
             }
         )
@@ -28,11 +68,24 @@ class Project extends React.Component {
 
 
     render() {
+        console.log("krav", this.state.allRequirements);
+        console.log("p_krav", this.state.projectRequirements);
+
         return (
             <div className="container">
                 <div className="add-requirements">
-                    <h1> Krav </h1>
-
+                    <h1>Legg til Krav</h1>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Navn</th>
+                            <th>Beskrivelse</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.renderAllRequirementList()}
+                        </tbody>
+                    </table>
                 </div>
                 <div className="project-requirements">
                     <h1>Prosjekt Krav</h1>
