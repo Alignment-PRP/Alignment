@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import Root from './Root.jsx';
 import Home from './Home.jsx';
 import Logout from './utility/Logout.jsx';
+import Admin from './admin/Admin.jsx';
 
 //Project
 import Projects from './projects/Projects.jsx';
@@ -41,6 +42,7 @@ class App extends React.Component {
                         <Route path={"add-requirement"} component={AllRequirements}/>
                         <Route path={"editrequirement"} component={UpdateRequirement}/>
                         <Route path={"logout"} component={Logout}/>
+                        <Route path={"admin"} component={Admin}/>
                     </Route>
                 </Router>
             </Provider>
