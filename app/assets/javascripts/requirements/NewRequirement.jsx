@@ -1,5 +1,5 @@
 import React from 'react';
-
+import * as URLS from './../config.jsx';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
@@ -13,7 +13,7 @@ class NewRequirement extends React.Component {
 
 		return (
 		    <div className="new-requirement">
-                <form action="/add-requirement" method="post">
+                <form action={URLS.REQUIREMENT_POST_ADD} method="post">
                     <h1>Lag nytt krav</h1>
 
                     <br/>

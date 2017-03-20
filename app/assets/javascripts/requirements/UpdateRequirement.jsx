@@ -1,5 +1,5 @@
 import React from 'react';
-
+import * as URLS from './../config.jsx';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
@@ -21,7 +21,7 @@ class UpdateRequirement extends React.Component {
 
 		return (
 		    <div className="update-requirement">
-		    	<form action="/update-requirement" method="post">
+		    	<form action={URLS.REQUIREMENT_POST_UPDATE} method="post">
                     <h1>Oppdater Krav</h1>
 
                     <label><b>KravId</b></label><br/>

@@ -3,7 +3,7 @@ import * as URLS from './../../config.jsx';
 
 export function getAllRequirements() {
     return dispatch => {
-        axios.get(URLS.ALL_REQUIREMENTS)
+        axios.get(URLS.REQUIREMENT_GET_ALL)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
