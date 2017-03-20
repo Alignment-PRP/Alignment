@@ -1,9 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import * as URLS from '../config.jsx';
 import {connect} from 'react-redux'
 import RequirementListItemMini from '../requirements/presentational/RequirementListItemMini.jsx'
-
-
 
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { getRequirementsByProjectId } from "../redux/actions/projectActions.jsx";
@@ -14,14 +13,15 @@ class Project extends React.Component {
         super(props);
 
         this.state = {
-            projectRequirements: [],
-            allRequirements: []
+            projectRequirements: null,
+            allRequirements: null,
+            newRequirementList: []
 
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:9000/all-projectrequirements?id=' + this.props.params.id)
+        axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID + this.props.params.id)
             .then(response => {
                 const data = [];
                 response.data.map((object) => {
@@ -34,7 +34,7 @@ class Project extends React.Component {
 
             });
 
-        axios.get('http://localhost:9000/requirements/all ')
+        axios.get(URLS.REQUIREMENTS_GET)
             .then(response => {
                 const data = [];
                 response.data.map((object) => {
@@ -52,24 +52,55 @@ class Project extends React.Component {
         this.props.changeSideMenuMode("HIDE")
     }
 
+    setNewRequirementList(){
+        let allRequirements = null;
+        let projectRequiremetns = null;
+
+        if(this.state.allRequirements != null){
+            allRequirements = [].concat(this.state.allRequirements);
+        }
+        if(this.state.projectRequirements != null){
+            projectRequiremetns = [].concat(this.state.projectRequirements);
+        }
+
+    }
+
     renderProjectRequirementList(){
-        return this.state.projectRequirements.map((item, index) => {
-                return <RequirementListItemMini key={index} requirement={item}/>
-            }
-        )
+        this.setNewRequirementList();
+        if(this.state.projectRequirements != null){
+            return this.state.projectRequirements.map((item, index) => {
+                    return <RequirementListItemMini key={index} requirement={item}/>
+                }
+            )
+        }else{
+            return (
+                    <tr>
+                        <td>Henter prosjekt kravliste...</td>
+                    </tr>
+                )
+        }
     }
 
     renderAllRequirementList(){
-        return this.state.allRequirements.map((item, index) => {
-                return <RequirementListItemMini key={index} requirement={item}/>
-            }
-        )
+        if(this.state.allRequirements != null){
+            return this.state.allRequirements.map((item, index) => {
+                    return <RequirementListItemMini key={index} requirement={item}/>
+                }
+            )
+        }else{
+            return (
+                <tr>
+                    <td>Henter kravliste...</td>
+                </tr>
+            )
+        }
     }
 
 
     render() {
         console.log("krav", this.state.allRequirements);
         console.log("p_krav", this.state.projectRequirements);
+        console.log("new_krav", this.state.newRequirementList);
 
         return (
             <div className="container">
