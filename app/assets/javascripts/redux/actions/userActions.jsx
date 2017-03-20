@@ -1,8 +1,9 @@
 import axios from 'axios';
+import * as URLS from './../../config.jsx';
 
 export function getUserData() {
     return dispatch => {
-        axios.get('http://localhost:9000/usernameAndClass')
+        axios.get(URLS.USERNAME_AND_CLASS)
             .then(response => {
                 const data = [];
                 response.data.map((object) => {

@@ -1,8 +1,9 @@
 import axios from 'axios';
+import * as URLS from './../../config.jsx';
 
 export function getAllRequirements() {
     return dispatch => {
-        axios.get('http://localhost:9000/requirements/all ')
+        axios.get(URLS.ALL_REQUIREMENTS)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
