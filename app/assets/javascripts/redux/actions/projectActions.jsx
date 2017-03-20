@@ -3,7 +3,7 @@ import * as URLS from './../../config.jsx';
 
 export function getAllProjects() {
     return dispatch => {
-        axios.get(URLS.PROJECT_GET_ALL_USER)
+        axios.get(URLS.PROJECTS_GET)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
