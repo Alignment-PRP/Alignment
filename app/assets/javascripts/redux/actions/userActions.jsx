@@ -3,7 +3,7 @@ import * as URLS from './../../config.jsx';
 
 export function getUserData() {
     return dispatch => {
-        axios.get(URLS.USERNAME_AND_CLASS)
+        axios.get(URLS.USER_GET)
             .then(response => {
                 const data = [];
                 response.data.map((object) => {
