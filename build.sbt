@@ -8,36 +8,38 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.8"
 
-libraryDependencies += javaJpa
-
-libraryDependencies += "org.mockito" % "mockito-core" % "2.1.0"
-
-libraryDependencies += javaWs % "test"
-
-libraryDependencies += "org.hibernate" % "hibernate-core" % "5.2.5.Final"
-
-libraryDependencies += javaJdbc
-
-libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"
-
-libraryDependencies += "org.mindrot" % "jbcrypt" % "0.4"
-
-/*
 libraryDependencies ++= Seq(
-  "org.webjars" %% "webjars-play" % "2.5.0",
-  "org.webjars" % "react" % "15.3.2",
-  "org.webjars.npm" % "react-tap-event-plugin" % "1.0.0",
-  "org.webjars.bower" % "material-ui" % "0.16.7",
-  "org.webjars.npm" % "browserify" % "13.1.0"
-}
-*/
-
+  javaJpa,
+  "org.mockito" % "mockito-core" % "2.1.0",
+  javaWs % "test",
+  "org.hibernate" % "hibernate-core" % "5.2.5.Final",
+  javaJdbc,
+  "mysql" % "mysql-connector-java" % "5.1.36",
+  "org.mindrot" % "jbcrypt" % "0.4"
+)
 
 val browserifyTask = taskKey[Seq[File]]("Run browserify")
 val browserifyOutputDir = settingKey[File]("Browserify output directory")
 browserifyOutputDir := target.value / "web" / "browserify"
 
 browserifyTask := {
+  val libsList = List(
+    "axios",
+    "classnames",
+    "material-ui",
+    "react",
+    "react-addons-css-transition-group",
+    "react-addons-transition-group",
+    "react-dom",
+    "react-redux",
+    "react-router",
+    "react-tap-event-plugin",
+    "redux",
+    "redux-form",
+    "redux-form-material-ui",
+    "redux-logger",
+    "redux-thunk"
+  )
   val reactFiles = List(
     "./node_modules/react/react.js",
     "./node_modules/react-dom/index.js"
@@ -46,6 +48,16 @@ browserifyTask := {
   val appOutput = "target/web/browserify/main.js"
   val appFolder = "app/assets/javascripts"
   val appStartingPoint = "app/assets/javascripts/main.jsx"
+
+  def libs(prefix: String): String = {
+    def libsString(list: List[String]): String = {
+      list match {
+        case Nil => " "
+        case h :: t => prefix + h + " " + libsString(t)
+      }
+    }
+    libsString(libsList)
+  }
 
   def browserify: String = {
     def isWindows: Boolean = {
@@ -95,14 +107,14 @@ browserifyTask := {
     println("%React: Running browserify")
     val outputVendorFile = browserifyOutputDir.value / "react.js"
     browserifyOutputDir.value.mkdirs
-    "./node_modules/.bin/"+browserify+" --fast -o "+ outputVendorFile+" -r react -r react-dom -r react-addons-transition-group -r material-ui" !;
+    "./node_modules/.bin/"+browserify+" --fast -o " + outputVendorFile + " " + libs("-r ") !;
   }
 
   if (modified(appOutput, appFolder)) {
     println("%Client: Running browserify")
     val outputFile = browserifyOutputDir.value / "main.js"
     browserifyOutputDir.value.mkdirs
-    "./node_modules/.bin/"+browserify+" --fast -t [ babelify --presets [ es2015 react ] ] "+appStartingPoint+" -o "+outputFile.getPath+" -x=react -x=react-dom -x=material-ui -x=react-addons-transition-group" !;
+    "./node_modules/.bin/"+browserify+" --fast -t [ babelify --presets [ es2015 react ] ] " + appStartingPoint + " -o " + outputFile.getPath + " " + libs("-x=") !;
   }
   Nil
 
