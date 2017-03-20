@@ -65,15 +65,13 @@ class Sidebar extends React.Component {
     render() {
         return (
             <div style={this.style.sidebar} onMouseEnter={this.open} onMouseLeave={this.close}>
-                <MuiThemeProvider>
-                    <Menu autoWidth={false} width={290}>
-                        <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
-                        <MenuItem primaryText="Prosjekter"containerElement={<Link to="/projects" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
-                        <MenuItem primaryText="Krav"containerElement={<Link to="/allrequirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
-                        <MenuItem primaryText="Logg ut"containerElement={<Link to="/logout" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
-                        <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
-                    </Menu>
-                </MuiThemeProvider>
+                <Menu autoWidth={false} width={290}>
+                    <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
+                    <MenuItem primaryText="Prosjekter"containerElement={<Link to="/projects" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
+                    <MenuItem primaryText="Krav"containerElement={<Link to="/allrequirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                    <MenuItem primaryText="Logg ut"containerElement={<Link to="/logout" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
+                    <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
+                </Menu>
             </div>
         );
     }
