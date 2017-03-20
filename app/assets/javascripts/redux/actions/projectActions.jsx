@@ -1,8 +1,9 @@
 import axios from 'axios';
+import * as URLS from './../../config.jsx';
 
 export function getAllProjects() {
     return dispatch => {
-        axios.get('http://localhost:9000/projects')
+        axios.get(URLS.ALL_PROJECTS)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
@@ -26,7 +27,7 @@ function getAllProjectsAsync(data) {
 
 export function getProjectById(id) {
     return dispatch => {
-        axios.get('http://localhost:9000/project/id/' + id)
+        axios.get(URLS.PROJECT_BY_ID + id)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
@@ -48,7 +49,7 @@ function getProjectByIdAsync(data) {
 
 export function getRequirementsByProjectId(id) {
     return dispatch => {
-        axios.get('http://localhost:9000/all-projectrequirements?id=' + id)
+        axios.get(URLS.ALL_PROJECTREQUIREMENTS_BY_ID + id)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
