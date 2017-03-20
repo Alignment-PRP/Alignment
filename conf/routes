@@ -2,63 +2,55 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.ApplicationController.init()
 
+#Test stuff
 GET     /login                      controllers.ApplicationController.login()
-POST    /login                      controllers.LoginController.authenticate()
-GET     /logout                     controllers.LoginController.logout()
-GET     /usernameAndClass           controllers.UserController.getUser()
+GET     /api/logout                     controllers.LoginController.logout()
+GET     /api/sign-up                    controllers.SignupController.signUp()
+GET     /api/projectrequirementsForm    controllers.ProjectController.getProjectRequirementForm()
+GET     /api/project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
+GET     /api/project/addReq             controllers.ProjectController.addReqForm()
+GET     /api/newproject                 controllers.ProjectController.getNewProjectView()
+GET     /api/add-category               controllers.AdminController.addCategory()
+GET     /api/add-requirementcategeory   controllers.AdminController.addCategeroyToRequirement()
+GET     /api/update-requirement         controllers.AdminController.updateReq()
+GET     /api/add-requirement            controllers.AdminController.addRequirement()
 
-GET     /sign-up                    controllers.SignupController.signUp()
-POST    /sign-up                    controllers.SignupController.create()
 
+#API CALLS
+GET     /api/user                           controllers.UserController.getUser()
+POST    /api/login                          controllers.LoginController.authenticate()
+POST    /api/sign-up                        controllers.SignupController.create()
 
+GET     /api/projects                       controllers.ProjectController.getPublicProjects()
+GET     /api/projects/user                  controllers.ProjectController.getUserRelatedProjects()
+POST    /api/project/new                    controllers.ProjectController.newProject()
+POST    /api/project/requirement/new        controllers.RequirementController.newProjectRequirement()
+POST    /api/project/requirement/add        controllers.ProjectController.addReq()
+GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id)
+GET     /api/project/:id                    controllers.ProjectController.getProjectByProjectID(id: String)
 
-# Preliminary site-navigation
-GET     /projects                   controllers.ProjectController.getUserRelatedProjects()
-GET     /public/projects            controllers.ProjectController.getPublicProjects()
+POST    /api/requirement/add                controllers.AdminController.addReq()
+POST    /api/requirement/update             controllers.AdminController.updateRequirement()
+POST    /api/requirement/category/add       controllers.AdminController.insertRequirementCategory()
+GET     /api/requirement/category/:id       controllers.RequirementController.getRequirementsByCategoryID(id: String)
+GET     /api/requirements/admin             controllers.AdminController.getReq()
+GET     /api/requirements                   controllers.RequirementController.getAllRequirements()
 
-GET     /newproject                 controllers.ProjectController.getNewProjectView()
-POST    /projects                   controllers.ProjectController.newProject()
-GET     /project/id/:id             controllers.ProjectController.getProjectByProjectID(id: String)
+POST    /api/category/add                   controllers.AdminController.createCategory()
+GET     /api/category/all/names             controllers.RequirementController.getCategories()
+GET     /api/category/byname/:name          controllers.RequirementController.getRequirementsByCategoryName(name: String)
 
-GET     /requirements/category/:id  controllers.RequirementController.getRequirementsByCategoryID(id: String)
-GET     /requirements/all           controllers.RequirementController.getAllRequirements()
+POST    /api/subcategory/add                controllers.AdminController.addSubcategory()
 
-GET     /projectrequirementsForm    controllers.ProjectController.getProjectRequirementForm()
-GET     /all-projectrequirements    controllers.ProjectController.getProjectRequirements(id)
-
-GET     /project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
-POST    /project/requirement        controllers.RequirementController.newProjectRequirement()
-
-GET     /project/addReq             controllers.ProjectController.addReqForm()
-POST    /project/addReq             controllers.ProjectController.addReq()
-
-GET     /category/names             controllers.RequirementController.getCategories()
-GET     /category/byname/:name      controllers.RequirementController.getRequirementsByCategoryName(name: String)
-
-GET     /add-requirement            controllers.AdminController.addRequirement()
-POST    /add-requirement            controllers.AdminController.addReq()
-
-GET     /get-requirement            controllers.AdminController.getReq()
-
-GET     /update-requirement         controllers.AdminController.updateReq()
-POST    /update-requirement         controllers.AdminController.updateRequirement()
-
-GET     /add-category               controllers.AdminController.addCategory()
-POST    /add-category               controllers.AdminController.createCategory()
-
-POST    /add-subcategory            controllers.AdminController.addSubcategory()
-
-GET     /add-requirementcategeory   controllers.AdminController.addCategeroyToRequirement()
-POST    /add-requirementcategeory   controllers.AdminController.insertRequirementCategory()
 
 #GET     /delete-project             controllers.AdminController.deleteProjects()
 #POST    /delete-project             controllers.AdminController.deleteProject()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                       controllers.Assets.at(path="/public", file)
 
-# EXAMPLE
-GET     /api/user/:name             controllers.DatabaseController.userByName(name: String)
+### ROUTES FOR REACT ###
+GET     /                                   controllers.ApplicationController.init()
+GET     /*url                               controllers.ApplicationController.initUrl(url)
+### DO NOT ADD ROUTES BELOW THIS ###

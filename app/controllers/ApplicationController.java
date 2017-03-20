@@ -26,6 +26,16 @@ public class ApplicationController extends Controller {
     public Result login() {
         return ok(views.html.login.render());
     }
+
+    /**
+     * React routing
+     * @param url
+     * @return
+     */
+    public Result initUrl(String url) {
+        return init();
+    }
+
     public Result init(){
         Http.Request request = request();
         Http.Cookie cookieID = request.cookie("id");

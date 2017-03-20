@@ -33,11 +33,13 @@ class App extends React.Component {
                         <IndexRoute component={Home}/>
                         <Route path={"login"} component={Home}/>
                         <Route path={"projects"} component={Projects}/>
+                        <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
                         <Route path={"project/:id"} component={Project}/>
                         <Route path={"newproject"} component={NewProject}/>
                         <Route path={"allrequirements"} component={AllRequirements}/>
+                        <Route path={"/api/requirement/add"} component={AllRequirements}/> {/* for rerouting purposes*/}
+                        <Route path={"/api/requirement/update"} component={AllRequirements}/> {/* for rerouting purposes*/}
                         <Route path={"newrequirement"} component={NewRequirement}/>
-                        <Route path={"update-requirement"} component={AllRequirements}/>
                         <Route path={"add-requirement"} component={AllRequirements}/>
                         <Route path={"editrequirement"} component={UpdateRequirement}/>
                         <Route path={"logout"} component={Logout}/>
