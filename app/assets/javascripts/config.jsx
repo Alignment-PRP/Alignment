@@ -9,12 +9,12 @@ export const SIGN_UP_POST = API + "/sign-up";
 export const USER_GET = API + "/user";
 
 export const PROJECT = API + "/project";
-export const PROJECT_GET_ALL_USER = PROJECT_GET_ALL + "/user";
 export const PROJECT_POST_NEW = PROJECT + "/new";
 export const PROJECT_GET_BY_ID = PROJECT + "/";
 
 export const PROJECTS = API + "/projects";
 export const PROJECTS_GET = PROJECTS;
+export const PROJECTS_GET_USER = PROJECTS_GET + "/user";
 
 export const PROJECT_REQUIREMENT = PROJECT + "/requirement";
 export const PROJECT_REQUIREMENT_POST_NEW = PROJECT_REQUIREMENT + "/new";
