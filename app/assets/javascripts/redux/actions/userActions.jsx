@@ -21,3 +21,26 @@ function getUserDataAsync(data) {
         payload: data
     }
 }
+
+export function getUsers() {
+    return dispatch => {
+        axios.get(URLS.USERS_GET)
+            .then( response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                    return data
+                });
+                dispatch(getUsersAsync(data))
+            });
+
+    }
+
+}
+
+function getUsersAsync(data) {
+    return {
+        type: "GET_USERS",
+        payload: data
+    }
+}
