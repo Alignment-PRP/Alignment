@@ -8,7 +8,7 @@ class Projects extends React.Component {
 
     componentDidMount(){
         this.props.getAllProjects();
-        this.props.changeSideMenuMode("MENU");
+        this.props.changeSideMenuMode("PROJECTS_MENU");
 
     }
 
@@ -35,7 +35,6 @@ class Projects extends React.Component {
                             <th>Beskrivelse</th>
                             <th>Project owner</th>
                             <th>Project manager</th>
-                            <th>Stuff</th>
                         </tr>
                     </thead>
                     <tbody>

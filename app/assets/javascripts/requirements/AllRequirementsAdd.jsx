@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import RequirementListItemCheckbox from './presentational/RequirementListItemCheckbox.jsx';
+import RequirementListItemMini from './presentational/RequirementListItemMini.jsx';
 import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
@@ -19,7 +19,7 @@ class AllRequirements extends React.Component {
             renderRequirement = this.props.filterRequirementList;
         }
         return renderRequirement.map((item, index) => {
-            return <RequirementListItemCheckbox key={index} requirement={item}/>
+            return <RequirementListItemMini key={index} requirement={item}/>
             }
         )
     }
@@ -34,14 +34,7 @@ class AllRequirements extends React.Component {
                     <tr>
                         <th>Name</th>
                         <th>Beskrivelse</th>
-                        <th>Source</th>
-                        <th>Stimulus</th>
-                        <th>Artifact</th>
-                        <th>Responce</th>
-                        <th>ResponceMeasure</th>
-                        <th>Environment</th>
                         <th>Category</th>
-                        <th>CategoryDescription</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -2,7 +2,7 @@
 
 
 <h1> add category</h1>
-<form action="/add-category" method="post">
+<form action="/api/category/add" method="post">
 
     <label><b>Category name</b></label><br>
     <input type="text" placeholder="Enter categoryname" name="name" required>
@@ -17,7 +17,7 @@
 
 <br>
 <h1>Add subcategory (parent/child relation)</h1>
-<form action="/add-subcategory" method="post">
+<form action="/api/subcategory/add" method="post">
 
 <label><b>Parent</b></label><br>
 <input type="number" name="parent" min="0" required>

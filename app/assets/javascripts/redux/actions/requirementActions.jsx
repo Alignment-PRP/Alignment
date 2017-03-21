@@ -1,8 +1,9 @@
 import axios from 'axios';
+import * as URLS from './../../config.jsx';
 
 export function getAllRequirements() {
     return dispatch => {
-        axios.get('http://localhost:9000/requirements/all ')
+        axios.get(URLS.REQUIREMENTS_GET)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
@@ -34,5 +35,12 @@ export function updateFilter(newFilter) {
     return {
         type: 'UPDATE_FILTER',
         payload: newFilter
+    }
+}
+
+export function updateRequirement(requirement) {
+    return {
+        type: 'UPDATE_REQUIREMENT',
+        payload: requirement
     }
 }
