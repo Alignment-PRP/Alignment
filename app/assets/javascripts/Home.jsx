@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import { getUserData } from './redux/actions/userActions.jsx';
@@ -32,7 +31,6 @@ class Home extends React.Component {
             <div id="home">
                 <h1>Velkommen</h1>
                 {this.UserData()}
-                <Link to="testing"><button>Testing</button></Link>
             </div>
         );
     }
