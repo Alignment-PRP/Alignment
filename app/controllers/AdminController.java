@@ -131,7 +131,7 @@ public class AdminController extends Controller {
 
         return ok();
     }
-
+*/
     //=========================== ADD SUBCATEGORY =======================================
 
     public Result addSubcategory(){
@@ -139,12 +139,12 @@ public class AdminController extends Controller {
         String parent = values.get("parent")[0];
         String child = values.get("child")[0];
         //note: this should also cover the case of parent = child (returns 1 but not 2)
-        JsonNode exists = qh.executeQuery(Statement.CATEGORIES_EXISTS, parent, child);
+        JsonNode exists = qh.executeQuery(Statement.CATEGORY_EXISTS);
         System.out.println(exists);
         if(exists.get(0).get("bool").asInt() != 2){
             return unauthorized("one or more of the selected categories do not exist");
         }
-        qh.addTableRelation(Statement.ADD_SUBCATEGORY, Integer.parseInt(parent), Integer.parseInt(child));
+        qh.addTableRelation(Statement.INSERT_SUBCATEGORY, Integer.parseInt(parent), Integer.parseInt(child));
         return ok("new parent/child relationship established");
     }
 
@@ -161,12 +161,12 @@ public class AdminController extends Controller {
         System.out.println(categoryExists);
 
         if(reqExists == 1 && categoryExists == 1){
-            qh.addTableRelation(Statement.ADD_REQUIREMENT_CATEGORY, requirement, category);
+            qh.addTableRelation(Statement.INSERT_CATEGORY, requirement, category);
             return ok("added requirementCategory");
         }
         return unauthorized("category or requirement does not exist");
     }
-*/
+
     public Result addCategeroyToRequirement(){
         return ok(views.html.addRequirementCategory.render());
     }
