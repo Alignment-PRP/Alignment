@@ -1,13 +1,14 @@
 import React from 'react';
 
-export default class RequirementListItemMini extends React.Component {
+export default class RequirementListItemMiniAdd extends React.Component {
 
     render() {
         const requirement = this.props.requirement;
         return (
-            <tr className="requirement-row">
+            <tr>
                 <td>{requirement.name}</td>
                 <td>{requirement.description}</td>
+                <td><button onClick={() => this.props.onClickHandler(requirement.requirementid)}>Legg til</button></td>
             </tr>
 
         );

@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import * as URLS from '../config.jsx';
+import * as URLS from '../config.jsx'
 import {connect} from 'react-redux'
+
+
 import RequirementListItemMini from '../requirements/presentational/RequirementListItemMini.jsx'
+import RequirementListItemMiniAdd from '../requirements/presentational/RequirementListItemMiniAdd.jsx'
 
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { getRequirementsByProjectId } from "../redux/actions/projectActions.jsx";
@@ -12,79 +15,23 @@ class Project extends React.Component {
     constructor(props){
         super(props);
 
-        this.state = {
-            projectRequirements: null,
-            allRequirements: null,
-            newRequirementList: []
-
-        }
+        this.onClickHandler = this.onClickHandler.bind(this);
     }
 
     componentDidMount() {
-        axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID + this.props.params.id)
-            .then(response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                });
-
-                this.setState({
-                    projectRequirements: data
-                });
-
-            });
-
-        axios.get(URLS.REQUIREMENTS_GET)
-            .then(response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                });
-
-                this.setState({
-                    allRequirements: data
-                });
-
-            });
+        this.props.getRequirementsByProjectId(this.props.params.id);
+        this.props.getAllRequirements();
     }
 
     componentWillMount(){
         this.props.changeSideMenuMode("HIDE")
     }
 
-    setNewRequirementList(){
-
-
-        let filterProjectRequirements = [];
-        let allRequirements = null;
-        let projectRequirements = null;
-
-
-        if(this.state.allRequirements != null){
-            allRequirements = [].concat(this.state.allRequirements);
-        }
-        if(this.state.projectRequirements != null){
-            projectRequirements = [].concat(this.state.projectRequirements);
-        }
-
-        if(allRequirements != null && projectRequirements != null){
-            for (let a_req of allRequirements){
-                for (let p_req of projectRequirements ){
-                    if( a_req.name != p_req.name){
-                        console.log(a_req);
-                    }
-                }
-            }
-        }
-        //const uniqueCategoryList = Array.from(new Set(categoryList));
-
-    }
 
     renderProjectRequirementList(){
-        this.setNewRequirementList();
-        if(this.state.projectRequirements != null){
-            return this.state.projectRequirements.map((item, index) => {
-                    return <RequirementListItemMini key={index} requirement={item}/>
+        if(this.props.projectRequirements != null){
+            return this.props.projectRequirements.map((item, index) => {
+                    return <RequirementListItemMini key={index} requirement={item} />
                 }
             )
         }else{
@@ -97,9 +44,9 @@ class Project extends React.Component {
     }
 
     renderAllRequirementList(){
-        if(this.state.allRequirements != null){
-            return this.state.allRequirements.map((item, index) => {
-                    return <RequirementListItemMini key={index} requirement={item}/>
+        if(this.props.allRequirements != null){
+            return this.props.allRequirements.map((item, index) => {
+                    return <RequirementListItemMiniAdd key={index} requirement={item} onClickHandler={this.onClickHandler}/>
                 }
             )
         }else{
@@ -111,12 +58,21 @@ class Project extends React.Component {
         }
     }
 
+    onClickHandler(r_id){
+
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, { projectid: parseInt(this.props.params.id), requirementid: parseInt(r_id) })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        console.log("ProjectID and ReqId", this.props.params.id, r_id);
+    }
+
+
 
     render() {
-        console.log("krav", this.state.allRequirements);
-        console.log("p_krav", this.state.projectRequirements);
-        console.log("new_krav", this.state.newRequirementList);
-
         return (
             <div className="container">
                 <div className="add-requirements">
