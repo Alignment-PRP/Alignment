@@ -53,15 +53,30 @@ class Project extends React.Component {
     }
 
     setNewRequirementList(){
+
+
+        let filterProjectRequirements = [];
         let allRequirements = null;
-        let projectRequiremetns = null;
+        let projectRequirements = null;
+
 
         if(this.state.allRequirements != null){
             allRequirements = [].concat(this.state.allRequirements);
         }
         if(this.state.projectRequirements != null){
-            projectRequiremetns = [].concat(this.state.projectRequirements);
+            projectRequirements = [].concat(this.state.projectRequirements);
         }
+
+        if(allRequirements != null && projectRequirements != null){
+            for (let a_req of allRequirements){
+                for (let p_req of projectRequirements ){
+                    if( a_req.name != p_req.name){
+                        console.log(a_req);
+                    }
+                }
+            }
+        }
+        //const uniqueCategoryList = Array.from(new Set(categoryList));
 
     }
 
