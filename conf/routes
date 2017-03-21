@@ -4,7 +4,7 @@
 
 
 #Test stuff
-GET     /login                      controllers.ApplicationController.login()
+GET     /login                          controllers.ApplicationController.login()
 GET     /api/logout                     controllers.LoginController.logout()
 GET     /api/sign-up                    controllers.SignupController.signUp()
 GET     /api/projectrequirementsForm    controllers.ProjectController.getProjectRequirementForm()
@@ -19,6 +19,8 @@ GET     /api/add-requirement            controllers.AdminController.addRequireme
 
 #API CALLS
 GET     /api/user                           controllers.UserController.getUser()
+GET     /api/users                          controllers.UserController.getUsers()
+GET     /api/users/:id                      controllers.UserController.getUserById(id: Integer)
 POST    /api/login                          controllers.LoginController.authenticate()
 POST    /api/sign-up                        controllers.SignupController.create()
 
