@@ -10,10 +10,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -28,15 +24,16 @@ public class UserController extends Controller {
         this.qh = new QueryHandler(db);
     }
 
-    public Result getUser(){
+    public Result getConnectedUser(){
         //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
-        Map<String, String> map = new HashMap<>();
-        String userName = qh.executeQuery(Statement.GET_USER_NAME, session("connected")).get(0).get("username").asText();
-        map.put("username", userName);
-        map.put("userClass", "UserClassPlaceholder");
-        List<Map<String,String>> list = new ArrayList<>();
-        list.add(map);
-        JsonNode result = Json.toJson(list);
+        String username = session("connected");
+        JsonNode result = qh.executeQuery(Statement.GET_USER_BY_USERNAME, username);
+        return ok(result);
+    }
+
+    public Result getUserByUsername(String username){
+        //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
+        JsonNode result = qh.executeQuery(Statement.GET_USER_BY_USERNAME, username);
         return ok(result);
     }
 
@@ -64,10 +61,4 @@ public class UserController extends Controller {
         return exists.get(0).get("bool").asInt() == 1;
     }
 
-    /*@deprecated
-    public User makeUserFromUserName(String USERNAME){
-        JsonNode userData =  qh.getUserByName(USERNAME);
-        return Json.fromJson(userData.get(0), User.class);
-
-    }*/
 }

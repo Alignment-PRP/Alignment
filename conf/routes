@@ -21,12 +21,12 @@ GET     /api/add-requirement                controllers.AdminController.addRequi
 
 
 #API CALLS
-GET     /api/user                           controllers.UserController.getUser()
+GET     /api/user                           controllers.UserController.getConnectedUser()
 POST    /api/login                          controllers.LoginController.authenticate()
 POST    /api/sign-up                        controllers.SignupController.create()
 
 GET     /api/projects                       controllers.ProjectController.getPublicProjects()
-GET     /api/projects/user                  controllers.ProjectController.getUserRelatedProjects()
+GET     /api/projects/user                  controllers.ProjectController.getProjectsAccessibleByUser()
 POST    /api/project/new                    controllers.ProjectController.newProject()
 POST    /api/project/requirement/new        controllers.RequirementController.newProjectRequirement()
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
@@ -38,9 +38,9 @@ POST    /api/requirement/update             controllers.AdminController.updateRe
 POST    /api/requirement/category/add       controllers.AdminController.insertRequirementCategory()
 GET     /api/requirement/category/:id       controllers.RequirementController.getRequirementsByCategoryID(id: String)
 GET     /api/requirements/admin             controllers.AdminController.getReq()
-GET     /api/requirements                   controllers.RequirementController.getAllRequirements()
+GET     /api/requirements                   controllers.RequirementController.getGlobalRequirements()
 
-POST    /api/category/add                   controllers.AdminController.createCategory()
+POST    /api/category/add                   controllers.AdminController.insertRequirementCategory()
 GET     /api/category/all/names             controllers.RequirementController.getCategories()
 GET     /api/category/byname/:name          controllers.RequirementController.getRequirementsByCategoryName(name: String)
 
