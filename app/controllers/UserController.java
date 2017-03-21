@@ -27,6 +27,16 @@ public class UserController extends Controller {
         this.qh = new QueryHandler(db);
     }
 
+    public Result getUsers() {
+        //TODO check session
+        return ok(qh.executeQuery(Statement.GET_USERS));
+    }
+
+    public Result getUserById(int id) {
+        //TODO check session
+        return ok(qh.executeQuery(Statement.GET_USER_BY_ID, id));
+    }
+
     public Result getUser(){
         //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
         Map<String, String> map = new HashMap<>();
