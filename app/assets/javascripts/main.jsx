@@ -36,6 +36,7 @@ class App extends React.Component {
                         <Route path={"/"} component={Root}>
                             <IndexRoute component={Home}/>
                             <Route path={"login"} component={Home}/>
+                            <Route path={"/api/login"} component={Home}/> {/* for rerouting purposes*/}
                             <Route path={"projects"} component={Projects}/>
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
                             <Route path={"project/:id"} component={Project}/>
