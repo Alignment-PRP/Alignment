@@ -20,8 +20,12 @@ public enum Statement {
 
     //===========================================GLOBAL==========================================================================
     INSERT_REQUIREMENT("INSERT INTO Requirement ()"),
+    INSERT_REQUIREMENT_META_DATA("INSERT INTO RequirementMetaData (RID, subCatID, reqResponsible, description, comment, reqCode, reqNo, name) VALUES(?,?,?,?,?,?,?,?)"),
+    INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?,?)"),
+    INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirement WHERE ID = ?"),
-    GET_REQUIREMENTS_BY_CATEGORY_ID(""),//TODO
+    GET_REQUIREMENTS_BY_CATEGORY_ID("" +
+            ""),//TODO
     GET_GLOBAL_REQUIREMENTS("" +
             "SELECT * " +
             "FROM Requirements AS r " +
@@ -33,7 +37,14 @@ public enum Statement {
 
 
     //===========================================PROJECT=========================================================================
-    GET_PROJECT_REQUIREMENTS(""),//TODO
+    GET_PROJECT_REQUIREMENTS("" +
+            "SELECT * " +
+            "FROM Requirements AS r " +
+            "INNER JOIN RequirementMetaData AS rm " +
+            "ON r.ID = rm.RID " +
+            "INNER JOIN ProjectRequirement AS pr " +
+            "ON pr.RID = r.ID " +
+            "WHERE pr.PID = ?"),
     INSERT_PROJECT_REQUIREMENT(""),//TODO
 
     //TODO:Requirements can be public or not. Need different methods for these.
@@ -70,8 +81,14 @@ public enum Statement {
      */
 
     PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
-    GET_PROJECT_BY_ID("SELECT *  FROM project WHERE ID=?"),
-    GET_PROJECTS_ACCESSIBLE_BY_USER(""),//TODO
+    GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
+    GET_PROJECTS_ACCESSIBLE_BY_USER("" +
+            "SELECT * " +
+            "FROM Project AS p " +
+            "INNER JOIN HasAccess AS ha " +
+            "ON ha.PID = p.ID " +
+            "INNER JOIN UserHasClass AS uhc " +
+            "ON uhc.USERNAME = ?"),//TODO
     GET_PUBLIC_PROJECTS("SELECT * FROM project WHERE ispublic = 1"),
 
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),

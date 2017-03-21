@@ -10,6 +10,8 @@ import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +26,16 @@ public class AdminController extends Controller {
         this.qh = new QueryHandler(db);
     }
 
+
     //================================  ADD REQUIREMENT ===================================================
+    public Result insertStructure(String type, String content){
+        qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
+        return ok("Structure added");
+    }
+
+    private void insertHasStructure(String rid, String sid){
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, rid, sid);
+    }
 
     public Result addRequirement(){
         return ok(views.html.addReq.render());
@@ -33,15 +44,18 @@ public class AdminController extends Controller {
     public Result addReq(){
         //note adds a global requirement
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String source = values.get("source")[0];
-        String stimulus = values.get("stimulus")[0];
-        String artifact = values.get("artifact")[0];
-        String response = values.get("response")[0];
-        String responsemeasure = values.get("responsemeasure")[0];
-        String environment  = values.get("environment")[0];
+        List<String> structures = new ArrayList<String>();
+        structures.add(values.get("source")[0]);
+        structures.add(values.get("stimulus")[0]);
+        structures.add(values.get("artifact")[0]);
+        structures.add(values.get("response")[0]);
+        structures.add(values.get("responsemeasure")[0]);
+        structures.add(values.get("environment")[0]);
+
+        
 
         //TODO determine and create correct validation for requirements
-        validateReq(source, stimulus, artifact, response, responsemeasure, environment);
+        //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
 
         //TODO determine if private global reqs are a thing
@@ -56,12 +70,18 @@ public class AdminController extends Controller {
         String desc = values.get("description")[0];
 
 
-        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT,true, pub, name, desc, source, stimulus, artifact, response, environment);
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT);
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, Integer.parseInt(ID), subCatID, reqResponsible, description, comment, reqCode, reqNo, name);
+
+        for (String SID: structures){
+            insertHasStructure(ID, SID);
+        }
         return ok("added requirement");
 
     }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
+        //TODO
         return true;
     }
 

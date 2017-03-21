@@ -48,7 +48,7 @@ public class RequirementController extends Controller{
         System.out.println(req);
         return ok(req);
     }
-    public Result newProjectRequirement(){
+    public Result InsertProjectRequirement(){
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
@@ -69,7 +69,7 @@ public class RequirementController extends Controller{
         //TODO: Check if the user is authorized to edit the project. (If the user is part of the project)
         //TODO: Check if the project referenced by projectid actually exists
 
-        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT,projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
+        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT, projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
 
         return ok();
     }
