@@ -28,9 +28,9 @@ POST    /api/sign-up                        controllers.SignupController.create(
 GET     /api/projects                       controllers.ProjectController.getPublicProjects()
 GET     /api/projects/user                  controllers.ProjectController.getProjectsAccessibleByUser()
 POST    /api/project/new                    controllers.ProjectController.newProject()
-POST    /api/project/requirement/new        controllers.RequirementController.newProjectRequirement()
+POST    /api/project/requirement/new        controllers.RequirementController.InsertProjectRequirement()
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
-GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id)
+GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id: String)
 GET     /api/project/:id                    controllers.ProjectController.getProjectByProjectID(id: String)
 
 POST    /api/requirement/add                controllers.AdminController.addReq()

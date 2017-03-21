@@ -34,7 +34,7 @@ public class ProjectController extends Controller {
             return unauthorized(views.html.login.render());
         }
         //return ok(qh.getProjectRelatedToUser(userID));
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER,userID));
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID));
     }
 
     /**
