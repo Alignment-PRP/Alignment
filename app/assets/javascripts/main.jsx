@@ -25,7 +25,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-//Defining url links
+//Defining URL links
 class App extends React.Component {
 
     render() {
@@ -54,8 +54,7 @@ class App extends React.Component {
             </MuiThemeProvider>
         );
     }
-
-    }
+}
 
 ReactDOM.render(
     React.createElement(App, null),
