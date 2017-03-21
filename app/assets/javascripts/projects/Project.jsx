@@ -3,13 +3,17 @@ import {connect} from 'react-redux'
 import ProjectRequirements from '../requirements/ProjectRequirements.jsx';
 import { getProjectById } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-
+import { getRequirementsByProjectId } from '../redux/actions/projectActions.jsx';
+import ProjectRequirementsFilter from '../sidemenu/filters/ProjectRequirementsFilter.jsx'
+import AddRequirementsToProjectFilter from '../sidemenu/filters/AddRequirementsToProjectFilter.jsx';
+import AllRequirementsAdd from '../requirements/AllRequirementsAdd.jsx';
 
 class Project extends React.Component {
 
     componentDidMount() {
         this.props.getProjectById(this.props.params.id);
-        this.props.changeSideMenuMode("MENU");
+        this.props.getRequirementsByProjectId(this.props.params.id);
+        this.props.changeSideMenuMode("HIDE");
     }
 
     renderProject(){
@@ -33,13 +37,16 @@ class Project extends React.Component {
         );
     }
 
+
     render() {
         return (
             <div className="container">
-                {this.renderProject()}
+                <ProjectRequirementsFilter title="Project Requirement Filter" />
                 <div className="projectRequirements">
-                    <ProjectRequirements id={this.props.params.id}/>
+                    <ProjectRequirements requirements={this.props.projectRequirements}/>
                 </div>
+                <AllRequirementsAdd />
+                <AddRequirementsToProjectFilter title="Add Requirement To Project Filter" />
             </div>
         );
     }
@@ -47,7 +54,8 @@ class Project extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        project: state.projectReducer.project
+        project: state.projectReducer.project,
+        projectRequirements: state.projectReducer.projectRequirements
     };
 };
 
@@ -55,6 +63,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getProjectById: (id) => {
             dispatch(getProjectById(id))
+        },
+        getRequirementsByProjectId: (id) => {
+            dispatch(getRequirementsByProjectId(id))
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))

@@ -76,6 +76,7 @@ public enum Statement {
                     "FROM project " +
                     "WHERE ispublic = 1"
     ),
+    GET_USER_NAME("SELECT username FROM user WHERE userid=?"),
     GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
     GET_USER_BY_NAME("SELECT * FROM user WHERE username=?"),
     GET_USER_NAME_EXISTS("SELECT count(1) as bool FROM user WHERE username=?"),
@@ -113,13 +114,13 @@ public enum Statement {
             "INSERT INTO localrequirement (projectid, projectrequirementid) VALUES (?, ?)"
     ),
 
-    CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, enviroment) VALUES (?,?,?,?,?,?,?,?)"),
+    CREATE_REQUIREMENT("INSERT INTO requirement (ispublic, name, description, source, stimulus, artifact, response, environment) VALUES (?,?,?,?,?,?,?,?)"),
 
     GET_GLOBAL_REQUIREMENTS("SELECT * FROM requirement"),
 
     GET_GLOBAL_REQUIREMENT("SELECT * FROM requirement WHERE requirementid = ?"),
 
-    UPDATE_GLOBAL_REQUIREMENT("UPDATE requirement SET ispublic=?, name=?, description=?, source=?, stimulus=?, artifact=?, response=?, enviroment=? WHERE requirementid=?"),
+    UPDATE_GLOBAL_REQUIREMENT("UPDATE requirement SET ispublic=?, name=?, description=?, source=?, stimulus=?, artifact=?, response=?, responsemeasure=?, environment=? WHERE requirementid=?"),
 
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM requirement WHERE requirementid = ?"),
     //TODO combine all of these into "SELECT count(1) as bool FROM ? WHERE ? = ? or some such
@@ -193,12 +194,11 @@ public enum Statement {
         return prepare(c, objects).executeQuery();
     }
 
-    public void prepareAndExecuteInsert(Connection c, Object object1, Object... objects) throws SQLException{
+    public void prepareAndExecuteInsert(Connection c,  Object... objects) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
-        prepareObject(ps, object1, 1);
         if (objects.length > 0) {
             for (int i = 0; i < objects.length; i++) {
-                prepareObject(ps, objects[i], i + 2);
+                prepareObject(ps, objects[i], i + 1);
             }
         }
         ps.executeUpdate();

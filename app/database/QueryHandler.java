@@ -24,11 +24,11 @@ public class QueryHandler {
 
     private Connection DBConnection;
 
-    public String insertStatementWithReturnID(Statement statement, Object object1,  Object... objects){
+    public String insertStatementWithReturnID(Statement statement, Object... objects){
 
         try {
             Connection c = db.getConnection();
-            statement.prepareAndExecuteInsert(c, object1, objects);
+            statement.prepareAndExecuteInsert(c, objects);
             statement = Statement.SELECT_LAST_INSERT_ID;
             JsonNode ID = resultSetToJson(statement.prepareAndExecute(c));;
             c.close();
@@ -39,14 +39,14 @@ public class QueryHandler {
         }
     }
 
-    public void insertStatement(Statement statement, Object object1, Object... objects){
+    public void insertStatement(Statement statement,  Object... objects){
         /*
         *Takes as argument a Statement (SQL) object and a minimum of 1 object to insert, creates a database connection and passes the Connection
         *and the objects to the prepareAndExecuteInsert
         */
         try {
             Connection c = db.getConnection();
-            statement.prepareAndExecuteInsert(c, object1, objects);
+            statement.prepareAndExecuteInsert(c, objects);
             c.close();
         }catch(SQLException e){
             e.printStackTrace();
