@@ -92,9 +92,6 @@ public enum Statement {
     GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?");
 
 
-
-
-
     //NOTE LEAVE ALL OF THIS FOR WHEN WE GET TO DELETIONS (THEY'RE A FUCKING PAIN)
     //DELETE_PROJECT_MANAGER(),
 
@@ -135,12 +132,11 @@ public enum Statement {
         return prepare(c, objects).executeQuery();
     }
 
-    public void prepareAndExecuteInsert(Connection c, Object object1, Object... objects) throws SQLException{
+    public void prepareAndExecuteInsert(Connection c,  Object... objects) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
-        prepareObject(ps, object1, 1);
         if (objects.length > 0) {
             for (int i = 0; i < objects.length; i++) {
-                prepareObject(ps, objects[i], i + 2);
+                prepareObject(ps, objects[i], i + 1);
             }
         }
         ps.executeUpdate();
