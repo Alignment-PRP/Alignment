@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import Root from './Root.jsx';
 import Home from './Home.jsx';
 import Logout from './utility/Logout.jsx';
-import Admin from './admin/Admin.jsx';
 
 //Project
 import Projects from './projects/Projects.jsx';
@@ -16,6 +15,9 @@ import NewProject from './projects/NewProject.jsx';
 import AllRequirements from './requirements/AllRequirements.jsx';
 import UpdateRequirement from './requirements/UpdateRequirement.jsx';
 import NewRequirement from './requirements/NewRequirement.jsx';
+
+//Admin
+import Admin from './admin/Admin.jsx';
 
 //Utility
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
