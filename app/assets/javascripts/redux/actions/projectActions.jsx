@@ -7,7 +7,7 @@ import {GET_ALL_PROJECTS,
 
 export function getAllProjects() {
     return dispatch => {
-        axios.get(URLS.PROJECTS_GET_USER)
+        axios.get(URLS.PROJECTS)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
