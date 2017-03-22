@@ -29,7 +29,7 @@ public class SignupController extends Controller{
     }
 
     public Result create(){
-        //TODO expand HTML WITH lastname, mail, usernam
+        //TODO expand HTML WITH lastName, mail, usernam
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         String username = values.get("uname")[0];
         if(uc.usernameExists(username)) {
@@ -41,8 +41,8 @@ public class SignupController extends Controller{
         //String email = values.get("mail")[0];
         //String
         pass = hashPass(pass);
-        //TODO more validation on fields beyond username and pass?
-        uc.createUser(values.get("firstname")[0], values.get("lastname")[0], values.get("email")[0], username, pass);
+        //TODO more validation on fields beyond USERNAME and pass?
+        uc.createUser(values.get("firstName")[0], values.get("lastName")[0], values.get("email")[0], username, pass);
         //201 = created
         return status(201, "Created new user");
     }
