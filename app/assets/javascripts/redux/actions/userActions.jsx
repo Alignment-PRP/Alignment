@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as URLS from './../../config.jsx';
+import {GET_USER_DATA} from './../types.jsx';
 
 export function getUserData() {
     return dispatch => {
@@ -17,7 +18,7 @@ export function getUserData() {
 
 function getUserDataAsync(data) {
     return {
-        type: "GET_USER_DATA",
+        type: GET_USER_DATA,
         payload: data
     }
 }
