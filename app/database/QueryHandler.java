@@ -97,15 +97,4 @@ public class QueryHandler {
         }
     }
 
-    //WELCOME TO THE DANGER ZONE
-    /*public void deleteProject(Statement statement, int id){
-        try{
-            Connection c = db.getConnection();
-            statement.deleteProject(c,id);
-            c.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }*/
-
 }
