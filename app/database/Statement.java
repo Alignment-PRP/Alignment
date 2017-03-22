@@ -138,7 +138,14 @@ public enum Statement {
             "INNER JOIN Users AS u " +
             "ON u.USERNAME = uhc.USERNAME " +
             "WHERE u.USERNAME = ? "),
-    GET_USER_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
+    GET_USER_BY_USERNAME("" +
+            "SELECT u.USERNAME, u.firstName, u.lastName, uc.NAME AS ucName, uc.description AS ucDesc, u.email " +
+            "FROM Users AS u " +
+            "INNER JOIN UserHasClass AS uhc " +
+            "ON u.USERNAME = uhc.USERNAME " +
+            "INNER JOIN UserClass AS uc " +
+            "ON uc.NAME = uhc.NAME " +
+            "WHERE u.USERNAME=?"),
     GET_USER_CLASSES("SELECT * FROM UserClass"),
     GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?");
 
