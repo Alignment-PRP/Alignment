@@ -52,8 +52,13 @@ public class AdminController extends Controller {
         structures.add(values.get("responsemeasure")[0]);
         structures.add(values.get("environment")[0]);
 
-
-
+        String subCatID = values.get("subCatID")[0];
+        String reqResponsible = values.get("reqResponsible")[0];
+        String description = values.get("description")[0];
+        String comment = values.get("comment")[0];
+        String reqCode = values.get("reqCode")[0];
+        String reqNo = values.get("reqNo")[0];
+        String name = values.get("name")[0];
         //TODO determine and create correct validation for requirements
         //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
@@ -66,8 +71,6 @@ public class AdminController extends Controller {
         else {
             pub = 0;
         }
-        String name = values.get("name")[0];
-        String desc = values.get("description")[0];
 
 
         String ID = qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT);
