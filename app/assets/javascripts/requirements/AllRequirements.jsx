@@ -34,14 +34,9 @@ class AllRequirements extends React.Component {
                     <tr>
                         <th>Name</th>
                         <th>Beskrivelse</th>
-                        <th>Source</th>
-                        <th>Stimulus</th>
-                        <th>Artifact</th>
-                        <th>Responce</th>
-                        <th>ResponceMeasure</th>
-                        <th>Environment</th>
+                        <th>Kommentar</th>
                         <th>Category</th>
-                        <th>CategoryDescription</th>
+                        <th>Sub Category</th>
                     </tr>
                     </thead>
                     <tbody>
