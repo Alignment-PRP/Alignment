@@ -32,7 +32,7 @@ label {
 #loginButton {
     background-color: #555555;
     border: 1px solid #e62c33;
-    padding-top 25px;
+    padding-top: 25px;
     padding-bottom: 25px;
     letter-spacing: 2.1px;
     text-transform: uppercase;
