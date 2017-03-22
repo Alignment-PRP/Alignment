@@ -1,5 +1,10 @@
 import axios from 'axios';
 import * as URLS from './../../config.jsx';
+import {GET_ALL_REQUIREMENTS,
+        UPDATE_FILTER_REQUIREMENT_LIST,
+        UPDATE_FILTER,
+        UPDATE_REQUIREMENT
+} from './../types.jsx';
 
 export function getAllRequirements() {
     return dispatch => {
@@ -19,28 +24,28 @@ export function getAllRequirements() {
 
 function getAllRequirementsAsync(data) {
     return {
-        type: "GET_ALL_REQUIREMENTS",
+        type: GET_ALL_REQUIREMENTS,
         payload: data
     }
 }
 
 export function updateFilterRequirementList(newFilterRequirementList) {
     return {
-        type: 'UPDATE_FILTER_REQUIREMENT_LIST',
+        type: UPDATE_FILTER_REQUIREMENT_LIST,
         payload: newFilterRequirementList
     }
 }
 
 export function updateFilter(newFilter) {
     return {
-        type: 'UPDATE_FILTER',
+        type: UPDATE_FILTER,
         payload: newFilter
     }
 }
 
 export function updateRequirement(requirement) {
     return {
-        type: 'UPDATE_REQUIREMENT',
+        type: UPDATE_REQUIREMENT,
         payload: requirement
     }
 }
