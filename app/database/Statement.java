@@ -146,6 +146,7 @@ public enum Statement {
             "INNER JOIN UserClass AS uc " +
             "ON uc.NAME = uhc.NAME " +
             "WHERE u.USERNAME=?"),
+    GET_USER_WITH_PASS_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
     GET_USER_CLASSES("SELECT * FROM UserClass"),
     GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?");
 
