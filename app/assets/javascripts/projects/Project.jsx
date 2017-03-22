@@ -4,12 +4,14 @@ import * as URLS from '../config.jsx'
 import {connect} from 'react-redux'
 
 
+
 import RequirementListItemMini from '../requirements/presentational/RequirementListItemMini.jsx'
 import RequirementListItemMiniAdd from '../requirements/presentational/RequirementListItemMiniAdd.jsx'
 
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { getRequirementsByProjectId } from "../redux/actions/projectActions.jsx";
 import { getAllRequirements } from '../redux/actions/requirementActions.jsx';
+
 
 class Project extends React.Component {
     constructor(props){
