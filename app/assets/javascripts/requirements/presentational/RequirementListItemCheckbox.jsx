@@ -21,14 +21,9 @@ class RequirementListItemCheckbox extends React.Component {
             <tr>
                 <td>{requirement.name}</td>
                 <td>{requirement.description}</td>
-                <td>{requirement.source}</td>
-                <td>{requirement.stimulus}</td>
-                <td>{requirement.artifact}</td>
-                <td>{requirement.response}</td>
-                <td>{requirement.responsemeasure}</td>
-                <td>{requirement.environment}</td>
-                <td>{requirement.cname}</td>
-                <td>{requirement.cdesc}</td>
+                <td>{requirement.comment}</td>
+                <td>{requirement.cName}</td>
+                <td>{requirement.scName}</td>
                 <td><Link to="editrequirement"><button onClick={() => this.handleOnClick()}>Rediger</button></Link></td>
             </tr>
 
