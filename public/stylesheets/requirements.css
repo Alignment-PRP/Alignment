@@ -19,3 +19,8 @@
 .new-requirement {
     padding: 15px;
 }
+
+.add-requirements   {
+    padding: 15px;
+    flex: 3;
+}

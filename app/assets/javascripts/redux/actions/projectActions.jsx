@@ -1,5 +1,9 @@
 import axios from 'axios';
 import * as URLS from './../../config.jsx';
+import {GET_ALL_PROJECTS,
+        GET_PROJECT_BY_ID,
+        GET_REQUIREMENTS_BY_PROJECT_ID
+} from './../types.jsx';
 
 export function getAllProjects() {
     return dispatch => {
@@ -19,7 +23,7 @@ export function getAllProjects() {
 
 function getAllProjectsAsync(data) {
     return {
-        type: "GET_ALL_PROJECTS",
+        type: GET_ALL_PROJECTS,
         payload: data
     }
 }
@@ -42,7 +46,7 @@ export function getProjectById(id) {
 
 function getProjectByIdAsync(data) {
     return {
-        type: "GET_PROJECT_BY_ID",
+        type: GET_PROJECT_BY_ID,
         payload: data
     }
 }
@@ -65,7 +69,7 @@ export function getRequirementsByProjectId(id) {
 
 function getRequirementsByProjectIdAsync(data) {
     return {
-        type: "GET_REQUIREMENTS_BY_PROJECT_ID",
+        type: GET_REQUIREMENTS_BY_PROJECT_ID,
         payload: data
     }
 }

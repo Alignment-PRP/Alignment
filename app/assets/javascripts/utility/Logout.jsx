@@ -1,9 +1,10 @@
 import React from 'react';
+import * as URLS from '../config.jsx';
 
 export default class Logout extends React.Component {
 
     componentDidMount() {
-        window.location = "http://localhost:9000/logout";
+        window.location = URLS.LOGOUT;
     }
 
     render() {
