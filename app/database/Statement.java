@@ -96,13 +96,24 @@ public enum Statement {
     PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
     GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
     GET_PROJECTS_ACCESSIBLE_BY_USER("" +
-            "SELECT * " +
+            "SELECT pmd.*, p.* " +
             "FROM Project AS p " +
+            "INNER JOIN ProjectMetaData AS pmd " +
+            "ON pmd.PID = p.ID " +
             "INNER JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
+            "INNER JOIN UserClass AS uc " +
+            "ON uc.NAME = ha.NAME " +
             "INNER JOIN UserHasClass AS uhc " +
-            "ON uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? "),//TODO
-    GET_PUBLIC_PROJECTS("SELECT * FROM project WHERE ispublic = 1"),
+            "ON uhc.NAME = uc.NAME " +
+            "WHERE uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? " +
+            "GROUP BY p.ID"),
+    GET_PUBLIC_PROJECTS("" +
+            "SELECT * " +
+            "FROM Project AS p " +
+            "INNER JOIN ProjectMetaData AS pmd " +
+            "ON pmd.PID = p.ID " +
+            "WHERE p.isPublic = 1 "),
 
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
 
@@ -119,6 +130,14 @@ public enum Statement {
      */
 
     CREATE_USER("INSERT INTO Users (firstName, lastName, email, USERNAME, pass) VALUES (?,?,?,?,?)"),
+    GET_USER_CLASS_BY_USERNAME("" +
+            "SELECT * " +
+            "FROM UserClass AS uc" +
+            "INNER JOIN UserHasClass AS uhc " +
+            "ON uhc.NAME = uc.NAME " +
+            "INNER JOIN Users AS u " +
+            "ON u.USERNAME = uhc.USERNAME " +
+            "WHERE u.USERNAME = ? "),
     GET_USER_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
     GET_USER_CLASSES("SELECT * FROM UserClass"),
     GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?");
