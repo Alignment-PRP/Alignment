@@ -82,7 +82,7 @@ class SideMenu extends React.Component {
             default:
                 return (
                     <div>
-                        <h2>Hjem</h2>
+                        <h1>Meny</h1>
                     </div>
                 );
         }
