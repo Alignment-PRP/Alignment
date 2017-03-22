@@ -37,7 +37,7 @@ public class UserController extends Controller {
         return ok(result);
     }
 
-    public JsonNode getUserClasses(){
+    public Result getUserClasses(){
         JsonNode result = qh.executeQuery(Statement.GET_USER_CLASSES);
         return ok(result);
     }
