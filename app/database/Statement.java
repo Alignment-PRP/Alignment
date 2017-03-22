@@ -27,10 +27,14 @@ public enum Statement {
     GET_REQUIREMENTS_BY_CATEGORY_ID("" +
             ""),//TODO
     GET_GLOBAL_REQUIREMENTS("" +
-            "SELECT * " +
+            "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc " +
             "FROM Requirements AS r " +
             "INNER JOIN RequirementMetaData AS rm " +
-            "ON r.ID = rm.RID "),
+            "ON r.ID = rm.RID " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON rm.subCatID = sc.ID " +
+            "INNER JOIN Category AS c " +
+            "ON sc.catID = c.ID "),
 
     GET_GLOBAL_REQUIREMENT_BY_ID("SELECT * FROM Requirement WHERE ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
