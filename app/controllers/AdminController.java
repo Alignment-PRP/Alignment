@@ -52,7 +52,7 @@ public class AdminController extends Controller {
         structures.add(values.get("responsemeasure")[0]);
         structures.add(values.get("environment")[0]);
 
-        
+
 
         //TODO determine and create correct validation for requirements
         //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
