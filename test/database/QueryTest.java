@@ -29,7 +29,7 @@ public class QueryTest extends WithApplication {
 
     private static String[] tables = {
             "CREATE TABLE `Project` (`ID` int(11) NOT NULL AUTO_INCREMENT, `Name` varchar(40) NOT NULL, PRIMARY KEY (`ID`))",
-            "CREATE TABLE `User` (`ID` int(11) NOT NULL AUTO_INCREMENT,`Username` varchar(30) NOT NULL, `Email` varchar(50) NOT NULL, `password` binary(60) NOT NULL,PRIMARY KEY (`ID`))",
+            "CREATE TABLE `User` (`ID` int(11) NOT NULL AUTO_INCREMENT,`Username` varchar(30) NOT NULL, `Email` varchar(50) NOT NULL, `pass` binary(60) NOT NULL,PRIMARY KEY (`ID`))",
             "CREATE TABLE `PartOf` (`ProjectID` int(11) NOT NULL DEFAULT '0',`userid` int(11) NOT NULL DEFAULT '0',PRIMARY KEY (`ProjectID`,`userid`),CONSTRAINT `PartOf_UID_fk` FOREIGN KEY (`userid`) REFERENCES `User` (`ID`),CONSTRAINT `PartOf_PID_fk` FOREIGN KEY (`ProjectID`) REFERENCES `Project` (`ID`))"
     };
 
@@ -60,7 +60,7 @@ public class QueryTest extends WithApplication {
     public void testSelectUser() {
         for (String[] user : users) {
             String resultName = queryHandler.executeQuery(
-                    Statement.GET_USER_BY_NAME, user[0]).findValue("USERNAME").textValue();
+                    Statement.GET_USER_BY_USERNAME, user[0]).findValue("USERNAME").textValue();
             assertEquals(user[0], resultName);
         }
     }
@@ -79,7 +79,7 @@ public class QueryTest extends WithApplication {
     public void testUserPartOf() {
 
         for (int[] part : partof) {
-            JsonNode result = queryHandler.executeQuery(Statement.GET_PROJECTS_RELATED_TO_USER, part[0]);
+            JsonNode result = queryHandler.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, part[0]);
 
             Iterator<JsonNode> it = result.elements();
             while (it.hasNext()) {

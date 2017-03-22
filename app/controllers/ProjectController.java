@@ -9,7 +9,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
-import java.sql.SQLException;
 import java.util.Map;
 
 
@@ -28,14 +27,14 @@ public class ProjectController extends Controller {
     }
 
 
-    public Result getUserRelatedProjects(){
+    public Result getProjectsAccessibleByUser(){
         String userID = session("connected");
         //TODO checkAuthenticity();   HERE?
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
         //return ok(qh.getProjectRelatedToUser(userID));
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_RELATED_TO_USER,userID));
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID));
     }
 
     /**
@@ -48,29 +47,22 @@ public class ProjectController extends Controller {
 
     public Result newProject(){
 
-        String userID = session("connected");
-        if(userID == null){
+        String username = session("connected");
+        if(username == null){
             return unauthorized(views.html.login.render());
         }
 
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
         String name = values.get("name")[0];
-        String desc = values.get("desc")[0];
         String ispublic = values.get("ispublic")[0];
-        if(projectNameExists(name)) {
-            //TODO determine a good http response for "recource is ok and all but needs a different value"
-            return status(200, "Project name is taken");
-        }
         /** TODO:
          *  The one creating the project is now set to be both manager and owner of the project.
          *  Also sets the user as partof. This needs to be done properly. As in you when you set
          *  manager and owner those are set to part of(and checking if they are part of already).
          */
-        String ID = qh.insertStatementWithReturnID(Statement.CREATE_PROJECT,name, desc, ispublic);
-        qh.insertStatement(Statement.CREATE_PROJECT_OWNER, userID, Integer.parseInt(ID));
-        qh.insertStatement(Statement.CREATE_PROJECT_MANAGER, userID, Integer.parseInt(ID));
-        qh.insertStatement(Statement.CREATE_PART_OF, userID, Integer.parseInt(ID));
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, ispublic);
+        //TODO: Add project metadata and userclasses that have access.
         return ok(views.html.dashboard.render());
 
     }
@@ -132,9 +124,9 @@ public class ProjectController extends Controller {
             return unauthorized(projectid + " is not a valid projectid");
         }
         for(int i=0; i < requirementid.length; i++){
-            JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT, requirementid[i]).get(0);
+            JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, requirementid[i]).get(0);
             //qh.createProjectRequirement(projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
-            qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT,projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
+            qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT,projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
             globalReq.get("description").asText(), globalReq.get("source").asText(), globalReq.get("stimulus").asText(),
             globalReq.get("artifact").asText(), globalReq.get("response").asText(), globalReq.get("responsemeasure").asText(),
             globalReq.get("environment").asText());
