@@ -1,3 +1,9 @@
+import {GET_ALL_REQUIREMENTS,
+        UPDATE_FILTER_REQUIREMENT_LIST,
+        UPDATE_FILTER,
+        UPDATE_REQUIREMENT
+} from './../types.jsx';
+
 const requirementReducer = (state = {
     requirements: [],
     requirement: [],
@@ -5,7 +11,7 @@ const requirementReducer = (state = {
     filter: []
 }, action) => {
     switch (action.type) {
-        case "GET_ALL_REQUIREMENTS":
+        case GET_ALL_REQUIREMENTS:
             state = {
                 requirements: action.payload,
                 requirement: state.requirement,
@@ -13,14 +19,14 @@ const requirementReducer = (state = {
                 filter: state.filter
             };
             break;
-        case "UPDATE_REQUIREMENT":
+        case UPDATE_REQUIREMENT:
             state = {
                 requirements: state.requirements,
                 requirement: action.payload,
                 filterRequirementList: state.filterRequirementList,
                 filter: state.filter
             };
-        case "UPDATE_FILTER_REQUIREMENT_LIST":
+        case UPDATE_FILTER_REQUIREMENT_LIST:
             state = {
                 requirements: state.requirements,
                 requirement: state.requirement,
@@ -28,7 +34,7 @@ const requirementReducer = (state = {
                 filter: state.filter
             };
             break;
-        case "UPDATE_FILTER":
+        case UPDATE_FILTER:
             state = {
                 requirements: state.requirements,
                 requirement: state.requirement,

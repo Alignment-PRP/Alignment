@@ -20,6 +20,9 @@
     padding-top: 50px;
     font-family: "Roboto";
     font-style: normal;
+    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: 2.1px;
 
 }
 label {
@@ -28,10 +31,18 @@ label {
 
 #loginButton {
     background-color: #555555;
-    border: 1px;
-    border-color: black;
-    padding: 14px 40px;
-    margin-top: 15px;
+    border: 1px solid #e62c33;
+    padding-top 25px;
+    padding-bottom: 25px;
+    letter-spacing: 2.1px;
+    text-transform: uppercase;
+    font-size: 15px;
+    text-align: center;
+    width: 250px;
+}
+#loginButton:hover {
+    background: #e62c33;
+    color: #E8E8E8;
 }
 
 #loginForm input {
@@ -39,4 +50,21 @@ label {
     margin: auto;
     width: 80%;
     height: 20px;
+}
+h1 {
+    text-align: center;
+}
+#loginUsername{
+    background-color: #E8E8E8;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 2.1px;
+
+}
+
+#loginPassword {
+    background-color: #E8E8E8;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 2.1px;
 }
