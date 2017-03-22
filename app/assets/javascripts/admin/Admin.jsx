@@ -4,11 +4,16 @@ import { getUsers } from "../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Users from './Users.jsx';
+import {browserHistory} from 'react-router';
+import {changeTab} from './../redux/actions/adminTabActions.jsx';
 
 class Admin extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.handleDefault = this.handleActive.bind(this, '/admin');
+        this.handleUsers = this.handleActive.bind(this, '/admin/users');
 
         this.style = {
             tabContent: {
@@ -21,13 +26,20 @@ class Admin extends React.Component {
         this.props.changeSideMenuMode("HIDE");
     }
 
+    handleActive(url) {
+        browserHistory.push(url)
+    }
+
 
     render() {
-        console.log(this.props.users);
+        const { index, changeTab } = this.props;
         return (
             <div>
-                <Tabs>
-                    <Tab label="Some Tab">
+                <Tabs
+                    initialSelectedIndex={index}
+                    onChange={changeTab}
+                >
+                    <Tab label="Some Tab" onActive={this.handleDefault}>
                         <div style={this.style.tabContent}>
 
                             <h2>Controllable Tab B</h2>
@@ -38,7 +50,7 @@ class Admin extends React.Component {
                             </p>
                         </div>
                     </Tab>
-                    <Tab label="Users" value="b">
+                    <Tab label="Users" onActive={this.handleUsers}>
                         <div style={this.style.tabContent}>
                             <Users users={this.props.users}/>
                         </div>
@@ -51,12 +63,15 @@ class Admin extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-
+        index: state.adminTabReducer.index,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        changeTab: (index) => {
+            dispatch(changeTab(index))
+        },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
         }

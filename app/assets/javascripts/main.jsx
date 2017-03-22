@@ -18,6 +18,7 @@ import NewRequirement from './requirements/NewRequirement.jsx';
 
 //Admin
 import Admin from './admin/Admin.jsx';
+import {changeTab} from './redux/actions/adminTabActions.jsx';
 
 //Utility
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
@@ -50,7 +51,9 @@ class App extends React.Component {
                             <Route path={"add-requirement"} component={AllRequirements}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} component={Logout}/>
-                            <Route path={"admin"} component={Admin}/>
+                            <Route path={"admin"} component={Admin} onEnter={() => {store.dispatch(changeTab(0))}}>
+                                <Route path={"users"} onEnter={() => {store.dispatch(changeTab(1))}}/>
+                            </Route>
                         </Route>
                     </Router>
                 </Provider>

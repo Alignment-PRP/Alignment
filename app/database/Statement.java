@@ -76,7 +76,7 @@ public enum Statement {
                     "FROM project " +
                     "WHERE ispublic = 1"
     ),
-    GET_USERS("SELECT userid, username, email FROM user"),
+    GET_USERS("SELECT userid, username, email, firstname, lastname FROM user"),
     GET_USER_NAME("SELECT username FROM user WHERE userid=?"),
     GET_USER_BY_ID("SELECT * FROM user WHERE userid=?"),
     GET_USER_BY_NAME("SELECT * FROM user WHERE username=?"),

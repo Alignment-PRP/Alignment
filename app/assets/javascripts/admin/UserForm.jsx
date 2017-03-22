@@ -3,6 +3,11 @@ import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
+import {connect} from "react-redux";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import EmptyForm from './userform/EmptyForm.jsx';
+import UserInForm from './userform/UserInForm.jsx';
+import EditUserForm from './userform/EditUserForm.jsx';
 
 const validate = values => {
     const errors = {};
@@ -28,29 +33,39 @@ const renderButton = ({input, meta, type, label}) => (
     <RaisedButton type={type} label={label}/>
 );
 
+const required = value => value == null ? 'Required' : undefined;
+
 class UserForm extends React.Component {
 
-    render() {
-        const { handleSubmit } = this.props;
 
-        return (
-            <form onSubmit={handleSubmit}>
-                <Field name="username" component={renderTextField} label="Brukernavn"/>
-                <Field name="email" component={renderTextField} label="Epost"/>
-                <br/>
-                <Field name="firstname" component={renderTextField} label="Fornavn"/>
-                <Field name="lastname" component={renderTextField} label="Etternavn"/>
-                <br/>
-                <Field type="submit" component={renderButton} label="Submit"/>
-            </form>
-        );
+
+
+    renderEditUser(handleSubmit, user) {
+
+    }
+
+    render() {
+        const { handleSubmit, mode, user, handleEdit } = this.props;
+        console.log("USER!!!!");
+        console.log(user);
+
+        switch(mode) {
+            case "EMPTY":
+                return <EmptyForm handleSubmit={handleSubmit}/>;
+            case "SHOW":
+                return <UserInForm handleSubmit={handleSubmit} handleEdit={handleEdit} user={user}/>;
+            case "EDIT":
+                return <EditUserForm handleSubmit={handleSubmit} user={user}/>;
+            default:
+                return(<p>potato</p>)
+        }
     }
 
 }
 
 const mapStateToProps = (state) => {
     return {
-        mode: state.sideMenuReducer.mode,
+
     };
 };
 
@@ -64,5 +79,8 @@ const mapDispatchToProps = (dispatch) => {
 
 export default reduxForm({
     form: 'UserForm',
-    validate
-})(UserForm);
+    validate,
+})(connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(UserForm));

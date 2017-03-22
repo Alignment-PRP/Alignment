@@ -5,3 +5,10 @@ export function changeUserFormMode(mode) {
         payload: mode
     }
 }
+
+export function userClicked(index) {
+    return {
+        type: 'USER_CLICKED',
+        payload: index
+    }
+}

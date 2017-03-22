@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router';
 export default class UserTable extends React.Component {
 
     rowClicked(selected) {
+
         console.log(this.props.users);
     }
 
