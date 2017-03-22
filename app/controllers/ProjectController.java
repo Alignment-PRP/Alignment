@@ -55,16 +55,32 @@ public class ProjectController extends Controller {
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
         String name = values.get("name")[0];
-        String ispublic = values.get("ispublic")[0];
+        String ispublic = values.get("isPublic")[0];
+        String securityLevel = values.get("securityLevel")[0];
+        String transactionVolume = values.get("transactionVolume")[0];
+        String userChannel = values.get("userChannel")[0];
+        String deploymentStyle = values.get("deploymentStyle")[0];
         /** TODO:
          *  The one creating the project is now set to be both manager and owner of the project.
          *  Also sets the user as partof. This needs to be done properly. As in you when you set
          *  manager and owner those are set to part of(and checking if they are part of already).
          */
-        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, ispublic);
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, Integer.parseInt(ispublic));
+        qh.insertStatement(Statement.INSERT_PROJECT_META_DATA, Integer.parseInt(ID), securityLevel, transactionVolume, userChannel, deploymentStyle);
         //TODO: Add project metadata and userclasses that have access.
         return ok(views.html.dashboard.render());
 
+    }
+
+    public Result insertHasAccess(){
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+
+        int PID = Integer.parseInt(values.get("PID")[0]);
+        int NAME = Integer.parseInt(values.get("NAME")[0]);
+
+        qh.insertStatement(Statement.INSERT_HAS_ACCESS, NAME, PID);
+
+        return ok();
     }
 
     public Result getPublicProjects(){

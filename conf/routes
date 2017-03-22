@@ -22,12 +22,14 @@ GET     /api/add-requirement                controllers.AdminController.addRequi
 
 #API CALLS
 GET     /api/user                           controllers.UserController.getConnectedUser()
+GET     /api/user/userClasses               controllers.UserController.getUserClasses()
 POST    /api/login                          controllers.LoginController.authenticate()
 POST    /api/sign-up                        controllers.SignupController.create()
 
 GET     /api/projects                       controllers.ProjectController.getPublicProjects()
 GET     /api/projects/user                  controllers.ProjectController.getProjectsAccessibleByUser()
 POST    /api/project/new                    controllers.ProjectController.newProject()
+POST    /api/project/hasAccess              controllers.ProjectController.insertHasAccess()
 POST    /api/project/requirement/new        controllers.RequirementController.InsertProjectRequirement()
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
 GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id: String)
