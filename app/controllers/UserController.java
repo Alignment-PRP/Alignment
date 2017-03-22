@@ -44,7 +44,7 @@ public class UserController extends Controller {
 
     public JsonNode makeJsonNode(String username){
         //CHANGED
-        JsonNode userData = qh.executeQuery(Statement.GET_USER_BY_USERNAME,username);
+        JsonNode userData = qh.executeQuery(Statement.GET_USER_WITH_PASS_BY_USERNAME,username);
         System.out.println(userData);
         return userData;
     }
