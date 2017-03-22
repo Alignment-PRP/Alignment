@@ -8,17 +8,27 @@
     flex: 3;
 }
 
-.all-project-list{
-    padding: 15px;
-}
 
-.all-project-list table td th {
-    border: 1px solid #ddd;
+.all-project-list, table, td, th {
+    border-bottom: 1px solid #e9e9ea;
+    border-right: 1px solid #e9e9ea;
     text-align: left;
+}
+table {
+    border-collapse: collapse;
+    width: auto;
+    border-spacing: 0;
 }
 
 .all-project-list table {
-    width: 100%;
+    width: auto;
+}
+
+th, td {
+    padding:15px;
+}
+tr:hover {
+    background-color: #ffffff;
 }
 
 .new-project {

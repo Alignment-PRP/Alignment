@@ -4,6 +4,9 @@ import {connect} from "react-redux";
 import { getAllProjects } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
+
+
+
 class Projects extends React.Component {
 
     componentDidMount(){
@@ -23,8 +26,7 @@ class Projects extends React.Component {
         )
     }
 
-
-    render() {
+    render(){
         return (
             <div className="all-project-list">
                 <h1>Prosjekter</h1>
