@@ -101,7 +101,7 @@ public enum Statement {
             "INNER JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
             "INNER JOIN UserHasClass AS uhc " +
-            "ON uhc.USERNAME = ?"),//TODO
+            "ON uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? "),//TODO
     GET_PUBLIC_PROJECTS("SELECT * FROM project WHERE ispublic = 1"),
 
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),

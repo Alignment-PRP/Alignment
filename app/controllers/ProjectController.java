@@ -33,8 +33,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        //return ok(qh.getProjectRelatedToUser(userID));
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID));
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID, userID));
     }
 
     /**
@@ -73,14 +72,29 @@ public class ProjectController extends Controller {
     }
 
     public Result insertHasAccess(){
+        String userID = session("connected");
+        if(userID == null){
+            //Returns and 200 OK with a JsonNode as Body.
+            //return ok(qh.getProjectByProjectID(projectid));
+            return unauthorized(views.html.login.render());
+        }
+
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
         int PID = Integer.parseInt(values.get("PID")[0]);
         int NAME = Integer.parseInt(values.get("NAME")[0]);
 
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
+        String managerID = project.get("managerID").asText();
+        String creatorID = project.get("creatorID").asText();
+
+        if((userID != managerID) && (userID != creatorID)){
+            return unauthorized("Only the creator or the manager of this project can edit what userclasses have access");
+        }
+
         qh.insertStatement(Statement.INSERT_HAS_ACCESS, NAME, PID);
 
-        return ok();
+        return ok(NAME + " Now has access to the project with projectID " + PID);
     }
 
     public Result getPublicProjects(){
