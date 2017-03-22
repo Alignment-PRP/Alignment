@@ -4,17 +4,17 @@
 
 
 #Test stuff
-GET     /login                          controllers.ApplicationController.login()
-GET     /api/logout                     controllers.LoginController.logout()
-GET     /api/sign-up                    controllers.SignupController.signUp()
-GET     /api/projectrequirementsForm    controllers.ProjectController.getProjectRequirementForm()
-GET     /api/project/newrequiremnt      controllers.RequirementController.getNewRequirementView()
-GET     /api/project/addReq             controllers.ProjectController.addReqForm()
-GET     /api/newproject                 controllers.ProjectController.getNewProjectView()
-GET     /api/add-category               controllers.AdminController.addCategory()
-GET     /api/add-requirementcategeory   controllers.AdminController.addCategeroyToRequirement()
-GET     /api/update-requirement         controllers.AdminController.updateReq()
-GET     /api/add-requirement            controllers.AdminController.addRequirement()
+GET     /login                              controllers.ApplicationController.login()
+GET     /api/logout                         controllers.LoginController.logout()
+GET     /api/sign-up                        controllers.SignupController.signUp()
+GET     /api/projectrequirementsForm        controllers.ProjectController.getProjectRequirementForm()
+GET     /api/project/newrequiremnt          controllers.RequirementController.getNewRequirementView()
+GET     /api/project/addReq                 controllers.ProjectController.addReqForm()
+GET     /api/newproject                     controllers.ProjectController.getNewProjectView()
+GET     /api/add-category                   controllers.AdminController.addCategory()
+GET     /api/add-requirementcategeory       controllers.AdminController.addCategeroyToRequirement()
+GET     /api/update-requirement             controllers.AdminController.updateReq()
+GET     /api/add-requirement                controllers.AdminController.addRequirement()
 
 
 #API CALLS
