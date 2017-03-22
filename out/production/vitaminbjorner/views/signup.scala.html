@@ -1,0 +1,23 @@
+@()
+
+<h1> Sign-up </h1>
+<form action="/sign-up" method="post">
+  <label><b>Username</b></label><br>
+  <input type="text" placeholder="Enter Username" name="uname" required>
+
+  <br>
+  <label><b>password</b></label><br>
+  <input type="password" placeholder="Enter password" name="psw" required>
+
+  <br>
+
+  <label> <b>First and last name</b></label><br>
+  <input type="text" placeholder="Firstname" name="firstname" required> <input type="text" placeholder="Lastname" name="lastname" required>
+
+  <br>
+  <label> <b>E-mail</b></label><br>
+  <input type="email" placeholder="bob&commat;bobson.com" name="email" required>
+
+  <br>
+  <button type="submit">Sign up</button>
+</form>
