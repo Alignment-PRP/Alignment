@@ -9,12 +9,12 @@
 }
 
 
-.all-project-list, table, td, th {
+.all-project-list, .all-project-list table, .all-project-list td, .all-project-list th {
     border-bottom: 1px solid #e9e9ea;
     border-right: 1px solid #e9e9ea;
     text-align: left;
 }
-table {
+.all-project-list table {
     border-collapse: collapse;
     width: auto;
     border-spacing: 0;
@@ -24,7 +24,7 @@ table {
     width: auto;
 }
 
-th, td {
+.all-project-list th, .all-project-list td {
     padding:15px;
 }
 tr:hover {
