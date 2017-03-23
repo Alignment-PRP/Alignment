@@ -4,7 +4,7 @@
 
 # =================================LOGIN/SIGNUP======================================================================
 
-GET     /                           controllers.ApplicationController.init()
+GET     /                                   controllers.ApplicationController.init()
 
 #Test stuff
 GET     /login                              controllers.ApplicationController.login()
