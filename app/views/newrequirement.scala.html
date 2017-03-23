@@ -1,36 +1,26 @@
 @()
 
+
 <h1> NEW PROJECT </h1>
-<form action="/api/project/requirement/new" method="post">
-    <label><b>projectid</b></label>
-    <input type="text" placeholder="projectid" name="projectid" required>
 
-    <label><b>name</b></label>
-    <input type="text" placeholder="Enter name" name="name" required>
+<form action="/api/project/requirement/add" method="post">
+    <label><b>PID</b></label>
+    <input type="text" placeholder="PID" name="PID" required>
 
-    <label><b>ispublic</b></label>
-    <input type="text" placeholder="0 or 1" name="ispublic" required>
+    <label><b>RID</b></label>
+    <input type="text" placeholder="RID" name="RID" required>
 
-    <label><b>description</b></label>
-    <input type="text" placeholder="Enter desc" name="desc" required>
+    <label><b>reqNo</b></label>
+    <input type="text" placeholder="reqNo" name="reqNo" required>
 
-    <label><b>source</b></label>
-    <input type="text" placeholder="Enter source" name="source" required>
+    <label><b>reqCode</b></label>
+    <input type="text" placeholder="reqCode" name="reqCode" required>
 
-    <label><b>stimulus</b></label>
-    <input type="text" placeholder="Enter stimulus" name="stimulus" required>
+    <label><b>comment</b></label>
+    <input type="text" placeholder="comment" name="comment" required>
 
-    <label><b>artifact</b></label>
-    <input type="text" placeholder="Enter artifact" name="artifact" required>
-
-    <label><b>response</b></label>
-    <input type="text" placeholder="Enter response" name="response" required>
-
-    <label><b>responsemeasure</b></label>
-    <input type="text" placeholder="Enter responsemeasure" name="responsemeasure" required>
-
-    <label><b>environment</b></label>
-    <input type="text" placeholder="Enter environment" name="environment" required>
+    <label><b>Description</b></label>
+    <input type="text" placeholder="Description" name="description" required>
 
     <button type="submit">Submit</button>
 
