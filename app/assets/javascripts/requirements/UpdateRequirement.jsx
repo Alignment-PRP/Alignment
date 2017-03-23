@@ -22,7 +22,7 @@ class UpdateRequirement extends React.Component {
 		return (
 		    <div className="update-requirement">
 		    	<form action={URLS.REQUIREMENT_POST_UPDATE} method="post">
-                    <h1>Oppdater Krav</h1>
+                    <h2>Oppdater Krav</h2>
 
                     <label><b>KravId</b></label><br/>
                     <input type="number" defaultValue={this.props.requirement.requirementid} name="id" min="0" required/>

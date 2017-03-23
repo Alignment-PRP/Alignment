@@ -47,6 +47,9 @@ class Sidebar extends React.Component {
             menuItem: {
                 color: '#E8E8E8',
             }
+            menuItem.hover: {
+
+        }
         };
 
         this.state = {open: false};
