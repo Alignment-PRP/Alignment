@@ -21,29 +21,64 @@ public class AdminController extends Controller {
 
     private QueryHandler qh;
 
-    @Inject
+    @Inject //Injects the database object generated from the config file
     public AdminController(Database db){
         this.qh = new QueryHandler(db);
     }
 
 
     //================================  ADD REQUIREMENT ===================================================
+
+    /**
+     * Inserts into the Structure table
+     * @param type String one of [Source, Stimulus, Artifact,...]
+     * @param content the associated text.
+     * @return Response 200 OK wiht body "Structure added"
+     */
     public Result insertStructure(String type, String content){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
         qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
         return ok("Structure added");
     }
 
+    /**
+     * Inserts into the relational table HasStructure
+     * @param rid requirementID
+     * @param sid structureID
+     */
     private void insertHasStructure(String rid, String sid){
-        qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, rid, sid);
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, Integer.parseInt(rid), Integer.parseInt(sid));
     }
 
+    /**
+     * A form for testing
+     * @return 200 OK with a body cointaining the form to add a requirement
+     */
     public Result addRequirement(){
         return ok(views.html.addReq.render());
     }
 
+    /**
+     * Inserts a GlobalRequirement into the database along with the structure and the metadata
+     * @return 200 OK or 401 Unauthorized
+     */
     public Result addReq(){
-        //note adds a global requirement
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        //TODO: Validate user class
+
+        //Converts the POST data to a map
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
+
+        //Adds the strucutre values to a list
         List<String> structures = new ArrayList<String>();
         structures.add(values.get("source")[0]);
         structures.add(values.get("stimulus")[0]);
@@ -52,6 +87,7 @@ public class AdminController extends Controller {
         structures.add(values.get("responsemeasure")[0]);
         structures.add(values.get("environment")[0]);
 
+        //Gets the meta data values
         String subCatID = values.get("subCatID")[0];
         String reqResponsible = values.get("reqResponsible")[0];
         String description = values.get("description")[0];
@@ -64,6 +100,7 @@ public class AdminController extends Controller {
 
 
         //TODO determine if private global reqs are a thing
+        //Checks if isPublic
         int pub;
         if(values.get("public") != null){
             pub = 1;
@@ -72,10 +109,13 @@ public class AdminController extends Controller {
             pub = 0;
         }
 
-
+        //Inserts a new requirement and returns the requirement ID.
         String ID = qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT);
+
+        //Inserts a new row in RequirementMetaData using the requirement ID as PK
         qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, Integer.parseInt(ID), subCatID, reqResponsible, description, comment, reqCode, reqNo, name);
 
+        //Inserts all the structures
         for (String SID: structures){
             insertHasStructure(ID, SID);
         }
@@ -90,49 +130,77 @@ public class AdminController extends Controller {
 
     //==================================== GET REQUIREMENT ===================================================
 
+    /**
+     * A method to get all the global requirements
+     * @return 200 OK or 401 Unauthorized
+     * If 200 OK, the body contains all global requirements with metadata and category
+     * TODO: Get structure as well?
+     */
     public Result getReq(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
         //TODO: validate user is admin (ADMIN DOESN'T EXIST YET)
         JsonNode requirements = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
         return ok(requirements);
     }
 
     //==================================== UPDATE REQUIREMENT ================================================
+
+    /**
+     * A form for testing input
+     * @return 200 OK with a form for updating a requirement as body
+     */
     public Result updateReq(){
         return ok(views.html.updateReq.render());
     }
 
+    /**
+     * Updates an existing global requirement with new data.
+     * @return
+     */
     public Result updateRequirement(){
         //TODO: fix duplicates with add req and every local req
+
+        //Converts the POST data to a map
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         int id = Integer.parseInt(values.get("id")[0]);
-        System.out.println(id);
+
+        //Checks if the requirement exists, if not: returns 401 Unauthorized
         JsonNode exists = qh.executeQuery(Statement.REQUIREMENT_EXISTS, id);
-        if(exists.get(0).get("bool").asInt() == 1) {
-            String source = values.get("source")[0];
-            String stimulus = values.get("stimulus")[0];
-            String artifact = values.get("artifact")[0];
-            String response = values.get("response")[0];
-            String responsemeasure = values.get("responsemeasure")[0];
-            String environment = values.get("environment")[0];
-
-            //TODO duplicate of addReq
-            validateReq(source, stimulus, artifact, response, responsemeasure, environment);
-
-            int pub;
-            if (values.get("public") != null) {
-                pub = 1;
-            } else {
-                pub = 0;
-            }
-            String name = values.get("name")[0];
-            String desc = values.get("description")[0];
-
-
-            qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment, id);
-
-            return ok(views.html.dashboard.render());
+        if(exists.get(0).get("bool").asInt() != 1) {
+            return unauthorized("no such requirement");
         }
-        return unauthorized("no such requirement");
+
+        //Gets the values from the map
+        String source = values.get("source")[0];
+        String stimulus = values.get("stimulus")[0];
+        String artifact = values.get("artifact")[0];
+        String response = values.get("response")[0];
+        String responsemeasure = values.get("responsemeasure")[0];
+        String environment = values.get("environment")[0];
+
+        //TODO duplicate of addReq
+        validateReq(source, stimulus, artifact, response, responsemeasure, environment);
+
+        //Checks if isPublic
+        int pub;
+        if (values.get("public") != null) {
+            pub = 1;
+        } else {
+            pub = 0;
+        }
+        String name = values.get("name")[0];
+        String desc = values.get("description")[0];
+
+        //Executes the update statement
+        qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment, id);
+
+        return ok(views.html.dashboard.render());
+
+
     }
 
 
@@ -157,6 +225,10 @@ public class AdminController extends Controller {
 */
     //=========================== ADD SUBCATEGORY =======================================
 
+    /**
+     * 
+     * @return
+     */
     public Result addSubcategory(){
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         String parent = values.get("parent")[0];

@@ -22,15 +22,29 @@ public class QueryHandler {
         this.db = db;
     }
 
-    private Connection DBConnection;
 
+    /**
+     * Executes an INSERT statement and returns the PK of the row you just
+     * inserted before closing the database connection.
+     * @param statement an instance of the Statement Class with a statement
+     * @param objects a list of Objects that are the values to be inserted into the database. String or int
+     * @return String ID, or SQLException
+     */
     public String insertStatementWithReturnID(Statement statement, Object... objects){
 
         try {
             Connection c = db.getConnection();
+
+            //Executes the statement passed in as an argument.
             statement.prepareAndExecuteInsert(c, objects);
+
+            //Changes the statement to the one that gets the last inserted ID
             statement = Statement.SELECT_LAST_INSERT_ID;
-            JsonNode ID = resultSetToJson(statement.prepareAndExecute(c));;
+
+            //Executes the new statement
+            JsonNode ID = resultSetToJson(statement.prepareAndExecute(c));
+
+            //Closes the connection and returns the ID
             c.close();
             return ID.get(0).get("LAST_INSERT_ID()").asText();
         }catch(SQLException e){
@@ -39,25 +53,39 @@ public class QueryHandler {
         }
     }
 
+    /**
+     * Executes an INSERT statement
+     * @param statement an instance of the Statement Class with a Statement
+     * @param objects a list of Objects that are the values to be inserted into the database. String or int
+     */
     public void insertStatement(Statement statement,  Object... objects){
-        /*
-        *Takes as argument a Statement (SQL) object and a minimum of 1 object to insert, creates a database connection and passes the Connection
-        *and the objects to the prepareAndExecuteInsert
-        */
         try {
             Connection c = db.getConnection();
+
+            //Executes the statement passed in as an argument.
             statement.prepareAndExecuteInsert(c, objects);
+
+            //Closes the database connection
             c.close();
         }catch(SQLException e){
             e.printStackTrace();
         }
     }
 
-
+    /**
+     * Executes a query and returns the result as a JsonNode.
+     * @param statement an instance of the Statement Class with a Statement
+     * @param objects A list of Objects to be used in the query
+     * @return JsonNode containing the result set from the query
+     */
     public JsonNode executeQuery(Statement statement, Object... objects) {
         try {
             Connection c = db.getConnection();
+
+            //Executes the query statement and converts it to Json
             JsonNode json = resultSetToJson(statement.prepareAndExecute(c, objects));
+
+            //Closes the database connection
             c.close();
             return json;
         } catch (SQLException e) {
@@ -66,6 +94,11 @@ public class QueryHandler {
         }
     }
 
+    /**
+     * Takes in a result set from a query and converts it to Json.
+     * @param rs ResultSet. The result set from a database query.
+     * @return JsonNode The result set as Json.
+     */
     private JsonNode resultSetToJson(ResultSet rs) {
         List<Map<String, String>> list = new ArrayList<>();
         try {
