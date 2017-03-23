@@ -48,6 +48,8 @@ public class RequirementController extends Controller{
         System.out.println(req);
         return ok(req);
     }
+
+    @Deprecated //Use the one in projectcontroller
     public Result InsertProjectRequirement(){
         String userID = session("connected");
         if(userID == null){
