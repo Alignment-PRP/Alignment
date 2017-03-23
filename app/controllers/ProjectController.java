@@ -21,12 +21,19 @@ public class ProjectController extends Controller {
 
     private QueryHandler qh;
 
+    //Ijnects the database object generated from the config file.
     @Inject
     public ProjectController(Database db) {
         this.qh = new QueryHandler(db);
     }
 
-
+    /**
+     * Returns all the projects the user has access to.
+     * Checks if the UserClass the user is a part of has access, and whether the user is the manager or
+     * creator of the Project.
+     * @return Result 200 Ok or 401 Unauthorized
+     * If 200 OK, the body contains All the relevant project data of the projects.
+     */
     public Result getProjectsAccessibleByUser(){
         String userID = session("connected");
         if(userID == null){
@@ -126,38 +133,64 @@ public class ProjectController extends Controller {
         return ok(qh.executeQuery(Statement.GET_PUBLIC_PROJECTS));
     }
 
-    /** For single project view
-     * Getting a project from project ID
+    /**
+     *
+     * @param id: String from the GET Request
+     * @return Result 200 Ok or 401 Unauthorized
+     * If 200 OK the body contains all relevant project data
      */
     public Result getProjectByProjectID(String id){
+        //Check if user is logged in
         String projectid = id;
-        //Might as well keep the user check.
         String userID = session("connected");
-        if(userID != null){
-            //Returns and 200 OK with a JsonNode as Body.
-            //return ok(qh.getProjectByProjectID(projectid));
-            return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID,projectid));
-        }
-        else{
+        if(userID == null){
             return unauthorized(views.html.login.render());
         }
+        //Returns and 200 OK with a JsonNode as Body.
+        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID,projectid));
     }
 
 
-
+    /**
+     *
+     * @param id: String from the GET Request
+     * @return Result 200 Ok or 401 Unauthorized
+     * If 200 OK the body contains all requirements of the specified project
+     */
     public Result getProjectRequirements(String id){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
         int projectID = Integer.parseInt(id);
         //TODO validate access permition
         JsonNode projectRequirements = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENTS, projectID);
         return ok(projectRequirements);
     }
 
-    //NOT SURE WHY IT'S MARKED AS WRONG, SOMEONE CHECK IT. ("getProjectRequirementForm.scala.html" seems to exist and is still marked as wrong [intelij error?])
+    /**
+     * Function for testing, just a form to POST a new project requirement
+     * @return 200 OK with a form to add project requirement
+     */
     public Result getProjectRequirementForm(){
-        return ok(views.html.newrequirement.render());
+        return ok(views.html.getProjectRequirements.render());
     }
 
+    /**
+     * Inserts a ProjectRequirement in to the database and connects it with a global requirement.
+     * @return Result 200 Ok or 401 Unauthorized
+     */
     public Result addReq(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        //TODO: Check if user has access to project
+
+        //Converts the HTTP POST Request body to a map
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         String PID = values.get("PID")[0];
         String RID = values.get("RID")[0];
