@@ -30,7 +30,6 @@ GET     /api/projects                       controllers.ProjectController.getPub
 GET     /api/projects/user                  controllers.ProjectController.getProjectsAccessibleByUser()
 POST    /api/project/new                    controllers.ProjectController.newProject()
 POST    /api/project/hasAccess              controllers.ProjectController.insertHasAccess()
-POST    /api/project/requirement/new        controllers.RequirementController.InsertProjectRequirement()
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
 GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id: String)
 GET     /api/project/:id                    controllers.ProjectController.getProjectByProjectID(id: String)
