@@ -34,3 +34,80 @@ tr:hover {
 .new-project {
     padding: 15px;
 }
+
+#kravlisteButton {
+    border: 1px solid #E62C33;
+    color: #E62C33;
+    background-color: #FFF;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 2.1px;
+    text-transform: uppercase;
+    font-size: 15px;
+    text-align: center;
+    display: block;
+    clear: both
+}
+#kravlisteButton:hover{
+    background-color: #e62c33;
+    color: #fff;
+}
+
+#nyttProsjektButton{
+    border: 1px solid #E62C33;
+    color: #E62C33;
+    background-color: #FFF;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 2.1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 15px;
+    text-align: center;
+    display: block;
+    clear: both
+}
+#nyttProsjektButton:hover{
+    background-color: #e62c33;
+    color: #fff;
+}
+
+#visProsjekterButton{
+    border: 1px solid #E62C33;
+    color: #E62C33;
+    background-color: #FFF;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 2.1px;
+    text-transform: uppercase;
+    font-size: 15px;
+    text-align: center;
+    display: block;
+    clear: both
+}
+#visProsjekteeButton:hover{
+    background-color: #e62c33;
+    color: #fff;
+}
+#visKravlisteButton{
+    border: 1px solid #E62C33;
+    color: #E62C33;
+    background-color: #FFF;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 2.1px;
+    text-transform: uppercase;
+    font-size: 15px;
+    text-align: center;
+    display: block;
+    clear: both
+}
+
+#visKravlisteButton:hover{
+    background-color: #e62c33;
+    color: #fff;
+}
