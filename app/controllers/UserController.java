@@ -10,10 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 /**
  * Created by andrfo on 16.02.2017.
@@ -32,26 +29,27 @@ public class UserController extends Controller {
         return ok(qh.executeQuery(Statement.GET_USERS));
     }
 
-    public Result getUserById(int id) {
-        //TODO check session
-        return ok(qh.executeQuery(Statement.GET_USER_BY_ID, id));
+    public Result getConnectedUser(){
+        //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
+        String username = session("connected");
+        JsonNode result = qh.executeQuery(Statement.GET_USER_BY_USERNAME, username);
+        return ok(result);
     }
 
-    public Result getUser(){
+    public Result getUserByUsername(String username){
         //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
-        Map<String, String> map = new HashMap<>();
-        String userName = qh.executeQuery(Statement.GET_USER_NAME, session("connected")).get(0).get("username").asText();
-        map.put("username", userName);
-        map.put("userClass", "UserClassPlaceholder");
-        List<Map<String,String>> list = new ArrayList<>();
-        list.add(map);
-        JsonNode result = Json.toJson(list);
+        JsonNode result = qh.executeQuery(Statement.GET_USER_BY_USERNAME, username);
+        return ok(result);
+    }
+
+    public Result getUserClasses(){
+        JsonNode result = qh.executeQuery(Statement.GET_USER_CLASSES);
         return ok(result);
     }
 
     public JsonNode makeJsonNode(String username){
         //CHANGED
-        JsonNode userData = qh.executeQuery(Statement.GET_USER_BY_NAME,username);
+        JsonNode userData = qh.executeQuery(Statement.GET_USER_WITH_PASS_BY_USERNAME,username);
         System.out.println(userData);
         return userData;
     }
@@ -67,16 +65,10 @@ public class UserController extends Controller {
     }
 
     public boolean usernameExists(String username){
-        JsonNode exists = qh.executeQuery(Statement.GET_USER_NAME_EXISTS,username);
+        JsonNode exists = qh.executeQuery(Statement.GET_USERNAME_EXISTS,username);
         //System.out.println(exists.get(0).get("bool"));
         //System.out.println(exists.get(0).get("bool").asInt() == 1);
         return exists.get(0).get("bool").asInt() == 1;
     }
 
-    /*@deprecated
-    public User makeUserFromUserName(String username){
-        JsonNode userData =  qh.getUserByName(username);
-        return Json.fromJson(userData.get(0), User.class);
-
-    }*/
 }

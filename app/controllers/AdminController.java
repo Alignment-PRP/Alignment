@@ -10,7 +10,8 @@ import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +26,16 @@ public class AdminController extends Controller {
         this.qh = new QueryHandler(db);
     }
 
+
     //================================  ADD REQUIREMENT ===================================================
+    public Result insertStructure(String type, String content){
+        qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
+        return ok("Structure added");
+    }
+
+    private void insertHasStructure(String rid, String sid){
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, rid, sid);
+    }
 
     public Result addRequirement(){
         return ok(views.html.addReq.render());
@@ -34,15 +44,23 @@ public class AdminController extends Controller {
     public Result addReq(){
         //note adds a global requirement
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String source = values.get("source")[0];
-        String stimulus = values.get("stimulus")[0];
-        String artifact = values.get("artifact")[0];
-        String response = values.get("response")[0];
-        String responsemeasure = values.get("responsemeasure")[0];
-        String environment  = values.get("environment")[0];
+        List<String> structures = new ArrayList<String>();
+        structures.add(values.get("source")[0]);
+        structures.add(values.get("stimulus")[0]);
+        structures.add(values.get("artifact")[0]);
+        structures.add(values.get("response")[0]);
+        structures.add(values.get("responsemeasure")[0]);
+        structures.add(values.get("environment")[0]);
 
+        String subCatID = values.get("subCatID")[0];
+        String reqResponsible = values.get("reqResponsible")[0];
+        String description = values.get("description")[0];
+        String comment = values.get("comment")[0];
+        String reqCode = values.get("reqCode")[0];
+        String reqNo = values.get("reqNo")[0];
+        String name = values.get("name")[0];
         //TODO determine and create correct validation for requirements
-        validateReq(source, stimulus, artifact, response, responsemeasure, environment);
+        //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
 
         //TODO determine if private global reqs are a thing
@@ -53,16 +71,20 @@ public class AdminController extends Controller {
         else {
             pub = 0;
         }
-        String name = values.get("name")[0];
-        String desc = values.get("description")[0];
 
 
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT);
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, Integer.parseInt(ID), subCatID, reqResponsible, description, comment, reqCode, reqNo, name);
 
-        qh.insertStatement(Statement.CREATE_PROJECT_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
-        return ok(views.html.dashboard.render());
+        for (String SID: structures){
+            insertHasStructure(ID, SID);
+        }
+        return ok("added requirement");
+
     }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
+        //TODO
         return true;
     }
 
@@ -119,7 +141,7 @@ public class AdminController extends Controller {
     public Result addCategory(){
         return( ok(views.html.addCategroy.render()));
     }
-
+/*
     public Result createCategory(){
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         String name = values.get("name")[0];
@@ -128,11 +150,11 @@ public class AdminController extends Controller {
         }
         String description = values.get("description")[0];
 
-        qh.insertStatement(Statement.CREATE_CATEGORY, name, description);
+        qh.insertStatement(Statement.INSERT_CATEGORY, name, description);
 
         return ok();
     }
-
+*/
     //=========================== ADD SUBCATEGORY =======================================
 
     public Result addSubcategory(){
@@ -140,12 +162,12 @@ public class AdminController extends Controller {
         String parent = values.get("parent")[0];
         String child = values.get("child")[0];
         //note: this should also cover the case of parent = child (returns 1 but not 2)
-        JsonNode exists = qh.executeQuery(Statement.CATEGORIES_EXISTS, parent, child);
+        JsonNode exists = qh.executeQuery(Statement.CATEGORY_EXISTS);
         System.out.println(exists);
         if(exists.get(0).get("bool").asInt() != 2){
             return unauthorized("one or more of the selected categories do not exist");
         }
-        qh.addTableRelation(Statement.ADD_SUBCATEGORY, Integer.parseInt(parent), Integer.parseInt(child));
+        qh.addTableRelation(Statement.INSERT_SUBCATEGORY, Integer.parseInt(parent), Integer.parseInt(child));
         return ok("new parent/child relationship established");
     }
 
@@ -162,7 +184,7 @@ public class AdminController extends Controller {
         System.out.println(categoryExists);
 
         if(reqExists == 1 && categoryExists == 1){
-            qh.addTableRelation(Statement.ADD_REQUIREMENT_CATEGORY, requirement, category);
+            qh.addTableRelation(Statement.INSERT_CATEGORY, requirement, category);
             return ok("added requirementCategory");
         }
         return unauthorized("category or requirement does not exist");

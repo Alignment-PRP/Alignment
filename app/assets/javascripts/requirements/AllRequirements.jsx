@@ -28,20 +28,15 @@ class AllRequirements extends React.Component {
     render() {
         return (
             <div className="all-requirements-list">
-                <h1>Alle Krav</h1>
+                <h2>Alle Krav</h2>
                 <table>
                     <thead>
                     <tr>
                         <th>Name</th>
                         <th>Beskrivelse</th>
-                        <th>Source</th>
-                        <th>Stimulus</th>
-                        <th>Artifact</th>
-                        <th>Responce</th>
-                        <th>ResponceMeasure</th>
-                        <th>Environment</th>
+                        <th>Kommentar</th>
                         <th>Category</th>
-                        <th>CategoryDescription</th>
+                        <th>Sub Category</th>
                     </tr>
                     </thead>
                     <tbody>

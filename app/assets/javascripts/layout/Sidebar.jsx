@@ -19,28 +19,34 @@ class Sidebar extends React.Component {
             sidebar: {
                 margin: '0',
                 padding: '0',
-                height: '100vh',
+                height: '100%',
                 width: '290px',
                 left: '-220px',
                 transform: 'translate(0,0)',
                 transition: '0.3s',
-                backgroundColor: '#1f4293',
+                backgroundColor: '#191919',
+                textColor: '#e8e8e8',
                 display: 'block',
                 position: 'fixed',
-                zIndex: '500',
-                boxShadow: '2px 2px 3px black'
+                zIndex: '99999'
+
+
+
             },
             rightIcon: {
                 textAlign: 'center',
                 lineHeight: '24px',
                 fontSize: '24px',
-                backgroundColor: '#082b57',
+                backgroundColor: '#E8E8E8',
                 margin: '6px',
                 width: '24px',
                 height: '24px',
                 padding: '6px',
                 right: '11px'
             },
+            menuItem: {
+                color: '#E8E8E8',
+            }
         };
 
         this.state = {open: false};
@@ -49,7 +55,7 @@ class Sidebar extends React.Component {
     open() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(220px, 0)';
-        sidebar.backgroundColor = '#1f4293';
+        sidebar.backgroundColor = '#191919';
         this.style.sidebar = sidebar;
         this.setState({open: true});
     }
@@ -57,19 +63,20 @@ class Sidebar extends React.Component {
     close() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(0, 0)';
-        sidebar.backgroundColor = '#1f4293';
+        sidebar.backgroundColor = '#191919';
         this.style.sidebar = sidebar;
         this.setState({open: false});
     }
 
     render() {
         return (
-            <div style={this.style.sidebar} onMouseEnter={this.open} onMouseLeave={this.close}>
+            <div style={this.style.sidebar} id="sidebar" onMouseEnter={this.open} onMouseLeave={this.close}>
                 <Menu autoWidth={false} width={290}>
-                    <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
-                    <MenuItem primaryText="Prosjekter"containerElement={<Link to="/projects" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
-                    <MenuItem primaryText="Krav"containerElement={<Link to="/allrequirements" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
-                    <MenuItem primaryText="Logg ut"containerElement={<Link to="/logout" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
+                    <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
+                    <MenuItem primaryText="Prosjekter"containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
+                    <MenuItem primaryText="Nytt Prosjekt"containerElement={<Link to="/newproject" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">build</FontIcon>} />
+                    <MenuItem primaryText="Krav"containerElement={<Link to="/allrequirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                    <MenuItem primaryText="Logg ut"containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                     <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
                 </Menu>
             </div>

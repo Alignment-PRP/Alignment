@@ -1,4 +1,5 @@
 import java.io.File
+import java.util.Calendar
 
 name := """play-java-intro"""
 
@@ -103,18 +104,32 @@ browserifyTask := {
     compareLastModified(new File(target), fileList)
   }
 
+  def timestamp: String = {
+    def format(n: Integer): String = {
+      if (n<9) "0"+n else ""+n
+    }
+    val now = Calendar.getInstance()
+    val hour = format(now.get(Calendar.HOUR_OF_DAY))
+    val minute = format(now.get(Calendar.MINUTE))
+    val seconds = format(now.get(Calendar.SECOND))
+    val timestamp = "[" + hour + ":" + minute + ":" + seconds + "]"
+    timestamp
+  }
+
   if (compare(reactOutput, reactFiles)) {
-    println("%React: Running browserify")
+    println(timestamp + " React: Running browserify")
     val outputVendorFile = browserifyOutputDir.value / "react.js"
     browserifyOutputDir.value.mkdirs
     "./node_modules/.bin/"+browserify+" --fast -o " + outputVendorFile + " " + libs("-r ") !;
+    println(timestamp + " React: Done")
   }
 
   if (modified(appOutput, appFolder)) {
-    println("%Client: Running browserify")
+    println(timestamp + " Client: Running browserify")
     val outputFile = browserifyOutputDir.value / "main.js"
     browserifyOutputDir.value.mkdirs
     "./node_modules/.bin/"+browserify+" --fast -t [ babelify --presets [ es2015 react ] ] " + appStartingPoint + " -o " + outputFile.getPath + " " + libs("-x=") !;
+    println(timestamp + " Client: Done")
   }
   Nil
 
