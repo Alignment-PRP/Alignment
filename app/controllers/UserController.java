@@ -55,7 +55,7 @@ public class UserController extends Controller {
 
     public void createUser(String firstname, String lastname, String email, String username, String password){
 
-        qh.insertStatement(Statement.CREATE_USER ,firstname, lastname, email, username, password);
+        qh.insertStatement(Statement.INSERT_USER,firstname, lastname, email, username, password);
 
     }
 
