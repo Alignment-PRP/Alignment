@@ -154,31 +154,29 @@ public class ProjectController extends Controller {
 
     //NOT SURE WHY IT'S MARKED AS WRONG, SOMEONE CHECK IT. ("getProjectRequirementForm.scala.html" seems to exist and is still marked as wrong [intelij error?])
     public Result getProjectRequirementForm(){
-        //return ok(views.html.getProjectRequirements.render());
-        return ok(views.html.getProjectRequirements.render());
+        return ok(views.html.newrequirement.render());
     }
 
     public Result addReq(){
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String projectid = values.get("projectid")[0];
-        String[] requirementid = values.get("requirementid");
-        for(int i = 0; i < requirementid.length; i++){
-            if(qh.executeQuery(Statement.REQUIREMENT_EXISTS, requirementid[i]).get(0).get("bool").asInt() != 1){
-                return unauthorized(requirementid[i] + " is not a valid requirement");
-            }
+        String PID = values.get("PID")[0];
+        String RID = values.get("RID")[0];
+        if(qh.executeQuery(Statement.REQUIREMENT_EXISTS, RID).get(0).get("bool").asInt() != 1){
+            return unauthorized(RID + " is not a valid requirement ID");
         }
-        if(qh.executeQuery(Statement.PROJECT_EXISTS, projectid).get(0).get("bool").asInt() != 1){
-            return unauthorized(projectid + " is not a valid projectid");
+        if(qh.executeQuery(Statement.PROJECT_EXISTS, PID).get(0).get("bool").asInt() != 1){
+            return unauthorized(PID + " is not a valid project ID");
         }
-        for(int i=0; i < requirementid.length; i++){
-            JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, requirementid[i]).get(0);
-            //qh.createProjectRequirement(projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
-            qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT,projectid, globalReq.get("ispublic").asText(), globalReq.get("name").asText(),
-            globalReq.get("description").asText(), globalReq.get("source").asText(), globalReq.get("stimulus").asText(),
-            globalReq.get("artifact").asText(), globalReq.get("response").asText(), globalReq.get("responsemeasure").asText(),
-            globalReq.get("environment").asText());
-        }
-        return ok("ok");
+        String reqNo = values.get("reqNo")[0];
+        String reqCode = values.get("reqCode")[0];
+        String comment = values.get("comment")[0];
+        String description = values.get("description")[0];
+
+        JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, RID).get(0);
+
+        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT, Integer.parseInt(PID), Integer.parseInt(RID), reqNo, reqCode, comment, description);
+
+        return ok("Project Requirement Inserted");
 
     }
     //SAME AS getProjectRequirementForm()

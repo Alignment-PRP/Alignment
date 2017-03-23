@@ -23,7 +23,7 @@ public enum Statement {
     INSERT_REQUIREMENT_META_DATA("INSERT INTO RequirementMetaData (RID, subCatID, reqResponsible, description, comment, reqCode, reqNo, name) VALUES(?,?,?,?,?,?,?,?)"),
     INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?,?)"),
     INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?,?)"),
-    REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirement WHERE ID = ?"),
+    REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
     GET_REQUIREMENTS_BY_CATEGORY_ID("" +
             ""),//TODO
     GET_GLOBAL_REQUIREMENTS("" +
@@ -58,7 +58,7 @@ public enum Statement {
             "INNER JOIN ProjectRequirement AS pr " +
             "ON pr.RID = r.ID " +
             "WHERE pr.PID = ?"),
-    INSERT_PROJECT_REQUIREMENT(""),//TODO
+    INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),//TODO
 
     //TODO:Requirements can be public or not. Need different methods for these.
 
