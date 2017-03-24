@@ -17,7 +17,7 @@ class Projects extends React.Component {
 
     generateProjectList(){
         return this.props.projects.map((item, index) => {
-            return <ProjectListItem key={index} index={item.pid} project={item} />
+            return <ProjectListItem key={index} project={item} />
             }
         )
     }
