@@ -78,7 +78,7 @@ class Project extends React.Component {
         return (
             <div className="container">
                 <div className="add-requirements">
-                    <h1>Legg til Krav</h1>
+                    <h2>Legg til Krav</h2>
                     <table>
                         <thead>
                         <tr>
@@ -92,7 +92,7 @@ class Project extends React.Component {
                     </table>
                 </div>
                 <div className="project-requirements">
-                    <h1>Prosjekt Krav</h1>
+                    <h2>Prosjekt Krav</h2>
                     <table>
                         <thead>
                         <tr>

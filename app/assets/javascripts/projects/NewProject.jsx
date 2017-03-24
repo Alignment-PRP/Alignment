@@ -13,7 +13,7 @@ class NewProject extends React.Component {
         return (
             <div className="new-project">
                 <form action={URLS.PROJECT_POST_NEW} method="post">
-                    <h1>Nytt Prosjekt</h1>
+                    <h2>Nytt Prosjekt</h2>
                     <label><b>Prosjektnavn</b></label><br/>
                     <input type="text" placeholder="" name="name" required/>
 
