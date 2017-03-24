@@ -45,7 +45,7 @@ class Sidebar extends React.Component {
                 right: '11px'
             },
             menuItem: {
-                color: '#E8E8E8',
+                color: '#E8E8E8'
             }
         };
 

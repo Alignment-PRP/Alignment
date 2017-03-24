@@ -29,7 +29,7 @@ class Projects extends React.Component {
     render(){
         return (
             <div className="all-project-list">
-                <h1>Prosjekter</h1>
+                <h2>Prosjekter</h2>
                 <table>
                     <thead>
                         <tr>
