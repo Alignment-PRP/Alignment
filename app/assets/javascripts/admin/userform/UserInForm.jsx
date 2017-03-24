@@ -7,14 +7,15 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 export default class UserInForm extends React.Component {
 
     _render(handleSubmit, handleEdit, user) {
+        console.log(user);
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
                     <Field
                         name="username"
-                        defaultValue={user.username}
+                        value={user.USERNAME}
                         floatingLabelText="Brukernavn"
-                        disabled={true}
+                        disabled={false}
                         component={TextField}
                     />
                     <Field
@@ -27,14 +28,14 @@ export default class UserInForm extends React.Component {
                     <br/>
                     <Field
                         name="firstname"
-                        defaultValue={user.firstname}
+                        defaultValue={user.firstName}
                         floatingLabelText="Fornavn"
                         disabled={true}
                         component={TextField}
                     />
                     <Field
                         name="lastname"
-                        defaultValue={user.lastname}
+                        defaultValue={user.lastName}
                         floatingLabelText="Etternavn"
                         disabled={true}
                         component={TextField}

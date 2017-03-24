@@ -13,8 +13,9 @@ export default class UserTable extends React.Component {
     userList() {
         return this.props.users.map((item, index) => {
             return <TableRow key={index}>
-                <TableRowColumn>{item.userid}</TableRowColumn>
-                <TableRowColumn>{item.username}</TableRowColumn>
+                <TableRowColumn>{item.USERNAME}</TableRowColumn>
+                <TableRowColumn>{item.firstName}</TableRowColumn>
+                <TableRowColumn>{item.lastName}</TableRowColumn>
                 <TableRowColumn>{item.email}</TableRowColumn>
             </TableRow>
         })
@@ -31,8 +32,9 @@ export default class UserTable extends React.Component {
                     adjustForCheckbox={false}
                 >
                     <TableRow>
-                        <TableHeaderColumn>BrukerID</TableHeaderColumn>
                         <TableHeaderColumn>Brukernavn</TableHeaderColumn>
+                        <TableHeaderColumn>Fornavn</TableHeaderColumn>
+                        <TableHeaderColumn>Etternavn</TableHeaderColumn>
                         <TableHeaderColumn>Epost</TableHeaderColumn>
                     </TableRow>
                 </TableHeader>
