@@ -5,6 +5,10 @@ import {GET_ALL_PROJECTS,
         GET_REQUIREMENTS_BY_PROJECT_ID
 } from './../types.jsx';
 
+
+//All actions that changes the global state of the projectReducer is defined here.
+//Async methods need to get defined in two separate functions because the axios.get
+//Method will take sometime before we want to send the data to the Reducer.
 export function getAllProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS)
