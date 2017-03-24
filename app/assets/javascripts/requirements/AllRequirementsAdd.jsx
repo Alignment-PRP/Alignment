@@ -16,7 +16,7 @@ export default class AllRequirementsAdd extends React.Component {
     render() {
         return (
             <div className="all-requirements-list">
-                <h1>Alle Krav</h1>
+                <h2>Alle Krav</h2>
                 <table>
                     <thead>
                     <tr>

@@ -9,11 +9,8 @@ export default class ProjectList extends React.Component {
         return (
                 <tr>
                     <td>{project.name}</td>
-                    <td>{project.owner}</td>
-                    <td>{project.securityLevel}</td>
-                    <td>{project.transactionVolume}</td>
-                    <td>{project.userChannel}</td>
-                    <td>{project.deploymentStyle}</td>
+                    <td>{project.creatorID}</td>
+                    <td>{project.managerID}</td>
                     <td><Link to={url}><button>Rediger</button></Link></td>
                 </tr>
         );

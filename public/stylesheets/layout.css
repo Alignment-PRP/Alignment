@@ -3,23 +3,28 @@ body {
     margin: 0px;
     padding: 0px;
     font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 1.4px;
 }
 
 h1{
     margin-top: 0;
     line-height: 1;
     color:#191919;
-    font-weight: 200;
-    font-size: 25px;
+    font-weight: 400;
+    font-size: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
     text-align: left;
 }
 h2{
     margin-top: 0;
     line-height: 1;
     color:#191919;
-    font-weight: 400;
-    font-size: 50px;
-    text-align: center;
+    font-weight: 200;
+    font-size: 15px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
 }
 
 .transparent {
@@ -29,7 +34,7 @@ h2{
 }
 
 #header {
-    height: 80px;
+    height: 100px;
     background-color: #E8E8E8;
     text-align: left;
     padding: 15px;
@@ -48,12 +53,14 @@ h2{
     margin-left: 70px;
     padding: 5px;
     flex: 1;
-    background-color: #E8E8E8;
+    background-color: #fff;
+    height: 100%
 }
 
 #pagecontainer {
     flex: 4;
-    background-color: #E8E8E8;
+    background-color: #fff;
+    height: 100%;
 }
 
 #footer {
@@ -64,8 +71,10 @@ h2{
     background-color: #999999;
 }
 
-a:hover{
-    text-decoration-color: #e62c33;
+a {
+    text-decoration: none;
 }
+
+
 
 

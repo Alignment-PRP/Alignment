@@ -36,6 +36,12 @@ public class ApplicationController extends Controller {
         return init();
     }
 
+
+    /**
+     * Called when first entering the site GET /
+     * Checks if oyu are logged in, if not redirects to the login page.
+     * @return
+     */
     public Result init(){
         String userID = session("connected");
         if(userID != null) {
