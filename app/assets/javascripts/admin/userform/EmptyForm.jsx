@@ -44,7 +44,7 @@ export default class EmptyForm extends React.Component {
                     />
                     <Field
                         disabled={true}
-                        type="edit"
+                        type="button"
                         label="Edit"
                         component={RaisedButton}
                     />

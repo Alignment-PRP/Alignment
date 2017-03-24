@@ -26,11 +26,14 @@ class Users extends React.Component {
         console.log("potato")
     }
 
+
+
     render() {
-        const {mode, index, users, userClicked} = this.props;
+        const {mode, index, users, userClicked, changeUserFormMode} = this.props;
         return (
             <div>
-                <UserForm onSubmit={this.handleSubmit} mode={mode} user={users[index]}/>
+                <UserForm onSubmit={this.handleSubmit} mode={mode} user={users[index]} handleEdit={() => {console.log("heiaa!++++++++++++++++++++"); changeUserFormMode("EDIT")}}/>
+                <br/>
                 <UserTable users={users} userClicked={userClicked}/>
             </div>
         );
@@ -49,8 +52,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         userClicked: (index) => {
             if (index[0] != null) {
-                dispatch(userClicked(index[0]));
                 dispatch(changeUserFormMode("SHOW"));
+                dispatch(userClicked(index[0]));
             } else {
                 //dispatch(changeUserFormMode("EMPTY"))
             }

@@ -13,30 +13,34 @@ export default class UserInForm extends React.Component {
                 <form onSubmit={handleSubmit}>
                     <Field
                         name="username"
-                        value={user.USERNAME}
+                        hintText={user.USERNAME}
                         floatingLabelText="Brukernavn"
-                        disabled={false}
+                        floatingLabelFixed={true}
+                        disabled={true}
                         component={TextField}
                     />
                     <Field
                         name="email"
-                        defaultValue={user.email}
+                        hintText={user.email}
                         floatingLabelText="Epost"
+                        floatingLabelFixed={true}
                         disabled={true}
                         component={TextField}
                     />
                     <br/>
                     <Field
                         name="firstname"
-                        defaultValue={user.firstName}
+                        hintText={user.firstName}
                         floatingLabelText="Fornavn"
+                        floatingLabelFixed={true}
                         disabled={true}
                         component={TextField}
                     />
                     <Field
                         name="lastname"
-                        defaultValue={user.lastName}
+                        hintText={user.lastName}
                         floatingLabelText="Etternavn"
+                        floatingLabelFixed={true}
                         disabled={true}
                         component={TextField}
                     />
@@ -49,8 +53,8 @@ export default class UserInForm extends React.Component {
                     />
                     <Field
                         disabled={false}
-                        type="edit"
-                        label="Edit"
+                        type="button"
+                        label="Endre"
                         onClick={handleEdit}
                         component={RaisedButton}
                     />

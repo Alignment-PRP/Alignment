@@ -49,8 +49,7 @@ export default class EditUserForm extends React.Component {
                     <Field
                         disabled={true}
                         type="edit"
-                        label="Edit"
-                        onClick={handleEdit}
+                        label="Endre"
                         component={RaisedButton}
                     />
                 </form>
