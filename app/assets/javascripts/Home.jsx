@@ -10,18 +10,20 @@ class Home extends React.Component {
     }
 
     UserData(){
-        let username = "";
-        let userClass = "";
+        let USERNAME = "";
+        let ucDesc = "";
+        let ucName = "";
 
         this.props.userdata.map((user)=>{
-            username = user.username;
-            userClass = user.userClass;
+            USERNAME = user.USERNAME;
+            ucDesc = user.ucDesc;
+            ucName = user.ucName;
         });
 
         return(
             <div>
-                <p><b>Username:</b> {username} </p>
-                <p><b>UserClass:</b> {userClass} </p>
+                <p><b>Username:</b> {USERNAME} </p>
+                <p><b>Userclass:</b> {ucName} - {ucDesc} </p>
             </div>
         )
     }
