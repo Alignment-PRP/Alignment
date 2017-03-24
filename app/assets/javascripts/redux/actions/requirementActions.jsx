@@ -32,7 +32,6 @@ export function getAllCategoryNames() {
     return dispatch => {
         axios.get(URLS.CATEGORY_GET_ALL_NAMES)
             .then( response => {
-                console.log(response);
                 const data = [];
                 response.data.map((object) => {
                     data.push(object);
