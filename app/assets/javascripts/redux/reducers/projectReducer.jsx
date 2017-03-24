@@ -2,6 +2,8 @@ import {GET_ALL_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID
 } from './../types.jsx';
+//Here is where the global state of the projectReducer actually get stored and changed. The projectReducer gets passed actions.types into a switch function.
+//When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from Actions.
 
 const projectReducer = (state = {
     projects: [],
