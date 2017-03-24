@@ -5,7 +5,7 @@ export default class Header extends React.Component {
     render() {
         return (
             <header id="header">
-                <h2>Trondheim Kommune</h2>
+                <h1>Trondheim Kommune</h1>
             </header>
         );
     }

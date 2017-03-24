@@ -14,7 +14,7 @@ export default class ProjectRequirements extends React.Component {
     render() {
         return (
             <div>
-                <h1>Prosjekt Krav</h1>
+                <h2>Prosjekt Krav</h2>
                 <table>
                     <thead>
                     <tr>

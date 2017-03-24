@@ -44,7 +44,7 @@ class SideMenu extends React.Component {
                 return (
                     <div>
                         <h2>Krav Meny</h2>
-                        <Link to="allrequirements"><button>Vis kravliste</button></Link>
+                        <Link to="allrequirements"><button id="visKravlisteButton">Vis kravliste</button></Link>
                     </div>
                 );
                 break;
@@ -52,7 +52,7 @@ class SideMenu extends React.Component {
                 return (
                     <div>
                         <h2>Krav Meny</h2>
-                        <Link to="allrequirements"><button>Vis kravliste</button></Link>
+                        <Link to="allrequirements"><button id="kravlisteButton">Vis kravliste</button></Link>
                     </div>
                 );
                 break;
@@ -60,7 +60,7 @@ class SideMenu extends React.Component {
                 return (
                     <div>
                         <h2>Prosjekt Meny</h2>
-                        <Link to="newproject"><button>Nytt prosjekt</button></Link>
+                        <Link to="newproject"><button id="nyttProsjektButton">Nytt prosjekt</button></Link>
                     </div>
                 );
                 break;
@@ -68,7 +68,7 @@ class SideMenu extends React.Component {
                 return (
                     <div>
                         <h2>Prosjekt Meny</h2>
-                        <Link to="projects"><button>Vis prosjekter</button></Link>
+                        <Link to="projects"><button id="visProsjekterButton">Vis prosjekter</button></Link>
                     </div>
                 );
                 break;
@@ -82,7 +82,7 @@ class SideMenu extends React.Component {
             default:
                 return (
                     <div>
-                        <h1>Meny</h1>
+                        <h2>Meny</h2>
                     </div>
                 );
         }

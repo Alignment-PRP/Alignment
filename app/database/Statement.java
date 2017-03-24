@@ -7,9 +7,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//TODO Doc
+/**
+ * These are the statements used to query the database.
+ * The question marks (?) are values inserted in to the String.
+ * They are added in the order they appear in in the string, so
+ * remember to pass the values in the right order.
+ */
 public enum Statement {
 
+
+    //Gets the PK of the last inserted row.
     SELECT_LAST_INSERT_ID("SELECT LAST_INSERT_ID()"),
 
     /**
@@ -23,7 +30,7 @@ public enum Statement {
     INSERT_REQUIREMENT_META_DATA("INSERT INTO RequirementMetaData (RID, subCatID, reqResponsible, description, comment, reqCode, reqNo, name) VALUES(?,?,?,?,?,?,?,?)"),
     INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?,?)"),
     INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?,?)"),
-    REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirement WHERE ID = ?"),
+    REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
     GET_REQUIREMENTS_BY_CATEGORY_ID("" +
             ""),//TODO
     GET_GLOBAL_REQUIREMENTS("" +
@@ -58,7 +65,7 @@ public enum Statement {
             "INNER JOIN ProjectRequirement AS pr " +
             "ON pr.RID = r.ID " +
             "WHERE pr.PID = ?"),
-    INSERT_PROJECT_REQUIREMENT(""),//TODO
+    INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),//TODO
 
     //TODO:Requirements can be public or not. Need different methods for these.
 
@@ -96,13 +103,24 @@ public enum Statement {
     PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
     GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
     GET_PROJECTS_ACCESSIBLE_BY_USER("" +
-            "SELECT * " +
+            "SELECT pmd.*, p.* " +
             "FROM Project AS p " +
+            "INNER JOIN ProjectMetaData AS pmd " +
+            "ON pmd.PID = p.ID " +
             "INNER JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
+            "INNER JOIN UserClass AS uc " +
+            "ON uc.NAME = ha.NAME " +
             "INNER JOIN UserHasClass AS uhc " +
-            "ON uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? "),//TODO
-    GET_PUBLIC_PROJECTS("SELECT * FROM project WHERE ispublic = 1"),
+            "ON uhc.NAME = uc.NAME " +
+            "WHERE uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? " +
+            "GROUP BY p.ID"),
+    GET_PUBLIC_PROJECTS("" +
+            "SELECT * " +
+            "FROM Project AS p " +
+            "INNER JOIN ProjectMetaData AS pmd " +
+            "ON pmd.PID = p.ID " +
+            "WHERE p.isPublic = 1 "),
 
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
 
@@ -118,8 +136,24 @@ public enum Statement {
      * ==========================================================================================================================
      */
 
-    CREATE_USER("INSERT INTO Users (firstName, lastName, email, USERNAME, pass) VALUES (?,?,?,?,?)"),
-    GET_USER_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
+    INSERT_USER("INSERT INTO Users (firstName, lastName, email, USERNAME, pass) VALUES (?,?,?,?,?)"),
+    GET_USER_CLASS_BY_USERNAME("" +
+            "SELECT * " +
+            "FROM UserClass AS uc" +
+            "INNER JOIN UserHasClass AS uhc " +
+            "ON uhc.NAME = uc.NAME " +
+            "INNER JOIN Users AS u " +
+            "ON u.USERNAME = uhc.USERNAME " +
+            "WHERE u.USERNAME = ? "),
+    GET_USER_BY_USERNAME("" +
+            "SELECT u.USERNAME, u.firstName, u.lastName, uc.NAME AS ucName, uc.description AS ucDesc, u.email " +
+            "FROM Users AS u " +
+            "INNER JOIN UserHasClass AS uhc " +
+            "ON u.USERNAME = uhc.USERNAME " +
+            "INNER JOIN UserClass AS uc " +
+            "ON uc.NAME = uhc.NAME " +
+            "WHERE u.USERNAME=?"),
+    GET_USER_WITH_PASS_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
     GET_USER_CLASSES("SELECT * FROM UserClass"),
     GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?");
 
@@ -148,8 +182,15 @@ public enum Statement {
         this.statement = statement;
     }
 
-    //TODO Doc
     //TODO Errorhandling
+
+    /**
+     * Prepares a Statement for execution by the database, used for queries.
+     * @param c Database Connection
+     * @param objects Values needed to for the query. Usually Primary Key.
+     * @return PreparedStatement. Ready for execution.
+     * @throws SQLException
+     */
     public PreparedStatement prepare(Connection c, Object... objects) throws SQLException {
         PreparedStatement ps = c.prepareStatement(statement);
         if (objects.length > 0) {
@@ -160,11 +201,24 @@ public enum Statement {
         return ps;
     }
 
-    //TODO Doc
+    /**
+     * Uses the prepare method to prepare the statement for execution, then executes it and returns the result set.
+     * @param c Database Connection
+     * @param objects Values needed to for the query. Usually Primary Key.
+     * @return ResultSet. The result set from the database.
+     * @throws SQLException
+     */
     public ResultSet prepareAndExecute(Connection c, Object... objects) throws SQLException {
         return prepare(c, objects).executeQuery();
     }
 
+    /**
+     * Prepares and executes an INSERT or UPDATE statement.
+     * Uses the prepareObject method to prepare the values to be inserted.
+     * @param c Database Connection
+     * @param objects Values to insert in to the database. String or int
+     * @throws SQLException
+     */
     public void prepareAndExecuteInsert(Connection c,  Object... objects) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
         if (objects.length > 0) {
@@ -175,6 +229,14 @@ public enum Statement {
         ps.executeUpdate();
     }
 
+    /**
+     * Prepares an object to be inserted in to the database. These are the actual values in the INSERT.
+     * Checks whether the Object is an int or a String.
+     * @param ps Prepared Statement
+     * @param object Object. The value to be set in the statement.
+     * @param index The index of the Object. Needed to keep the ordering for the statemnt.
+     * @throws SQLException
+     */
     public void prepareObject(PreparedStatement ps, Object object, int index) throws SQLException{
     //NOTE define datatype to SQL conversion here
         if(object instanceof Integer){
@@ -188,6 +250,7 @@ public enum Statement {
         }
     }
 
+    @Deprecated //Dont think we need this one any more.
     public void addTableRelation(Connection c, int parent, int child) throws SQLException{
         PreparedStatement ps = c.prepareStatement(statement);
         ps.setInt(1, parent);

@@ -7,3 +7,5 @@ target
 /.settings
 /RUNNING_PID
 /node_modules
+/.DS_Store
+/.iml
