@@ -17,12 +17,8 @@ class Projects extends React.Component {
 
     generateProjectList(){
         return this.props.projects.map((item, index) => {
-            return <ProjectListItem key={index}
-                                    index={item.pid}
-                                    name={item.p_name}
-                                    descripton={item.p_desc}
-                                    owner={item.po_username}
-                                    manager={item.pm_username} /> }
+            return <ProjectListItem key={index} index={item.pid} project={item} />
+            }
         )
     }
 
@@ -34,9 +30,9 @@ class Projects extends React.Component {
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Beskrivelse</th>
-                            <th>Project owner</th>
-                            <th>Project manager</th>
+                            <th>Creator</th>
+                            <th>Manager</th>
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody>
