@@ -68,6 +68,7 @@ class Sidebar extends React.Component {
         this.setState({open: false});
     }
 
+    //Using <Link to="url"/> to use the defined client-urls in main.jsx
     render() {
         return (
             <div style={this.style.sidebar} id="sidebar" onMouseEnter={this.open} onMouseLeave={this.close}>
