@@ -88,6 +88,7 @@ const mapStateToProps = (state) => {
         requirements: state.requirementReducer.requirements,
         filter: state.requirementReducer.filter,
         filterRequirementList: state.requirementReducer.filterRequirementList,
+        categories: state.requirementReducer.categoryNames
     };
 };
 
@@ -98,7 +99,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateFilterRequirementList: (newRequirementList) => {
             dispatch(updateFilterRequirementList(newRequirementList))
-        }
+        },
     }
 };
 
