@@ -98,8 +98,19 @@ public class RequirementController extends Controller{
      * Gets all the category names and IDs.
      * @return 200 OK, or 401 Unauthorized.
      */
-    public Result getCategories(){
+    public Result getCategories() {
+        //Checks if the user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        //Returns and 200 OK with a JsonNode as Body.
+        JsonNode req = qh.executeQuery(Statement.GET_CATEGORIES);
+        return ok(req);
 
+    }
+
+    /*
         //Checks if the user is logged in
         String userID = session("connected");
         if(userID == null){
@@ -108,7 +119,7 @@ public class RequirementController extends Controller{
         //Returns and 200 OK with a JsonNode as Body.
         JsonNode req = qh.executeQuery(Statement.GET_CATEGORY_NAMES);
         return ok(req);
-    }
+    }*/
 
 
     @Deprecated //need to use ID to get categories now.
