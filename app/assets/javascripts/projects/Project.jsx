@@ -35,6 +35,7 @@ class Project extends React.Component {
     }
 
     //This gets called before render, methods that the render component dont depend on can get called here.
+    //ChangeSideMenuMode changes the stats of the sidemenu. The sidemenu automatically rerenders when this gets called.
     componentWillMount(){
         this.props.changeSideMenuMode("HIDE")
     }
