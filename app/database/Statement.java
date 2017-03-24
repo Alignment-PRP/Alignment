@@ -78,7 +78,7 @@ public enum Statement {
      */
 
     GET_CATEGORIES("" + //TODO: Make it a list of Category Json objects that contain a list of SubCategory Json Objects.
-            "SELECT c.ID AS categoryID, sc.ID AS subCategoryID, c.name AS categoryName, c.desctription AS categoryDescription, sc.name AS subCategoryName, sc.description AS subCategoryDescription " +
+            "SELECT c.ID AS categoryID, sc.ID AS subCategoryID, c.name AS categoryName, c.description AS categoryDescription, sc.name AS subCategoryName, sc.description AS subCategoryDescription " +
             "FROM Category AS c " +
             "INNER JOIN SubCategory AS sc " +
             "ON sc.catID = c.ID"),
