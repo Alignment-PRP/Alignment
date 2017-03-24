@@ -38,8 +38,10 @@ public enum Statement {
             "FROM Requirements AS r " +
             "INNER JOIN RequirementMetaData AS rm " +
             "ON r.ID = rm.RID " +
+            "INNER JOIN HasSubCategory AS hsc " +
+            "ON r.ID = hsc.RID " +
             "INNER JOIN SubCategory AS sc " +
-            "ON rm.subCatID = sc.ID " +
+            "ON hsc.SID = sc.ID " +
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID "),
 
