@@ -5,12 +5,15 @@ import database.QueryHandler;
 import database.Statement;
 
 import play.db.Database;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-
+import java.util.List;
 
 /**
  * Created by andrfo on 24.02.2017.
@@ -217,5 +220,42 @@ public class ProjectController extends Controller {
         return ok(views.html.addGlobalReqToProject.render());
     }
 
+    //==================================================================== GET CATEGORY ================================================================================================================
 
+    public Result testyTest(){
+        return getCategories();
+    }
+
+    public Result getCategories(){
+        List<Map<String, Object>> categoryList = new ArrayList<>();
+        JsonNode categoryData = qh.executeQuery(Statement.GET_CATEGORIES);
+        Map<String, Integer> keyMaping = new HashMap<>();
+        for(int i = 0; i < categoryData.size(); i++){
+            JsonNode content = categoryData.get(i);
+            String categoryID = content.get("categoryID").asText();
+            if(! keyMaping.containsKey(categoryID)){
+                //Make a class object with a couple of strings and a list instead?? and have Map<String, newClassThingy> mainCat = new HashMap<>();
+                Map<String, Object> mainCat = new HashMap<>();
+                mainCat.put("id", categoryID);
+                mainCat.put("name", content.get("categoryName").asText());
+                List subcatList = new ArrayList<>();
+                Map<String, String> subcategory = new HashMap<>();
+                subcategory.put("subcategoryID", content.get("subCategoryID").asText());
+                subcategory.put("subcategoryName", content.get("subCategoryName").asText());
+                subcatList.add(subcategory);
+                mainCat.put("subcategories", subcatList);
+                categoryList.add(mainCat);
+                keyMaping.put(categoryID, categoryList.size()-1);
+            }
+            else{
+                //should be a list but the cast is required due ot the "Object" definition to have a multi type list
+                List subcategories = (List) categoryList.get(keyMaping.get(categoryID)).get("subcategories");
+                Map<String, String> subcategory = new HashMap<>();
+                subcategory.put("subcategoryID", content.get("subCategoryID").asText());
+                subcategory.put("subcategoryName", content.get("subCategoryName").asText());
+                subcategories.add(subcategory);
+            }
+        }
+        return ok(Json.toJson(categoryList));
+    }
 }
