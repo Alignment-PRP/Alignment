@@ -19,8 +19,7 @@ GET     /api/add-requirementcategeory       controllers.AdminController.addCateg
 GET     /api/update-requirement             controllers.AdminController.updateReq()
 GET     /api/add-requirement                controllers.AdminController.addRequirement()
 
-GET     /categoriesTest                     controllers.ProjectController.testyTest()
-POST    /categoryCrap                       controllers.ProjectController.getCategories()
+POST    /api/getCategories                  controllers.ProjectController.getCategories()
 
 
 #API CALLS
