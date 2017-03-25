@@ -57,10 +57,15 @@ class AllRequirementsFilter extends React.Component {
         //Get all category objects from Redux Store
         const categories = this.props.categories;
         let getCategoryNames = [];
+        let getSubCategoryNames = [];
 
         //Storing all categoryNames in an array
         for (let object of categories ){
             getCategoryNames.push(object.categoryName);
+        }
+
+        for (let object of categories ){
+            getSubCategoryNames.push(object.subCategoryName);
         }
 
         //creating a Set from getCategoryNames to remove duplicat names
@@ -68,7 +73,7 @@ class AllRequirementsFilter extends React.Component {
 
         //Iterarting trough each name and sending it as props to <input/> to build checkboxes
         return uniqueCategoryList.map((category, index) => {
-            return <p key={index} >{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></p>
+            return <li key={index} >{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></li>
             }
         )
     }
@@ -78,12 +83,16 @@ class AllRequirementsFilter extends React.Component {
             <div id="filter">
                 <h2>{this.props.title}</h2>
                 <h2><b>Kategori</b></h2>
+                <ul style={{listStyleType: 'none'}}>
                 {this.generateFilterMenuCheckboxes()}
+                </ul>
                 {/*Temporary placeholder before structure gets in place*/}
                 <h2><b>Struktur</b></h2>
-                <p>Source<input type="checkbox" name="placeholder"/></p>
-                <p>Stimulus<input type="checkbox" name="placeholder"/></p>
-                <p>Artifact<input type="checkbox" name="placeholder"/></p>
+                <ul style={{listStyleType: 'none'}}>
+                    <li>Source<input type="checkbox" name="placeholder"/></li>
+                    <li>Stimulus<input type="checkbox" name="placeholder"/></li>
+                    <li>Artifact<input type="checkbox" name="placeholder"/></li>
+                </ul>
                 <button onClick={this.filterRequirementList}>Oppdater kravliste</button><br/>
                 <h2><b>Krav Meny</b></h2>
                 <Link to="newrequirement"><button>Legg til nytt krav</button></Link>
