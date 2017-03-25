@@ -30,6 +30,7 @@ class Project extends React.Component {
     //This is a lifecycle method that runs after the render function. It is good practis to call on GET methods here because we want to render
     //the component first, THEN fill it with information from DB.
     componentDidMount() {
+        //react-routes make us able to get the id of the URL with: this.props.params.id
         this.props.getRequirementsByProjectId(this.props.params.id);
         this.props.getAllRequirements();
     }
