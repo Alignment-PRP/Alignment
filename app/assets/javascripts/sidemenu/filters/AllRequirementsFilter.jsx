@@ -24,7 +24,6 @@ class AllRequirementsFilter extends React.Component {
                 if (category == requirement.cName){
                    newFilterRequirementList.push(requirement);
                 }
-
             }
         }
         this.props.updateFilterRequirementList(newFilterRequirementList);
@@ -53,27 +52,18 @@ class AllRequirementsFilter extends React.Component {
 
     }
 
+    MenuCheckboxes(){
+
+    }
+
     generateFilterMenuCheckboxes(){
         //Get all category objects from Redux Store
         const categories = this.props.categories;
-        let getCategoryNames = [];
-        let getSubCategoryNames = [];
-
-        //Storing all categoryNames in an array
-        for (let object of categories ){
-            getCategoryNames.push(object.categoryName);
-        }
-
-        for (let object of categories ){
-            getSubCategoryNames.push(object.subCategoryName);
-        }
-
-        //creating a Set from getCategoryNames to remove duplicat names
-        const uniqueCategoryList = Array.from(new Set(getCategoryNames));
+        console.log(categories);
 
         //Iterarting trough each name and sending it as props to <input/> to build checkboxes
-        return uniqueCategoryList.map((category, index) => {
-            return <li key={index} >{category}<input onChange={this.updateMenuFilter} type="checkbox" name={category} value={category}/></li>
+        return categories.map((category, index) => {
+            return <li key={index} >{category.name}<input onChange={this.updateMenuFilter} type="checkbox" name={category.name} value={category.name}/></li>
             }
         )
     }
