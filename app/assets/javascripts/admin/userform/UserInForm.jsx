@@ -17,8 +17,7 @@ const validate = values => {
 
 class UserInForm extends React.Component {
 
-    _render(handleSubmit, handleEdit, user) {
-        console.log(user);
+    _render(handleSubmit, handleEdit, handleClear, user) {
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
@@ -63,27 +62,17 @@ class UserInForm extends React.Component {
                         <option>{user.ucName}</option>
                     </Field>
                     <br/>
-                    <Field
-                        disabled={true}
-                        type="submit"
-                        label="Submit"
-                        component={RaisedButton}
-                    />
-                    <Field
-                        disabled={false}
-                        type="button"
-                        label="Endre"
-                        onClick={handleEdit}
-                        component={RaisedButton}
-                    />
+                    <RaisedButton type="submit" label="Lagre" disabled={true}/>
+                    <RaisedButton label="Endre bruker" disabled={false} onClick={handleEdit}/>
+                    <RaisedButton label="Tilbakestill" disabled={false} onClick={handleClear}/>
                 </form>
             </MuiThemeProvider>
         );
     }
 
     render() {
-        const {handleSubmit, handleEdit, user} = this.props;
-        return this._render(handleSubmit, handleEdit, user);
+        const {handleSubmit, handleEdit, handleClear, user} = this.props;
+        return this._render(handleSubmit, handleEdit, handleClear, user);
     }
 
 }

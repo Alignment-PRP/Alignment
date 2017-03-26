@@ -2,6 +2,7 @@ const userFormReducer = (state = {
     mode: "EMPTY",
     user: null,
     data: [],
+    snack: {open: false, text: ""},
 }, action) => {
     switch (action.type) {
         case "CHANGE_USER_FORM_MODE":
@@ -9,6 +10,7 @@ const userFormReducer = (state = {
                 mode: action.payload,
                 user: state.user,
                 data: state.data,
+                snack: state.snack,
             };
             break;
         case "USER_CLICKED":
@@ -16,6 +18,7 @@ const userFormReducer = (state = {
                 mode: state.mode,
                 user: action.payload,
                 data: state.data,
+                snack: state.snack,
             };
             break;
         case 'FILL_FORM':
@@ -23,7 +26,17 @@ const userFormReducer = (state = {
                 mode: state.mode,
                 user: state.user,
                 data: action.payload,
-            }
+                snack: state.snack,
+            };
+            break;
+        case 'SNACKBAR':
+            state = {
+                mode: state.mode,
+                user: state.user,
+                data: state.data,
+                snack: action.payload,
+            };
+            break;
     }
     return state;
 };

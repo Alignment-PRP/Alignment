@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import database.QueryHandler;
 import database.Statement;
 import models.User;
+import org.mindrot.jbcrypt.BCrypt;
 import play.db.Database;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 
 /**
@@ -22,6 +24,28 @@ public class UserController extends Controller {
     @Inject
     public UserController(Database db) {
         this.qh = new QueryHandler(db);
+    }
+
+    public Result updateUser() {
+        final JsonNode values = request().body().asJson();
+
+        System.out.println("Oppdaterer bruker..");
+
+        String oldUSERNAME = values.get("oldUSERNAME").textValue();
+        String USERNAME = values.get("USERNAME").textValue();
+        String firstName = values.get("firstName").textValue();
+        String lastName = values.get("lastName").textValue();
+        String email = values.get("email").textValue();
+        String ucName = values.get("ucName").textValue();
+
+        if (usernameExists(USERNAME)) {
+            return internalServerError("Brukernavn er brukt!");
+        }
+
+        final boolean b1 = qh.executeUpdate(Statement.UPDATE_USER, USERNAME, firstName, lastName, email, oldUSERNAME);
+        final boolean b2 = qh.executeUpdate(Statement.UPDATE_USER_CLASS, USERNAME, ucName, oldUSERNAME);
+
+        return b1 && b2 ? ok() : internalServerError();
     }
 
     public Result getUsers() {
@@ -62,10 +86,27 @@ public class UserController extends Controller {
         return Json.fromJson(userData.get(0), User.class);
     }
 
+    public Result createUserJson() {
+        final JsonNode values = request().body().asJson();
+
+        String USERNAME = values.get("USERNAME").textValue();
+        String firstName = values.get("firstName").textValue();
+        String lastName = values.get("lastName").textValue();
+        String email = values.get("email").textValue();
+        String ucName = values.get("ucName").textValue();
+        String rawPass = values.get("pass").textValue();
+        String pass = BCrypt.hashpw(rawPass, BCrypt.gensalt(10));
+
+        if (usernameExists(USERNAME)) {
+            return internalServerError("Brukernavn er brukt!");
+        }
+        createUser(firstName, lastName, email, USERNAME, pass);
+        qh.insertStatement(Statement.INSERT_USER_CLASS, USERNAME, ucName);
+        return ok("User created");
+    }
+
     public void createUser(String firstname, String lastname, String email, String username, String password){
-
         qh.insertStatement(Statement.INSERT_USER,firstname, lastname, email, username, password);
-
     }
 
     public boolean usernameExists(String username){

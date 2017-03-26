@@ -163,7 +163,10 @@ public enum Statement {
                     "ON u.USERNAME = uhc.USERNAME " +
                     "INNER JOIN UserClass AS uc " +
                     "ON uc.NAME = uhc.NAME "
-    );
+    ),
+    UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
+    UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
+    INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)");
 
 
 
@@ -218,6 +221,10 @@ public enum Statement {
      */
     public ResultSet prepareAndExecute(Connection c, Object... objects) throws SQLException {
         return prepare(c, objects).executeQuery();
+    }
+
+    public void prepareAndUpdate(Connection c, Object... objects) throws SQLException {
+        prepare(c, objects).executeUpdate();
     }
 
     /**

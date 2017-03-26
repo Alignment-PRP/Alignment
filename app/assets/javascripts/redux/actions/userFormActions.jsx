@@ -19,3 +19,10 @@ export function fillForm(data) {
         payload: data,
     }
 }
+
+export function snackBar(bool, text) {
+    return {
+        type: 'SNACKBAR',
+        payload: {open: bool, text: text},
+    }
+}

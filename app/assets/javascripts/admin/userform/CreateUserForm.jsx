@@ -7,7 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const validate = values => {
     const errors = {};
-    const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName' ];
+    const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName', 'pass' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Må fylles'
@@ -19,7 +19,7 @@ const validate = values => {
     return errors
 };
 
-const renderTextField = ({ input, label, dv, meta: { touched, error }, ...custom }) => (
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
     <TextField hintText={label}
                floatingLabelText={label}
                errorText={touched && error}
@@ -28,7 +28,17 @@ const renderTextField = ({ input, label, dv, meta: { touched, error }, ...custom
     />
 );
 
-class EditUserForm extends React.Component {
+const renderPassField = ({ input, label, meta: { touched, error }, ...custom }) => (
+    <TextField hintText={label}
+               floatingLabelText={label}
+               errorText={touched && error}
+               type="password"
+               {...input}
+               {...custom}
+    />
+);
+
+class CreateUserForm extends React.Component {
 
     menuItems(classes) {
         return classes.map((item, index) => {
@@ -36,7 +46,7 @@ class EditUserForm extends React.Component {
         })
     }
 
-    rrender(handleSubmit, pristine, submitting, user, classes) {
+    rrender(handleSubmit, pristine, submitting, classes) {
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
@@ -65,6 +75,13 @@ class EditUserForm extends React.Component {
                         disabled={false}
                         component={renderTextField}
                     />
+                    <br/>
+                    <Field
+                        name="pass"
+                        label="Passord"
+                        disabled={false}
+                        component={renderPassField}
+                    />
                     <Field
                         name="ucName"
                         component="select"
@@ -80,28 +97,13 @@ class EditUserForm extends React.Component {
     }
 
     render() {
-        const {handleSubmit, pristine, submitting, user, classes} = this.props;
-        return this.rrender(handleSubmit, pristine, submitting, user, classes);
+        const {handleSubmit, pristine, submitting, classes} = this.props;
+        return this.rrender(handleSubmit, pristine, submitting, classes);
     }
 
 }
 
-const mapStateToProps = (state) => {
-    return {
-        initialValues: state.userFormReducer.data,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-
-    };
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(reduxForm({
-    form: 'EditUserForm',
+export default reduxForm({
+    form: 'CreateUserForm',
     validate,
-})(EditUserForm));
+})(CreateUserForm);
