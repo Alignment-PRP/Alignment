@@ -6,9 +6,16 @@ export function changeUserFormMode(mode) {
     }
 }
 
-export function userClicked(index) {
+export function userClicked(user) {
     return {
         type: 'USER_CLICKED',
-        payload: index
+        payload: user
+    }
+}
+
+export function fillForm(data) {
+    return {
+        type: 'FILL_FORM',
+        payload: data,
     }
 }

@@ -22,11 +22,15 @@ export default class UserTable extends React.Component {
         })
     }
 
+    clicked(index) {
+        this.props.userClicked(this.props.users[index]);
+    }
+
 
     render() {
         return (
             <Table
-                onRowSelection={this.props.userClicked.bind(this)}
+                onRowSelection={this.clicked.bind(this)}
             >
                 <TableHeader
                     displaySelectAll={false}

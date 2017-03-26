@@ -26,23 +26,17 @@ const renderButton = ({input, meta, type, label}) => (
 
 const required = value => value == null ? 'Required' : undefined;
 
-const sub = (values) => {
-    console.log(values)
-};
-
 class UserForm extends React.Component {
 
     render() {
         const { handleSubmit, handleEdit, mode, user, classes} = this.props;
-        console.log(handleSubmit);
-
         switch(mode) {
             case "EMPTY":
                 return <EmptyForm onSubmit={handleSubmit}/>;
             case "SHOW":
                 return <UserInForm onSubmit={handleSubmit} handleEdit={handleEdit} user={user}/>;
             case "EDIT":
-                return <EditUserForm onSubmit={sub} user={user} classes={classes}/>;
+                return <EditUserForm onSubmit={handleSubmit} user={user} classes={classes}/>;
             default:
                 return(<p>potato</p>)
         }

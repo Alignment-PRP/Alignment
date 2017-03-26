@@ -4,7 +4,7 @@ import * as URLS from './../config.jsx';
 import { browserHistory } from 'react-router';
 import { getUsersWithClass, getUserClasses } from "../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { changeUserFormMode, userClicked } from "../redux/actions/userFormActions.jsx";
+import { changeUserFormMode, userClicked, fillForm } from "../redux/actions/userFormActions.jsx";
 import {connect} from "react-redux";
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
@@ -32,10 +32,12 @@ class Users extends React.Component {
 
 
     render() {
-        const {mode, index, users, userclasses, userClicked, changeUserFormMode} = this.props;
+        const {mode, user, users, userclasses, userClicked, changeUserFormMode} = this.props;
+        console.log("EN BRUKER");
+        console.log(user);
         return (
             <div>
-                <UserForm onSubmit={this.handleSubmit} mode={mode} user={users[index]} classes={userclasses} handleEdit={() => changeUserFormMode("EDIT")}/>
+                <UserForm handleSubmit={this.handleSubmit} mode={mode} user={user} classes={userclasses} handleEdit={() => changeUserFormMode("EDIT")}/>
                 <br/>
                 <UserTable users={users} userClicked={userClicked}/>
             </div>
@@ -46,7 +48,7 @@ class Users extends React.Component {
 const mapStateToProps = (state) => {
     return {
         mode : state.userFormReducer.mode,
-        index: state.userFormReducer.index,
+        user: state.userFormReducer.user,
         users: state.userReducer.users,
         userclasses : state.userReducer.userclasses,
     };
@@ -54,10 +56,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userClicked: (index) => {
-            if (index[0] != null) {
+        userClicked: (user) => {
+            if (user != null) {
                 dispatch(changeUserFormMode("SHOW"));
-                dispatch(userClicked(index[0]));
+                dispatch(userClicked(user));
+                dispatch(fillForm(user))
             } else {
                 //dispatch(changeUserFormMode("EMPTY"))
             }

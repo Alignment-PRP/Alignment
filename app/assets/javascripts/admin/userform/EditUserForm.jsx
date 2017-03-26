@@ -52,7 +52,7 @@ class EditUserForm extends React.Component {
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
                     <Field
-                        name="username"
+                        name="USERNAME"
                         label="Brukernavn"
                         disabled={false}
                         component={renderTextField}
@@ -65,18 +65,16 @@ class EditUserForm extends React.Component {
                     />
                     <br/>
                     <Field
-                        name="firstname"
-                        defaultValue={user.firstName}
-                        floatingLabelText="Fornavn"
+                        name="firstName"
+                        label="Fornavn"
                         disabled={false}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
-                        name="lastname"
-                        defaultValue={user.lastName}
-                        floatingLabelText="Etternavn"
+                        name="lastName"
+                        label="Etternavn"
                         disabled={false}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
                         name="ucName"
@@ -101,12 +99,21 @@ class EditUserForm extends React.Component {
 
 }
 
+const mapStateToProps = (state) => {
+    return {
+        initialValues: state.userFormReducer.data,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+    };
+};
+
 export default connect(
-    state => ({
-        initialValues: {
-            username: "kake"
-        }
-    }),
+    mapStateToProps,
+    mapDispatchToProps,
 )(reduxForm({
     form: 'EditUserForm',
     validate,
