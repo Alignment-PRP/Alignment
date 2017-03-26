@@ -9,16 +9,7 @@ import EmptyForm from './userform/EmptyForm.jsx';
 import UserInForm from './userform/UserInForm.jsx';
 import EditUserForm from './userform/EditUserForm.jsx';
 
-const validate = values => {
-    const errors = {};
-    const requiredFields = [ 'username', 'email', 'firstname', 'lastname', 'ucName' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Required'
-        }
-    });
-    return errors
-};
+
 
 const renderTextField = ({ input, label, meta: { touched, error }, custom }) => (
     <TextField hintText={label}
@@ -35,6 +26,10 @@ const renderButton = ({input, meta, type, label}) => (
 
 const required = value => value == null ? 'Required' : undefined;
 
+const sub = (values) => {
+    console.log(values)
+};
+
 class UserForm extends React.Component {
 
     render() {
@@ -47,7 +42,7 @@ class UserForm extends React.Component {
             case "SHOW":
                 return <UserInForm onSubmit={handleSubmit} handleEdit={handleEdit} user={user}/>;
             case "EDIT":
-                return <EditUserForm onSubmit={handleSubmit} user={user} classes={classes}/>;
+                return <EditUserForm onSubmit={sub} user={user} classes={classes}/>;
             default:
                 return(<p>potato</p>)
         }
@@ -69,10 +64,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default reduxForm({
-    form: 'UserForm',
-    validate,
-})(connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(UserForm));
+)(UserForm);

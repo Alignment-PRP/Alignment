@@ -1,10 +1,21 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-export default class UserInForm extends React.Component {
+const validate = values => {
+    const errors = {};
+    const requiredFields = [ 'username', 'email', 'firstname', 'lastname', 'ucName' ];
+    requiredFields.forEach(field => {
+        if (!values[ field ]) {
+            errors[ field ] = 'Required'
+        }
+    });
+    return errors
+};
+
+class UserInForm extends React.Component {
 
     _render(handleSubmit, handleEdit, user) {
         console.log(user);
@@ -76,3 +87,8 @@ export default class UserInForm extends React.Component {
     }
 
 }
+
+export default reduxForm({
+    form: 'UserInForm',
+    validate,
+})(UserInForm);

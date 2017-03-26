@@ -1,10 +1,31 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import {connect} from "react-redux";
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-export default class EditUserForm extends React.Component {
+const validate = values => {
+    const errors = {};
+    const requiredFields = [ 'username' ];
+    requiredFields.forEach(field => {
+        if (!values[ field ]) {
+            errors[ field ] = 'Required'
+        }
+    });
+    return errors
+};
+
+const renderTextField = ({ input, label, dv, meta: { touched, error }, ...custom }) => (
+    <TextField hintText={label}
+               floatingLabelText={label}
+               errorText={touched && error}
+               {...input}
+               {...custom}
+    />
+);
+
+class EditUserForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,23 +47,21 @@ export default class EditUserForm extends React.Component {
         })
     }
 
-    rrender(handleSubmit, user, classes) {
+    rrender(handleSubmit, pristine, submitting, user, classes) {
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
                     <Field
                         name="username"
-                        defaultValue={user.USERNAME}
-                        floatingLabelText="Brukernavn"
+                        label="Brukernavn"
                         disabled={false}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
                         name="email"
-                        defaultValue={user.email}
-                        floatingLabelText="Epost"
+                        label="Epost"
                         disabled={false}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <br/>
                     <Field
@@ -68,26 +87,27 @@ export default class EditUserForm extends React.Component {
                         {this.menuItems(classes.filter(e => e.NAME != this.state.value))}
                     </Field>
                     <br/>
-                    <Field
-                        disabled={false}
-                        type="submit"
-                        label="Submit"
-                        component={RaisedButton}
-                    />
-                    <Field
-                        disabled={true}
-                        type="edit"
-                        label="Endre"
-                        component={RaisedButton}
-                    />
+                    <RaisedButton type="submit" label="Submit" disabled={pristine || submitting}/>
+                    <RaisedButton label="Endre" disabled={true}/>
                 </form>
             </MuiThemeProvider>
         );
     }
 
     render() {
-        const {onSubmit, user, classes} = this.props;
-        return this.rrender(onSubmit, user, classes);
+        const {handleSubmit, pristine, submitting, user, classes} = this.props;
+        return this.rrender(handleSubmit, pristine, submitting, user, classes);
     }
 
 }
+
+export default connect(
+    state => ({
+        initialValues: {
+            username: "kake"
+        }
+    }),
+)(reduxForm({
+    form: 'EditUserForm',
+    validate,
+})(EditUserForm));
