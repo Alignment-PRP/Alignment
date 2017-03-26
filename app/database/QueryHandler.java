@@ -94,6 +94,19 @@ public class QueryHandler {
         }
     }
 
+    public boolean executeUpdate(Statement statement, Object... objects) {
+        try {
+            Connection c = db.getConnection();
+            statement.prepareAndUpdate(c, objects);
+            //Closes the database connection
+            c.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     /**
      * Takes in a result set from a query and converts it to Json.
      * @param rs ResultSet. The result set from a database query.
