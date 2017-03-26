@@ -52,6 +52,11 @@ class Admin extends React.Component {
                             <Users users={this.props.users}/>
                         </div>
                     </Tab>
+                    <Tab label="Brukerklasser" onActive={this.handleUserClasses}>
+                        <div style={this.style.tabContent}>
+
+                        </div>
+                    </Tab>
                 </Tabs>
             </div>
         );
