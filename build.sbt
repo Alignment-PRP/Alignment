@@ -128,7 +128,7 @@ browserifyTask := {
     println(timestamp + " Client: Running browserify")
     val outputFile = browserifyOutputDir.value / "main.js"
     browserifyOutputDir.value.mkdirs
-    "./node_modules/.bin/"+browserify+" --fast -t [ babelify --presets [ es2015 react ] ] " + appStartingPoint + " -o " + outputFile.getPath + " " + libs("-x=") !;
+    "./node_modules/.bin/"+browserify+" --fast -t [ babelify --presets [ es2015 react stage-3] ] " + appStartingPoint + " -o " + outputFile.getPath + " " + libs("-x=") !;
     println(timestamp + " Client: Done")
   }
   Nil
