@@ -64,7 +64,7 @@ public enum Statement {
             "FROM Requirements AS r " +
             "INNER JOIN RequirementMetaData AS rm " +
             "ON r.ID = rm.RID " +
-            "INNER JOIN ProjectRequirement AS pr " +
+            "INNER JOIN ProjectRequirements AS pr " +
             "ON pr.RID = r.ID " +
             "WHERE pr.PID = ?"),
     INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),//TODO

@@ -59,7 +59,6 @@ class AllRequirementsFilter extends React.Component {
     generateFilterMenuCheckboxes(){
         //Get all category objects from Redux Store
         const categories = this.props.categories;
-        console.log(categories);
 
         //Iterarting trough each name and sending it as props to <input/> to build checkboxes
         return categories.map((category, index) => {
