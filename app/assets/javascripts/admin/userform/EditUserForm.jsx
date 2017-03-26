@@ -36,7 +36,7 @@ class EditUserForm extends React.Component {
         })
     }
 
-    rrender(handleSubmit, pristine, submitting, user, classes) {
+    _render(handleSubmit, handleClear, pristine, submitting, classes) {
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
@@ -74,14 +74,15 @@ class EditUserForm extends React.Component {
                     <br/>
                     <RaisedButton type="submit" label="Lagre" disabled={pristine || submitting}/>
                     <RaisedButton label="Endre bruker" disabled={true}/>
+                    <RaisedButton label="Tilbakestill" disabled={false} onClick={handleClear}/>
                 </form>
             </MuiThemeProvider>
         );
     }
 
     render() {
-        const {handleSubmit, pristine, submitting, user, classes} = this.props;
-        return this.rrender(handleSubmit, pristine, submitting, user, classes);
+        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
+        return this._render(handleSubmit, handleClear, pristine, submitting, classes);
     }
 
 }

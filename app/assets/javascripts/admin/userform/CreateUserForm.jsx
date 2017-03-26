@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import {connect} from "react-redux";
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -46,7 +45,7 @@ class CreateUserForm extends React.Component {
         })
     }
 
-    rrender(handleSubmit, pristine, submitting, classes) {
+    _render(handleSubmit, handleClear, pristine, submitting, classes) {
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
@@ -91,14 +90,15 @@ class CreateUserForm extends React.Component {
                     <br/>
                     <RaisedButton type="submit" label="Lagre" disabled={pristine || submitting}/>
                     <RaisedButton label="Endre bruker" disabled={true}/>
+                    <RaisedButton label="Tilbakestill" disabled={false} onClick={handleClear}/>
                 </form>
             </MuiThemeProvider>
         );
     }
 
     render() {
-        const {handleSubmit, pristine, submitting, classes} = this.props;
-        return this.rrender(handleSubmit, pristine, submitting, classes);
+        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
+        return this._render(handleSubmit, handleClear, pristine, submitting, classes);
     }
 
 }

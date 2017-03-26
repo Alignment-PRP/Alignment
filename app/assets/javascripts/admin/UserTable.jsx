@@ -1,14 +1,7 @@
 import React from 'react';
-import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import * as URLS from './../config.jsx';
-import { browserHistory } from 'react-router';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 export default class UserTable extends React.Component {
-
-    rowClicked(selected) {
-
-        console.log(this.props.users);
-    }
 
     userList() {
         return this.props.users.map((item, index) => {

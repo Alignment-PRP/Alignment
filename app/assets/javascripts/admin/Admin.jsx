@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { getUsers } from "../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Users from './Users.jsx';

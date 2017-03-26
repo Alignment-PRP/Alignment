@@ -1,3 +1,5 @@
+import {CHANGE_USER_FORM_MODE, USER_CLICKED, FILL_FORM, SNACKBAR} from './../types.jsx';
+
 const userFormReducer = (state = {
     mode: "EMPTY",
     user: null,
@@ -5,7 +7,7 @@ const userFormReducer = (state = {
     snack: {open: false, text: ""},
 }, action) => {
     switch (action.type) {
-        case "CHANGE_USER_FORM_MODE":
+        case CHANGE_USER_FORM_MODE:
             state = {
                 mode: action.payload,
                 user: state.user,
@@ -13,7 +15,7 @@ const userFormReducer = (state = {
                 snack: state.snack,
             };
             break;
-        case "USER_CLICKED":
+        case USER_CLICKED:
             state = {
                 mode: state.mode,
                 user: action.payload,
@@ -21,7 +23,7 @@ const userFormReducer = (state = {
                 snack: state.snack,
             };
             break;
-        case 'FILL_FORM':
+        case FILL_FORM:
             state = {
                 mode: state.mode,
                 user: state.user,
@@ -29,7 +31,7 @@ const userFormReducer = (state = {
                 snack: state.snack,
             };
             break;
-        case 'SNACKBAR':
+        case SNACKBAR:
             state = {
                 mode: state.mode,
                 user: state.user,

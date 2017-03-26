@@ -18,3 +18,9 @@ export const GET_USER_DATA = "GET_USER_DATA";
 export const GET_USERS = "GET_USERS";
 export const GET_USERS_WITH_CLASS = "GET_USERS_WITH_CLASS";
 export const GET_USERCLASSES = "GET_USERCLASSES";
+
+//UserForm
+export const CHANGE_USER_FORM_MODE = "CHANGE_USER_FORM_MODE";
+export const USER_CLICKED = "USER_CLICKED";
+export const FILL_FORM = "FILL_FORM";
+export const SNACKBAR = "SNACKBAR";

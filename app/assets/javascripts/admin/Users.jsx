@@ -1,15 +1,13 @@
 import React from 'react';
-import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import * as URLS from './../config.jsx';
-import { browserHistory } from 'react-router';
+import axios from 'axios';
+import Snackbar from 'material-ui/Snackbar';
+import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { changeUserFormMode, userClicked, fillForm, snackBar } from "../redux/actions/userFormActions.jsx";
-import {connect} from "react-redux";
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
-import axios from 'axios';
-import Snackbar from 'material-ui/Snackbar';
+import * as URLS from './../config.jsx';
 
 class Users extends React.Component {
 
@@ -20,21 +18,17 @@ class Users extends React.Component {
         this.props.changeSideMenuMode("HIDE");
     }
 
-    userClicked(selected) {
-        console.log("heyo");
-
-    }
-
     handleSubmit(values) {
         values.oldUSERNAME = this.props.user.USERNAME;
         const that = this;
-        axios.post('/api/user/update', values)
+        axios.post(URLS.USER_POST_UPDATE_RAW, values)
             .then(function (response) {
                 that.props.getUsersWithClass();
                 that.props.changeUserFormMode("EMPTY");
                 that.props.snackBar(true, "Bruker oppdatert!");
             })
             .catch(function (error) {
+                that.props.snackBar(true, "Noe gikk galt..");
                 console.log(error);
             });
 
@@ -42,13 +36,14 @@ class Users extends React.Component {
 
     handleSubmitCreate(values) {
         const that = this;
-        axios.post('/api/user/new', values)
+        axios.post(URLS.USER_POST_NEW_RAW, values)
             .then(function (response) {
                 that.props.getUsersWithClass();
                 that.props.changeUserFormMode("EMPTY");
                 that.props.snackBar(true, "Bruker laget!");
             })
             .catch(function (error) {
+                that.props.snackBar(true, "Noe gikk galt..");
                 console.log(error);
             });
     }
@@ -60,9 +55,6 @@ class Users extends React.Component {
 
     render() {
         const {mode, user, users, userclasses, snack, userClicked, changeUserFormMode} = this.props;
-        console.log("EN BRUKER");
-        console.log(user);
-        console.log(snack);
         return (
             <div>
                 <UserForm
@@ -105,8 +97,6 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(changeUserFormMode("SHOW"));
                 dispatch(userClicked(user));
                 dispatch(fillForm(user))
-            } else {
-                //dispatch(changeUserFormMode("EMPTY"))
             }
         },
         changeUserFormMode: (mode) => {

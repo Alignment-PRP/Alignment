@@ -11,7 +11,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.util.Map;
 
 
 /**
@@ -29,8 +28,6 @@ public class UserController extends Controller {
     public Result updateUser() {
         final JsonNode values = request().body().asJson();
 
-        System.out.println("Oppdaterer bruker..");
-
         String oldUSERNAME = values.get("oldUSERNAME").textValue();
         String USERNAME = values.get("USERNAME").textValue();
         String firstName = values.get("firstName").textValue();
@@ -38,7 +35,7 @@ public class UserController extends Controller {
         String email = values.get("email").textValue();
         String ucName = values.get("ucName").textValue();
 
-        if (usernameExists(USERNAME)) {
+        if (usernameExists(USERNAME) && !oldUSERNAME.equals(USERNAME)) {
             return internalServerError("Brukernavn er brukt!");
         }
 
