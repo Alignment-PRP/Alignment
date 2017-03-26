@@ -2,12 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import Snackbar from 'material-ui/Snackbar';
 import {connect} from "react-redux";
-import { getUsersWithClass, getUserClasses } from "../redux/actions/userActions.jsx";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { changeUserFormMode, userClicked, fillForm, snackBar } from "../redux/actions/userFormActions.jsx";
+import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
+import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
+import { changeUserFormMode, userClicked, fillForm, snackBar } from "./../../redux/actions/userFormActions.jsx";
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
-import * as URLS from './../config.jsx';
+import * as URLS from '../../config.jsx';
 
 class Users extends React.Component {
 
