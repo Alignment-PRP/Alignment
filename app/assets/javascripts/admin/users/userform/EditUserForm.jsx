@@ -1,42 +1,14 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-const validate = values => {
-    const errors = {};
-    const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Må fylles'
-        }
-    });
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Ugyldig epost'
-    }
-    return errors
-};
-
-const renderTextField = ({ input, label, dv, meta: { touched, error }, ...custom }) => (
-    <TextField hintText={label}
-               floatingLabelText={label}
-               errorText={touched && error}
-               {...input}
-               {...custom}
-    />
-);
+import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserForm as validate} from './../../render.jsx';
 
 class EditUserForm extends React.Component {
 
-    menuItems(classes) {
-        return classes.map((item, index) => {
-            return <option value={item.NAME}>{item.NAME}</option>
-        })
-    }
-
-    _render(handleSubmit, handleClear, pristine, submitting, classes) {
+    render() {
+        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
@@ -65,11 +37,13 @@ class EditUserForm extends React.Component {
                         disabled={false}
                         component={renderTextField}
                     />
+                    <br/>
                     <Field
                         name="ucName"
-                        component="select"
+                        label="Brukerklasse"
+                        component={renderSelectField}
                     >
-                        {this.menuItems(classes)}
+                        {menuItemsClasses(classes)}
                     </Field>
                     <br/>
                     <RaisedButton type="submit" label="Lagre" disabled={pristine || submitting}/>
@@ -78,11 +52,6 @@ class EditUserForm extends React.Component {
                 </form>
             </MuiThemeProvider>
         );
-    }
-
-    render() {
-        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
-        return this._render(handleSubmit, handleClear, pristine, submitting, classes);
     }
 
 }

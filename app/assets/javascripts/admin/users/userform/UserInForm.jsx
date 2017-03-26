@@ -1,65 +1,50 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
+import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-const validate = values => {
-    const errors = {};
-    const requiredFields = [ 'username', 'email', 'firstname', 'lastname', 'ucName' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Required'
-        }
-    });
-    return errors
-};
+import {renderTextField, renderPassField, renderSelectField, menuItemsClasses} from './../../render.jsx';
 
 class UserInForm extends React.Component {
 
-    _render(handleSubmit, handleEdit, handleClear, user) {
+    render() {
+        const {handleSubmit, handleEdit, handleClear, classes} = this.props;
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
                     <Field
-                        name="username"
-                        hintText={user.USERNAME}
-                        floatingLabelText="Brukernavn"
-                        floatingLabelFixed={true}
+                        name="USERNAME"
+                        label="Brukernavn"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
                         name="email"
-                        hintText={user.email}
-                        floatingLabelText="Epost"
-                        floatingLabelFixed={true}
+                        label="Epost"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <br/>
                     <Field
-                        name="firstname"
-                        hintText={user.firstName}
-                        floatingLabelText="Fornavn"
-                        floatingLabelFixed={true}
+                        name="firstName"
+                        label="Fornavn"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
-                        name="lastname"
-                        hintText={user.lastName}
-                        floatingLabelText="Etternavn"
-                        floatingLabelFixed={true}
+                        name="lastName"
+                        label="Etternavn"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
+                    <br/>
                     <Field
                         name="ucName"
-                        component="select"
+                        label="Brukerklasse"
                         disabled={true}
+                        component={renderSelectField}
                     >
-                        <option>{user.ucName}</option>
+                        {menuItemsClasses(classes)}
                     </Field>
                     <br/>
                     <RaisedButton type="submit" label="Lagre" disabled={true}/>
@@ -70,14 +55,24 @@ class UserInForm extends React.Component {
         );
     }
 
-    render() {
-        const {handleSubmit, handleEdit, handleClear, user} = this.props;
-        return this._render(handleSubmit, handleEdit, handleClear, user);
-    }
-
 }
 
-export default reduxForm({
+const mapStateToProps = (state) => {
+    return {
+        initialValues: state.userFormReducer.data,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(reduxForm({
     form: 'UserInForm',
-    validate,
-})(UserInForm);
+    enableReinitialize: true
+})(UserInForm));

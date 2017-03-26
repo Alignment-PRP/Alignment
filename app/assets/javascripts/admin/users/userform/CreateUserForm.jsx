@@ -1,51 +1,13 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-const validate = values => {
-    const errors = {};
-    const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName', 'pass' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Må fylles'
-        }
-    });
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Ugyldig epost'
-    }
-    return errors
-};
-
-const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-    <TextField hintText={label}
-               floatingLabelText={label}
-               errorText={touched && error}
-               {...input}
-               {...custom}
-    />
-);
-
-const renderPassField = ({ input, label, meta: { touched, error }, ...custom }) => (
-    <TextField hintText={label}
-               floatingLabelText={label}
-               errorText={touched && error}
-               type="password"
-               {...input}
-               {...custom}
-    />
-);
+import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserFormPass as validate} from './../../render.jsx';
 
 class CreateUserForm extends React.Component {
 
-    menuItems(classes) {
-        return classes.map((item, index) => {
-            return <option value={item.NAME}>{item.NAME}</option>
-        })
-    }
-
-    _render(handleSubmit, handleClear, pristine, submitting, classes) {
+    render() {
+        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
@@ -83,9 +45,10 @@ class CreateUserForm extends React.Component {
                     />
                     <Field
                         name="ucName"
-                        component="select"
+                        label="Brukerklasse"
+                        component={renderSelectField}
                     >
-                        {this.menuItems(classes)}
+                        {menuItemsClasses(classes)}
                     </Field>
                     <br/>
                     <RaisedButton type="submit" label="Lagre" disabled={pristine || submitting}/>
@@ -94,11 +57,6 @@ class CreateUserForm extends React.Component {
                 </form>
             </MuiThemeProvider>
         );
-    }
-
-    render() {
-        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
-        return this._render(handleSubmit, handleClear, pristine, submitting, classes);
     }
 
 }

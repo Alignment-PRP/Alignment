@@ -1,58 +1,47 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-const validate = values => {
-    const errors = {};
-    const requiredFields = [ 'username', 'email', 'firstname', 'lastname', 'ucName' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Required'
-        }
-    });
-    return errors
-};
+import {renderTextField, renderPassField, renderSelectField} from './../../render.jsx';
 
 class EmptyForm extends React.Component {
 
-    _render(handleSubmit, handleCreate) {
+    render() {
+        const {handleSubmit, handleCreate} = this.props;
         return(
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
                     <Field
-                        name="username"
-                        hintText="Brukernavn"
+                        name="USERNAME"
+                        label="Brukernavn"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
                         name="email"
-                        hintText="Epost"
+                        label="Epost"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <br/>
                     <Field
-                        name="firstname"
-                        hintText="Fornavn"
+                        name="firstName"
+                        label="Fornavn"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
-                        name="lastname"
-                        hintText="Etternavn"
+                        name="lastName"
+                        label="Etternavn"
                         disabled={true}
-                        component={TextField}
+                        component={renderTextField}
                     />
                     <Field
                         name="ucName"
-                        component="select"
+                        label="Brukerklasse"
                         disabled={true}
-                    >
-                        <option>Brukerklasse</option>
-                    </Field>
+                        component={renderSelectField}
+                    />
                     <br/>
                     <RaisedButton type="submit" label="Lagre" disabled={true}/>
                     <RaisedButton label="Lag bruker" disabled={false} onClick={handleCreate}/>
@@ -61,14 +50,8 @@ class EmptyForm extends React.Component {
         );
     }
 
-    render() {
-        const {handleSubmit, handleCreate} = this.props;
-        return this._render(handleSubmit, handleCreate);
-    }
-
 }
 
 export default reduxForm({
     form: 'EmptyForm',
-    validate,
 })(EmptyForm);
