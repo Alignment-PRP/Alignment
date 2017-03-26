@@ -86,8 +86,8 @@ export default class EditUserForm extends React.Component {
     }
 
     render() {
-        const {handleSubmit, user, classes} = this.props;
-        return this.rrender(handleSubmit, user, classes);
+        const {onSubmit, user, classes} = this.props;
+        return this.rrender(onSubmit, user, classes);
     }
 
 }

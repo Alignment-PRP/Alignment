@@ -11,7 +11,7 @@ import EditUserForm from './userform/EditUserForm.jsx';
 
 const validate = values => {
     const errors = {};
-    const requiredFields = [ 'username', 'email', 'firstname', 'lastname' ];
+    const requiredFields = [ 'username', 'email', 'firstname', 'lastname', 'ucName' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Required'
@@ -37,25 +37,17 @@ const required = value => value == null ? 'Required' : undefined;
 
 class UserForm extends React.Component {
 
-
-
-
-    renderEditUser(handleSubmit, user) {
-
-    }
-
     render() {
         const { handleSubmit, handleEdit, mode, user, classes} = this.props;
-        console.log("USER!!!!");
-        console.log(user);
+        console.log(handleSubmit);
 
         switch(mode) {
             case "EMPTY":
-                return <EmptyForm handleSubmit={handleSubmit}/>;
+                return <EmptyForm onSubmit={handleSubmit}/>;
             case "SHOW":
-                return <UserInForm handleSubmit={handleSubmit} handleEdit={handleEdit} user={user}/>;
+                return <UserInForm onSubmit={handleSubmit} handleEdit={handleEdit} user={user}/>;
             case "EDIT":
-                return <EditUserForm handleSubmit={handleSubmit} user={user} classes={classes}/>;
+                return <EditUserForm onSubmit={handleSubmit} user={user} classes={classes}/>;
             default:
                 return(<p>potato</p>)
         }

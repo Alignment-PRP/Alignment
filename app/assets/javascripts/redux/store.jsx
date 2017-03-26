@@ -1,6 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
+import { reducer as formReducer } from 'redux-form'
 
 import userReducer from "./reducers/userReducer.jsx";
 import requirementReducer from "./reducers/requirementReducer.jsx";
@@ -16,6 +17,7 @@ const reducers = {
     sideMenuReducer,
     userFormReducer,
     adminTabReducer,
+    form: formReducer,
 };
 
 export default createStore(

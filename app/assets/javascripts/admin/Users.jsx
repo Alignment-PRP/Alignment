@@ -23,8 +23,10 @@ class Users extends React.Component {
 
     }
 
-    handleSubmit() {
-        console.log("potato")
+    handleSubmit(values) {
+        console.log("potato");
+        console.log(values);
+
     }
 
 
