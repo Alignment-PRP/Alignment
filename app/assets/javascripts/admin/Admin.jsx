@@ -38,18 +38,16 @@ class Admin extends React.Component {
                     initialSelectedIndex={index}
                     onChange={changeTab}
                 >
-                    <Tab label="Some Tab" onActive={this.handleDefault}>
+                    <Tab label="Noe admin stuff" onActive={this.handleDefault}>
                         <div style={this.style.tabContent}>
 
-                            <h2>Controllable Tab B</h2>
+                            <h2>Admin stuff. WIP</h2>
                             <p>
-                                This is another example of a controllable tab. Remember, if you
-                                use controllable Tabs, you need to give all of your tabs values or else
-                                you wont be able to select them.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla magna diam, mattis ut accumsan id, dapibus mattis dui. Praesent accumsan tempor est vitae commodo. Maecenas facilisis lectus eget malesuada mollis. Duis et risus dolor. Integer fermentum vulputate ex vel imperdiet. Nam dignissim sem vel dignissim ornare. Quisque accumsan ultricies quam.
                             </p>
                         </div>
                     </Tab>
-                    <Tab label="Users" onActive={this.handleUsers}>
+                    <Tab label="Brukere" onActive={this.handleUsers}>
                         <div style={this.style.tabContent}>
                             <Users users={this.props.users}/>
                         </div>
