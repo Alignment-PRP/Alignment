@@ -5,9 +5,13 @@ import {GET_ALL_PROJECTS,
         GET_REQUIREMENTS_BY_PROJECT_ID
 } from './../types.jsx';
 
+
+//All actions that changes the global state of the projectReducer is defined here.
+//Async methods need to get defined in two separate functions because the axios.get
+//method will take sometime before we want to send the data to the Reducer. This is made possible with react-thunk middleware.
 export function getAllProjects() {
     return dispatch => {
-        axios.get(URLS.PROJECTS_GET_USER)
+        axios.get(URLS.PROJECTS)
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
@@ -21,6 +25,10 @@ export function getAllProjects() {
 
 }
 
+
+//All actions returns a object with type: descriptive name of action,
+//and payload: which hold the new data of the reducer(reducers holds the global state of the
+//application.
 function getAllProjectsAsync(data) {
     return {
         type: GET_ALL_PROJECTS,

@@ -22,10 +22,10 @@ class UpdateRequirement extends React.Component {
 		return (
 		    <div className="update-requirement">
 		    	<form action={URLS.REQUIREMENT_POST_UPDATE} method="post">
-                    <h1>Oppdater Krav</h1>
+                    <h2>Oppdater Krav</h2>
 
                     <label><b>KravId</b></label><br/>
-                    <input type="number" defaultValue={this.props.requirement.requirementid} name="id" min="0" required/>
+                    <input type="number" defaultValue={this.props.requirement.ID} name="id" min="0" required/>
 
                     <br/>
                     <label><b>KravNavn</b></label><br/>
@@ -38,31 +38,31 @@ class UpdateRequirement extends React.Component {
                     <br/>
 
                     <label> <b>Source</b></label><br/>
-                    <input type="text" defaultValue={this.props.requirement.source} name="source" required/>
+                    {/*<input type="text" defaultValue={this.props.requirement.source} name="source" required/>*/}
 
                     <br/>
                     <label><b>Stimulus</b></label><br/>
-                    <input type="text" defaultValue={this.props.requirement.stimulus} name="stimulus" required/>
+                    {/*<input type="text" defaultValue={this.props.requirement.stimulus} name="stimulus" required/>*/}
 
                     <br/>
                     <label> <b>Artifact</b></label><br/>
-                    <input type="text" defaultValue={this.props.requirement.artifact} name="artifact" required/>
+                    {/*<input type="text" defaultValue={this.props.requirement.artifact} name="artifact" required/>*/}
 
                     <br/>
                     <label> <b>Response</b></label><br/>
-                    <input type="text" defaultValue={this.props.requirement.response} name="response" required/>
+                    {/*<input type="text" defaultValue={this.props.requirement.response} name="response" required/>*/}
 
                     <br/>
                     <label> <b>Response measure</b></label><br/>
-                    <input type="text" defaultValue={this.props.requirement.responsemeasure} name="responsemeasure" required/>
+                    {/*<input type="text" defaultValue={this.props.requirement.responsemeasure} name="responsemeasure" required/>*/}
 
                     <br/>
                     <label> <b>Environment</b></label><br/>
-                    <input type="text" defaultValue={this.props.requirement.environment} name="environment" required/>
+                    {/*<input type="text" defaultValue={this.props.requirement.environment} name="environment" required/>*/}
 
                     <br/>
                     <label><b>Public</b></label>
-                    {this.renderCheckbox()}
+                    {/* this.renderCheckbox() */}
                     <br/>
                     <button type="submit">Oppdater</button>
 				</form>

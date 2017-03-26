@@ -13,19 +13,29 @@ class NewProject extends React.Component {
         return (
             <div className="new-project">
                 <form action={URLS.PROJECT_POST_NEW} method="post">
-                    <h1>Nytt Prosjekt</h1>
+                    <h2>Nytt Prosjekt</h2>
                     <label><b>Prosjektnavn</b></label><br/>
                     <input type="text" placeholder="" name="name" required/>
 
                     <br/>
-
-                    <label><b>Prosjektbeskrivelse</b></label><br/>
-                    <input type="text" placeholder="" name="desc" required/>
+                    <label><b>Sikkerhetsnivå</b></label><br/>
+                    <input type="text" placeholder="" name="securityLevel" required/>
 
                     <br/>
+                    <label><b>Transaksjonsvolum</b></label><br/>
+                    <input type="text" placeholder="" name="transactionVolume" required/>
 
-                    <label><b>Public prosjekt?</b></label><br/>
-                      <select name="ispublic">
+                    <br/>
+                    <label><b>Brukerkanal</b></label><br/>
+                    <input type="text" placeholder="" name="userChannel" required/>
+
+                    <br/>
+                    <label><b>Utplasseringsstil</b></label><br/>
+                    <input type="text" placeholder="" name="deploymentStyle" required/>
+
+                    <br/>
+                    <label><b>Offentlig prosjekt?</b></label><br/>
+                      <select name="isPublic">
                         <option value="1">Ja</option>
                         <option value="0">Nei</option>
                       </select>

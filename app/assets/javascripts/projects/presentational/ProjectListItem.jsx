@@ -5,12 +5,12 @@ export default class ProjectList extends React.Component {
 
     render() {
         const url = "project/" + this.props.index;
+        const project = this.props.project;
         return (
                 <tr>
-                    <td>{this.props.name}</td>
-                    <td>{this.props.descripton}</td>
-                    <td>{this.props.owner}</td>
-                    <td>{this.props.manager}</td>
+                    <td>{project.name}</td>
+                    <td>{project.creatorID}</td>
+                    <td>{project.managerID}</td>
                     <td><Link to={url}><button>Rediger</button></Link></td>
                 </tr>
         );

@@ -14,7 +14,7 @@ class NewRequirement extends React.Component {
 		return (
 		    <div className="new-requirement">
                 <form action={URLS.REQUIREMENT_POST_ADD} method="post">
-                    <h1>Lag nytt krav</h1>
+                    <h2>Lag nytt krav</h2>
 
                     <br/>
 
