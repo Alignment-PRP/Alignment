@@ -44,6 +44,13 @@ export default class UserInForm extends React.Component {
                         disabled={true}
                         component={TextField}
                     />
+                    <Field
+                        name="ucName"
+                        component="select"
+                        disabled={true}
+                    >
+                        <option>{user.ucName}</option>
+                    </Field>
                     <br/>
                     <Field
                         disabled={true}

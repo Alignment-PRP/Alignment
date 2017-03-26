@@ -22,6 +22,7 @@ GET     /api/add-requirement                controllers.AdminController.addRequi
 
 #API CALLS
 GET     /api/users                          controllers.UserController.getUsers()
+GET     /api/users_c                        controllers.UserController.getUsersWithClass()
 GET     /api/users/:name                    controllers.UserController.getUserByUsername(name: String)
 GET     /api/user                           controllers.UserController.getConnectedUser()
 GET     /api/user/userClasses               controllers.UserController.getUserClasses()

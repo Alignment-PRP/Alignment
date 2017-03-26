@@ -155,7 +155,15 @@ public enum Statement {
     GET_USER_WITH_PASS_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
     GET_USER_CLASSES("SELECT * FROM UserClass"),
     GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?"),
-    GET_USERS("SELECT USERNAME, firstName, lastName, email FROM Users");
+    GET_USERS("SELECT USERNAME, firstName, lastName, email FROM Users"),
+    GET_USERS_WITH_CLASSES(
+            "SELECT u.USERNAME, u.firstName, u.lastName, uc.NAME AS ucName, u.email " +
+                    "FROM Users AS u " +
+                    "INNER JOIN UserHasClass AS uhc " +
+                    "ON u.USERNAME = uhc.USERNAME " +
+                    "INNER JOIN UserClass AS uc " +
+                    "ON uc.NAME = uhc.NAME "
+    );
 
 
 

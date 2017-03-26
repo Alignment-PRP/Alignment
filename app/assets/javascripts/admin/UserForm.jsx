@@ -45,7 +45,7 @@ class UserForm extends React.Component {
     }
 
     render() {
-        const { handleSubmit, mode, user, handleEdit } = this.props;
+        const { handleSubmit, handleEdit, mode, user, classes} = this.props;
         console.log("USER!!!!");
         console.log(user);
 
@@ -55,7 +55,7 @@ class UserForm extends React.Component {
             case "SHOW":
                 return <UserInForm handleSubmit={handleSubmit} handleEdit={handleEdit} user={user}/>;
             case "EDIT":
-                return <EditUserForm handleSubmit={handleSubmit} user={user}/>;
+                return <EditUserForm handleSubmit={handleSubmit} user={user} classes={classes}/>;
             default:
                 return(<p>potato</p>)
         }

@@ -29,6 +29,10 @@ public class UserController extends Controller {
         return ok(qh.executeQuery(Statement.GET_USERS));
     }
 
+    public Result getUsersWithClass() {
+        return ok(qh.executeQuery(Statement.GET_USERS_WITH_CLASSES));
+    }
+
     public Result getConnectedUser(){
         //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
         String username = session("connected");

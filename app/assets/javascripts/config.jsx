@@ -8,8 +8,10 @@ export const SIGN_UP_POST = API + "/sign-up";
 
 export const USER_GET = API + "/user";
 export const USERS_GET = USER_GET + "s";
+export const USERS_GET_WITH_CLASS = USERS_GET + "_c";
 export const USER_GET_BY_ID = USERS_GET + "/";
 export const USER_GET_BY_ID_MIN = USER_GET_BY_ID.replace(URL, "");
+export const USER_GET_USERCLASSES = USER_GET + "/userClasses";
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";

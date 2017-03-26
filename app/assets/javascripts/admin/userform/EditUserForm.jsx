@@ -6,7 +6,27 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 export default class EditUserForm extends React.Component {
 
-    rrender(handleSubmit, user) {
+    constructor(props) {
+        super(props);
+
+        this.classChange = this.classChange.bind(this);
+
+        this.state = {
+            value: this.props.user.ucName
+        }
+    }
+
+    classChange(event, value) {
+        this.setState({value: value});
+    }
+
+    menuItems(classes) {
+        return classes.map((item, index) => {
+            return <option value={item.NAME}>{item.NAME}</option>
+        })
+    }
+
+    rrender(handleSubmit, user, classes) {
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
@@ -39,6 +59,14 @@ export default class EditUserForm extends React.Component {
                         disabled={false}
                         component={TextField}
                     />
+                    <Field
+                        name="ucName"
+                        component="select"
+                        onChange={this.classChange}
+                    >
+                        <option value={this.state.value}>{this.state.value}</option>
+                        {this.menuItems(classes.filter(e => e.NAME != this.state.value))}
+                    </Field>
                     <br/>
                     <Field
                         disabled={false}
@@ -58,8 +86,8 @@ export default class EditUserForm extends React.Component {
     }
 
     render() {
-        const {handleSubmit, user} = this.props;
-        return this.rrender(handleSubmit, user);
+        const {handleSubmit, user, classes} = this.props;
+        return this.rrender(handleSubmit, user, classes);
     }
 
 }

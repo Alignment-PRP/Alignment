@@ -2,6 +2,8 @@ import React from 'react';
 import { Field } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 export default class EmptyForm extends React.Component {
@@ -35,6 +37,13 @@ export default class EmptyForm extends React.Component {
                         disabled={true}
                         component={TextField}
                     />
+                    <Field
+                        name="ucName"
+                        component="select"
+                        disabled={true}
+                    >
+                        <option>Brukerklasse</option>
+                    </Field>
                     <br/>
                     <Field
                         disabled={true}
