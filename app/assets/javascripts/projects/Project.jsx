@@ -15,6 +15,7 @@ import RequirementListItemMiniAdd from '../requirements/presentational/Requireme
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { getRequirementsByProjectId } from "../redux/actions/projectActions.jsx";
 import { getAllRequirements } from '../redux/actions/requirementActions.jsx';
+import { postRequirementToProject } from '../redux/actions/projectActions.jsx';
 
 
 class Project extends React.Component {
@@ -30,6 +31,7 @@ class Project extends React.Component {
     //This is a lifecycle method that runs after the render function. It is good practis to call on GET methods here because we want to render
     //the component first, THEN fill it with information from DB.
     componentDidMount() {
+        //react-routes make us able to get the id of the URL with: this.props.params.id
         this.props.getRequirementsByProjectId(this.props.params.id);
         this.props.getAllRequirements();
     }
@@ -75,16 +77,18 @@ class Project extends React.Component {
     }
 
     //Uses axios to send post requests.
-    onClickHandler(r_id){
+    onClickHandler(requirement){
+        let post = {
+            PID: this.props.params.id,
+            RID: requirement.RID,
+            reqNo: requirement.reqNo,
+            reqCode: requirement.reqCode,
+            comment: requirement.comment,
+            description: requirement.description
+        };
 
-        axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, { projectid: parseInt(this.props.params.id), requirementid: parseInt(r_id) })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        console.log("ProjectID and ReqId", this.props.params.id, r_id);
+       this.props.postRequirementToProject(post);
+        console.log("ProjectID and ReqId", this.props.params.id, requirement.ID);
     }
 
     //Renders the component
@@ -147,6 +151,9 @@ const mapDispatchToProps = (dispatch) => {
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
         },
+        postRequirementToProject: (post) => {
+            dispatch(postRequirementToProject(post))
+        }
     };
 };
 
