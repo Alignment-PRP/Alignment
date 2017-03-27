@@ -167,7 +167,7 @@ public class ProjectController extends Controller {
             return unauthorized(views.html.login.render());
         }
         int projectID = Integer.parseInt(id);
-        //TODO validate access permition
+        //TODO validate access permission
         JsonNode projectRequirements = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENTS, projectID);
         return ok(projectRequirements);
     }
@@ -194,19 +194,19 @@ public class ProjectController extends Controller {
         //TODO: Check if user has access to project
 
         //Converts the HTTP POST Request body to a map
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String PID = values.get("PID")[0];
-        String RID = values.get("RID")[0];
+        final JsonNode values = request().body().asJson();
+        String PID = values.get(0).get("PID").asText();
+        String RID = values.get(0).get("RID").asText();
         if(qh.executeQuery(Statement.REQUIREMENT_EXISTS, RID).get(0).get("bool").asInt() != 1){
             return unauthorized(RID + " is not a valid requirement ID");
         }
         if(qh.executeQuery(Statement.PROJECT_EXISTS, PID).get(0).get("bool").asInt() != 1){
             return unauthorized(PID + " is not a valid project ID");
         }
-        String reqNo = values.get("reqNo")[0];
-        String reqCode = values.get("reqCode")[0];
-        String comment = values.get("comment")[0];
-        String description = values.get("description")[0];
+        String reqNo = values.get(0).get("reqNo").asText();
+        String reqCode = values.get(0).get("reqCode").asText();
+        String comment = values.get(0).get("comment").asText();
+        String description = values.get(0).get("description").asText();
 
         JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, RID).get(0);
 

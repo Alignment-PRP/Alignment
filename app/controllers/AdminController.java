@@ -117,7 +117,9 @@ public class AdminController extends Controller {
 
         //Inserts all the structures
         for (String SID: structures){
-            insertHasStructure(ID, SID);
+            if(SID != null){
+                insertHasStructure(ID, SID);
+            }
         }
         return ok("added requirement");
 
