@@ -64,7 +64,7 @@ public enum Statement {
             "FROM Requirements AS r " +
             "INNER JOIN RequirementMetaData AS rm " +
             "ON r.ID = rm.RID " +
-            "INNER JOIN ProjectRequirement AS pr " +
+            "INNER JOIN ProjectRequirements AS pr " +
             "ON pr.RID = r.ID " +
             "WHERE pr.PID = ?"),
     INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),//TODO
@@ -123,7 +123,6 @@ public enum Statement {
             "INNER JOIN ProjectMetaData AS pmd " +
             "ON pmd.PID = p.ID " +
             "WHERE p.isPublic = 1 "),
-
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
 
     INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, isPublic) VALUES(?,?,?,?)"),
@@ -157,7 +156,19 @@ public enum Statement {
             "WHERE u.USERNAME=?"),
     GET_USER_WITH_PASS_BY_USERNAME("SELECT * FROM Users WHERE USERNAME=?"),
     GET_USER_CLASSES("SELECT * FROM UserClass"),
-    GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?");
+    GET_USERNAME_EXISTS("SELECT count(1) as bool FROM Users WHERE USERNAME=?"),
+    GET_USERS("SELECT USERNAME, firstName, lastName, email FROM Users"),
+    GET_USERS_WITH_CLASSES(
+            "SELECT u.USERNAME, u.firstName, u.lastName, uc.NAME AS ucName, u.email " +
+                    "FROM Users AS u " +
+                    "INNER JOIN UserHasClass AS uhc " +
+                    "ON u.USERNAME = uhc.USERNAME " +
+                    "INNER JOIN UserClass AS uc " +
+                    "ON uc.NAME = uhc.NAME "
+    ),
+    UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
+    UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
+    INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)");
 
 
 
@@ -212,6 +223,10 @@ public enum Statement {
      */
     public ResultSet prepareAndExecute(Connection c, Object... objects) throws SQLException {
         return prepare(c, objects).executeQuery();
+    }
+
+    public void prepareAndUpdate(Connection c, Object... objects) throws SQLException {
+        prepare(c, objects).executeUpdate();
     }
 
     /**

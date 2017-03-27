@@ -7,6 +7,15 @@ export const LOGOUT = API + "/logout";
 export const SIGN_UP_POST = API + "/sign-up";
 
 export const USER_GET = API + "/user";
+export const USER_POST_UPDATE = USER_GET + "/update";
+export const USER_POST_NEW = USER_GET + "/new";
+export const USER_POST_UPDATE_RAW = (USER_GET + "/update").replace(URL, "/");
+export const USER_POST_NEW_RAW = (USER_GET + "/new").replace(URL, "/");
+export const USERS_GET = USER_GET + "s";
+export const USERS_GET_WITH_CLASS = USERS_GET + "_c";
+export const USER_GET_BY_ID = USERS_GET + "/";
+export const USER_GET_BY_ID_MIN = USER_GET_BY_ID.replace(URL, "");
+export const USER_GET_USERCLASSES = USER_GET + "/userClasses";
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";

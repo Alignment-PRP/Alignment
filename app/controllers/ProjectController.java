@@ -5,12 +5,15 @@ import database.QueryHandler;
 import database.Statement;
 
 import play.db.Database;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-
+import java.util.List;
 
 /**
  * Created by andrfo on 24.02.2017.
@@ -216,6 +219,4 @@ public class ProjectController extends Controller {
     public Result addReqForm(){
         return ok(views.html.addGlobalReqToProject.render());
     }
-
-
 }
