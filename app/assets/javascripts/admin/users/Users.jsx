@@ -2,12 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import Snackbar from 'material-ui/Snackbar';
 import {connect} from "react-redux";
-import { getUsersWithClass, getUserClasses } from "../redux/actions/userActions.jsx";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { changeUserFormMode, userClicked, fillForm, snackBar } from "../redux/actions/userFormActions.jsx";
+import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
+import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
+import { changeUserFormMode, userClicked, fillForm, snackBar } from "./../../redux/actions/userFormActions.jsx";
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
-import * as URLS from './../config.jsx';
+import * as URLS from '../../config.jsx';
 
 class Users extends React.Component {
 
@@ -56,18 +56,21 @@ class Users extends React.Component {
     render() {
         const {mode, user, users, userclasses, snack, userClicked, changeUserFormMode} = this.props;
         return (
-            <div>
-                <UserForm
-                    handleSubmit={this.handleSubmit.bind(this)}
-                    handleSubmitCreate={this.handleSubmitCreate.bind(this)}
-                    mode={mode} user={user}
-                    classes={userclasses}
-                    handleEdit={() => changeUserFormMode("EDIT")}
-                    handleCreate={() => changeUserFormMode("CREATE")}
-                    handleClear={() => changeUserFormMode("EMPTY")}
-                />
-                <br/>
-                <UserTable users={users} userClicked={userClicked}/>
+            <div className="containerUsers">
+                <div className="form">
+                    <UserForm
+                        handleSubmit={this.handleSubmit.bind(this)}
+                        handleSubmitCreate={this.handleSubmitCreate.bind(this)}
+                        mode={mode} user={user}
+                        classes={userclasses}
+                        handleEdit={() => changeUserFormMode("EDIT")}
+                        handleCreate={() => changeUserFormMode("CREATE")}
+                        handleClear={() => changeUserFormMode("EMPTY")}
+                    />
+                </div>
+                <div className="usertable">
+                    <UserTable users={users} userClicked={userClicked}/>
+                </div>
 
                 <Snackbar
                     open={snack.open}

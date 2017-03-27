@@ -12,7 +12,7 @@ export default class UserForm extends React.Component {
             case "EMPTY":
                 return <EmptyForm onSubmit={handleSubmit} handleCreate={handleCreate}/>;
             case "SHOW":
-                return <UserInForm onSubmit={handleSubmit} handleEdit={handleEdit} handleClear={handleClear} user={user}/>;
+                return <UserInForm onSubmit={handleSubmit} handleEdit={handleEdit} handleClear={handleClear} user={user} classes={classes}/>;
             case "EDIT":
                 return <EditUserForm onSubmit={handleSubmit} handleClear={handleClear} user={user} classes={classes}/>;
             case "CREATE":

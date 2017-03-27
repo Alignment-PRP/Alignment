@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
+import { changeSideMenuMode } from "./../redux/actions/sideMenuActions.jsx";
 import {Tabs, Tab} from 'material-ui/Tabs';
-import Users from './Users.jsx';
+import Users from './users/Users.jsx';
 import {browserHistory} from 'react-router';
 import {changeTab} from './../redux/actions/adminTabActions.jsx';
 
@@ -16,7 +16,7 @@ class Admin extends React.Component {
 
         this.style = {
             tabContent: {
-                margin: '20px',
+
             }
         };
     }
