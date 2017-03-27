@@ -43,7 +43,7 @@ class App extends React.Component {
                             <Route path={"/api/login"} component={Home}/> {/* for rerouting purposes*/}
                             <Route path={"projects"} component={Projects}/>
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
-                            <Route path={"project/:id"} component={Project}/>
+                            <Route path={"/api/project/:id"} component={Project}/>
                             <Route path={"newproject"} component={NewProject}/>
                             <Route path={"allrequirements"} component={AllRequirements}/>
                             <Route path={"/api/requirement/add"} component={AllRequirements}/> {/* for rerouting purposes*/}

@@ -2,7 +2,8 @@ import axios from 'axios';
 import * as URLS from './../../config.jsx';
 import {GET_ALL_PROJECTS,
         GET_PROJECT_BY_ID,
-        GET_REQUIREMENTS_BY_PROJECT_ID
+        GET_REQUIREMENTS_BY_PROJECT_ID,
+        POST_REQUIREMENT_TO_PROJECT
 } from './../types.jsx';
 
 
@@ -79,5 +80,24 @@ function getRequirementsByProjectIdAsync(data) {
     return {
         type: GET_REQUIREMENTS_BY_PROJECT_ID,
         payload: data
+    }
+}
+
+export function postRequirementToProject(post){
+    return dispatch => {
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            dispatch(postRequirementToProjectAsync())
+    }
+}
+
+function postRequirementToProjectAsync() {
+    return {
+        type: POST_REQUIREMENT_TO_PROJECT,
     }
 }

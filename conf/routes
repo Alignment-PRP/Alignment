@@ -19,7 +19,6 @@ GET     /api/add-requirementcategeory       controllers.AdminController.addCateg
 GET     /api/update-requirement             controllers.AdminController.updateReq()
 GET     /api/add-requirement                controllers.AdminController.addRequirement()
 
-
 #API CALLS
 GET     /api/users                          controllers.UserController.getUsers()
 GET     /api/users_c                        controllers.UserController.getUsersWithClass()
