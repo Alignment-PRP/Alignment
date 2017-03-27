@@ -19,10 +19,15 @@ GET     /api/add-requirementcategeory       controllers.AdminController.addCateg
 GET     /api/update-requirement             controllers.AdminController.updateReq()
 GET     /api/add-requirement                controllers.AdminController.addRequirement()
 
-
 #API CALLS
+GET     /api/users                          controllers.UserController.getUsers()
+GET     /api/users_c                        controllers.UserController.getUsersWithClass()
+GET     /api/users/:name                    controllers.UserController.getUserByUsername(name: String)
 GET     /api/user                           controllers.UserController.getConnectedUser()
 GET     /api/user/userClasses               controllers.UserController.getUserClasses()
+POST    /api/user/update                    controllers.UserController.updateUser()
+POST    /api/user/new                       controllers.UserController.createUserJson()
+
 POST    /api/login                          controllers.LoginController.authenticate()
 POST    /api/sign-up                        controllers.SignupController.create()
 
