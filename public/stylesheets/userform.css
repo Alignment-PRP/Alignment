@@ -1,0 +1,20 @@
+.form {
+    min-width: 296px;
+    max-width: 296px;
+}
+.form-inner {
+    padding: 20px;
+}
+.usertable {
+    max-width: 1500px;
+    min-width: 800px;
+    margin: 20px;
+}
+.form-button {
+    margin-right: 5px;
+    margin-top: 5px;
+}
+.containerUsers {
+    display: flex;
+    justify-content: flex-start;
+}
