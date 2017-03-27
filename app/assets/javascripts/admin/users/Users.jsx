@@ -56,18 +56,21 @@ class Users extends React.Component {
     render() {
         const {mode, user, users, userclasses, snack, userClicked, changeUserFormMode} = this.props;
         return (
-            <div>
-                <UserForm
-                    handleSubmit={this.handleSubmit.bind(this)}
-                    handleSubmitCreate={this.handleSubmitCreate.bind(this)}
-                    mode={mode} user={user}
-                    classes={userclasses}
-                    handleEdit={() => changeUserFormMode("EDIT")}
-                    handleCreate={() => changeUserFormMode("CREATE")}
-                    handleClear={() => changeUserFormMode("EMPTY")}
-                />
-                <br/>
-                <UserTable users={users} userClicked={userClicked}/>
+            <div className="containerUsers">
+                <div className="form">
+                    <UserForm
+                        handleSubmit={this.handleSubmit.bind(this)}
+                        handleSubmitCreate={this.handleSubmitCreate.bind(this)}
+                        mode={mode} user={user}
+                        classes={userclasses}
+                        handleEdit={() => changeUserFormMode("EDIT")}
+                        handleCreate={() => changeUserFormMode("CREATE")}
+                        handleClear={() => changeUserFormMode("EMPTY")}
+                    />
+                </div>
+                <div className="usertable">
+                    <UserTable users={users} userClicked={userClicked}/>
+                </div>
 
                 <Snackbar
                     open={snack.open}

@@ -16,7 +16,7 @@ class Admin extends React.Component {
 
         this.style = {
             tabContent: {
-                margin: '20px',
+
             }
         };
     }
