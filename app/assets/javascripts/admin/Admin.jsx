@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import { changeSideMenuMode } from "./../redux/actions/sideMenuActions.jsx";
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Users from './users/Users.jsx';
+import Classes from './userclasses/Classes.jsx';
 import {browserHistory} from 'react-router';
 import {changeTab} from './../redux/actions/adminTabActions.jsx';
 
@@ -13,6 +14,7 @@ class Admin extends React.Component {
 
         this.handleDefault = this.handleActive.bind(this, '/admin');
         this.handleUsers = this.handleActive.bind(this, '/admin/users');
+        this.handleClasses = this.handleActive.bind(this, '/admin/classes');
 
         this.style = {
             tabContent: {
@@ -49,12 +51,12 @@ class Admin extends React.Component {
                     </Tab>
                     <Tab label="Brukere" onActive={this.handleUsers}>
                         <div style={this.style.tabContent}>
-                            <Users users={this.props.users}/>
+                            <Users/>
                         </div>
                     </Tab>
-                    <Tab label="Brukerklasser" onActive={this.handleUserClasses}>
+                    <Tab label="Brukerklasser" onActive={this.handleClasses}>
                         <div style={this.style.tabContent}>
-
+                            <Classes/>
                         </div>
                     </Tab>
                 </Tabs>
