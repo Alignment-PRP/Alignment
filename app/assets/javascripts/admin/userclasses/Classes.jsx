@@ -49,6 +49,22 @@ class Classes extends React.Component {
             });
     }
 
+    handleDelete(values) {
+        const that = this;
+        axios.post(USERCLASS_POST_DELETE_RAW, values)
+            .then(function (response) {
+                that.props.getUserClasses();
+                that.props.getUsersWithClass();
+                that.props.changeClassFormMode("EMPTY");
+                that.props.snackBar(true, "Brukerklasse slettet!");
+            })
+            .catch(function (error) {
+                //TODO better erros
+                that.props.snackBar(true, "Noe gikk galt..");
+                console.log(error);
+            });
+    }
+
     closeSnack() {
         this.props.snackBar(false, "");
     }
@@ -62,7 +78,9 @@ class Classes extends React.Component {
                     <ClassForm
                         handleSubmit={this.handleSubmit.bind(this)}
                         handleSubmitCreate={this.handleSubmitCreate.bind(this)}
+                        handleDelete={this.handleDelete.bind(this)}
                         mode={mode} uclass={uclass}
+                        classes={userclasses}
                         handleEdit={() => changeClassFormMode("EDIT")}
                         handleCreate={() => changeClassFormMode("CREATE")}
                         handleClear={() => changeClassFormMode("EMPTY")}

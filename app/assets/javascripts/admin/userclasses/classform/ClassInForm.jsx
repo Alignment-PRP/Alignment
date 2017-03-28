@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderMultiTextField} from './../../render.jsx';
+import {renderTextField, renderMultiTextField, renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../../render.jsx';
 
 class ClassInForm extends React.Component {
 
@@ -26,7 +26,15 @@ class ClassInForm extends React.Component {
                             disabled={true}
                             component={renderMultiTextField}
                         />
-                        <RaisedButton className="form-button" type="submit" label="Lagre" disabled={true}/>
+                        <Field
+                            name="replacement"
+                            label="Erstatter"
+                            disabled={false}
+                            component={renderSelectField}
+                        >
+                            {menuItemsClasses(classes.filter(e => e.NAME != this.props.initialValues.NAME))}
+                        </Field>
+                        <RaisedButton className="form-button" type="submit" primary={true} label="Slett" disabled={false}/>
                         <RaisedButton className="form-button" secondary={true} label="Endre klasse" disabled={false} onClick={handleEdit}/>
                         <RaisedButton className="form-button" label="Tilbakestill" disabled={false} onClick={handleClear}/>
                     </form>
@@ -54,5 +62,6 @@ export default connect(
     mapDispatchToProps,
 )(reduxForm({
     form: 'ClassInForm',
-    enableReinitialize: true
+    enableReinitialize: true,
+    validate
 })(ClassInForm));
