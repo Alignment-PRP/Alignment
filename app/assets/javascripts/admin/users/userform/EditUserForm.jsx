@@ -60,8 +60,10 @@ class EditUserForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let initialValues = state.userFormReducer.data;
+    initialValues.oldUSERNAME = state.userFormReducer.user.USERNAME;
     return {
-        initialValues: state.userFormReducer.data,
+        initialValues
     };
 };
 

@@ -1,13 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import Snackbar from 'material-ui/Snackbar';
 import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
-import { changeUserFormMode, userClicked, fillForm, snackBar } from "./../../redux/actions/userFormActions.jsx";
+import { changeUserFormMode, userClicked, fillForm, snackBar, postUserNew, postUserUpdate, postUserDelete } from "./../../redux/actions/userFormActions.jsx";
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
-import * as URLS from '../../config.jsx';
 
 class Users extends React.Component {
 
@@ -18,51 +16,26 @@ class Users extends React.Component {
         this.props.changeSideMenuMode("HIDE");
     }
 
-    handleSubmit(values) {
-        values.oldUSERNAME = this.props.user.USERNAME;
-        const that = this;
-        axios.post(URLS.USER_POST_UPDATE_RAW, values)
-            .then(function (response) {
-                that.props.getUsersWithClass();
-                that.props.changeUserFormMode("EMPTY");
-                that.props.snackBar(true, "Bruker oppdatert!");
-            })
-            .catch(function (error) {
-                //TODO better errors
-                that.props.snackBar(true, "Noe gikk galt..");
-                console.log(error);
-            });
-
-    }
-
-    handleSubmitCreate(values) {
-        const that = this;
-        axios.post(URLS.USER_POST_NEW_RAW, values)
-            .then(function (response) {
-                that.props.getUsersWithClass();
-                that.props.changeUserFormMode("EMPTY");
-                that.props.snackBar(true, "Bruker laget!");
-            })
-            .catch(function (error) {
-                //TODO better errors
-                that.props.snackBar(true, "Noe gikk galt..");
-                console.log(error);
-            });
-    }
-
     closeSnack() {
         this.props.snackBar(false, "");
     }
 
-
     render() {
-        const {mode, user, users, userclasses, snack, userClicked, changeUserFormMode} = this.props;
+        const {
+            mode, user, users, userclasses, snack,
+            userClicked,
+            changeUserFormMode,
+            postUserNew,
+            postUserUpdate,
+            postUserDelete,
+        } = this.props;
         return (
             <div className="containerUsers">
                 <div className="form">
                     <UserForm
-                        handleSubmit={this.handleSubmit.bind(this)}
-                        handleSubmitCreate={this.handleSubmitCreate.bind(this)}
+                        handleSubmitNew={postUserNew}
+                        handleSubmitUpdate={postUserUpdate}
+                        handleSubmitDelete={postUserDelete}
                         mode={mode} user={user}
                         classes={userclasses}
                         handleEdit={() => changeUserFormMode("EDIT")}
@@ -103,6 +76,15 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(userClicked(user));
                 dispatch(fillForm(user))
             }
+        },
+        postUserNew: (data) => {
+            dispatch(postUserNew(data));
+        },
+        postUserUpdate: (data) => {
+            dispatch(postUserUpdate(data));
+        },
+        postUserDelete: (data) => {
+            dispatch(postUserDelete(data));
         },
         changeUserFormMode: (mode) => {
             dispatch(changeUserFormMode(mode))

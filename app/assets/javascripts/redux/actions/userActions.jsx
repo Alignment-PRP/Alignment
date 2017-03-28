@@ -34,7 +34,6 @@ export function getUsers() {
                 });
                 dispatch(getUsersAsync(data))
             });
-
     }
 
 }
@@ -57,7 +56,6 @@ export function getUsersWithClass() {
                 });
                 dispatch(getUsersWithClassAsync(data))
             });
-
     }
 
 }
@@ -80,7 +78,6 @@ export function getUserClasses() {
                 });
                 dispatch(getUserClassesAsync(data))
             });
-
     }
 
 }
