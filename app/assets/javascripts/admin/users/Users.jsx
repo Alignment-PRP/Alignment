@@ -28,6 +28,7 @@ class Users extends React.Component {
                 that.props.snackBar(true, "Bruker oppdatert!");
             })
             .catch(function (error) {
+                //TODO better errors
                 that.props.snackBar(true, "Noe gikk galt..");
                 console.log(error);
             });
@@ -43,6 +44,7 @@ class Users extends React.Component {
                 that.props.snackBar(true, "Bruker laget!");
             })
             .catch(function (error) {
+                //TODO better errors
                 that.props.snackBar(true, "Noe gikk galt..");
                 console.log(error);
             });

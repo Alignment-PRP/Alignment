@@ -2,11 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import Snackbar from 'material-ui/Snackbar';
 import {connect} from "react-redux";
-import { getUserClasses } from "./../../redux/actions/userActions.jsx";
+import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
 import { changeClassFormMode, classClicked, fillClassForm, snackBar } from "./../../redux/actions/classFormActions.jsx";
 import ClassTable from './ClassTable.jsx';
 import ClassForm from './ClassForm.jsx';
+import {USERCLASS_POST_NEW_RAW, USERCLASS_POST_UPDATE_RAW, USERCLASS_POST_DELETE_RAW} from '../../config.jsx';
 
 class Classes extends React.Component {
 
@@ -17,11 +18,35 @@ class Classes extends React.Component {
     }
 
     handleSubmit(values) {
-        //TODO called when class is updated
+        values.oldNAME = this.props.uclass.NAME;
+        const that = this;
+        axios.post(USERCLASS_POST_UPDATE_RAW, values)
+            .then(function (response) {
+                that.props.getUserClasses();
+                that.props.getUsersWithClass();
+                that.props.changeClassFormMode("EMPTY");
+                that.props.snackBar(true, "Brukerklasse oppdatert!");
+            })
+            .catch(function (error) {
+                //TODO better erros
+                that.props.snackBar(true, "Noe gikk galt..");
+                console.log(error);
+            });
     }
 
     handleSubmitCreate(values) {
-        //TODO called when class should be created
+        const that = this;
+        axios.post(USERCLASS_POST_NEW_RAW, values)
+            .then(function (response) {
+                that.props.getUserClasses();
+                that.props.changeClassFormMode("EMPTY");
+                that.props.snackBar(true, "Brukerklasse laget!");
+            })
+            .catch(function (error) {
+                //TODO better errors
+                that.props.snackBar(true, "Noe gikk galt..");
+                console.log(error);
+            });
     }
 
     closeSnack() {
@@ -33,7 +58,7 @@ class Classes extends React.Component {
         const {snack, mode, userclasses, uclass, classClicked, changeClassFormMode} = this.props;
         return (
             <div className="containerUsers">
-                <div className="usertable">
+                <div className="form">
                     <ClassForm
                         handleSubmit={this.handleSubmit.bind(this)}
                         handleSubmitCreate={this.handleSubmitCreate.bind(this)}
@@ -42,6 +67,8 @@ class Classes extends React.Component {
                         handleCreate={() => changeClassFormMode("CREATE")}
                         handleClear={() => changeClassFormMode("EMPTY")}
                     />
+                </div>
+                <div className="usertable">
                     <ClassTable
                         classes={userclasses}
                         classClicked={classClicked}
@@ -79,6 +106,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeClassFormMode: (mode) => {
             dispatch(changeClassFormMode(mode))
+        },
+        getUsersWithClass: () => {
+            dispatch(getUsersWithClass())
         },
         getUserClasses: () => {
             dispatch(getUserClasses())

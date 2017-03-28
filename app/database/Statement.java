@@ -168,7 +168,12 @@ public enum Statement {
     ),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
-    INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)");
+    INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)"),
+
+    GET_USERCLASS_EXISTS("SELECT count(1) as bool FROM UserClass WHERE NAME=?"),
+    INSERT_USERCLASS("INSERT INTO UserClass (NAME, description) VALUES (?,?)"),
+    UPDATE_USERCLASS("UPDATE UserClass SET NAME=?, description=? WHERE NAME=?"),
+    UPDATE_CHANGE_USERHASCLASS_NAME("UPDATE UserHasClass SET NAME=? WHERE NAME=?");
 
 
 
