@@ -54,6 +54,7 @@ class App extends React.Component {
                             <Route path={"logout"} component={Logout}/>
                             <Route path={"admin"} component={Admin} onEnter={() => {store.dispatch(changeTab(0))}}>
                                 <Route path={"users"} onEnter={() => {store.dispatch(changeTab(1))}}/>
+                                <Route path={"classes"} onEnter={() => {store.dispatch(changeTab(2))}}/>
                             </Route>
                         </Route>
                     </Router>

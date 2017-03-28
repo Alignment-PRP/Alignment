@@ -9,6 +9,7 @@ import projectReducer from "./reducers/projectReducer.jsx";
 import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
 import userFormReducer from './reducers/userFormReducer.jsx';
 import adminTabReducer from './reducers/adminTabReducers.jsx';
+import classFormReducer from './reducers/classFormReducer.jsx';
 
 const reducers = {
     userReducer,
@@ -17,6 +18,7 @@ const reducers = {
     sideMenuReducer,
     userFormReducer,
     adminTabReducer,
+    classFormReducer,
     form: formReducer,
 };
 
