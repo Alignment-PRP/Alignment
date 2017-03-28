@@ -27,6 +27,9 @@ GET     /api/user                           controllers.UserController.getConnec
 GET     /api/user/userClasses               controllers.UserController.getUserClasses()
 POST    /api/user/update                    controllers.UserController.updateUser()
 POST    /api/user/new                       controllers.UserController.createUserJson()
+POST    /api/userclass/new                  controllers.UserController.newUserClass()
+POST    /api/userclass/update               controllers.UserController.updateUserClass()
+POST    /api/userclass/delete               controllers.UserController.deleteUserClass()
 
 POST    /api/login                          controllers.LoginController.authenticate()
 POST    /api/sign-up                        controllers.SignupController.create()

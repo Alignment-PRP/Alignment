@@ -3,6 +3,28 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+export const validateClassForm = values => {
+    const errors = {};
+    const requiredFields = [ 'NAME', 'description' ];
+    requiredFields.forEach(field => {
+        if (!values[ field ]) {
+            errors[ field ] = 'Må fylles'
+        }
+    });
+    return errors
+};
+
+export const validateDeleteClassForm = values => {
+    const errors = {};
+    const requiredFields = [ 'NAME', 'description', 'replacement' ];
+    requiredFields.forEach(field => {
+        if (!values[ field ]) {
+            errors[ field ] = 'Må fylles'
+        }
+    });
+    return errors
+};
+
 export const validateUserForm = values => {
     const errors = {};
     const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName' ];
@@ -49,6 +71,17 @@ export const renderSelectField = ({ input, label, meta: { touched, error }, chil
 
 export const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
     <TextField hintText={label}
+               floatingLabelText={label}
+               errorText={touched && error}
+               {...input}
+               {...custom}
+    />
+);
+
+export const renderMultiTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+    <TextField hintText={label}
+               multiLine={true}
+               style={{width: '256px'}}
                floatingLabelText={label}
                errorText={touched && error}
                {...input}
