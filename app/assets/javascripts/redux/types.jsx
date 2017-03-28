@@ -26,6 +26,9 @@ export const CHANGE_USER_FORM_MODE = "CHANGE_USER_FORM_MODE";
 export const USER_CLICKED = "USER_CLICKED";
 export const FILL_FORM = "FILL_FORM";
 export const SNACKBAR = "SNACKBAR";
+export const POST_USER_NEW = "POST_USER_NEW";
+export const POST_USER_UPDATE = "POST_USER_UPDATE";
+export const POST_USER_DELETE = "POST_USER_DELETE";
 
 //Classform
 export const CHANGE_CLASS_FORM_MODE = "CHANGE_CLASS_FORM_MODE";
