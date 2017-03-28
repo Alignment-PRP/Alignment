@@ -20,8 +20,13 @@ import NewRequirement from './requirements/NewRequirement.jsx';
 import Admin from './admin/Admin.jsx';
 import {changeTab} from './redux/actions/adminTabActions.jsx';
 
+//Stuff
+import {changeSideMenuMode} from './redux/actions/sideMenuActions.jsx';
+import NotFound from './layout/NotFound.jsx';
+import NotAuth from './layout/NotAuth.jsx';
+
 //Utility
-import {Router, Route, IndexRoute, browserHistory} from "react-router";
+import {Router, Route, IndexRoute, Redirect, browserHistory} from "react-router";
 import {Provider} from "react-redux";
 import store from './redux/store.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -56,6 +61,11 @@ class App extends React.Component {
                                 <Route path={"users"} onEnter={() => {store.dispatch(changeTab(1))}}/>
                                 <Route path={"classes"} onEnter={() => {store.dispatch(changeTab(2))}}/>
                             </Route>
+
+                            /*Errors*/
+                            <Route path='/403' component={NotAuth} onEnter={() => {store.dispatch(changeSideMenuMode("HIDE"))}}/>
+                            <Route path='/404' component={NotFound} onEnter={() => {store.dispatch(changeSideMenuMode("HIDE"))}}/>
+                            <Redirect from='*' to='/404' />
                         </Route>
                     </Router>
                 </Provider>
