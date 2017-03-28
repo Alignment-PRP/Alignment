@@ -26,3 +26,8 @@ export const CHANGE_USER_FORM_MODE = "CHANGE_USER_FORM_MODE";
 export const USER_CLICKED = "USER_CLICKED";
 export const FILL_FORM = "FILL_FORM";
 export const SNACKBAR = "SNACKBAR";
+
+//Classform
+export const CHANGE_CLASS_FORM_MODE = "CHANGE_CLASS_FORM_MODE";
+export const CLASS_CLICKED = "CLASS_CLICKED";
+export const FILL_CLASS_FORM = "FILL_CLASS_FORM";
