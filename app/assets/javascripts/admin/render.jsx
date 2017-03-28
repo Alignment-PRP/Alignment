@@ -14,6 +14,17 @@ export const validateClassForm = values => {
     return errors
 };
 
+export const validateDeleteClassForm = values => {
+    const errors = {};
+    const requiredFields = [ 'NAME', 'description', 'replacement' ];
+    requiredFields.forEach(field => {
+        if (!values[ field ]) {
+            errors[ field ] = 'Må fylles'
+        }
+    });
+    return errors
+};
+
 export const validateUserForm = values => {
     const errors = {};
     const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName' ];

@@ -55,7 +55,19 @@ public class UserController extends Controller {
     }
 
     public Result deleteUserClass() {
-        return internalServerError();
+        final JsonNode values = request().body().asJson();
+
+        final String NAME = values.get("NAME").textValue();
+        final String replacement = values.get("replacement").textValue();
+
+        final boolean b1 = qh.executeUpdate(Statement.UPDATE_CHANGE_USERHASCLASS_NAME, replacement, NAME);
+        if (b1) {
+            qh.executeUpdate(Statement.DELETE_USERCLASS, NAME);
+        } else {
+            return internalServerError("Noe gikk galt");
+        }
+
+        return ok("Brukerklasse slettet");
     }
 
     public boolean userClassExists(String userClass){
