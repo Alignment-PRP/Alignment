@@ -79,13 +79,13 @@ public class AdminController extends Controller {
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
 
         //Adds the strucutre values to a list
-        List<String> structures = new ArrayList<String>();
-        structures.add(values.get("source")[0]);
-        structures.add(values.get("stimulus")[0]);
-        structures.add(values.get("artifact")[0]);
-        structures.add(values.get("response")[0]);
-        structures.add(values.get("responsemeasure")[0]);
-        structures.add(values.get("environment")[0]);
+        //List<String> structures = new ArrayList<String>();
+        //structures.add(values.get("source")[0]);
+        //structures.add(values.get("stimulus")[0]);
+        //structures.add(values.get("artifact")[0]);
+        //structures.add(values.get("response")[0]);
+        //structures.add(values.get("responsemeasure")[0]);
+        //structures.add(values.get("environment")[0]);
 
         //Gets the meta data values
         String subCatID = values.get("subCatID")[0];
@@ -113,14 +113,16 @@ public class AdminController extends Controller {
         String ID = qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT);
 
         //Inserts a new row in RequirementMetaData using the requirement ID as PK
-        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, Integer.parseInt(ID), subCatID, reqResponsible, description, comment, reqCode, reqNo, name);
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, Integer.parseInt(ID), reqResponsible, description, comment, reqCode, reqNo, name);
 
+        qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, Integer.parseInt(ID), Integer.parseInt(subCatID));
         //Inserts all the structures
-        for (String SID: structures){
+        /*for (String SID: structures){
             if(SID != null){
                 insertHasStructure(ID, SID);
             }
         }
+        */
         return ok("added requirement");
 
     }

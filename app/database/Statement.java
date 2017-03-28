@@ -26,8 +26,8 @@ public enum Statement {
      */
 
     //===========================================GLOBAL==========================================================================
-    INSERT_REQUIREMENT("INSERT INTO Requirement ()"),
-    INSERT_REQUIREMENT_META_DATA("INSERT INTO RequirementMetaData (RID, subCatID, reqResponsible, description, comment, reqCode, reqNo, name) VALUES(?,?,?,?,?,?,?,?)"),
+    INSERT_REQUIREMENT("INSERT INTO Requirements () VALUES()"),
+    INSERT_REQUIREMENT_META_DATA("INSERT INTO RequirementMetaData (RID, reqResponsible, description, comment, reqCode, reqNo, name) VALUES(?,?,?,?,?,?,?)"),
     INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?,?)"),
     INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
@@ -92,6 +92,7 @@ public enum Statement {
     INSERT_CATEGORY("INSERT INTO Category (name, description) VALUES (?,?)"),
     CATEGORY_EXISTS("SELECT count(1) as bool FROM Category WHERE ID = ?"),
     INSERT_SUBCATEGORY("INSERT INTO SubCategory (catID, name, description) VALUES (?,?,?)"),
+    INSERT_HAS_SUBCATEGORY("INSERT INTO HasSubCategory (RID, SID) VALUES (?,?)"),
 
 
 
