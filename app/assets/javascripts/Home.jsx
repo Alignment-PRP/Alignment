@@ -2,11 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { getUserData } from './redux/actions/userActions.jsx';
+import {changeSideMenuMode} from './redux/actions/sideMenuActions.jsx';
 
 class Home extends React.Component {
 
     componentDidMount(){
-       this.props.getUserData();
+        this.props.changeSideMenuMode("MENU");
+        this.props.getUserData();
     }
 
     UserData(){
@@ -46,6 +48,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode));
+        },
         getUserData: () => {
             dispatch(getUserData())
         }
