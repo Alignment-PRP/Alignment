@@ -9,7 +9,7 @@ import {renderTextField, renderMultiTextField, validateClassForm as validate} fr
 class EditClassForm extends React.Component {
 
     render() {
-        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
+        const {handleSubmit, handleClear, pristine, submitting} = this.props;
         return (
             <MuiThemeProvider>
                 <Paper className="form-inner">
@@ -38,8 +38,10 @@ class EditClassForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let initialValues = state.classFormReducer.data;
+    initialValues.oldNAME = state.classFormReducer.uclass.NAME;
     return {
-        initialValues: state.classFormReducer.data,
+        initialValues
     };
 };
 

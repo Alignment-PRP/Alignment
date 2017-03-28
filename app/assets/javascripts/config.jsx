@@ -21,9 +21,6 @@ export const USERCLASS = API + "/userclass";
 export const USERCLASS_POST_NEW = USERCLASS + "/new";
 export const USERCLASS_POST_UPDATE = USERCLASS + "/update";
 export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
-export const USERCLASS_POST_NEW_RAW = USERCLASS + ("/new").replace(URL, "/");
-export const USERCLASS_POST_UPDATE_RAW = USERCLASS + ("/update").replace(URL, "/");
-export const USERCLASS_POST_DELETE_RAW = USERCLASS + ("/delete").replace(URL, "/");
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
