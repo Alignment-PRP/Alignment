@@ -25,6 +25,44 @@ public class UserController extends Controller {
         this.qh = new QueryHandler(db);
     }
 
+    public Result newUserClass() {
+        final JsonNode values = request().body().asJson();
+
+        final String NAME = values.get("NAME").textValue();
+        final String description = values.get("description").textValue();
+
+        if (userClassExists(NAME)) {
+            return internalServerError("Brukerklasse eksisterer");
+        }
+        qh.insertStatement(Statement.INSERT_USERCLASS, NAME, description);
+        return ok("Brukerklasse lagt til.");
+    }
+
+    public Result updateUserClass() {
+        final JsonNode values = request().body().asJson();
+
+        final String oldNAME = values.get("oldNAME").textValue();
+        final String NAME = values.get("NAME").textValue();
+        final String description = values.get("description").textValue();
+
+        if (userClassExists(NAME) && !oldNAME.equals(NAME)) {
+            return internalServerError("Brukerklassen eksisterer");
+        }
+        final boolean b1 = qh.executeUpdate(Statement.UPDATE_USERCLASS, NAME, description, oldNAME);
+        final boolean b2 = qh.executeUpdate(Statement.UPDATE_CHANGE_USERHASCLASS_NAME, NAME, oldNAME);
+
+        return b1 && b2 ? ok() : internalServerError();
+    }
+
+    public Result deleteUserClass() {
+        return internalServerError();
+    }
+
+    public boolean userClassExists(String userClass){
+        JsonNode exists = qh.executeQuery(Statement.GET_USERCLASS_EXISTS,userClass);
+        return exists.get(0).get("bool").asInt() == 1;
+    }
+
     public Result updateUser() {
         final JsonNode values = request().body().asJson();
 

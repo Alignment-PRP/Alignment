@@ -17,6 +17,14 @@ export const USER_GET_BY_ID = USERS_GET + "/";
 export const USER_GET_BY_ID_MIN = USER_GET_BY_ID.replace(URL, "");
 export const USER_GET_USERCLASSES = USER_GET + "/userClasses";
 
+export const USERCLASS = API + "/userclass";
+export const USERCLASS_POST_NEW = USERCLASS + "/new";
+export const USERCLASS_POST_UPDATE = USERCLASS + "/update";
+export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
+export const USERCLASS_POST_NEW_RAW = USERCLASS + ("/new").replace(URL, "/");
+export const USERCLASS_POST_UPDATE_RAW = USERCLASS + ("/update").replace(URL, "/");
+export const USERCLASS_POST_DELETE_RAW = USERCLASS + ("/delete").replace(URL, "/");
+
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
 export const PROJECT_GET_BY_ID = PROJECT + "/";
