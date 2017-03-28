@@ -52,9 +52,6 @@ class AllRequirementsFilter extends React.Component {
 
     }
 
-    MenuCheckboxes(){
-
-    }
 
     generateFilterMenuCheckboxes(){
         //Get all category objects from Redux Store
