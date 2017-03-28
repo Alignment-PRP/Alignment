@@ -1,0 +1,41 @@
+.container_403 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.box_403 {
+    margin: 20px;
+}
+.font_403_big {
+    font-size: 10em;
+    margin-bottom: 0em;
+}
+.font_403_medium {
+    font-size: 3em;
+    margin-bottom: 0em;
+}
+.font_403_small {
+    font-size: 2em;
+}
+.hr_403 {
+    width: 25%;
+    height: 1px;
+    background: #1f3759;
+    border: 0px;
+}
+.link_403 {
+    color: black;
+}
+.link_403:link {
+    text-decoration: underline;
+}
+.link_403:visited {
+    text-decoration: underline;
+}
+.link_403:hover {
+    text-decoration: underline;
+}
+.link_403:active {
+    text-decoration: underline;
+}
