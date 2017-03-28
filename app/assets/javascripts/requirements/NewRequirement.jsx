@@ -27,28 +27,24 @@ class NewRequirement extends React.Component {
 
                     <br/>
 
-                    <label> <b>Source</b></label><br/>
-                    <input type="text" placeholder="Source" name="source" required/>
+                    <label> <b>SubCategoryID</b></label><br/>
+                    <input type="text" placeholder="SubCategoryID" name="subCatID" required/>
 
                     <br/>
-                    <label><b>Stimulus</b></label><br/>
-                    <input type="text" placeholder="Stimulus" name="stimulus" required/>
+                    <label><b>reqResponsible</b></label><br/>
+                    <input type="text" placeholder="reqResponsible" name="reqResponsible" required/>
 
                     <br/>
-                    <label> <b>Artifact</b></label><br/>
-                    <input type="text" placeholder="Artifact" name="artifact" required/>
+                    <label> <b>comment</b></label><br/>
+                    <input type="text" placeholder="comment" name="comment" required/>
 
                     <br/>
-                    <label> <b>Response</b></label><br/>
-                    <input type="text" placeholder="Response" name="response" required/>
+                    <label> <b>reqCode</b></label><br/>
+                    <input type="text" placeholder="reqCode" name="reqCode" required/>
 
                     <br/>
-                    <label> <b>Response measure</b></label><br/>
-                    <input type="text" placeholder="Response measure" name="responsemeasure" required/>
-
-                    <br/>
-                    <label> <b>Environment</b></label><br/>
-                    <input type="text" placeholder="Environment" name="environment" required/>
+                    <label> <b>reqNo</b></label><br/>
+                    <input type="text" placeholder="reqNo" name="reqNo" required/>
 
                     <br/>
                     <label><b>Public</b></label>
