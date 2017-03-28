@@ -5,7 +5,6 @@ import play.db.Database;
 import play.libs.Json;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,12 +15,11 @@ import java.util.Map;
 //TODO Doc
 public class QueryHandler {
 
-    private final Database db;
+    protected final Database db;
 
     public QueryHandler(Database db) {
         this.db = db;
     }
-
 
     /**
      * Executes an INSERT statement and returns the PK of the row you just
