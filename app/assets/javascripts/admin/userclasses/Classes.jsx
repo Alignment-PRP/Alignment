@@ -1,13 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import Snackbar from 'material-ui/Snackbar';
 import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
-import { changeClassFormMode, classClicked, fillClassForm, snackBar } from "./../../redux/actions/classFormActions.jsx";
+import { changeClassFormMode, classClicked, fillClassForm, snackBar, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions.jsx";
 import ClassTable from './ClassTable.jsx';
 import ClassForm from './ClassForm.jsx';
-import {USERCLASS_POST_NEW_RAW, USERCLASS_POST_UPDATE_RAW, USERCLASS_POST_DELETE_RAW} from '../../config.jsx';
 
 class Classes extends React.Component {
 
@@ -17,68 +15,26 @@ class Classes extends React.Component {
         this.props.changeSideMenuMode("HIDE");
     }
 
-    handleSubmit(values) {
-        values.oldNAME = this.props.uclass.NAME;
-        const that = this;
-        axios.post(USERCLASS_POST_UPDATE_RAW, values)
-            .then(function (response) {
-                that.props.getUserClasses();
-                that.props.getUsersWithClass();
-                that.props.changeClassFormMode("EMPTY");
-                that.props.snackBar(true, "Brukerklasse oppdatert!");
-            })
-            .catch(function (error) {
-                //TODO better erros
-                that.props.snackBar(true, "Noe gikk galt..");
-                console.log(error);
-            });
-    }
-
-    handleSubmitCreate(values) {
-        const that = this;
-        axios.post(USERCLASS_POST_NEW_RAW, values)
-            .then(function (response) {
-                that.props.getUserClasses();
-                that.props.changeClassFormMode("EMPTY");
-                that.props.snackBar(true, "Brukerklasse laget!");
-            })
-            .catch(function (error) {
-                //TODO better errors
-                that.props.snackBar(true, "Noe gikk galt..");
-                console.log(error);
-            });
-    }
-
-    handleDelete(values) {
-        const that = this;
-        axios.post(USERCLASS_POST_DELETE_RAW, values)
-            .then(function (response) {
-                that.props.getUserClasses();
-                that.props.getUsersWithClass();
-                that.props.changeClassFormMode("EMPTY");
-                that.props.snackBar(true, "Brukerklasse slettet!");
-            })
-            .catch(function (error) {
-                //TODO better erros
-                that.props.snackBar(true, "Noe gikk galt..");
-                console.log(error);
-            });
-    }
-
     closeSnack() {
         this.props.snackBar(false, "");
     }
 
-
     render() {
-        const {snack, mode, userclasses, uclass, classClicked, changeClassFormMode} = this.props;
+        const {
+            snack, mode, userclasses, uclass,
+            classClicked,
+            changeClassFormMode,
+            postClassNew,
+            postClassUpdate,
+            postClassDelete,
+        } = this.props;
         return (
             <div className="containerUsers">
                 <div className="form">
                     <ClassForm
-                        handleSubmit={this.handleSubmit.bind(this)}
-                        handleSubmitCreate={this.handleSubmitCreate.bind(this)}
-                        handleDelete={this.handleDelete.bind(this)}
+                        handleSubmitUpdate={postClassUpdate}
+                        handleSubmitNew={postClassNew}
+                        handleSubmitDelete={postClassDelete}
                         mode={mode} uclass={uclass}
                         classes={userclasses}
                         handleEdit={() => changeClassFormMode("EDIT")}
@@ -121,6 +77,15 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(classClicked(uclass));
                 dispatch(fillClassForm(uclass))
             }
+        },
+        postClassNew: (data) => {
+            dispatch(postClassNew(data));
+        },
+        postClassUpdate: (data) => {
+            dispatch(postClassUpdate(data));
+        },
+        postClassDelete: (data) => {
+            dispatch(postClassDelete(data));
         },
         changeClassFormMode: (mode) => {
             dispatch(changeClassFormMode(mode))

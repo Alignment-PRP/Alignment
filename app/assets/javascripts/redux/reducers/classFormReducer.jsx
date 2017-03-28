@@ -1,4 +1,12 @@
-import {CHANGE_CLASS_FORM_MODE, CLASS_CLICKED, FILL_CLASS_FORM, SNACKBAR} from './../types.jsx';
+import {
+    CHANGE_CLASS_FORM_MODE,
+    CLASS_CLICKED,
+    FILL_CLASS_FORM,
+    SNACKBAR,
+    POST_CLASS_NEW,
+    POST_CLASS_UPDATE,
+    POST_CLASS_DELETE,
+} from './../types.jsx';
 
 const classFormReducer = (state = {
     mode: "EMPTY",
@@ -38,6 +46,10 @@ const classFormReducer = (state = {
                 data: state.data,
                 snack: action.payload,
             };
+            break;
+        case POST_CLASS_NEW:
+        case POST_CLASS_UPDATE:
+        case POST_CLASS_DELETE:
             break;
     }
     return state;
