@@ -88,6 +88,7 @@ export function postRequirementToProject(post){
         axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
             .then(function (response) {
                 console.log(response);
+                dispatch(getRequirementsByProjectId(post.PID));
             })
             .catch(function (error) {
                 console.log(error);
