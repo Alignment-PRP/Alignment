@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(reduxForm({
     form: 'ClassInForm',
     enableReinitialize: true,
