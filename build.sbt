@@ -21,7 +21,14 @@ libraryDependencies ++= Seq(
 
 lazy val jsDoc = taskKey[Unit]("Run jsDoc")
 jsDoc := {
-  "./node_modules/.bin/jsdoc -c jsdoc_conf.json"!;
+  def isWindows: Boolean = {
+    sys.props("os.name").contains("Windows")
+  }
+  if (isWindows) {
+    "./node_modules/.bin/jsdoc.cmd -c jsdoc_conf.json"!;
+  } else {
+    "./node_modules/.bin/jsdoc -c jsdoc_conf.json"!;
+  }
 }
 
 val browserifyTask = taskKey[Seq[File]]("Run browserify")
