@@ -3,7 +3,8 @@ import * as URLS from './../../config.jsx';
 import {GET_ALL_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
-        POST_REQUIREMENT_TO_PROJECT
+        POST_REQUIREMENT_TO_PROJECT,
+        DELETE_REQUIREMENT_TO_PROJECT
 } from './../types.jsx';
 
 
@@ -99,6 +100,26 @@ export function postRequirementToProject(post){
 
 function postRequirementToProjectAsync() {
     return {
-        type: POST_REQUIREMENT_TO_PROJECT,
+        type: POST_REQUIREMENT_TO_PROJECT
+    }
+}
+
+export function deleteRequirementToProject(post){
+    return dispatch => {
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_DELETE, post)
+            .then(function (response) {
+                console.log(response);
+                dispatch(getRequirementsByProjectId(post.PID));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(deleteRequirementToProjectAsync())
+    }
+}
+
+function deleteRequirementToProjectAsync() {
+    return {
+        type: DELETE_REQUIREMENT_TO_PROJECT
     }
 }
