@@ -5,6 +5,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderMultiTextField, validateClassForm as validate} from './../../render.jsx';
 
+/**
+ * Redux-form form for creating classes.
+ */
 class CreateClassForm extends React.Component {
 
     render() {

@@ -30,6 +30,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 //Defining URL links
+/**
+ * Starting point for the application.
+ * Defines a provider for the redux store and routes with react-router
+ */
 class App extends React.Component {
 
     render() {
