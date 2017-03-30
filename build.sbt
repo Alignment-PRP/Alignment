@@ -19,6 +19,11 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.4"
 )
 
+lazy val jsDoc = taskKey[Unit]("Run jsDoc")
+jsDoc := {
+  "./node_modules/.bin/jsdoc -c jsdoc_conf.json"!;
+}
+
 val browserifyTask = taskKey[Seq[File]]("Run browserify")
 val browserifyOutputDir = settingKey[File]("Browserify output directory")
 browserifyOutputDir := target.value / "web" / "browserify"
