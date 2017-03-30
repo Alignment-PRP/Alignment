@@ -68,18 +68,18 @@ public class ProjectController extends Controller {
         }
 
         //Gets the http body of the POST and converts it to a map
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        final JsonNode values = request().body().asJson();
 
         //Gets the values from the map
-        String name = values.get("name")[0];
-        String ispublic = values.get("isPublic")[0];
-        String securityLevel = values.get("securityLevel")[0];
-        String transactionVolume = values.get("transactionVolume")[0];
-        String userChannel = values.get("userChannel")[0];
-        String deploymentStyle = values.get("deploymentStyle")[0];
+        String name = values.get("name").asText();
+        String securityLevel = values.get("securityLevel").asText();
+        String transactionVolume = values.get("transactionVolume").asText();
+        String userChannel = values.get("userChannel").asText();
+        String deploymentStyle = values.get("deploymentStyle").asText();
+        int ispublic = values.get("isPublic").asBoolean() ? 1 : 0;
 
         //Inserts a new Project and returns the ID of the project just inserted
-        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, Integer.parseInt(ispublic));
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, ispublic);
 
         //Inserts ProjectMetaData with the project
         qh.insertStatement(Statement.INSERT_PROJECT_META_DATA, Integer.parseInt(ID), securityLevel, transactionVolume, userChannel, deploymentStyle);
