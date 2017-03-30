@@ -34,7 +34,7 @@ export function changeUserFormMode(mode) {
 }
 
 /**
- * @param {Object} user
+ * @param {User} user
  * @returns {{type, payload: *}}
  */
 export function userClicked(user) {
@@ -45,7 +45,7 @@ export function userClicked(user) {
 }
 
 /**
- * @param {json} data
+ * @param {User} data
  * @returns {{type, payload: *}}
  */
 export function fillForm(data) {
@@ -68,7 +68,8 @@ export function snackBar(bool, text) {
 }
 
 /**
- * @param {string} data
+ * @param {User} data
+ * @param {User} data.pass
  * @returns {function(*)}
  */
 export function postUserNew(data){
@@ -94,7 +95,8 @@ function postUserNewAsync() {
 }
 
 /**
- * @param {string} data
+ * @param {User} data
+ * @param {string} data.oldUSERNAME
  * @returns {function(*)}
  */
 export function postUserUpdate(data){
@@ -120,7 +122,7 @@ function postUserUpdateAsync() {
 }
 
 /**
- * @param {string} data
+ * @param {User} data
  * @returns {function(*)}
  */
 export function postUserDelete(data){

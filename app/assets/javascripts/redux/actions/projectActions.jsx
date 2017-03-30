@@ -12,6 +12,11 @@ import {
     snackBar,
 } from './projectFormActions.jsx';
 
+/**
+ * Contains action creators for {@link Project} related data.
+ * @module redux/actions/project
+ */
+
 //All actions that changes the global state of the projectReducer is defined here.
 //Async methods need to get defined in two separate functions because the axios.get
 //method will take sometime before we want to send the data to the Reducer. This is made possible with react-thunk middleware.
@@ -129,13 +134,7 @@ function deleteRequirementToProjectAsync() {
 }
 
 /**
- * @param {Object} data
- * @param {string} data.name
- * @param {boolean} data.isPublic
- * @param {string} data.securityLevel
- * @param {string} data.transactionVolume
- * @param {string} data.userChannel
- * @param {string} data.deploymentStyle
+ * @param {Project} data
  * @returns {function(*)}
  */
 export function postProjectNew(data){

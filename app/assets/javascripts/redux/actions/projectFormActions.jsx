@@ -22,7 +22,7 @@ export function changeProjectFormMode(mode) {
 }
 
 /**
- * @param {Object} project
+ * @param {Project} project
  * @returns {{type, payload: *}}
  */
 export function projectClicked(project) {
@@ -33,13 +33,7 @@ export function projectClicked(project) {
 }
 
 /**
- * @param {Object} project
- * @param {string} project.name
- * @param {string} project.securityLevel
- * @param {string} project.transactionVolume
- * @param {string} project.userChannel
- * @param {string} project.deploymentStyle
- * @param {boolean} project.isPublic
+ * @param {Project} project
  * @returns {{type, payload: *}}
  */
 export function fillProjectForm(project) {

@@ -6,7 +6,7 @@ import {PROJECT_GET_BY_ID} from './../../config.jsx';
 
 /**
  * Class represents a table with projects.
- * Parent: {@link Users}
+ * @see Projects
  */
 class ProjectTable extends React.Component {
 
