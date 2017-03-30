@@ -125,10 +125,19 @@ public enum Statement {
             "ON pmd.PID = p.ID " +
             "WHERE p.isPublic = 1 "),
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
+    GET_USER_HAS_ACCESS("" +
+            "SELECT count(1) as bool " +
+            "FROM Project AS p " +
+            "INNER JOIN HasAccess AS ha " +
+            "ON ha.PID = p.ID " +
+            "WHERE ha.NAME = ? AND p.ID = ?"),
 
     INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, isPublic) VALUES(?,?,?,?)"),
     INSERT_PROJECT_META_DATA("INSERT INTO ProjectMetaData (PID, securityLevel, transactionVolume, userChannel, deploymentStyle) VALUES(?,?,?,?,?)"),
     INSERT_HAS_ACCESS("INSERT INTO HasAccess (NAME, PID) VALUES(?,?)"),
+    DELETE_PROJECT_REQUIREMENT("" +
+            "DELETE FROM ProjectRequirements " +
+            "WHERE PID = ? AND RID = ?"),
 
 
 
@@ -141,7 +150,7 @@ public enum Statement {
     INSERT_USER("INSERT INTO Users (firstName, lastName, email, USERNAME, pass) VALUES (?,?,?,?,?)"),
     GET_USER_CLASS_BY_USERNAME("" +
             "SELECT * " +
-            "FROM UserClass AS uc" +
+            "FROM UserClass AS uc " +
             "INNER JOIN UserHasClass AS uhc " +
             "ON uhc.NAME = uc.NAME " +
             "INNER JOIN Users AS u " +

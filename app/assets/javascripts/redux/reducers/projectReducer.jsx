@@ -1,7 +1,8 @@
 import {GET_ALL_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
-        POST_REQUIREMENT_TO_PROJECT
+        POST_REQUIREMENT_TO_PROJECT,
+        DELETE_REQUIREMENT_TO_PROJECT
 } from './../types.jsx';
 //Here is where the global state of the projectReducer actually get stored and changed. The projectReducer get passed actions.types into a switch function.
 //When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from redux actions.
@@ -36,6 +37,8 @@ const projectReducer = (state = {
             };
             break;
         case POST_REQUIREMENT_TO_PROJECT:
+            break;
+        case DELETE_REQUIREMENT_TO_PROJECT:
             break;
     }
     return state;
