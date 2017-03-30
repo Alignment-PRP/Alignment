@@ -150,4 +150,4 @@ browserifyTask := {
 sourceGenerators in Assets += browserifyTask.taskValue
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/main.js"
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/react.js"
-
+unmanagedResourceDirectories in Assets += baseDirectory.value / "out"
