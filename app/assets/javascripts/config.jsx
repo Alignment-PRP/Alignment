@@ -1,3 +1,7 @@
+/**
+ * Contains constants for API related routes.
+ * @module config
+ */
 
 export const URL = "http://localhost:9000/";
 export const API = URL + "api";
@@ -7,10 +11,9 @@ export const LOGOUT = API + "/logout";
 export const SIGN_UP_POST = API + "/sign-up";
 
 export const USER_GET = API + "/user";
-export const USER_POST_UPDATE = USER_GET + "/update";
 export const USER_POST_NEW = USER_GET + "/new";
-export const USER_POST_UPDATE_RAW = (USER_GET + "/update").replace(URL, "/");
-export const USER_POST_NEW_RAW = (USER_GET + "/new").replace(URL, "/");
+export const USER_POST_UPDATE = USER_GET + "/update";
+export const USER_POST_DELETE = USER_GET + "/delete";
 export const USERS_GET = USER_GET + "s";
 export const USERS_GET_WITH_CLASS = USERS_GET + "_c";
 export const USER_GET_BY_ID = USERS_GET + "/";
@@ -21,9 +24,6 @@ export const USERCLASS = API + "/userclass";
 export const USERCLASS_POST_NEW = USERCLASS + "/new";
 export const USERCLASS_POST_UPDATE = USERCLASS + "/update";
 export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
-export const USERCLASS_POST_NEW_RAW = USERCLASS + ("/new").replace(URL, "/");
-export const USERCLASS_POST_UPDATE_RAW = USERCLASS + ("/update").replace(URL, "/");
-export const USERCLASS_POST_DELETE_RAW = USERCLASS + ("/delete").replace(URL, "/");
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";

@@ -6,10 +6,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderMultiTextField, validateClassForm as validate} from './../../render.jsx';
 
+/**
+ * Redux-form for editing classes.
+ */
 class EditClassForm extends React.Component {
 
     render() {
-        const {handleSubmit, handleClear, pristine, submitting, classes} = this.props;
+        const {handleSubmit, handleClear, pristine, submitting} = this.props;
         return (
             <MuiThemeProvider>
                 <Paper className="form-inner">
@@ -38,8 +41,10 @@ class EditClassForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let initialValues = state.classFormReducer.data;
+    initialValues.oldNAME = state.classFormReducer.uclass.NAME;
     return {
-        initialValues: state.classFormReducer.data,
+        initialValues
     };
 };
 
@@ -51,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(reduxForm({
     form: 'EditClassForm',
     validate,

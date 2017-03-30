@@ -6,6 +6,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderPassField, renderSelectField, menuItemsClasses} from './../../render.jsx';
 
+/**
+ * Redux-form for displaying a form filled with userdata.
+ * All fields are disabled.
+ */
 class UserInForm extends React.Component {
 
     render() {
@@ -72,7 +76,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(reduxForm({
     form: 'UserInForm',
     enableReinitialize: true

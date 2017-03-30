@@ -1,6 +1,9 @@
 import React from 'react';
 
-export default class Header extends React.Component {
+/**
+ * Represents a header.
+ */
+class Header extends React.Component {
 
     render() {
         return (
@@ -11,3 +14,5 @@ export default class Header extends React.Component {
     }
 
 }
+
+export default Header;

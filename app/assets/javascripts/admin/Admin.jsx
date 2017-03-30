@@ -7,8 +7,18 @@ import Classes from './userclasses/Classes.jsx';
 import {browserHistory} from 'react-router';
 import {changeTab} from './../redux/actions/adminTabActions.jsx';
 
+/**
+ * Class represents the admin page.
+ * Controls a Tabs component, Material-UI.
+ * Parent: {@link Root}
+ * Children: {@link Users} and {@link Classes}
+ */
 class Admin extends React.Component {
 
+    /**
+     * Binds '/admin', '/admin/users' and '/admin/classes' to different tabs.
+     * @param {json} props
+     */
     constructor(props) {
         super(props);
 
@@ -20,13 +30,20 @@ class Admin extends React.Component {
             tabContent: {
 
             }
-        };
+        }
     }
 
+    /**
+     * Called when the component did mount.
+     */
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
     }
 
+    /**
+     * Pushes an url when a tab is changed.
+     * @param {string} url
+     */
     handleActive(url) {
         browserHistory.push(url)
     }

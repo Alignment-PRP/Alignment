@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
@@ -8,6 +7,9 @@ import {Link} from 'react-router';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
+/**
+ * Represents the sidebar menu.
+ */
 class Sidebar extends React.Component {
 
     constructor(props) {
@@ -52,6 +54,9 @@ class Sidebar extends React.Component {
         this.state = {open: false};
     }
 
+    /**
+     * Called when the sidebar should open.
+     */
     open() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(220px, 0)';
@@ -60,6 +65,9 @@ class Sidebar extends React.Component {
         this.setState({open: true});
     }
 
+    /**
+     * Called when the sidebar should close.
+     */
     close() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(0, 0)';

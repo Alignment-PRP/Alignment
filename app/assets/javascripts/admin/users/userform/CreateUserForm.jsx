@@ -5,6 +5,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserFormPass as validate} from './../../render.jsx';
 
+/**
+ * Redux-form form for creating users.
+ */
 class CreateUserForm extends React.Component {
 
     render() {
