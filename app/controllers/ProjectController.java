@@ -185,20 +185,23 @@ public class ProjectController extends Controller {
             return unauthorized(views.html.login.render());
         }
         final JsonNode values = request().body().asJson();
+        System.out.println(values);
         Integer PID = values.get("PID").asInt();
         Integer RID = values.get("RID").asInt();
-
         JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
-        String managerID = project.get("managerID").asText();
-        String creatorID = project.get("creatorID").asText();
+        System.out.println(project);
+        String managerID = project.get(0).get("managerID").asText();
+        String creatorID = project.get(0).get("creatorID").asText();
+        System.out.println(managerID + " " + creatorID);
 
         JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
-        String className = userClass.get("NAME").asText();
+        System.out.println(userClass);
+        String className = userClass.get(0).get("NAME").asText();
 
         JsonNode hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, PID);
 
         //Checks if the connected user has permission to delete
-        if((userID != managerID) || (userID != creatorID) || hasAccess.get("bool").asInt() < 1){
+        if(!((userID != managerID) || (userID != creatorID) || hasAccess.get("bool").asInt() < 1)){
             return unauthorized("You do not have permission to delete a project requirement ");
         }
 

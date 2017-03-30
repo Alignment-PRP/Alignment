@@ -150,7 +150,7 @@ public enum Statement {
     INSERT_USER("INSERT INTO Users (firstName, lastName, email, USERNAME, pass) VALUES (?,?,?,?,?)"),
     GET_USER_CLASS_BY_USERNAME("" +
             "SELECT * " +
-            "FROM UserClass AS uc" +
+            "FROM UserClass AS uc " +
             "INNER JOIN UserHasClass AS uhc " +
             "ON uhc.NAME = uc.NAME " +
             "INNER JOIN Users AS u " +
