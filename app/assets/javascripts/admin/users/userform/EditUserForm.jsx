@@ -6,6 +6,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserForm as validate} from './../../render.jsx';
 
+/**
+ * Redux-form for editing users.
+ */
 class EditUserForm extends React.Component {
 
     render() {

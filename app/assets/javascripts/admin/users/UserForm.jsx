@@ -4,7 +4,12 @@ import UserInForm from './userform/UserInForm.jsx';
 import EditUserForm from './userform/EditUserForm.jsx';
 import CreateUserForm from './userform/CreateUserForm.jsx';
 
-export default class UserForm extends React.Component {
+/**
+ * Class represents a multi-form.
+ * Renders different components based on global state.
+ * Parent: {@link Users}
+ */
+class UserForm extends React.Component {
 
     render() {
         const {
@@ -27,3 +32,5 @@ export default class UserForm extends React.Component {
     }
 
 }
+
+export default UserForm;

@@ -18,6 +18,15 @@ import {
     getUserClasses
 } from './userActions.jsx';
 
+/**
+ * Contains action creators for {@link ClassForm}
+ * @module redux/actions/classForm
+ */
+
+/**
+ * @param {string} mode
+ * @returns {{type, payload: *}}
+ */
 export function changeClassFormMode(mode) {
     return {
         type: CHANGE_CLASS_FORM_MODE,
@@ -25,6 +34,10 @@ export function changeClassFormMode(mode) {
     }
 }
 
+/**
+ * @param {Object} uclass
+ * @returns {{type, payload: *}}
+ */
 export function classClicked(uclass) {
     return {
         type: CLASS_CLICKED,
@@ -32,6 +45,10 @@ export function classClicked(uclass) {
     }
 }
 
+/**
+ * @param {json} data
+ * @returns {{type, payload: *}}
+ */
 export function fillClassForm(data) {
     return {
         type: FILL_CLASS_FORM,
@@ -39,6 +56,11 @@ export function fillClassForm(data) {
     }
 }
 
+/**
+ * @param {boolean} bool
+ * @param {string} text
+ * @returns {{type, payload: {open: *, text: *}}}
+ */
 export function snackBar(bool, text) {
     return {
         type: SNACKBAR,
@@ -46,6 +68,10 @@ export function snackBar(bool, text) {
     }
 }
 
+/**
+ * @param {json} data
+ * @returns {function(*)}
+ */
 export function postClassNew(data){
     return dispatch => {
         axios.post(USERCLASS_POST_NEW, data)
@@ -68,6 +94,10 @@ function postClassNewAsync() {
     }
 }
 
+/**
+ * @param {json} data
+ * @returns {function(*)}
+ */
 export function postClassUpdate(data){
     return dispatch => {
         axios.post(USERCLASS_POST_UPDATE, data)
@@ -91,6 +121,10 @@ function postClassUpdateAsync() {
     }
 }
 
+/**
+ * @param {json} data
+ * @returns {function(*)}
+ */
 export function postClassDelete(data){
     return dispatch => {
         axios.post(USERCLASS_POST_DELETE, data)

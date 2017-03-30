@@ -6,6 +6,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderMultiTextField, renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../../render.jsx';
 
+/**
+ * Redux-form for displaying a form filled with classdata.
+ * All fields are disabled.
+ */
 class ClassInForm extends React.Component {
 
     render() {

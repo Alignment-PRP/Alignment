@@ -7,8 +7,16 @@ import { changeUserFormMode, userClicked, fillForm, snackBar, postUserNew, postU
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
 
+/**
+ * Class represents /admin/users.
+ * Parent: {@link Admin}
+ * Children: {@link UserForm} and {@link UserTable}
+ */
 class Users extends React.Component {
 
+    /**
+     * Called when the component did mount.
+     */
     componentDidMount() {
         this.props.changeUserFormMode("EMPTY");
         this.props.getUsersWithClass();
@@ -16,6 +24,9 @@ class Users extends React.Component {
         this.props.changeSideMenuMode("HIDE");
     }
 
+    /**
+     * Closes the snackbar.
+     */
     closeSnack() {
         this.props.snackBar(false, "");
     }

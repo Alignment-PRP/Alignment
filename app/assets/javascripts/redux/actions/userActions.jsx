@@ -2,6 +2,16 @@ import axios from 'axios';
 import * as URLS from './../../config.jsx';
 import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types.jsx';
 
+/**
+ * Contains action creators for fetching userdata from the server.
+ * @module redux/actions/user
+ * @see {@link redux/reducers/user}
+ */
+
+/**
+ * Fetches userdata for the connected user.
+ * @returns {json} Data for the connected user.
+ */
 export function getUserData() {
     return dispatch => {
         axios.get(URLS.USER_GET)
@@ -23,6 +33,10 @@ function getUserDataAsync(data) {
     }
 }
 
+/**
+ * Fetches all userdata.
+ * @returns {json} List with all users.
+ */
 export function getUsers() {
     return dispatch => {
         axios.get(URLS.USERS_GET)
@@ -45,6 +59,10 @@ function getUsersAsync(data) {
     }
 }
 
+/**
+ * Fetches all userdata with related userclass.
+ * @returns {json} List with all userdata with userclass.
+ */
 export function getUsersWithClass() {
     return dispatch => {
         axios.get(URLS.USERS_GET_WITH_CLASS)
@@ -67,6 +85,10 @@ function getUsersWithClassAsync(data) {
     }
 }
 
+/**
+ * Fetches all userclasses.
+ * @returns {json} List with userclass data.
+ */
 export function getUserClasses() {
     return dispatch => {
         axios.get(URLS.USER_GET_USERCLASSES)
