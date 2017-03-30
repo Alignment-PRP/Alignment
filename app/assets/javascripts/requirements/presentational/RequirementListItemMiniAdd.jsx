@@ -10,7 +10,6 @@ export default class RequirementListItemMiniAdd extends React.Component {
                 <td>{requirement.description}</td>
                 <td><button onClick={() => this.props.onClickHandler(requirement)}>Legg til</button></td>
             </tr>
-
         );
     }
 }
