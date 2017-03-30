@@ -1,3 +1,7 @@
+/**
+ * Contains action types for redux.
+ * @module redux/types
+ */
 
 //Project
 export const GET_ALL_PROJECTS = "GET_ALL_PROJECTS";
@@ -26,8 +30,14 @@ export const CHANGE_USER_FORM_MODE = "CHANGE_USER_FORM_MODE";
 export const USER_CLICKED = "USER_CLICKED";
 export const FILL_FORM = "FILL_FORM";
 export const SNACKBAR = "SNACKBAR";
+export const POST_USER_NEW = "POST_USER_NEW";
+export const POST_USER_UPDATE = "POST_USER_UPDATE";
+export const POST_USER_DELETE = "POST_USER_DELETE";
 
 //Classform
 export const CHANGE_CLASS_FORM_MODE = "CHANGE_CLASS_FORM_MODE";
 export const CLASS_CLICKED = "CLASS_CLICKED";
 export const FILL_CLASS_FORM = "FILL_CLASS_FORM";
+export const POST_CLASS_NEW = "POST_CLASS_NEW";
+export const POST_CLASS_UPDATE = "POST_CLASS_UPDATE";
+export const POST_CLASS_DELETE = "POST_CLASS_DELETE";
