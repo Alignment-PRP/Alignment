@@ -7,14 +7,25 @@ import { changeClassFormMode, classClicked, fillClassForm, snackBar, postClassNe
 import ClassTable from './ClassTable.jsx';
 import ClassForm from './ClassForm.jsx';
 
+/**
+ * Class represents /admin/classes.
+ * Parent: {@link Admin}
+ * Children: {@link ClassForm} and {@link ClassTable}
+ */
 class Classes extends React.Component {
 
+    /**
+     * Called when the component did mount.
+     */
     componentDidMount() {
         this.props.changeClassFormMode("EMPTY");
         this.props.getUserClasses();
         this.props.changeSideMenuMode("HIDE");
     }
 
+    /**
+     * Closes the snackbar.
+     */
     closeSnack() {
         this.props.snackBar(false, "");
     }

@@ -17,6 +17,15 @@ import {
     getUsersWithClass,
 } from './userActions.jsx';
 
+/**
+ * Contains action creators for {@link UserForm}
+ * @module redux/actions/userForm
+ */
+
+/**
+ * @param {string} mode
+ * @returns {{type, payload: *}}
+ */
 export function changeUserFormMode(mode) {
     return {
         type: CHANGE_USER_FORM_MODE,
@@ -24,6 +33,10 @@ export function changeUserFormMode(mode) {
     }
 }
 
+/**
+ * @param {Object} user
+ * @returns {{type, payload: *}}
+ */
 export function userClicked(user) {
     return {
         type: USER_CLICKED,
@@ -31,6 +44,10 @@ export function userClicked(user) {
     }
 }
 
+/**
+ * @param {json} data
+ * @returns {{type, payload: *}}
+ */
 export function fillForm(data) {
     return {
         type: FILL_FORM,
@@ -38,6 +55,11 @@ export function fillForm(data) {
     }
 }
 
+/**
+ * @param {boolean} bool
+ * @param {string} text
+ * @returns {{type, payload: {open: *, text: *}}}
+ */
 export function snackBar(bool, text) {
     return {
         type: SNACKBAR,
@@ -45,6 +67,10 @@ export function snackBar(bool, text) {
     }
 }
 
+/**
+ * @param {string} data
+ * @returns {function(*)}
+ */
 export function postUserNew(data){
     return dispatch => {
         axios.post(USER_POST_NEW, data)
@@ -67,6 +93,10 @@ function postUserNewAsync() {
     }
 }
 
+/**
+ * @param {string} data
+ * @returns {function(*)}
+ */
 export function postUserUpdate(data){
     return dispatch => {
         axios.post(USER_POST_UPDATE, data)
@@ -89,6 +119,10 @@ function postUserUpdateAsync() {
     }
 }
 
+/**
+ * @param {string} data
+ * @returns {function(*)}
+ */
 export function postUserDelete(data){
     return dispatch => {
         axios.post(USER_POST_DELETE, data)

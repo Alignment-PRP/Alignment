@@ -5,6 +5,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderMultiTextField} from './../../render.jsx';
 
+/**
+ * Redux-form for displaying an empty form with class related fields.
+ */
 class EmptyClassForm extends React.Component {
 
     render() {

@@ -4,7 +4,12 @@ import ClassInForm from './classform/ClassInForm.jsx';
 import EditClassForm from './classform/EditClassForm.jsx';
 import CreateClassForm from './classform/CreateClassForm.jsx';
 
-export default class ClassForm extends React.Component {
+/**
+ * Class represents a multi-form.
+ * Renders different components based on global state.
+ * Parent: {@link Classes}
+ */
+class ClassForm extends React.Component {
 
     render() {
         const {
@@ -27,3 +32,5 @@ export default class ClassForm extends React.Component {
     }
 
 }
+
+export default ClassForm;

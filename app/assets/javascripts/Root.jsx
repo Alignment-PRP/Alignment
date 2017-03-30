@@ -3,7 +3,11 @@ import Header from './layout/Header.jsx';
 import Sidebar from './layout/Sidebar.jsx';
 import SideMenu from './sidemenu/SideMenu.jsx';
 
-export default class Root extends React.Component {
+/**
+ * Root container for the application.
+ * Contains {@link Sidebar}, {@link Header} and {@link SideMenu}
+ */
+class Root extends React.Component {
 
     render() {
         return (
@@ -21,3 +25,5 @@ export default class Root extends React.Component {
     }
 
 }
+
+export default Root;

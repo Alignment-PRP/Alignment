@@ -1,3 +1,7 @@
+/**
+ * Contains action types for redux.
+ * @module redux/types
+ */
 
 //Project
 export const GET_ALL_PROJECTS = "GET_ALL_PROJECTS";

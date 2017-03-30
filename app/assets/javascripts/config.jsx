@@ -1,3 +1,7 @@
+/**
+ * Contains constants for API related routes.
+ * @module config
+ */
 
 export const URL = "http://localhost:9000/";
 export const API = URL + "api";
