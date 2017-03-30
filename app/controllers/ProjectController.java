@@ -173,6 +173,42 @@ public class ProjectController extends Controller {
     }
 
     /**
+     * Removes a project requirement from a project.
+     * NB!: This will delete the fields specific to that project requirement.
+     * @return Result 200 Ok or 401 Unauthorized
+     * If 200 OK the body contains "Project Requirement deleted"
+     */
+    public Result deleteProjectRequirement(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        final JsonNode values = request().body().asJson();
+        Integer PID = values.get("PID").asInt();
+        Integer RID = values.get("RID").asInt();
+
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
+        String managerID = project.get("managerID").asText();
+        String creatorID = project.get("creatorID").asText();
+
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get("NAME").asText();
+
+        JsonNode hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, PID);
+
+        //Checks if the connected user has permission to delete
+        if((userID != managerID) || (userID != creatorID) || hasAccess.get("bool").asInt() < 1){
+            return unauthorized("You do not have permission to delete a project requirement ");
+        }
+
+        qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENT, PID, RID);
+
+
+        return ok("Project Requirement deleted");
+    }
+
+    /**
      * Function for testing, just a form to POST a new project requirement
      * @return 200 OK with a form to add project requirement
      */
