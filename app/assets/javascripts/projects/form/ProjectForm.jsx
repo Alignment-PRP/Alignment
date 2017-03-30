@@ -8,6 +8,10 @@ import {renderTextField, renderCheckbox, validateProjectForm as validate} from '
 
 /**
  * Redux-form for project creation.
+ * @see Projects
+ * @see module:admin/render.validateProjectForm
+ * @see module:admin/render.renderTextField
+ * @see module:admin/render.renderCheckbox
  */
 class ProjectForm extends React.Component {
 

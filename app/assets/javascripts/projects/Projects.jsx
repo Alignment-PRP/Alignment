@@ -7,8 +7,12 @@ import ProjectTable from './presentational/ProjectTable.jsx';
 import ProjectForm from './form/ProjectForm.jsx';
 import Snackbar from 'material-ui/Snackbar';
 
-
-
+/**
+ * Class represents /projects.
+ * @see ProjectTable
+ * @see ProjectForm
+ * @see Project
+ */
 class Projects extends React.Component {
 
     componentDidMount(){
