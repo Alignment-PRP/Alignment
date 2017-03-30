@@ -17,7 +17,9 @@ class Admin extends React.Component {
 
     /**
      * Binds '/admin', '/admin/users' and '/admin/classes' to different tabs.
-     * @param {json} props
+     * @param {Object} props
+     * @param {number} props.index
+     * @param {function(*)} props.changeTab - {@link module:redux/actions/adminTab.changeTab}
      */
     constructor(props) {
         super(props);
