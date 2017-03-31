@@ -8,10 +8,87 @@ import Checkbox from 'material-ui/Checkbox';
  * Contains functions for rendering and
  * form-validation to use in redux-form components.
  * @module admin/render
+ *
+ * @example
+ * import React from 'react';
+ * import { Field, reduxForm } from 'redux-form';
+ * import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+ * import {
+ *      renderTextField,
+ *      renderPassField,
+ *      renderSelectField,
+ *      renderCheckBox,
+ *      renderMultiTextField,
+ *      warnNumberField
+ * } from 'render.jsx';
+ *
+ * const validate = values => {
+ *      const errors = {};
+ *      const requiredField = [ 'textField', 'numberField', 'passField', 'multiTextField', 'selectField' ];
+ *      requiredField.forEach(field => {
+ *          if (!values[ field ]) {
+ *              errors[ field ] = 'Må fylles';
+ *          }
+ *          if (field === 'numberField' && !/^\d+$/.test(values[field])) {
+ *              errors[ field ] = "Må være et tall."
+ *          }
+ *      });
+ *      return errors;
+ * }
+ *
+ * class Form extends React.Component {
+ *      render() {
+ *          const { handleSubmit, pristine, reset, submitting } = this.props;
+ *          return(
+ *              <MuiThemeProvider>
+ *                  <form onSubmit={handleSubmit}>
+ *                      <Field
+ *                          name="textField"
+ *                          label="TextField"
+ *                          component={renderTextField}
+ *                      />
+ *                      <Field
+ *                          name="numberField"
+ *                          label="NumberField"
+ *                          warn={warnNumberField}
+ *                          component={renderTextField}
+ *                      />
+ *                      <Field
+ *                          name="passField"
+ *                          label="PassField"
+ *                          component={renderPassField}
+ *                      />
+ *                      <Field
+ *                          name="multiTextField"
+ *                          label="MultiTextField"
+ *                          component={renderMultiTextField}
+ *                      />
+ *                      <Field
+ *                          name="selectField"
+ *                          label="SelectField"
+ *                          component={renderSelectField}
+ *                      >
+ *                          <MenuItem key={1} value="Value1" primaryText={Value 1}/>
+ *                          <MenuItem key={2} value="Value2" primaryText={Value 2}/>
+ *                      </Field>
+ *                      <button type="submit" disabled={pristine || submitting}>Submit</button>
+ *                      <button type="button" disabled={pristine || submitting} onClick={reset}>Clear</button>
+ *                  </form>
+ *              </MuiThemeProvider>
+ *          );
+ *      }
+ * }
+ *
+ * export default reduxForm({
+ *      form: 'Form',
+ *      validate,
+ * })(Form);
+ *
  */
 
 /**
  * Sends a warning to the field if the value is not a number.
+ * @function
  * @param {string} value
  * @returns {string}
  */
@@ -147,12 +224,13 @@ export const menuItemsClasses = (classes) => {
  * Renders a SelectField from Material-UI.
  * Redux-form injects parameters.
  * @function
- * @param input
- * @param label
- * @param touched
- * @param error
- * @param children
- * @param custom
+ * @param {Array} input
+ * @param {string} label
+ * @param {Object} meta
+ * @param {boolean} meta.touched
+ * @param {string} meta.error
+ * @param {Array} children
+ * @param {Array} custom
  */
 export const renderSelectField = ({ input, label, meta: { touched, error }, children, ...custom }) => (
     <SelectField
@@ -170,9 +248,10 @@ export const renderSelectField = ({ input, label, meta: { touched, error }, chil
  * @function
  * @param {Array} input
  * @param {string} label
- * @param {boolean} touched
- * @param {string} error
- * @param {string} warning
+ * @param {Object} meta
+ * @param {boolean} meta.touched
+ * @param {string} meta.error
+ * @param {string} meta.warning
  * @param {Array} custom
  */
 export const renderTextField = ({ input, label, meta: { touched, error, warning }, ...custom }) => (
@@ -188,11 +267,12 @@ export const renderTextField = ({ input, label, meta: { touched, error, warning 
  * Renders a TextField from Material-UI with multiLine={true}.
  * Redux-form injects parameters.
  * @function
- * @param input
- * @param label
- * @param touched
- * @param error
- * @param custom
+ * @param {Array} input
+ * @param {string} label
+ * @param {Object} meta
+ * @param {boolean} meta.touched
+ * @param {string} meta.error
+ * @param {Array} custom
  */
 export const renderMultiTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
     <TextField hintText={label}
@@ -209,11 +289,12 @@ export const renderMultiTextField = ({ input, label, meta: { touched, error }, .
  * Renders a TextField from Material-UI with type="password".
  * Redux-form injects parameters.
  * @function
- * @param input
- * @param label
- * @param touched
- * @param error
- * @param custom
+ * @param {Array} input
+ * @param {string} label
+ * @param {Object} meta
+ * @param {boolean} meta.touched
+ * @param {string} meta.error
+ * @param {Array} custom
  */
 export const renderPassField = ({ input, label, meta: { touched, error }, ...custom }) => (
     <TextField hintText={label}
@@ -229,11 +310,12 @@ export const renderPassField = ({ input, label, meta: { touched, error }, ...cus
  * Renders a CheckBox from Material-UI.
  * Redux-form injects arguments.
  * @function
- * @param input
- * @param label
- * @param touched
- * @param error
- * @param custom
+ * @param {Array} input
+ * @param {string} label
+ * @param {Object} meta
+ * @param {boolean} meta.touched
+ * @param {string} meta.error
+ * @param {Array} custom
  */
 export const renderCheckbox = ({ input, label, meta: { touched, error }, ...custom }) => (
     <Checkbox label={label}
