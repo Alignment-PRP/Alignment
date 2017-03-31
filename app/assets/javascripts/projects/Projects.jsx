@@ -42,7 +42,7 @@ class Projects extends React.Component {
                         disabled={mode}
                         onSubmit={postProjectNew}
                         handleCreate={() => {fillProjectForm({}); changeProjectFormMode(false)}}
-                        handleClear={() => {fillProjectForm({}); changeProjectFormMode(true)}}
+                        handleClear={() => {changeProjectFormMode(true)}}
                     />
                 </div>
                 <div className="usertable">
