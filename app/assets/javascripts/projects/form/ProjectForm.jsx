@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderCheckbox, validateProjectForm as validate} from './../../admin/render.jsx';
+import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from './../../admin/render.jsx';
 
 /**
  * Redux-form for project creation.
@@ -34,6 +34,7 @@ class ProjectForm extends React.Component {
                             name="securityLevel"
                             label="Sikkerhetsnivå"
                             disabled={disabled}
+                            warn={warnNumberField}
                             component={renderTextField}
                         />
                         <Field
