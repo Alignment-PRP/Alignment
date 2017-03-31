@@ -120,7 +120,7 @@ export const normalizeNumberField = value => {
  */
 export const validateProjectForm = (values) => {
     const errors = {};
-    const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle', 'isPublic' ];
+    const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle'];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Må fylles'
