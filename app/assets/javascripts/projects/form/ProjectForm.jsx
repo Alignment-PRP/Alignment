@@ -18,7 +18,7 @@ class ProjectForm extends React.Component {
     render() {
         const {
             handleSubmit, handleCreate, handleClear,
-            disabled,
+            disabled, pristine, reset, submitting
         } = this.props;
         return(
             <MuiThemeProvider>
@@ -61,9 +61,9 @@ class ProjectForm extends React.Component {
                             disabled={disabled}
                             component={renderCheckbox}
                         />
-                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={disabled}/>
+                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
                         <RaisedButton className="form-button" secondary={true} label="Lag prosjekt" disabled={!disabled} onClick={handleCreate}/>
-                        <RaisedButton className="form-button" label="Tilbakestill" disabled={disabled} onClick={handleClear}/>
+                        <RaisedButton className="form-button" label="Tilbakestill" disabled={disabled} onClick={() => {reset(); handleClear()}}/>
                     </form>
                 </Paper>
             </MuiThemeProvider>
