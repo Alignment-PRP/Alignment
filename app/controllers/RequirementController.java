@@ -156,6 +156,16 @@ public class RequirementController extends Controller{
         return ok(req);
     }*/
 
+    public Result getStatistics(){
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        JsonNode rStats = qh.executeQuery(Statement.GET_REQUIREMENTS_STATISTICS);
+
+        return ok();
+    }
+
 
     @Deprecated //need to use ID to get categories now.
     public Result getRequirementsByCategoryName(String name){

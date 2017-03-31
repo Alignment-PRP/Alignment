@@ -56,6 +56,8 @@ public enum Statement {
             "ON sc.catID = c.ID " +
             "WHERE r.ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
+    GET_REQUIREMENTS_STATISTICS("" +
+            ""),
 
 
     //===========================================PROJECT=========================================================================

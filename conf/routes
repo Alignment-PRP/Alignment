@@ -49,6 +49,7 @@ POST    /api/requirement/category/add       controllers.AdminController.insertRe
 GET     /api/requirement/category/:id       controllers.RequirementController.getRequirementsByCategoryID(id: String)
 GET     /api/requirements/admin             controllers.AdminController.getReq()
 GET     /api/requirements                   controllers.RequirementController.getGlobalRequirements()
+GET     /api/requirements/statistics        controllers.RequirementController.getStatistics()
 
 POST    /api/category/add                   controllers.AdminController.insertRequirementCategory()
 GET     /api/category/all/names             controllers.RequirementController.getCategories()
