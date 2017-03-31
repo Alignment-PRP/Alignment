@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Checkbox from 'material-ui/Checkbox';
 
 /**
  * Contains functions for rendering and
@@ -10,9 +11,28 @@ import MenuItem from 'material-ui/MenuItem';
  */
 
 /**
+ * Validates {@link ProjectForm}.
+ * @see {@link ProjectForm}
+ * @function
+ * @param {Project} values
+ * @returns {{}}
+ */
+export const validateProjectForm = values => {
+    const errors = {};
+    const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle', 'isPublic' ];
+    requiredFields.forEach(field => {
+        if (!values[ field ]) {
+            errors[ field ] = 'Må fylles'
+        }
+    });
+    return errors
+};
+
+/**
  * Validates {@link CreateClassForm} and {@link EditClassForm}.
  * @see {@link CreateClassForm}
- * @param values
+ * @function
+ * @param {UserClass} values
  * @returns {{}}
  */
 export const validateClassForm = values => {
@@ -28,7 +48,9 @@ export const validateClassForm = values => {
 
 /**
  * Validates {@link ClassInForm} when delete is pressed.
- * @param values
+ * @function
+ * @param {UserClass} values
+ * @param {string} values.replacement
  * @returns {{}}
  */
 export const validateDeleteClassForm = values => {
@@ -44,7 +66,8 @@ export const validateDeleteClassForm = values => {
 
 /**
  * Validates {@link EditUserForm}.
- * @param values
+ * @function
+ * @param {User} values
  * @returns {{}}
  */
 export const validateUserForm = values => {
@@ -63,7 +86,9 @@ export const validateUserForm = values => {
 
 /**
  * Validates {@link CreateUserForm}.
- * @param values
+ * @function
+ * @param {User} value
+ * @param {string} values.pass
  * @returns {{}}
  */
 export const validateUserFormPass = values => {
@@ -82,7 +107,8 @@ export const validateUserFormPass = values => {
 
 /**
  * Maps UserClasses to MenuItem components.
- * @param classes
+ * @function
+ * @param {Array.<UserClass>} classes
  */
 export const menuItemsClasses = (classes) => {
     return classes.map((item, index) => {
@@ -93,6 +119,7 @@ export const menuItemsClasses = (classes) => {
 /**
  * Renders a SelectField from Material-UI.
  * Redux-form injects parameters.
+ * @function
  * @param input
  * @param label
  * @param touched
@@ -113,6 +140,7 @@ export const renderSelectField = ({ input, label, meta: { touched, error }, chil
 /**
  * Renders a TextField from Material-UI.
  * Redux-form injects parameters.
+ * @function
  * @param input
  * @param label
  * @param touched
@@ -131,6 +159,7 @@ export const renderTextField = ({ input, label, meta: { touched, error }, ...cus
 /**
  * Renders a TextField from Material-UI with multiLine={true}.
  * Redux-form injects parameters.
+ * @function
  * @param input
  * @param label
  * @param touched
@@ -148,6 +177,16 @@ export const renderMultiTextField = ({ input, label, meta: { touched, error }, .
     />
 );
 
+/**
+ * Renders a TextField from Material-UI with type="password".
+ * Redux-form injects parameters.
+ * @function
+ * @param input
+ * @param label
+ * @param touched
+ * @param error
+ * @param custom
+ */
 export const renderPassField = ({ input, label, meta: { touched, error }, ...custom }) => (
     <TextField hintText={label}
                floatingLabelText={label}
@@ -155,5 +194,23 @@ export const renderPassField = ({ input, label, meta: { touched, error }, ...cus
                type="password"
                {...input}
                {...custom}
+    />
+);
+
+/**
+ * Renders a CheckBox from Material-UI.
+ * Redux-form injects arguments.
+ * @function
+ * @param input
+ * @param label
+ * @param touched
+ * @param error
+ * @param custom
+ */
+export const renderCheckbox = ({ input, label, meta: { touched, error }, ...custom }) => (
+    <Checkbox label={label}
+              checked={input.value ? true : false}
+              onCheck={input.onChange}
+              {...custom}
     />
 );

@@ -4,9 +4,18 @@ import {GET_ALL_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
-        DELETE_REQUIREMENT_TO_PROJECT
+        DELETE_REQUIREMENT_TO_PROJECT,
+        POST_PROJECT_NEW,
 } from './../types.jsx';
+import {
+    changeProjectFormMode,
+    snackBar,
+} from './projectFormActions.jsx';
 
+/**
+ * Contains action creators for {@link Project} related data.
+ * @module redux/actions/project
+ */
 
 //All actions that changes the global state of the projectReducer is defined here.
 //Async methods need to get defined in two separate functions because the axios.get
@@ -121,5 +130,31 @@ export function deleteRequirementToProject(post){
 function deleteRequirementToProjectAsync() {
     return {
         type: DELETE_REQUIREMENT_TO_PROJECT
+    }
+}
+
+/**
+ * @param {Project} data
+ * @returns {function(*)}
+ */
+export function postProjectNew(data){
+    return dispatch => {
+        axios.post(URLS.PROJECT_POST_NEW, data)
+            .then(function (response) {
+                dispatch(getAllProjects());
+                dispatch(changeProjectFormMode(true));
+                dispatch(snackBar(true, "Prosjekt laget!"));
+            })
+            .catch(function (error) {
+                dispatch(snackBar(true, "Noe gikk galt.."));
+                console.log(error);
+            });
+        dispatch(postProjectNewAsync())
+    }
+}
+
+function postProjectNewAsync() {
+    return {
+        type: POST_PROJECT_NEW,
     }
 }
