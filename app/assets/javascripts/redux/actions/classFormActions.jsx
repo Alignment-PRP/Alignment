@@ -35,7 +35,7 @@ export function changeClassFormMode(mode) {
 }
 
 /**
- * @param {Object} uclass
+ * @param {UserClass} uclass
  * @returns {{type, payload: *}}
  */
 export function classClicked(uclass) {
@@ -46,7 +46,7 @@ export function classClicked(uclass) {
 }
 
 /**
- * @param {json} data
+ * @param {UserClass} data
  * @returns {{type, payload: *}}
  */
 export function fillClassForm(data) {
@@ -69,7 +69,7 @@ export function snackBar(bool, text) {
 }
 
 /**
- * @param {json} data
+ * @param {UserClass} data
  * @returns {function(*)}
  */
 export function postClassNew(data){
@@ -95,7 +95,8 @@ function postClassNewAsync() {
 }
 
 /**
- * @param {json} data
+ * @param {UserClass} data
+ * @param {string} data.oldNAME
  * @returns {function(*)}
  */
 export function postClassUpdate(data){
@@ -122,7 +123,8 @@ function postClassUpdateAsync() {
 }
 
 /**
- * @param {json} data
+ * @param {UserClass} data
+ * @param {string} data.replacement
  * @returns {function(*)}
  */
 export function postClassDelete(data){
