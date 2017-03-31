@@ -11,18 +11,45 @@ import Checkbox from 'material-ui/Checkbox';
  */
 
 /**
+ * Sends a warning to the field if the value is not a number.
+ * @param {string} value
+ * @returns {string}
+ */
+export const warnNumberField = value => {
+     if (value && !/^\d+$/.test(value)) {
+         return "Må være et tall."
+     }
+     return null;
+};
+
+/**
+ * Normalizes TextField with only numeric input.
+ * @function
+ * @param {string} value
+ * @returns {string} onlyNumbers
+ */
+export const normalizeNumberField = value => {
+    if (!value) return value;
+    const onlyNumbers = value.replace(/[^\d]/g, '');
+    return onlyNumbers;
+};
+
+/**
  * Validates {@link ProjectForm}.
  * @see {@link ProjectForm}
  * @function
  * @param {Project} values
  * @returns {{}}
  */
-export const validateProjectForm = values => {
+export const validateProjectForm = (values) => {
     const errors = {};
     const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle', 'isPublic' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Må fylles'
+        }
+        if (field === 'securityLevel' && !/^\d+$/.test(values[field])) {
+            errors[ field ] = "Må være et tall."
         }
     });
     return errors
@@ -141,16 +168,17 @@ export const renderSelectField = ({ input, label, meta: { touched, error }, chil
  * Renders a TextField from Material-UI.
  * Redux-form injects parameters.
  * @function
- * @param input
- * @param label
- * @param touched
- * @param error
- * @param custom
+ * @param {Array} input
+ * @param {string} label
+ * @param {boolean} touched
+ * @param {string} error
+ * @param {string} warning
+ * @param {Array} custom
  */
-export const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+export const renderTextField = ({ input, label, meta: { touched, error, warning }, ...custom }) => (
     <TextField hintText={label}
                floatingLabelText={label}
-               errorText={touched && error}
+               errorText={(touched && error) || warning}
                {...input}
                {...custom}
     />
