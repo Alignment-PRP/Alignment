@@ -57,6 +57,12 @@ public enum Statement {
             "WHERE r.ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
 
+    DELETE_HAS_STRUCTURE("DELETE FROM HasStructure WHERE RID = ?"),
+    DELETE_REQUIREMENT_METADATA("DELETE FROM RequirementMetaData WHERE RID = ?"),
+    DELETE_HAS_SUB_CATEGORY("DELETE FROM HasSubCategory WHERE RID = ?"),
+    DELETE_PROJECT_REQUIREMENTS_BY_RID("DELETE FROM ProjectRequirements WHERE RID = ? "),//TODO: This is unfortunate.
+    DELETE_GLOBAL_REQUIREMENT("DELETE FROM Requirements WHERE ID = ?"),
+
 
     //===========================================PROJECT=========================================================================
     GET_PROJECT_REQUIREMENTS("" +
@@ -102,6 +108,12 @@ public enum Statement {
      * ==========================================PROJECT=========================================================================
      * ==========================================================================================================================
      */
+    DELETE_PROJECT("" +
+            "DELETE FROM Project WHERE ID = ? "),
+    DELETE_PROJECT_METADATA("" +
+            "DELETE FROM ProjectMetaData WHERE PID = ? "),
+    DELETE_HAS_ACCESS("DELETE FROM HasAccess WHERE PID = ? "),
+    DELETE_PROJECT_REQUIREMENTS_BY_PID("DELETE FROM ProjectRequirements WHERE PID = ? "),
 
     PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
     GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
@@ -135,7 +147,7 @@ public enum Statement {
     INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, isPublic) VALUES(?,?,?,?)"),
     INSERT_PROJECT_META_DATA("INSERT INTO ProjectMetaData (PID, securityLevel, transactionVolume, userChannel, deploymentStyle) VALUES(?,?,?,?,?)"),
     INSERT_HAS_ACCESS("INSERT INTO HasAccess (NAME, PID) VALUES(?,?)"),
-    DELETE_PROJECT_REQUIREMENT("" +
+    DELETE_PROJECT_REQUIREMENT_BY_RID_PID("" +
             "DELETE FROM ProjectRequirements " +
             "WHERE PID = ? AND RID = ?"),
 
