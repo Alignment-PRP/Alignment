@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import RequirementListItemCheckbox from './presentational/RequirementListItemCheckbox.jsx';
-import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
-import { getAllCategoryNames } from "../redux/actions/requirementActions.jsx";
+import RequirementListItem from './presentational/RequirementListItem.jsx';
+import { getAllRequirements, getAllCategoryNames, deleteRequirement } from "../redux/actions/requirementActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
 class AllRequirements extends React.Component {
@@ -21,7 +20,7 @@ class AllRequirements extends React.Component {
             renderRequirement = this.props.filterRequirementList;
         }
         return renderRequirement.map((item, index) => {
-            return <RequirementListItemCheckbox key={index} requirement={item}/>
+            return <RequirementListItem deleteRequirement={this.props.deleteRequirement} key={index} requirement={item}/>
             }
         )
     }
@@ -68,6 +67,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getAllCategoryNames: () => {
             dispatch(getAllCategoryNames())
+        },
+        deleteRequirement: (id) => {
+            dispatch(deleteRequirement(id))
         }
     };
 };

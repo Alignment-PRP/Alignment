@@ -28,6 +28,7 @@ export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
 export const PROJECT_GET_BY_ID = PROJECT + "/";
+export const PROJECT_DELETE_BY_ID = PROJECT + "/delete";
 
 export const PROJECTS = API + "/projects";
 export const PROJECTS_GET = PROJECTS;
@@ -45,6 +46,7 @@ export const PROJECT_REQUIREMENTS_GET_BY_ID = PROJECT_REQUIREMENTS + "/";
 export const REQUIREMENT = API + "/requirement";
 export const REQUIREMENT_POST_ADD = REQUIREMENT + "/add";
 export const REQUIREMENT_POST_UPDATE = REQUIREMENT + "/update";
+export const REQUIREMENT_POST_DELETE = REQUIREMENT + "/delete";
 export const REQUIREMENT_CATEGORY = REQUIREMENT + "/category";
 export const REQUIREMENT_POST_CATEGORY_ADD = REQUIREMENT_CATEGORY + "/add";
 export const REQUIREMENT_GET_CATEGORY_BY_ID = REQUIREMENT_CATEGORY + "/";
