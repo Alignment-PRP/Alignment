@@ -10,8 +10,6 @@ import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -270,7 +268,35 @@ public class AdminController extends Controller {
         return ok(views.html.addRequirementCategory.render());
     }
 
-    //================================ DELETE PROJECT =======================================
+    //================================ DELETE =======================================
+
+    public Result deleteRequirement(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        final JsonNode values = request().body().asJson();
+        Integer RID = values.get("RID").asInt();
+
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
+        //Checks if the connected user has permission to delete
+        if(className != "Admin"){
+            return unauthorized("You do not have permission to delete requirements.");
+        }
+
+        qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, RID);
+        qh.executeUpdate(Statement.DELETE_REQUIREMENT_METADATA, RID);
+        qh.executeUpdate(Statement.DELETE_HAS_SUB_CATEGORY, RID);
+        qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENTS_BY_RID, RID);//TODO: This is unfortunate.
+        qh.executeUpdate(Statement.DELETE_GLOBAL_REQUIREMENT, RID);
+
+
+        return ok("Global Requirement and all related data deleted");
+    }
+
     /*public Result deleteProjects(){
         return ok(views.html.deleteProject.render());
     }
