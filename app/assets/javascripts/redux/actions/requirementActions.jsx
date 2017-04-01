@@ -4,7 +4,8 @@ import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
-        UPDATE_REQUIREMENT
+        UPDATE_REQUIREMENT,
+        DELETE_REQUIREMENT
 } from './../types.jsx';
 
 export function getAllRequirements() {
@@ -69,5 +70,30 @@ export function updateRequirement(requirement) {
     return {
         type: UPDATE_REQUIREMENT,
         payload: requirement
+    }
+}
+
+export function deleteRequirement(id){
+
+    //Create JSON
+    const post = {
+        RID: id
+    };
+
+    return dispatch => {
+        axios.post(URLS.REQUIREMENT_POST_DELETE, post)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(deleteRequirementAsync())
+    }
+}
+
+function deleteRequirementAsync(){
+    return{
+        type: DELETE_REQUIREMENT
     }
 }

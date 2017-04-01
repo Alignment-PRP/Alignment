@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { getAllProjects, postProjectNew } from "../redux/actions/projectActions.jsx";
+import { getAllProjects, postProjectNew, deleteProject } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import {changeProjectFormMode, projectClicked, fillProjectForm, snackBar} from './../redux/actions/projectFormActions.jsx';
+import { changeProjectFormMode, projectClicked, fillProjectForm, snackBar } from './../redux/actions/projectFormActions.jsx';
 import ProjectTable from './presentational/ProjectTable.jsx';
 import ProjectForm from './form/ProjectForm.jsx';
 import Snackbar from 'material-ui/Snackbar';
@@ -46,7 +46,7 @@ class Projects extends React.Component {
                     />
                 </div>
                 <div className="usertable">
-                    <ProjectTable projects={projects} projectClicked={() => {}}/>
+                    <ProjectTable projects={projects} projectClicked={() => {}} deleteProject={this.props.deleteProject}/>
                 </div>
                 <Snackbar
                     open={snack.open}
@@ -77,6 +77,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         postProjectNew: (data) => {
             dispatch(postProjectNew(data));
+        },
+        deleteProject: (id) => {
+            dispatch(deleteProject(id));
         },
         changeProjectFormMode: (mode) => {
             dispatch(changeProjectFormMode(mode));
