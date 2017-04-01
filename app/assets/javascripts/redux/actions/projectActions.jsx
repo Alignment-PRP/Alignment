@@ -5,6 +5,7 @@ import {GET_ALL_PROJECTS,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
         DELETE_REQUIREMENT_TO_PROJECT,
+        DELETE_PROJECT,
         POST_PROJECT_NEW,
 } from './../types.jsx';
 import {
@@ -156,5 +157,32 @@ export function postProjectNew(data){
 function postProjectNewAsync() {
     return {
         type: POST_PROJECT_NEW,
+    }
+}
+
+export function deleteProject(id){
+
+    //Create JSON
+    const post = {
+        PID: id
+    };
+
+    return dispatch => {
+        axios.post(URLS.PROJECT_DELETE_BY_ID, post)
+            .then(function (response) {
+                dispatch(getAllProjects());
+                dispatch(snackBar(true, "Prosjekt slettet!"));
+            })
+            .catch(function (error) {
+                dispatch(snackBar(true, "Noe gikk galt.."));
+                console.log(error);
+            });
+        dispatch(deleteProjectAsync())
+    }
+}
+
+function deleteProjectAsync(){
+    return{
+        type: DELETE_PROJECT
     }
 }

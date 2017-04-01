@@ -20,7 +20,10 @@ class ProjectTable extends React.Component {
                 <TableRowColumn>{item.name}</TableRowColumn>
                 <TableRowColumn>{item.creatorID}</TableRowColumn>
                 <TableRowColumn>{item.managerID}</TableRowColumn>
-                <TableRowColumn><Link to={PROJECT_GET_BY_ID + item.ID}><RaisedButton label="Endre"/></Link></TableRowColumn>
+                <TableRowColumn>
+                    <Link to={PROJECT_GET_BY_ID + item.ID}><RaisedButton label="Endre"/></Link>
+                    <RaisedButton secondary={true} onClick={() => this.props.deleteProject(item.ID)} label="Slett"/>
+                </TableRowColumn>
             </TableRow>
         })
     }
