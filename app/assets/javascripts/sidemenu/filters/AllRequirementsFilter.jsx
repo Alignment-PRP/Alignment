@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import { updateFilter } from '../../redux/actions/requirementActions.jsx';
-import { updateFilterRequirementList } from '../../redux/actions/requirementActions.jsx';
+import { updateFilter, updateFilterRequirementList, getAllCategoryNames  } from '../../redux/actions/requirementActions.jsx';
 
 class AllRequirementsFilter extends React.Component {
     constructor(props) {
@@ -12,6 +12,10 @@ class AllRequirementsFilter extends React.Component {
         this.updateMenuFilter = this.updateMenuFilter.bind(this);
         this.filterRequirementList = this.filterRequirementList.bind(this);
         this.generateFilterMenuCheckboxes = this.generateFilterMenuCheckboxes.bind(this);
+    }
+
+    componentDidMount(){
+        this.props.getAllCategoryNames()
     }
 
     filterRequirementList() {
@@ -79,9 +83,11 @@ class AllRequirementsFilter extends React.Component {
                     <li>Stimulus<input type="checkbox" name="placeholder"/></li>
                     <li>Artifact<input type="checkbox" name="placeholder"/></li>
                 </ul>
-                <button onClick={this.filterRequirementList}>Oppdater kravliste</button><br/>
+                <RaisedButton primary={true} onClick={this.filterRequirementList} label="Oppdater kravliste"/>
+                <br/>
+                <br/>
                 <h2><b>Krav Meny</b></h2>
-                <Link to="newrequirement"><button>Legg til nytt krav</button></Link>
+                <Link to="newrequirement"><RaisedButton primary={true} label="Nytt krav"/></Link>
             </div>
         );
     }
@@ -104,6 +110,9 @@ const mapDispatchToProps = (dispatch) => {
         updateFilterRequirementList: (newRequirementList) => {
             dispatch(updateFilterRequirementList(newRequirementList))
         },
+        getAllCategoryNames: () => {
+            dispatch(getAllCategoryNames())
+        }
     }
 };
 
