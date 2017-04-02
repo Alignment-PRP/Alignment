@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 import RequirementListItem from './RequirementListItem.jsx';
 
 class AllRequirements extends React.Component {
@@ -25,20 +26,26 @@ class AllRequirements extends React.Component {
         return (
             <div className="all-requirements-list">
                 <h2>Alle Krav</h2>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Beskrivelse</th>
-                        <th>Kommentar</th>
-                        <th>Category</th>
-                        <th>Sub Category</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                <Table>
+                    <TableHeader
+                        displaySelectAll={false}
+                        adjustForCheckbox={false}
+                    >
+                        <TableRow>
+                            <TableHeaderColumn>Navn</TableHeaderColumn>
+                            <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                            <TableHeaderColumn>Kategori</TableHeaderColumn>
+                            <TableHeaderColumn>Under Kategori</TableHeaderColumn>
+                            <TableHeaderColumn/>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody
+                        displayRowCheckbox={false}
+                        showRowHover={true}
+                    >
                     {this.generateRequirementList()}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         );
     }
