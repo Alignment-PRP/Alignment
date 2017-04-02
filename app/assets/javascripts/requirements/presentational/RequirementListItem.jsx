@@ -1,20 +1,24 @@
 import React from 'react';
+import { TableRow, TableRowColumn } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router';
 
 class RequirementListItem extends React.Component {
 
     render() {
-        const {requirement, updateRequirement, deleteRequirement } = this.props;
+        const {key, requirement, updateRequirement, deleteRequirement } = this.props;
         return (
-            <tr>
-                <td>{requirement.name}</td>
-                <td>{requirement.description}</td>
-                <td>{requirement.comment}</td>
-                <td>{requirement.cName}</td>
-                <td>{requirement.scName}</td>
-                <td><Link to="editrequirement"><button onClick={() => updateRequirement(requirement)}>Rediger</button></Link></td>
-                <td><button onClick={() => deleteRequirement(requirement.RID)}>Slett</button></td>
-            </tr>
+            <TableRow key={key}>
+                <TableRowColumn>{requirement.name}</TableRowColumn>
+                <TableRowColumn>{requirement.description}</TableRowColumn>
+                <TableRowColumn>{requirement.comment}</TableRowColumn>
+                <TableRowColumn>{requirement.cName}</TableRowColumn>
+                <TableRowColumn>{requirement.scName}</TableRowColumn>
+                <TableRowColumn>
+                    <Link to="editrequirement"><RaisedButton onClick={() => updateRequirement(requirement)} label="Rediger"/></Link>
+                    <RaisedButton secondary={true} onClick={() => deleteRequirement(requirement.RID)} label="Slett"/>
+                </TableRowColumn>
+            </TableRow>
         );
     }
 }
