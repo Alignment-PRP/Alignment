@@ -63,6 +63,17 @@ class Projects extends React.Component {
         }
     }
 
+    _title(mode) {
+        switch (mode) {
+            case "PUBLIC":
+                return <h2>Åpne Prosjekter</h2>;
+            case "PRIVATE":
+                return <h2>Mine Prosjekter</h2>;
+            case "ARCHIVED":
+                return <h2>Arkiverte Prosjekter</h2>;
+        }
+    }
+
     /**
      * Render method
      * @returns {XML}
@@ -85,6 +96,7 @@ class Projects extends React.Component {
                         handleNew={() => changeProjectFormMode(false)}
                     />
                     <div className="usertable">
+                        {this._title(tableMode)}
                         <ProjectTable projects={this._projects.bind(this, tableMode)()}/>
                     </div>
                     <ProjectFormDialog

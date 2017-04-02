@@ -12,9 +12,9 @@ import {PROJECT_GET_BY_ID} from './../../config.jsx';
 class ProjectTableRow extends React.Component {
 
     render() {
-        const { project, index } = this.props;
+        const { project, index, ...meta } = this.props;
         return (
-            <TableRow key={index}>
+            <TableRow key={index} {...meta}>
                 <TableRowColumn>{project.name}</TableRowColumn>
                 <TableRowColumn>{project.creatorID}</TableRowColumn>
                 <TableRowColumn>{project.managerID}</TableRowColumn>
