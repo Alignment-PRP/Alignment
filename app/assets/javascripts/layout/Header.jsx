@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import CircularProgress from 'material-ui/CircularProgress';
+
 
 import { getUserData } from '../redux/actions/userActions.jsx';
 
@@ -7,9 +9,32 @@ import { getUserData } from '../redux/actions/userActions.jsx';
  * Represents a header.
  */
 class Header extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            completed: 0,
+        };
+    }
 
     componentDidMount(){
         this.props.getUserData();
+        this.timer = setTimeout(() => this.progress(5), 1000);
+
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
+    progress(completed) {
+        if (completed > 100) {
+            this.setState({completed: 100});
+        } else {
+            this.setState({completed});
+            const diff = Math.random() * 10;
+            this.timer = setTimeout(() => this.progress(completed + diff), 1000);
+        }
     }
 
     UserData(){
@@ -35,10 +60,13 @@ class Header extends React.Component {
         }else {
             return (
                 <div id="user-info">
-                    <p>Loading userdata</p>
+                    <CircularProgress
+                        mode="determinate"
+                        value={this.state.completed}
+                    />
                 </div>
-                    )
-            }
+            )
+        }
     }
 
     render() {
