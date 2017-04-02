@@ -23,6 +23,7 @@ class ProjectForm extends React.Component {
         return(
             <MuiThemeProvider>
                 <Paper className="form-inner">
+                    <h2>Lag et prosjekt</h2>
                     <form onSubmit={handleSubmit} autoComplete="off">
                         <Field
                             name="name"
