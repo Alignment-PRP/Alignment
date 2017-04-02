@@ -34,6 +34,7 @@ class AllRequirements extends React.Component {
                         <TableRow>
                             <TableHeaderColumn>Navn</TableHeaderColumn>
                             <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                            <TableHeaderColumn>Kommentar</TableHeaderColumn>
                             <TableHeaderColumn>Kategori</TableHeaderColumn>
                             <TableHeaderColumn>Under Kategori</TableHeaderColumn>
                             <TableHeaderColumn/>
