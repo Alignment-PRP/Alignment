@@ -1,11 +1,14 @@
 import axios from 'axios';
 import * as URLS from './../../config.jsx';
-import {GET_ALL_PROJECTS,
+import {GET_PUBLIC_PROJECTS,
+        GET_PRIVATE_PROJECTS,
+        GET_ARCHIVED_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
         DELETE_REQUIREMENT_TO_PROJECT,
         POST_PROJECT_NEW,
+        CHANGE_PROJECTS_TABLE_MODE
 } from './../types.jsx';
 import {
     changeProjectFormMode,
@@ -13,14 +16,22 @@ import {
 } from './projectFormActions.jsx';
 
 /**
- * Contains action creators for {@link Project} related data.
+ * <p>
+ * All actions that changes the global state of the projectReducer is defined here.
+ * Async methods need to get defined in two separate functions because the axios.get
+ * method will take sometime before we want to send the data to the Reducer.
+ * This is made possible with react-thunk middleware.
+ * </p>
+ *
+ * <p>
+ * All actions returns a object with type: descriptive name of action,
+ * and payload: which hold the new data of the reducer(reducers holds the global state of the
+ * application.
+ * </p>
  * @module redux/actions/project
  */
 
-//All actions that changes the global state of the projectReducer is defined here.
-//Async methods need to get defined in two separate functions because the axios.get
-//method will take sometime before we want to send the data to the Reducer. This is made possible with react-thunk middleware.
-export function getAllProjects() {
+export function getPublicProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS)
             .then( response => {
@@ -29,24 +40,66 @@ export function getAllProjects() {
                     data.push(object);
                     return data
                 });
-                dispatch(getAllProjectsAsync(data))
+                dispatch(getPublicProjectsAsync(data))
             });
 
     }
 
 }
 
-
-//All actions returns a object with type: descriptive name of action,
-//and payload: which hold the new data of the reducer(reducers holds the global state of the
-//application.
-function getAllProjectsAsync(data) {
+function getPublicProjectsAsync(data) {
     return {
-        type: GET_ALL_PROJECTS,
+        type: GET_PUBLIC_PROJECTS,
         payload: data
     }
 }
 
+export function getPrivateProjects() {
+    return dispatch => {
+        axios.get(URLS.PROJECTS_GET_USER)
+            .then( response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                    return data
+                });
+                dispatch(getPrivateProjectsAsync(data))
+            });
+
+    }
+
+}
+
+function getPrivateProjectsAsync(data) {
+    return {
+        type: GET_PRIVATE_PROJECTS,
+        payload: data
+    }
+}
+
+
+export function getArchivedProjects() {
+    return dispatch => {
+        axios.get(URLS.PROJECTS_GET_USER)
+            .then( response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                    return data
+                });
+                dispatch(getArchivedProjectsAsync(data))
+            });
+
+    }
+
+}
+
+function getArchivedProjectsAsync(data) {
+    return {
+        type: GET_ARCHIVED_PROJECTS,
+        payload: data
+    }
+}
 
 export function getProjectById(id) {
     return dispatch => {
@@ -156,5 +209,16 @@ export function postProjectNew(data){
 function postProjectNewAsync() {
     return {
         type: POST_PROJECT_NEW,
+    }
+}
+
+/**
+ * @param {string} mode
+ * @returns {{type, payload: *}}
+ */
+export function changeProjectsTableMode(mode) {
+    return {
+        type: CHANGE_PROJECTS_TABLE_MODE,
+        payload: mode
     }
 }
