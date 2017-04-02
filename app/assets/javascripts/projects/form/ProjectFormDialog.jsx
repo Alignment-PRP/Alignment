@@ -5,9 +5,10 @@ import ProjectForm from './ProjectForm.jsx';
 class ProjectFormDialog extends React.Component {
 
     render() {
+        const { handleSubmit, title, open, onRequestClose } = this.props;
         return (
-            <Dialog>
-
+            <Dialog title={title} open={open} modal={false} onRequestClose={onRequestClose} >
+                <ProjectForm onSubmit={handleSubmit} disabled={false} handleCreate={()=>{}} handleClear={()=>{}}/>
             </Dialog>
         );
     }

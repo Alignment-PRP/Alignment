@@ -17,56 +17,62 @@ class ProjectForm extends React.Component {
 
     render() {
         const {
-            handleSubmit, handleCreate, handleClear,
-            disabled, pristine, reset, submitting
+            handleSubmit, handleClear,
+            pristine, reset, submitting
         } = this.props;
         return(
             <MuiThemeProvider>
-                <Paper className="form-inner">
-                    <h2>Lag et prosjekt</h2>
-                    <form onSubmit={handleSubmit} autoComplete="off">
-                        <Field
-                            name="name"
-                            label="Projektnavn"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="securityLevel"
-                            label="Sikkerhetsnivå"
-                            disabled={disabled}
-                            warn={warnNumberField}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="transactionVolume"
-                            label="Transaksjonsvolum"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="userChannel"
-                            label="Brukerkanal"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="deploymentStyle"
-                            label="Distribusjonsstil"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="isPublic"
-                            label="Offentlig"
-                            disabled={disabled}
-                            component={renderCheckbox}
-                        />
+                <form onSubmit={handleSubmit} autoComplete="off">
+                    <div className="form-inner">
+                        <div className="form-inner-field">
+                            <Field
+                                name="name"
+                                label="Projektnavn"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="securityLevel"
+                                label="Sikkerhetsnivå"
+                                warn={warnNumberField}
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="transactionVolume"
+                                label="Transaksjonsvolum"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="userChannel"
+                                label="Brukerkanal"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="deploymentStyle"
+                                label="Distribusjonsstil"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field-checkbox">
+                            <Field
+                                name="isPublic"
+                                label="Offentlig"
+                                component={renderCheckbox}
+                            />
+                        </div>
+                    </div>
+                    <div>
                         <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
-                        <RaisedButton className="form-button" secondary={true} label="Lag prosjekt" disabled={!disabled} onClick={handleCreate}/>
-                        <RaisedButton className="form-button" label="Tilbakestill" disabled={disabled} onClick={() => {reset(); handleClear()}}/>
-                    </form>
-                </Paper>
+                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset}/>
+                    </div>
+                </form>
             </MuiThemeProvider>
         );
     }
