@@ -8,6 +8,7 @@ import ProjectForm from './form/ProjectForm.jsx';
 import Snackbar from 'material-ui/Snackbar';
 import ProjectsSideMenu from './ProjectsSideMenu.jsx';
 
+
 /**
  * Class represents /projects.
  * @see ProjectTable
@@ -72,15 +73,14 @@ class Projects extends React.Component {
         } = this.props;
         return (
             <div>
-                <div className="projects-sidemenu">
+                <div className="containerUsers">
                     <ProjectsSideMenu
+                        className="projects-sidemenu"
                         handleUser={() => changeProjectsTableMode("PRIVATE")}
                         handleAll={() => changeProjectsTableMode("PUBLIC")}
                         handleArchived={() => changeProjectsTableMode("ARCHIVED")}
                         handleNew={()=>{}}
                     />
-                </div>
-                <div className="containerUsers">
                     <div className="form">
                         <ProjectForm
                             disabled={formMode}
