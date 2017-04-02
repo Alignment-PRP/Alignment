@@ -2,6 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
+import {List, ListItem} from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import Checkbox from 'material-ui/Checkbox';
 
 import { updateFilter, updateFilterRequirementList, getAllCategoryNames  } from '../../redux/actions/requirementActions.jsx';
 
@@ -12,7 +16,15 @@ class AllRequirementsFilter extends React.Component {
         this.updateMenuFilter = this.updateMenuFilter.bind(this);
         this.filterRequirementList = this.filterRequirementList.bind(this);
         this.generateFilterMenuCheckboxes = this.generateFilterMenuCheckboxes.bind(this);
+
+        this.styles = {
+                root: {
+                    display: 'block',
+                    flexWrap: 'wrap'
+                },
+        };
     }
+
 
     componentDidMount(){
         this.props.getAllCategoryNames()
@@ -63,33 +75,35 @@ class AllRequirementsFilter extends React.Component {
 
         //Iterarting trough each name and sending it as props to <input/> to build checkboxes
         return categories.map((category, index) => {
-            return <li key={index} >{category.name}<input onChange={this.updateMenuFilter} type="checkbox" name={category.name} value={category.name}/></li>
+            return <ListItem key={index}>{category.name}<input type="checkbox" name={category.name} value={category.name}/></ListItem>
             }
         )
     }
 
     render() {
         return (
-            <div id="filter">
-                <h2>{this.props.title}</h2>
-                <h2><b>Kategori</b></h2>
-                <ul style={{listStyleType: 'none'}}>
-                {this.generateFilterMenuCheckboxes()}
-                </ul>
+            <div id="filter" style={this.styles.root}>
+                <List>
+                    <h2>{this.props.title}</h2>
+                    <p>Kategori</p>
+                    {this.generateFilterMenuCheckboxes()}
+                </List>
+                <Divider/>
                 {/*Temporary placeholder before structure gets in place*/}
-                <h2><b>Struktur</b></h2>
-                <ul style={{listStyleType: 'none'}}>
-                    <li>Source<input type="checkbox" name="placeholder"/></li>
-                    <li>Stimulus<input type="checkbox" name="placeholder"/></li>
-                    <li>Artifact<input type="checkbox" name="placeholder"/></li>
-                </ul>
-                <RaisedButton primary={true} onClick={this.filterRequirementList} label="Oppdater kravliste"/>
-                <br/>
-                <br/>
-                <h2><b>Krav Meny</b></h2>
-                <Link to="newrequirement"><RaisedButton primary={true} label="Nytt krav"/></Link>
+                <List>
+                    <p>Struktur</p>
+                    <ListItem> Source <input type="checkbox" name="Source" value="Source"/></ListItem>
+                    <ListItem> Stimulus <input type="checkbox" name="Stimulus" value="Stimulus"/></ListItem>
+                    <ListItem> Artifact <input type="checkbox" name="Artifact" value="Artifact"/></ListItem>
+                    <ListItem><RaisedButton primary={true} onClick={this.filterRequirementList} label="Oppdater kravliste"/></ListItem>
+                </List>
+                <Divider/>
+                <List>
+                    <p>Krav Meny</p>
+                    <ListItem><Link to="newrequirement"><RaisedButton primary={true} label="Nytt krav"/></Link></ListItem>
+                </List>
             </div>
-        );
+        )
     }
 }
 
