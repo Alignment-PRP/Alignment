@@ -5,7 +5,9 @@ import {GET_ALL_REQUIREMENTS,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
         UPDATE_REQUIREMENT,
-        DELETE_REQUIREMENT
+        DELETE_REQUIREMENT,
+        ADD_TO_FILTER,
+        REMOVE_FROM_FILTER
 } from './../types.jsx';
 
 export function getAllRequirements() {
@@ -52,10 +54,9 @@ function getAllCategoryNamesAsync(data) {
     }
 }
 
-export function updateFilterRequirementList(newFilterRequirementList) {
+export function updateFilterRequirementList() {
     return {
-        type: UPDATE_FILTER_REQUIREMENT_LIST,
-        payload: newFilterRequirementList
+        type: UPDATE_FILTER_REQUIREMENT_LIST
     }
 }
 
@@ -63,6 +64,20 @@ export function updateFilter(newFilter) {
     return {
         type: UPDATE_FILTER,
         payload: newFilter
+    }
+}
+
+export function addToFilter(category) {
+    return {
+        type: ADD_TO_FILTER,
+        payload: category
+    }
+}
+
+export function removeFromFilter(category) {
+    return {
+        type: REMOVE_FROM_FILTER,
+        payload: category
     }
 }
 
