@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 
 
 //Importing other react components (child   component) for presentational purposes.
@@ -40,7 +41,7 @@ class Project extends React.Component {
     //This gets called before render, methods that the render component dont depend on can get called here.
     //ChangeSideMenuMode changes the stats of the sidemenu. The sidemenu automatically rerenders when this gets called.
     componentWillMount(){
-        this.props.changeSideMenuMode("HIDE")
+        this.props.changeSideMenuMode("FILTER")
     }
 
 
@@ -109,32 +110,45 @@ class Project extends React.Component {
             <div className="container">
                 <div className="add-requirements">
                     <h2>Legg til Krav</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Navn</th>
-                            <th>Beskrivelse</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {/* to call on fuctions inside JSX you need {} around the function call. */}
-                        {this.renderAllRequirementList()}
-                        </tbody>
-                    </table>
+                    <Table>
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                        >
+                            <TableRow>
+                                <TableHeaderColumn>Navn</TableHeaderColumn>
+                                <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                                <TableHeaderColumn/>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            showRowHover={true}
+                        >
+                            {this.renderAllRequirementList()}
+                        </TableBody>
+                    </Table>
                 </div>
                 <div className="project-requirements">
                     <h2>Prosjekt Krav</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Beskrivelse</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <Table>
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                        >
+                            <TableRow>
+                                <TableHeaderColumn>Navn</TableHeaderColumn>
+                                <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                                <TableHeaderColumn/>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            showRowHover={true}
+                        >
                         {this.renderProjectRequirementList()}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         )
