@@ -15,6 +15,7 @@ class EmptyUserForm extends React.Component {
         return(
             <MuiThemeProvider>
                 <Paper className="form-inner">
+                    <h2>Bruker</h2>
                     <form onSubmit={handleSubmit}>
                         <Field
                             name="USERNAME"

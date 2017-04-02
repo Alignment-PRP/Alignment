@@ -15,6 +15,7 @@ class CreateClassForm extends React.Component {
         return (
             <MuiThemeProvider>
                 <Paper className="form-inner">
+                    <h2>Lag brukerklasse</h2>
                     <form onSubmit={handleSubmit}>
                         <Field
                             name="NAME"
