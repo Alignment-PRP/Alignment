@@ -39,27 +39,30 @@ class ProjectTable extends React.Component {
 
     render() {
         return (
-            <Table
-                onRowSelection={this.clicked.bind(this)}
-            >
-                <TableHeader
-                    displaySelectAll={false}
-                    adjustForCheckbox={false}
+            <div>
+                <h2>Dine Prosjekter</h2>
+                <Table
+                    onRowSelection={this.clicked.bind(this)}
                 >
-                    <TableRow>
-                        <TableHeaderColumn>Navn</TableHeaderColumn>
-                        <TableHeaderColumn>Eier</TableHeaderColumn>
-                        <TableHeaderColumn>Leder</TableHeaderColumn>
-                        <TableHeaderColumn/>
-                    </TableRow>
-                </TableHeader>
-                <TableBody
-                    displayRowCheckbox={false}
-                    showRowHover={true}
-                >
-                    {this.projectList()}
-                </TableBody>
-            </Table>
+                    <TableHeader
+                        displaySelectAll={false}
+                        adjustForCheckbox={false}
+                    >
+                        <TableRow>
+                            <TableHeaderColumn>Navn</TableHeaderColumn>
+                            <TableHeaderColumn>Eier</TableHeaderColumn>
+                            <TableHeaderColumn>Leder</TableHeaderColumn>
+                            <TableHeaderColumn/>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody
+                        displayRowCheckbox={false}
+                        showRowHover={true}
+                    >
+                        {this.projectList()}
+                    </TableBody>
+                </Table>
+            </div>
         );
     }
 }
