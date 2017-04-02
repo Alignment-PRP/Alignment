@@ -33,17 +33,6 @@ h2{
     width: 100%;
 }
 
-#header {
-    height: 100px;
-    background-color: #E8E8E8;
-    text-align: left;
-    padding: 15px;
-    font-weight: 600;
-    border: 1px solid #e9e9ea;
-    font-size: 22px;
-    background-size: cover;
-}
-
 .container {
     display: flex;
 }
@@ -55,6 +44,14 @@ h2{
     flex: 1;
     background-color: #fff;
     height: 100%
+}
+
+#sidemenu #menu {
+    padding: 10px;
+}
+
+#sidemenu #filter {
+    padding: 10px;
 }
 
 #pagecontainer {

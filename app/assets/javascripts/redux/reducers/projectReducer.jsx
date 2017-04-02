@@ -5,6 +5,7 @@ import {GET_PUBLIC_PROJECTS,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
         DELETE_REQUIREMENT_TO_PROJECT,
+        DELETE_PROJECT,
         POST_PROJECT_NEW,
         CHANGE_PROJECTS_TABLE_MODE,
 } from './../types.jsx';
@@ -54,6 +55,7 @@ const projectReducer = (state = {
             };
         case POST_REQUIREMENT_TO_PROJECT:
         case DELETE_REQUIREMENT_TO_PROJECT:
+        case DELETE_PROJECT:
         case POST_PROJECT_NEW:
             break;
     }

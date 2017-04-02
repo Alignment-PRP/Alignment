@@ -15,6 +15,7 @@ class EmptyClassForm extends React.Component {
         return(
             <MuiThemeProvider>
                 <Paper className="form-inner">
+                    <h2>Brukerklasse</h2>
                     <form onSubmit={handleSubmit}>
                         <Field
                             name="NAME"
