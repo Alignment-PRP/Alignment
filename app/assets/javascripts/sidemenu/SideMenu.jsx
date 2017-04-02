@@ -81,7 +81,7 @@ class SideMenu extends React.Component {
                 break;
             default:
                 return (
-                    <div>
+                    <div id="menu">
                         <h2>Meny</h2>
                     </div>
                 );

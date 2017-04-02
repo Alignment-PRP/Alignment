@@ -50,12 +50,12 @@ class App extends React.Component {
                     <ConnectedRouter history={browserHistory}>
                         <Route path={"/"} component={Root}>
                             <IndexRoute component={Home}/>
-                            <Route path={"login"} component={Home}/>
                             <Route path={"/api/login"} component={Home}/> {/* for rerouting purposes*/}
                             <Route path={"projects"} component={Projects}>
                                 <Route path={"private"} onEnter={()=>{}}/>
                                 <Route path={"archive"} onEnter={()=>{}}/>
                             </Route>
+
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
                             <Route path={"/api/project/:id"} component={Project}/>
                             <Route path={"newproject"} component={NewProject}/>

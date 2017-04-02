@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import RequirementListItemCheckbox from './presentational/RequirementListItemCheckbox.jsx';
-import { getAllRequirements } from "../redux/actions/requirementActions.jsx";
-import { getAllCategoryNames } from "../redux/actions/requirementActions.jsx";
+import AllRequirementTable from './presentational/AllRequirementsTable.jsx';
+import { getAllRequirements, getAllCategoryNames, updateRequirement, deleteRequirement } from "../redux/actions/requirementActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
 class AllRequirements extends React.Component {
@@ -13,39 +12,15 @@ class AllRequirements extends React.Component {
         this.props.changeSideMenuMode("FILTER");
     }
 
-    generateRequirementList(){
-        let renderRequirement = [];
-        if(this.props.filter.length == 0){
-            renderRequirement = this.props.requirements;
-        }else{
-            renderRequirement = this.props.filterRequirementList;
-        }
-        return renderRequirement.map((item, index) => {
-            return <RequirementListItemCheckbox key={index} requirement={item}/>
-            }
-        )
-    }
-
 
     render() {
         return (
-            <div className="all-requirements-list">
-                <h2>Alle Krav</h2>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Beskrivelse</th>
-                        <th>Kommentar</th>
-                        <th>Category</th>
-                        <th>Sub Category</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.generateRequirementList()}
-                    </tbody>
-                </table>
-            </div>
+            <AllRequirementTable allRequirements={this.props.requirements}
+                                 filterRequirementList={this.props.filterRequirementList}
+                                 filter={this.props.filter}
+                                 deleteRequirement={this.props.deleteRequirement}
+                                 updateRequirement={this.props.updateRequirement}
+            />
         );
     }
 }
@@ -63,11 +38,17 @@ const mapDispatchToProps = (dispatch) => {
         getAllRequirements: () => {
             dispatch(getAllRequirements())
         },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
+        updateRequirement: (requirement) => {
+            dispatch(updateRequirement(requirement))
+        },
+        deleteRequirement: (id) => {
+            dispatch(deleteRequirement(id))
         },
         getAllCategoryNames: () => {
             dispatch(getAllCategoryNames())
+        },
+        changeSideMenuMode: (mode) => {
+            dispatch(changeSideMenuMode(mode))
         }
     };
 };

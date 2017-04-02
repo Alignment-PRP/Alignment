@@ -2,7 +2,8 @@ import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
-        UPDATE_REQUIREMENT
+        UPDATE_REQUIREMENT,
+        DELETE_REQUIREMENT
 } from './../types.jsx';
 
 const requirementReducer = (state = {
@@ -56,6 +57,8 @@ const requirementReducer = (state = {
                 filter: action.payload,
                 categoryNames: state.categoryNames
             };
+            break;
+        case DELETE_REQUIREMENT:
             break;
     }
     return state;

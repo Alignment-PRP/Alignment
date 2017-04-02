@@ -5,15 +5,11 @@ import database.QueryHandler;
 import database.Statement;
 
 import play.db.Database;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
 
 /**
  * Created by andrfo on 24.02.2017.
@@ -72,7 +68,7 @@ public class ProjectController extends Controller {
 
         //Gets the values from the map
         String name = values.get("name").asText();
-        String securityLevel = values.get("securityLevel").asText();
+        int securityLevel = values.get("securityLevel").asInt();
         String transactionVolume = values.get("transactionVolume").asText();
         String userChannel = values.get("userChannel").asText();
         String deploymentStyle = values.get("deploymentStyle").asText();
@@ -205,7 +201,7 @@ public class ProjectController extends Controller {
             return unauthorized("You do not have permission to delete a project requirement ");
         }
 
-        qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENT, PID, RID);
+        qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENT_BY_RID_PID, PID, RID);
 
 
         return ok("Project Requirement deleted");
@@ -253,6 +249,35 @@ public class ProjectController extends Controller {
 
         return ok("Project Requirement Inserted");
 
+    }
+
+    public Result deleteProject(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        final JsonNode values = request().body().asJson();
+        Integer PID = values.get("PID").asInt();
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
+        String managerID = project.get(0).get("managerID").asText();
+        String creatorID = project.get(0).get("creatorID").asText();
+
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
+        //Checks if the connected user has permission to delete
+        if(!((userID != managerID) || (userID != creatorID) || className != "Admin")){
+            return unauthorized("You do not have permission to delete this project.");
+        }
+
+        qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENTS_BY_PID, PID);
+        qh.executeUpdate(Statement.DELETE_PROJECT_METADATA, PID);
+        qh.executeUpdate(Statement.DELETE_HAS_ACCESS, PID);
+        qh.executeUpdate(Statement.DELETE_PROJECT, PID);
+
+
+        return ok("Project and all related data deleted");
     }
     //SAME AS getProjectRequirementForm()
     public Result addReqForm(){

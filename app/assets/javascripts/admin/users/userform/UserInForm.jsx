@@ -17,6 +17,7 @@ class UserInForm extends React.Component {
         return (
             <MuiThemeProvider>
                 <Paper className="form-inner">
+                    <h2>Rediger bruker</h2>
                     <form onSubmit={handleSubmit}>
                         <Field
                             name="USERNAME"

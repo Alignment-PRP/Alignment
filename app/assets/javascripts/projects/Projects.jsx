@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
+
 import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, changeProjectsTableMode } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import {changeProjectFormMode, snackBar} from './../redux/actions/projectFormActions.jsx';
+
 import ProjectTable from './presentational/ProjectTable.jsx';
 import ProjectForm from './form/ProjectForm.jsx';
 import Snackbar from 'material-ui/Snackbar';
@@ -134,6 +136,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         postProjectNew: (data) => {
             dispatch(postProjectNew(data));
+        },
+        deleteProject: (id) => {
+            dispatch(deleteProject(id));
         },
         changeProjectFormMode: (mode) => {
             dispatch(changeProjectFormMode(mode));
