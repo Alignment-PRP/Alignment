@@ -4,6 +4,16 @@
 }
 .form-inner {
     padding: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+.form-inner-field {
+
+}
+.form-inner-field-checkbox {
+    margin-top: 40px;
+    width: 256px;
 }
 .usertable {
     max-width: 1500px;

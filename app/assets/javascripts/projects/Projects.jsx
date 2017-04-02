@@ -9,6 +9,7 @@ import ProjectTable from './presentational/ProjectTable.jsx';
 import ProjectForm from './form/ProjectForm.jsx';
 import Snackbar from 'material-ui/Snackbar';
 import ProjectsSideMenu from './ProjectsSideMenu.jsx';
+import ProjectFormDialog from './form/ProjectFormDialog.jsx';
 
 
 /**
@@ -81,19 +82,17 @@ class Projects extends React.Component {
                         handleUser={() => changeProjectsTableMode("PRIVATE")}
                         handleAll={() => changeProjectsTableMode("PUBLIC")}
                         handleArchived={() => changeProjectsTableMode("ARCHIVED")}
-                        handleNew={()=>{}}
+                        handleNew={() => changeProjectFormMode(false)}
                     />
-                    <div className="form">
-                        <ProjectForm
-                            disabled={formMode}
-                            onSubmit={postProjectNew}
-                            handleCreate={() => {changeProjectFormMode(false)}}
-                            handleClear={() => {changeProjectFormMode(true)}}
-                        />
-                    </div>
                     <div className="usertable">
                         <ProjectTable projects={this._projects.bind(this, tableMode)()}/>
                     </div>
+                    <ProjectFormDialog
+                        title="Nytt Prosjekt"
+                        open={!formMode}
+                        handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); changeProjectFormMode(true)}}
+                        onRequestClose={() => {changeProjectFormMode(true)}}
+                    />
                     <Snackbar
                         open={snack.open}
                         message={snack.text}
