@@ -26,7 +26,7 @@ class Sidebar extends React.Component {
                 left: '-220px',
                 transform: 'translate(0,0)',
                 transition: '0.3s',
-                backgroundColor: '#191919',
+                backgroundColor: '#00afcc',
                 textColor: '#e8e8e8',
                 display: 'block',
                 position: 'fixed',
@@ -60,7 +60,7 @@ class Sidebar extends React.Component {
     open() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(220px, 0)';
-        sidebar.backgroundColor = '#191919';
+        sidebar.backgroundColor = '#00afcc';
         this.style.sidebar = sidebar;
         this.setState({open: true});
     }
@@ -71,7 +71,7 @@ class Sidebar extends React.Component {
     close() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(0, 0)';
-        sidebar.backgroundColor = '#191919';
+        sidebar.backgroundColor = '#00afcc';
         this.style.sidebar = sidebar;
         this.setState({open: false});
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 import RequirementListItem from './RequirementListItem.jsx';
 
-class AllRequirements extends React.Component {
+class AllRequirementsTable extends React.Component {
 
 
     generateRequirementList(){
@@ -52,4 +52,4 @@ class AllRequirements extends React.Component {
     }
 }
 
-export default AllRequirements;
+export default AllRequirementsTable;
