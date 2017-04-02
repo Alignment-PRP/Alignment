@@ -194,7 +194,7 @@ export function postProjectNew(data){
     return dispatch => {
         axios.post(URLS.PROJECT_POST_NEW, data)
             .then(function (response) {
-                dispatch(getAllProjects());
+                dispatch(getPublicProjects());
                 dispatch(changeProjectFormMode(true));
                 dispatch(snackBar(true, "Prosjekt laget!"));
             })

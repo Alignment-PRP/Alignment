@@ -66,7 +66,7 @@ class App extends React.Component {
                             <Route path={"add-requirement"} component={AllRequirements}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} component={Logout}/>
-                            <Route path={"admin"} component={Admin} onEnter={() => {}}>
+                            <Route path={"admin"} component={Admin} onEnter={() => {}}> {/*TODO fix admin routing*/}
                                 <Route path={"users"} onEnter={() => {}}/>
                                 <Route path={"classes"} onEnter={() => {}}/>
                             </Route>

@@ -9,6 +9,7 @@ import userReducer from "./reducers/userReducer.jsx";
 import requirementReducer from "./reducers/requirementReducer.jsx";
 import projectReducer from "./reducers/projectReducer.jsx";
 import projectFormReducer from "./reducers/projectFormReducer.jsx";
+import projectTableReducer from './reducers/projectTableReducer.jsx';
 import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
 import userFormReducer from './reducers/userFormReducer.jsx';
 import adminTabReducer from './reducers/adminTabReducers.jsx';
@@ -27,6 +28,7 @@ const reducers = {
     requirementReducer,
     projectReducer,
     projectFormReducer,
+    projectTableReducer,
     sideMenuReducer,
     userFormReducer,
     adminTabReducer,

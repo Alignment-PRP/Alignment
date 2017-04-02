@@ -14,10 +14,10 @@ class ProjectsSideMenu extends React.Component {
 
     render() {
         const {
-            handleUser, handleAll, handleArchived, handleNew
+            handleUser, handleAll, handleArchived, handleNew, className
         } = this.props;
         return (
-            <div>
+            <div className={className}>
                 <Paper>
                     <List>
                         <ListItem primaryText="Mine Prosjekter" onClick={handleUser}/>

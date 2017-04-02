@@ -47,7 +47,7 @@ class Admin extends React.Component {
      * @param {string} url
      */
     handleActive(url) {
-        //browserHistory.push(url)
+        browserHistory.push(url)
     }
 
 
