@@ -1,44 +1,23 @@
 import React from 'react';
-import {Link} from 'react-router';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import RaisedButton from 'material-ui/RaisedButton';
-import {PROJECT_GET_BY_ID} from './../../config.jsx';
+import ProjectTableRow from './ProjectTableRow.jsx';
 
 /**
  * Class represents a table with projects.
  * @see Projects
+ * @see ProjectTableRow
+ * @see Project
  */
 class ProjectTable extends React.Component {
 
     /**
-     * Maps a list with projects to TableRows.
-     * @returns {Array}
+     * Render method.
+     * @returns {XML}
      */
-    projectList() {
-        return this.props.projects.map((item, index) => {
-            return <TableRow key={index}>
-                <TableRowColumn>{item.name}</TableRowColumn>
-                <TableRowColumn>{item.creatorID}</TableRowColumn>
-                <TableRowColumn>{item.managerID}</TableRowColumn>
-                <TableRowColumn><Link to={PROJECT_GET_BY_ID + item.ID}><RaisedButton label="Endre"/></Link></TableRowColumn>
-            </TableRow>
-        })
-    }
-
-    /**
-     * Called when a row is clicked.
-     * @param index
-     */
-    clicked(index) {
-        //this.props.projectClicked(this.props.projects[index]);
-    }
-
-
     render() {
+        const { projects } = this.props;
         return (
-            <Table
-                onRowSelection={this.clicked.bind(this)}
-            >
+            <Table>
                 <TableHeader
                     displaySelectAll={false}
                     adjustForCheckbox={false}
@@ -54,11 +33,12 @@ class ProjectTable extends React.Component {
                     displayRowCheckbox={false}
                     showRowHover={true}
                 >
-                    {this.projectList()}
+                    {projects.map((project, index) => {return <ProjectTableRow project={project} key={index}/>} )}
                 </TableBody>
             </Table>
         );
     }
+
 }
 
 export default ProjectTable;
