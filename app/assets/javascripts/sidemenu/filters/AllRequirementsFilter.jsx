@@ -75,7 +75,7 @@ class AllRequirementsFilter extends React.Component {
 
         //Iterarting trough each name and sending it as props to <input/> to build checkboxes
         return categories.map((category, index) => {
-            return <ListItem key={index}>{category.name}<input type="checkbox" name={category.name} value={category.name}/></ListItem>
+            return <ListItem key={index}>{category.name}<input onChange={this.updateMenuFilter} type="checkbox" name={category.name} value={category.name}/></ListItem>
             }
         )
     }

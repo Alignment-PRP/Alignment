@@ -10,7 +10,7 @@ export default class RequirementListItemMiniDelete extends React.Component {
             <TableRow>
                 <TableRowColumn>{requirement.name}</TableRowColumn>
                 <TableRowColumn>{requirement.description}</TableRowColumn>
-                <TableRowColumn><RaisedButton secondary={true} onClick={() => this.props.onClickHandler(requirement)} label="Slett"/></TableRowColumn>
+                <TableRowColumn><RaisedButton secondary={true} onClick={() => this.props.onClickHandler(requirement)} label="Fjern"/></TableRowColumn>
             </TableRow>
         );
     }
