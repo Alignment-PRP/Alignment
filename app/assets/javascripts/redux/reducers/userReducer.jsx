@@ -6,7 +6,7 @@ import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from '.
  */
 
 const userReducer = (state = {
-    userdata: [],
+    userdata: null,
     users: [],
     userclasses: [],
 }, action) => {

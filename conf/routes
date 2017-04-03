@@ -42,8 +42,11 @@ POST    /api/project/hasAccess              controllers.ProjectController.insert
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
 GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id: String)
 GET     /api/project/:id                    controllers.ProjectController.getProjectByProjectID(id: String)
+POST    /api/project/requirement/delete     controllers.ProjectController.deleteProjectRequirement()
+POST    /api/project/delete                 controllers.ProjectController.deleteProject()
 
 POST    /api/requirement/add                controllers.AdminController.addReq()
+POST    /api/requirement/delete             controllers.AdminController.deleteRequirement()
 POST    /api/requirement/update             controllers.AdminController.updateRequirement()
 POST    /api/requirement/category/add       controllers.AdminController.insertRequirementCategory()
 GET     /api/requirement/category/:id       controllers.RequirementController.getRequirementsByCategoryID(id: String)

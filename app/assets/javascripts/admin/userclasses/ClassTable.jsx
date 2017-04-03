@@ -31,25 +31,28 @@ class ClassTable extends React.Component {
 
     render() {
         return (
-            <Table
-                onRowSelection={this.clicked.bind(this)}
-            >
-                <TableHeader
-                    displaySelectAll={false}
-                    adjustForCheckbox={false}
+            <div>
+                <h2>Alle brukerklasser</h2>
+                <Table
+                    onRowSelection={this.clicked.bind(this)}
                 >
-                    <TableRow>
-                        <TableHeaderColumn>Navn</TableHeaderColumn>
-                        <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
-                    </TableRow>
-                </TableHeader>
-                <TableBody
-                    displayRowCheckbox={false}
-                    showRowHover={true}
-                >
-                    {this.classList()}
-                </TableBody>
-            </Table>
+                    <TableHeader
+                        displaySelectAll={false}
+                        adjustForCheckbox={false}
+                    >
+                        <TableRow>
+                            <TableHeaderColumn>Navn</TableHeaderColumn>
+                            <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody
+                        displayRowCheckbox={false}
+                        showRowHover={true}
+                    >
+                        {this.classList()}
+                    </TableBody>
+                </Table>
+            </div>
         );
     }
 }

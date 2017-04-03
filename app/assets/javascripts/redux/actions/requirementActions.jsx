@@ -4,7 +4,10 @@ import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
-        UPDATE_REQUIREMENT
+        UPDATE_REQUIREMENT,
+        DELETE_REQUIREMENT,
+        ADD_TO_FILTER,
+        REMOVE_FROM_FILTER
 } from './../types.jsx';
 
 export function getAllRequirements() {
@@ -51,10 +54,9 @@ function getAllCategoryNamesAsync(data) {
     }
 }
 
-export function updateFilterRequirementList(newFilterRequirementList) {
+export function updateFilterRequirementList() {
     return {
-        type: UPDATE_FILTER_REQUIREMENT_LIST,
-        payload: newFilterRequirementList
+        type: UPDATE_FILTER_REQUIREMENT_LIST
     }
 }
 
@@ -65,9 +67,48 @@ export function updateFilter(newFilter) {
     }
 }
 
+export function addToFilter(category) {
+    return {
+        type: ADD_TO_FILTER,
+        payload: category
+    }
+}
+
+export function removeFromFilter(category) {
+    return {
+        type: REMOVE_FROM_FILTER,
+        payload: category
+    }
+}
+
 export function updateRequirement(requirement) {
     return {
         type: UPDATE_REQUIREMENT,
         payload: requirement
+    }
+}
+
+export function deleteRequirement(id){
+
+    //Create JSON
+    const post = {
+        RID: id
+    };
+
+    return dispatch => {
+        axios.post(URLS.REQUIREMENT_POST_DELETE, post)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(deleteRequirementAsync())
+    }
+}
+
+function deleteRequirementAsync(){
+    return{
+        type: DELETE_REQUIREMENT
     }
 }

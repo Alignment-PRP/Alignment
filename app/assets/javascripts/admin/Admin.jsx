@@ -17,7 +17,9 @@ class Admin extends React.Component {
 
     /**
      * Binds '/admin', '/admin/users' and '/admin/classes' to different tabs.
-     * @param {json} props
+     * @param {Object} props
+     * @param {number} props.index
+     * @param {function(*)} props.changeTab - {@link module:redux/actions/adminTab.changeTab}
      */
     constructor(props) {
         super(props);
@@ -57,13 +59,13 @@ class Admin extends React.Component {
                     initialSelectedIndex={index}
                     onChange={changeTab}
                 >
-                    <Tab label="Noe admin stuff" onActive={this.handleDefault}>
-                        <div style={this.style.tabContent}>
+                    <Tab label="Brukeroversikt" onActive={this.handleDefault}>
+                        <div id="admin" style={this.style.tabContent}>
 
-                            <h2>Admin stuff. WIP</h2>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla magna diam, mattis ut accumsan id, dapibus mattis dui. Praesent accumsan tempor est vitae commodo. Maecenas facilisis lectus eget malesuada mollis. Duis et risus dolor. Integer fermentum vulputate ex vel imperdiet. Nam dignissim sem vel dignissim ornare. Quisque accumsan ultricies quam.
-                            </p>
+                            <h2>Brukeroversikt</h2>
+                            <ul>
+                                <li>Oversikt over hvem som eier hvilket prosjekt</li>
+                            </ul>
                         </div>
                     </Tab>
                     <Tab label="Brukere" onActive={this.handleUsers}>
@@ -74,6 +76,15 @@ class Admin extends React.Component {
                     <Tab label="Brukerklasser" onActive={this.handleClasses}>
                         <div style={this.style.tabContent}>
                             <Classes/>
+                        </div>
+                    </Tab>
+                    <Tab label="Statistikk" onActive={this.handleDefault}>
+                        <div id="admin" style={this.style.tabContent}>
+
+                            <h2>Statistikk</h2>
+                            <ul>
+                                <li>Oversikt over hvilke krav som blir oftest brukt</li>
+                            </ul>
                         </div>
                     </Tab>
                 </Tabs>

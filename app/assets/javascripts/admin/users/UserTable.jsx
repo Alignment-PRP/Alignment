@@ -34,28 +34,31 @@ class UserTable extends React.Component {
 
     render() {
         return (
-            <Table
-                onRowSelection={this.clicked.bind(this)}
-            >
-                <TableHeader
-                    displaySelectAll={false}
-                    adjustForCheckbox={false}
+            <div>
+                <h2>Alle Brukere</h2>
+                <Table
+                    onRowSelection={this.clicked.bind(this)}
                 >
-                    <TableRow>
-                        <TableHeaderColumn>Klasse</TableHeaderColumn>
-                        <TableHeaderColumn>Brukernavn</TableHeaderColumn>
-                        <TableHeaderColumn>Fornavn</TableHeaderColumn>
-                        <TableHeaderColumn>Etternavn</TableHeaderColumn>
-                        <TableHeaderColumn>Epost</TableHeaderColumn>
-                    </TableRow>
-                </TableHeader>
-                <TableBody
-                    displayRowCheckbox={false}
-                    showRowHover={true}
-                >
-                    {this.userList()}
-                </TableBody>
-            </Table>
+                    <TableHeader
+                        displaySelectAll={false}
+                        adjustForCheckbox={false}
+                    >
+                        <TableRow>
+                            <TableHeaderColumn>Klasse</TableHeaderColumn>
+                            <TableHeaderColumn>Brukernavn</TableHeaderColumn>
+                            <TableHeaderColumn>Fornavn</TableHeaderColumn>
+                            <TableHeaderColumn>Etternavn</TableHeaderColumn>
+                            <TableHeaderColumn>Epost</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody
+                        displayRowCheckbox={false}
+                        showRowHover={true}
+                    >
+                        {this.userList()}
+                    </TableBody>
+                </Table>
+            </div>
         );
     }
 }

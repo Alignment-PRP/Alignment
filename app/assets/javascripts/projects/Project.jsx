@@ -1,13 +1,12 @@
 import React from 'react';
-import axios from 'axios';
-import * as URLS from '../config.jsx'
 import {connect} from 'react-redux'
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 
 
-//Importing other react components (child component) for presentational purposes.
+//Importing other react components (child   component) for presentational purposes.
 //This component (parent component / container) get the information that is going
 //to be viewed from Redux, and passing it down with props to the child components.
-import RequirementListItemMini from '../requirements/presentational/RequirementListItemMini.jsx'
+import RequirementListItemMiniDelete from '../requirements/presentational/RequirementListItemMiniDelete.jsx'
 import RequirementListItemMiniAdd from '../requirements/presentational/RequirementListItemMiniAdd.jsx'
 
 //Importing the methods declared in redux/actions. These methodes handles the global state of the app.
@@ -16,6 +15,8 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { getRequirementsByProjectId } from "../redux/actions/projectActions.jsx";
 import { getAllRequirements } from '../redux/actions/requirementActions.jsx';
 import { postRequirementToProject } from '../redux/actions/projectActions.jsx';
+import { deleteRequirementToProject } from '../redux/actions/projectActions.jsx';
+
 
 
 class Project extends React.Component {
@@ -25,7 +26,8 @@ class Project extends React.Component {
         //When onClickHandler gets passed down as a prop to a child component(RequirementListItem). All 'this' syntax will still refere to the parent component, This component ,Project.
         //Every method that do logic in a parent component, that is passed down, needs to use the bind function like this so that the passed down function don´t
         //refere to this in child component.
-        this.onClickHandler = this.onClickHandler.bind(this);
+        this.addRequirementHandler = this.addRequirementHandler.bind(this);
+        this.deleteRequirementHandler = this.deleteRequirementHandler.bind(this);
     }
 
     //This is a lifecycle method that runs after the render function. It is good practis to call on GET methods here because we want to render
@@ -39,7 +41,7 @@ class Project extends React.Component {
     //This gets called before render, methods that the render component dont depend on can get called here.
     //ChangeSideMenuMode changes the stats of the sidemenu. The sidemenu automatically rerenders when this gets called.
     componentWillMount(){
-        this.props.changeSideMenuMode("HIDE")
+        this.props.changeSideMenuMode("FILTER")
     }
 
 
@@ -49,7 +51,7 @@ class Project extends React.Component {
         if(this.props.projectRequirements != null){
             //The map function works as a for loop. Check ECMAScript (ES6) for syntax stuff.
             return this.props.projectRequirements.map((item, index) => {
-                    return <RequirementListItemMini key={index} requirement={item} />
+                    return <RequirementListItemMiniDelete key={index} requirement={item} onClickHandler={this.deleteRequirementHandler} />
                 }
             )
         }else{
@@ -64,7 +66,7 @@ class Project extends React.Component {
     renderAllRequirementList(){
         if(this.props.allRequirements != null){
             return this.props.allRequirements.map((item, index) => {
-                    return <RequirementListItemMiniAdd key={index} requirement={item} onClickHandler={this.onClickHandler}/>
+                    return <RequirementListItemMiniAdd key={index} requirement={item} onClickHandler={this.addRequirementHandler}/>
                 }
             )
         }else{
@@ -77,7 +79,7 @@ class Project extends React.Component {
     }
 
     //Uses axios to send post requests.
-    onClickHandler(requirement){
+    addRequirementHandler(requirement){
         let post = {
             PID: this.props.params.id,
             RID: requirement.RID,
@@ -88,7 +90,16 @@ class Project extends React.Component {
         };
 
        this.props.postRequirementToProject(post);
-        console.log("ProjectID and ReqId", this.props.params.id, requirement.ID);
+    }
+
+    deleteRequirementHandler(requirement){
+        let post = {
+            PID: this.props.params.id,
+            RID: requirement.RID,
+        };
+
+        this.props.deleteRequirementToProject(post);
+        console.log("delete", post.RID, "Of", post.PID)
     }
 
     //Renders the component
@@ -99,32 +110,45 @@ class Project extends React.Component {
             <div className="container">
                 <div className="add-requirements">
                     <h2>Legg til Krav</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Navn</th>
-                            <th>Beskrivelse</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {/* to call on fuctions inside JSX you need {} around the function call. */}
-                        {this.renderAllRequirementList()}
-                        </tbody>
-                    </table>
+                    <Table>
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                        >
+                            <TableRow>
+                                <TableHeaderColumn>Navn</TableHeaderColumn>
+                                <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                                <TableHeaderColumn/>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            showRowHover={true}
+                        >
+                            {this.renderAllRequirementList()}
+                        </TableBody>
+                    </Table>
                 </div>
                 <div className="project-requirements">
                     <h2>Prosjekt Krav</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Beskrivelse</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <Table>
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                        >
+                            <TableRow>
+                                <TableHeaderColumn>Navn</TableHeaderColumn>
+                                <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                                <TableHeaderColumn/>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            showRowHover={true}
+                        >
                         {this.renderProjectRequirementList()}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         )
@@ -153,6 +177,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         postRequirementToProject: (post) => {
             dispatch(postRequirementToProject(post))
+        },
+        deleteRequirementToProject: (post) => {
+            dispatch(deleteRequirementToProject(post))
         }
     };
 };

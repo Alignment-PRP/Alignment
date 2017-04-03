@@ -26,7 +26,7 @@ class Sidebar extends React.Component {
                 left: '-220px',
                 transform: 'translate(0,0)',
                 transition: '0.3s',
-                backgroundColor: '#191919',
+                backgroundColor: '#00afcc',
                 textColor: '#e8e8e8',
                 display: 'block',
                 position: 'fixed',
@@ -60,7 +60,7 @@ class Sidebar extends React.Component {
     open() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(220px, 0)';
-        sidebar.backgroundColor = '#191919';
+        sidebar.backgroundColor = '#00afcc';
         this.style.sidebar = sidebar;
         this.setState({open: true});
     }
@@ -71,7 +71,7 @@ class Sidebar extends React.Component {
     close() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(0, 0)';
-        sidebar.backgroundColor = '#191919';
+        sidebar.backgroundColor = '#00afcc';
         this.style.sidebar = sidebar;
         this.setState({open: false});
     }
@@ -84,8 +84,8 @@ class Sidebar extends React.Component {
                     <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                     <MenuItem primaryText="Prosjekter"containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
                     <MenuItem primaryText="Krav"containerElement={<Link to="/allrequirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                    <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
                     <MenuItem primaryText="Logg ut"containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
-                    <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
                 </Menu>
             </div>
         );

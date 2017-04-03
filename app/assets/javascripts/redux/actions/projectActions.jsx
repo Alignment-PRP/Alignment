@@ -3,9 +3,20 @@ import * as URLS from './../../config.jsx';
 import {GET_ALL_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
-        POST_REQUIREMENT_TO_PROJECT
+        POST_REQUIREMENT_TO_PROJECT,
+        DELETE_REQUIREMENT_TO_PROJECT,
+        DELETE_PROJECT,
+        POST_PROJECT_NEW,
 } from './../types.jsx';
+import {
+    changeProjectFormMode,
+    snackBar,
+} from './projectFormActions.jsx';
 
+/**
+ * Contains action creators for {@link Project} related data.
+ * @module redux/actions/project
+ */
 
 //All actions that changes the global state of the projectReducer is defined here.
 //Async methods need to get defined in two separate functions because the axios.get
@@ -99,6 +110,79 @@ export function postRequirementToProject(post){
 
 function postRequirementToProjectAsync() {
     return {
-        type: POST_REQUIREMENT_TO_PROJECT,
+        type: POST_REQUIREMENT_TO_PROJECT
+    }
+}
+
+export function deleteRequirementToProject(post){
+    return dispatch => {
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_DELETE, post)
+            .then(function (response) {
+                console.log(response);
+                dispatch(getRequirementsByProjectId(post.PID));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(deleteRequirementToProjectAsync())
+    }
+}
+
+function deleteRequirementToProjectAsync() {
+    return {
+        type: DELETE_REQUIREMENT_TO_PROJECT
+    }
+}
+
+/**
+ * @param {Project} data
+ * @returns {function(*)}
+ */
+export function postProjectNew(data){
+    return dispatch => {
+        axios.post(URLS.PROJECT_POST_NEW, data)
+            .then(function (response) {
+                dispatch(getAllProjects());
+                dispatch(changeProjectFormMode(true));
+                dispatch(snackBar(true, "Prosjekt laget!"));
+            })
+            .catch(function (error) {
+                dispatch(snackBar(true, "Noe gikk galt.."));
+                console.log(error);
+            });
+        dispatch(postProjectNewAsync())
+    }
+}
+
+function postProjectNewAsync() {
+    return {
+        type: POST_PROJECT_NEW,
+    }
+}
+
+export function deleteProject(id){
+
+    //Create JSON
+    const post = {
+        PID: id
+    };
+
+    return dispatch => {
+        axios.post(URLS.PROJECT_DELETE_BY_ID, post)
+            .then(function (response) {
+                dispatch(getAllProjects());
+                dispatch(snackBar(true, "Prosjekt slettet!"));
+            })
+            .catch(function (error) {
+                dispatch(snackBar(true, "Noe gikk galt.."));
+                console.log(error);
+            });
+        dispatch(deleteProjectAsync())
+    }
+}
+
+function deleteProjectAsync(){
+    return{
+        type: DELETE_PROJECT
     }
 }

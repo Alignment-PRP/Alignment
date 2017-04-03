@@ -19,7 +19,7 @@ class NewProject extends React.Component {
 
                     <br/>
                     <label><b>Sikkerhetsnivå</b></label><br/>
-                    <input type="text" placeholder="" name="securityLevel" required/>
+                    <input type="number" placeholder="" name="securityLevel" required/>
 
                     <br/>
                     <label><b>Transaksjonsvolum</b></label><br/>
