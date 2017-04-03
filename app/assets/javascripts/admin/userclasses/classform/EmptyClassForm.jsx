@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderMultiTextField} from './../../render.jsx';
+import {renderTextField, renderMultiTextField} from '../../../core/render.jsx';
 
 /**
  * Redux-form for displaying an empty form with class related fields.

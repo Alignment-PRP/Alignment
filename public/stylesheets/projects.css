@@ -1,3 +1,7 @@
+.projects-sidemenu {
+    min-width: 200px;
+}
+
 .singleProject {
     padding: 15px;
     flex: 2;
