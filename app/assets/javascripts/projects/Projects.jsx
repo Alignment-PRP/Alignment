@@ -1,12 +1,9 @@
 import React from 'react';
 import {connect} from "react-redux";
-
 import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, changeProjectsTableMode } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import {changeProjectFormMode, snackBar} from './../redux/actions/projectFormActions.jsx';
-
 import ProjectTable from './presentational/ProjectTable.jsx';
-import ProjectForm from './form/ProjectForm.jsx';
 import Snackbar from 'material-ui/Snackbar';
 import ProjectsSideMenu from './ProjectsSideMenu.jsx';
 import ProjectFormDialog from './form/ProjectFormDialog.jsx';
