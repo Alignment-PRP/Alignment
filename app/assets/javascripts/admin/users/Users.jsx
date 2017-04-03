@@ -4,8 +4,11 @@ import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
 import { changeUserFormMode, userClicked, fillForm, snackBar, postUserNew, postUserUpdate, postUserDelete } from "./../../redux/actions/userFormActions.jsx";
+import { userTablePage, userTableRows } from './../../redux/actions/tableActions.jsx';
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
+import GenericTable from './../../core/table/GenericTable.jsx';
+import { userTableMetaData } from './../../core/tableMetaData.jsx';
 
 /**
  * Class represents /admin/users.
@@ -13,6 +16,11 @@ import UserForm from './UserForm.jsx';
  * Children: {@link UserForm} and {@link UserTable}
  */
 class Users extends React.Component {
+
+    componentWillMount() {
+        this.props.userTablePage(1);
+        this.props.userTableRows(10);
+    }
 
     /**
      * Called when the component did mount.
@@ -33,13 +41,23 @@ class Users extends React.Component {
 
     render() {
         const {
-            mode, user, users, userclasses, snack,
+            mode, user, users, userclasses, snack, page, nRows,
             userClicked,
             changeUserFormMode,
             postUserNew,
             postUserUpdate,
             postUserDelete,
+            userTablePage,
+            userTableRows
         } = this.props;
+
+        let tableData = {
+            ...userTableMetaData,
+            objects: users,
+            page: page,
+            nRows: nRows
+        };
+
         return (
             <div className="containerUsers">
                 <div className="form">
@@ -55,6 +73,7 @@ class Users extends React.Component {
                     />
                 </div>
                 <div className="usertable">
+                    <GenericTable metaData={tableData} tablePage={userTablePage} tableRows={userTableRows}/>
                     <UserTable users={users} userClicked={userClicked}/>
                 </div>
 
@@ -76,6 +95,8 @@ const mapStateToProps = (state) => {
         users: state.userReducer.users,
         userclasses : state.userReducer.userclasses,
         snack: state.userFormReducer.snack,
+        page: state.tableReducer.user.page,
+        nRows: state.tableReducer.user.nRows,
     };
 };
 
@@ -87,6 +108,12 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(userClicked(user));
                 dispatch(fillForm(user))
             }
+        },
+        userTablePage: (page) => {
+            dispatch(userTablePage(page));
+        },
+        userTableRows: (nRows) => {
+            dispatch(userTableRows(nRows));
         },
         postUserNew: (data) => {
             dispatch(postUserNew(data));

@@ -77,7 +77,7 @@ class Admin extends React.Component {
                             <Classes/>
                         </div>
                     </Tab>
-                    <Tab label="Statistikk" onActive={this.handleDefault}>
+                    <Tab value="/admin/stats" label="Statistikk" onActive={this.handleDefault}>
                         <div id="admin" style={this.style.tabContent}>
 
                             <h2>Statistikk</h2>

@@ -22,12 +22,12 @@ export const PROJECT_CLICKED = "PROJECT_CLICKED";
 export const FILL_PROJECT_FORM = "FILL_PROJECT_FORM";
 
 //ProjectTable
-export const PROJECTS_TABLE_PAGE = "PROJECTS_TABLE_PAGE";
-export const PROJECTS_TABLE_ROWS = "PROJECTS_TABLE_ROWS";
+export const PROJECT_TABLE_PAGE = "PROJECT_TABLE_PAGE";
+export const PROJECT_TABLE_ROWS = "PROJECT_TABLE_ROWS";
 
-//Table
-export const TABLE_PAGE = "TABLE_PAGE";
-export const TABLE_ROWS = "TABLE_ROWS";
+//UserTable
+export const USER_TABLE_PAGE = "USER_TABLE_PAGE";
+export const USER_TABLE_ROWS = "USER_TABLE_ROWS";
 
 //Requirement
 export const GET_ALL_REQUIREMENTS = "GET_ALL_REQUIREMENTS";

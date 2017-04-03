@@ -14,10 +14,12 @@ class GenericTableRow extends React.Component {
 
     _generateRow(obj, row, index) {
         switch (row.type) {
-            case "DEFAULT":
-                return <TableRowColumn key={index}>{obj[row.field]}</TableRowColumn>;
+            case "WRAP":
+                return <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word'}} key={index}>{obj[row.field]}</TableRowColumn>;
             case "LINK":
                 return <TableRowColumn key={index}><Link to={row.link + obj[row.linkField]}><RaisedButton label={row.label}/></Link></TableRowColumn>;
+            default:
+                return <TableRowColumn key={index}>{obj[row.field]}</TableRowColumn>;
         }
     }
 

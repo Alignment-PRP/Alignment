@@ -4,7 +4,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import ProjectTableRow from './ProjectTableRow.jsx';
-import {projectTablePage, projectTableRows} from './../../redux/actions/projectTableActions.jsx';
+import {projectTablePage, projectTableRows} from './../../redux/actions/tableActions.jsx';
 import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
 
 import GenericTable from '../../core/table/GenericTable.jsx';
@@ -63,8 +63,8 @@ class ProjectTable extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        page: state.projectTableReducer.page,
-        nRows: state.projectTableReducer.nRows
+        page: state.tableReducer.project.page,
+        nRows: state.tableReducer.project.nRows
     };
 };
 

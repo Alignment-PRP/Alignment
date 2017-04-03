@@ -1,24 +1,51 @@
 import {
-    TABLE_PAGE,
-    TABLE_ROWS
+    PROJECT_TABLE_PAGE,
+    PROJECT_TABLE_ROWS,
+    USER_TABLE_PAGE,
+    USER_TABLE_ROWS
 } from './../types.jsx';
 
+const data = {
+    page: 1,
+    nRows: 10
+};
+
 const tableReducer = (state = {
-    tables: []
+    project: {...data},
+    user: {...data},
 }, action) => {
-    if (!state.tables[action.table]) {
-        state.tables[action.table] = {}
-    }
     switch (action.type) {
-        case TABLE_PAGE:
-            state.tables[action.table].page = action.page;
+        case PROJECT_TABLE_PAGE:
             return {
-                ...state
+                ...state,
+                project: {
+                    ...state.project,
+                    page: action.payload
+                }
             };
-        case TABLE_ROWS:
-            state.tables[action.table].nRows = action.nRows;
+        case PROJECT_TABLE_ROWS:
             return {
-                ...state
+                ...state,
+                project: {
+                    ...state.project,
+                    nRows: action.payload
+                }
+            };
+        case USER_TABLE_PAGE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    page: action.payload
+                }
+            };
+        case USER_TABLE_ROWS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    nRows: action.payload
+                }
             };
         default:
             return state;
