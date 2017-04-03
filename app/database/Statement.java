@@ -56,7 +56,6 @@ public enum Statement {
             "ON sc.catID = c.ID " +
             "WHERE r.ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
-
     DELETE_HAS_STRUCTURE("DELETE FROM HasStructure WHERE RID = ?"),
     DELETE_REQUIREMENT_METADATA("DELETE FROM RequirementMetaData WHERE RID = ?"),
     DELETE_HAS_SUB_CATEGORY("DELETE FROM HasSubCategory WHERE RID = ?"),
@@ -182,11 +181,11 @@ public enum Statement {
     GET_USERS("SELECT USERNAME, firstName, lastName, email FROM Users"),
     GET_USERS_WITH_CLASSES(
             "SELECT u.USERNAME, u.firstName, u.lastName, uc.NAME AS ucName, u.email " +
-                    "FROM Users AS u " +
-                    "INNER JOIN UserHasClass AS uhc " +
-                    "ON u.USERNAME = uhc.USERNAME " +
-                    "INNER JOIN UserClass AS uc " +
-                    "ON uc.NAME = uhc.NAME "
+            "FROM Users AS u " +
+            "INNER JOIN UserHasClass AS uhc " +
+            "ON u.USERNAME = uhc.USERNAME " +
+            "INNER JOIN UserClass AS uc " +
+            "ON uc.NAME = uhc.NAME "
     ),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
