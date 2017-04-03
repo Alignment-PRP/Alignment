@@ -1,10 +1,13 @@
-import {GET_ALL_PROJECTS,
+import {GET_PUBLIC_PROJECTS,
+        GET_PRIVATE_PROJECTS,
+        GET_ARCHIVED_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
         DELETE_REQUIREMENT_TO_PROJECT,
         DELETE_PROJECT,
         POST_PROJECT_NEW,
+        CHANGE_PROJECTS_TABLE_MODE,
 } from './../types.jsx';
 //Here is where the global state of the projectReducer actually get stored and changed. The projectReducer get passed actions.types into a switch function.
 //When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from redux actions.
@@ -12,32 +15,44 @@ import {GET_ALL_PROJECTS,
 //all reducers get gathered into one big reducer in store.jsx
 
 const projectReducer = (state = {
-    projects: [],
+    publicProjects: [],
+    privateProjects: [],
+    archivedProjects: [],
+    tableMode: "PUBLIC",
     project: [],
     projectRequirements: []
 }, action) => {
     switch (action.type) {
-        case GET_ALL_PROJECTS:
-            state = {
-                projects: action.payload,
-                project: state.project,
-                projectRequirements: state.projectRequirements
+        case GET_PUBLIC_PROJECTS:
+            return {
+                ...state,
+                publicProjects: action.payload
             };
-            break;
+        case GET_PRIVATE_PROJECTS:
+            return {
+                ...state,
+                privateProjects: action.payload
+            };
+        case GET_ARCHIVED_PROJECTS:
+            return {
+                ...state,
+                archivedProjects: action.payload
+            };
         case GET_PROJECT_BY_ID:
-            state = {
-                projects: state.projects,
-                project: action.payload,
-                projectRequirements: state.projectRequirements
+            return {
+                ...state,
+                project: action.payload
             };
-            break;
         case GET_REQUIREMENTS_BY_PROJECT_ID:
-            state = {
-                projectRequirements: action.payload,
-                projects: state.projects,
-                project: state.project
+            return {
+                ...state,
+                projectRequirements: action.payload
             };
-            break;
+        case CHANGE_PROJECTS_TABLE_MODE:
+            return {
+                ...state,
+                tableMode: action.payload
+            };
         case POST_REQUIREMENT_TO_PROJECT:
         case DELETE_REQUIREMENT_TO_PROJECT:
         case DELETE_PROJECT:

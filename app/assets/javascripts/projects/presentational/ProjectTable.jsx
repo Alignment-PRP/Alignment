@@ -1,32 +1,30 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import RaisedButton from 'material-ui/RaisedButton';
-import {PROJECT_GET_BY_ID} from './../../config.jsx';
+import {connect} from "react-redux";
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
+import ProjectTableRow from './ProjectTableRow.jsx';
+import {projectTablePage, projectTableRows} from './../../redux/actions/tableActions.jsx';
+import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
+
+import GenericTable from '../../core/table/GenericTable.jsx';
+import { projectTableMetaData } from './../../core/tableMetaData.jsx';
+
+
 
 /**
  * Class represents a table with projects.
  * @see Projects
+ * @see ProjectTableRow
+ * @see Project
  */
 class ProjectTable extends React.Component {
 
-    /**
-     * Maps a list with projects to TableRows.
-     * @returns {Array}
-     */
-    projectList() {
-        return this.props.projects.map((item, index) => {
-            return <TableRow key={index}>
-                <TableRowColumn>{item.name}</TableRowColumn>
-                <TableRowColumn>{item.creatorID}</TableRowColumn>
-                <TableRowColumn>{item.managerID}</TableRowColumn>
-                <TableRowColumn>
-                    <Link to={PROJECT_GET_BY_ID + item.ID}><RaisedButton label="Endre"/></Link>
-                    <RaisedButton secondary={true} onClick={() => this.props.deleteProject(item.ID)} label="Slett"/>
-                </TableRowColumn>
-            </TableRow>
-        })
+    componentWillMount() {
+        this.props.projectTablePage(1);
+        this.props.projectTableRows(10);
     }
+
 
     /**
      * Called when a row is clicked.
@@ -37,34 +35,48 @@ class ProjectTable extends React.Component {
     }
 
 
+    /**
+     * Render method.
+     * @returns {XML}
+     */
     render() {
+        const {
+            projects, page, nRows,
+            projectTablePage,
+            projectTableRows
+        } = this.props;
+        if ((page-1)*nRows+1 > projects.length) projectTablePage(1); //TODO fix side effect
+
+        let tableData = {
+            ...projectTableMetaData,
+            objects: projects,
+            page: page,
+            nRows: nRows
+        };
+
         return (
-            <div>
-                <h2>Dine Prosjekter</h2>
-                <Table
-                    onRowSelection={this.clicked.bind(this)}
-                >
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableHeaderColumn>Navn</TableHeaderColumn>
-                            <TableHeaderColumn>Eier</TableHeaderColumn>
-                            <TableHeaderColumn>Leder</TableHeaderColumn>
-                            <TableHeaderColumn/>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        showRowHover={true}
-                    >
-                        {this.projectList()}
-                    </TableBody>
-                </Table>
-            </div>
+            <GenericTable metaData={tableData} tablePage={projectTablePage} tableRows={projectTableRows}/>
         );
     }
+
 }
 
-export default ProjectTable;
+const mapStateToProps = (state) => {
+    return {
+        page: state.tableReducer.project.page,
+        nRows: state.tableReducer.project.nRows
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        projectTablePage: (page) => {
+            dispatch(projectTablePage(page))
+        },
+        projectTableRows: (nRows) => {
+            dispatch(projectTableRows(nRows));
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectTable);

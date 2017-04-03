@@ -3,8 +3,9 @@ const adminTabReducer = (state = {
 }, action) => {
     switch (action.type) {
         case "ADMIN_TAB_CHANGE":
-            state = {
-                index: action.payload,
+            return {
+                ...state,
+                index: action.payload
             }
     }
     return state;

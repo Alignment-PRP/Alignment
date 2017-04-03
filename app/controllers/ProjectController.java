@@ -72,7 +72,7 @@ public class ProjectController extends Controller {
         String transactionVolume = values.get("transactionVolume").asText();
         String userChannel = values.get("userChannel").asText();
         String deploymentStyle = values.get("deploymentStyle").asText();
-        int ispublic = values.get("isPublic").asBoolean() ? 1 : 0;
+        int ispublic = values.has("isPublic") && values.get("isPublic").asBoolean() ? 1 : 0;
 
         //Inserts a new Project and returns the ID of the project just inserted
         String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, ispublic);

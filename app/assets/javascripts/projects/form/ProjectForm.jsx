@@ -3,8 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Paper from 'material-ui/Paper';
-import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from './../../admin/render.jsx';
+import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from './../../core/render.jsx';
 
 /**
  * Redux-form for project creation.
@@ -17,56 +16,62 @@ class ProjectForm extends React.Component {
 
     render() {
         const {
-            handleSubmit, handleCreate, handleClear,
-            disabled,
+            handleSubmit, handleClear,
+            pristine, reset, submitting
         } = this.props;
         return(
             <MuiThemeProvider>
-                <Paper className="form-inner">
-                    <h2>Lag et prosjekt</h2>
-                    <form onSubmit={handleSubmit} autoComplete="off">
-                        <Field
-                            name="name"
-                            label="Projektnavn"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="securityLevel"
-                            label="Sikkerhetsnivå"
-                            disabled={disabled}
-                            warn={warnNumberField}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="transactionVolume"
-                            label="Transaksjonsvolum"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="userChannel"
-                            label="Brukerkanal"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="deploymentStyle"
-                            label="Distribusjonsstil"
-                            disabled={disabled}
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="isPublic"
-                            label="Offentlig"
-                            disabled={disabled}
-                            component={renderCheckbox}
-                        />
-                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={disabled}/>
-                        <RaisedButton className="form-button" secondary={true} label="Lag prosjekt" disabled={!disabled} onClick={handleCreate}/>
-                        <RaisedButton className="form-button" label="Tilbakestill" disabled={disabled} onClick={handleClear}/>
-                    </form>
-                </Paper>
+                <form onSubmit={handleSubmit} autoComplete="off">
+                    <div className="form-inner">
+                        <div className="form-inner-field">
+                            <Field
+                                name="name"
+                                label="Projektnavn"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="securityLevel"
+                                label="Sikkerhetsnivå"
+                                warn={warnNumberField}
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="transactionVolume"
+                                label="Transaksjonsvolum"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="userChannel"
+                                label="Brukerkanal"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="deploymentStyle"
+                                label="Distribusjonsstil"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field-checkbox">
+                            <Field
+                                name="isPublic"
+                                label="Offentlig"
+                                component={renderCheckbox}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
+                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset}/>
+                    </div>
+                </form>
             </MuiThemeProvider>
         );
     }
@@ -75,7 +80,9 @@ class ProjectForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        initialValues: state.projectFormReducer.project,
+        initialValues: {
+            isPublic: true
+        },
     };
 };
 

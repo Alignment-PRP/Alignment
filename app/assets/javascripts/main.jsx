@@ -30,6 +30,7 @@ import {Router, Route, IndexRoute, Redirect, browserHistory} from "react-router"
 import {Provider} from "react-redux";
 import store from './redux/store.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {ConnectedRouter, push} from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
@@ -42,14 +43,19 @@ injectTapEventPlugin();
 class App extends React.Component {
 
     render() {
+        console.log(this.context);
         return (
             <MuiThemeProvider>
                 <Provider store={store}>
-                    <Router history={browserHistory}>
+                    <ConnectedRouter history={browserHistory}>
                         <Route path={"/"} component={Root}>
                             <IndexRoute component={Home}/>
-                            <Route path={"/api/login"} component={Projects}/> {/* for rerouting purposes*/}
-                            <Route path={"projects"} component={Projects}/>
+                            <Route path={"/api/login"} component={Home}/> {/* for rerouting purposes*/}
+                            <Route path={"projects"} component={Projects}>
+                                <Route path={"private"} onEnter={()=>{}}/>
+                                <Route path={"archive"} onEnter={()=>{}}/>
+                            </Route>
+
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
                             <Route path={"/api/project/:id"} component={Project}/>
                             <Route path={"newproject"} component={NewProject}/>
@@ -60,9 +66,9 @@ class App extends React.Component {
                             <Route path={"add-requirement"} component={AllRequirements}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} component={Logout}/>
-                            <Route path={"admin"} component={Admin} onEnter={() => {store.dispatch(changeTab(0))}}>
-                                <Route path={"users"} onEnter={() => {store.dispatch(changeTab(1))}}/>
-                                <Route path={"classes"} onEnter={() => {store.dispatch(changeTab(2))}}/>
+                            <Route path={"admin"} component={Admin} onEnter={() => {}}> {/*TODO fix admin routing*/}
+                                <Route path={"users"} onEnter={() => {}}/>
+                                <Route path={"classes"} onEnter={() => {}}/>
                             </Route>
 
                             /*Errors*/
@@ -70,7 +76,7 @@ class App extends React.Component {
                             <Route path='/404' component={NotFound} onEnter={() => {store.dispatch(changeSideMenuMode("HIDE"))}}/>
                             <Redirect from='*' to='/404' />
                         </Route>
-                    </Router>
+                    </ConnectedRouter>
                 </Provider>
             </MuiThemeProvider>
         );

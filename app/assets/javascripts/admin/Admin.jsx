@@ -52,33 +52,32 @@ class Admin extends React.Component {
 
 
     render() {
-        const { index, changeTab } = this.props;
+        const { index, path, changeTab } = this.props;
         return (
             <div>
                 <Tabs
                     initialSelectedIndex={index}
-                    onChange={changeTab}
+                    value={path}
                 >
-                    <Tab label="Brukeroversikt" onActive={this.handleDefault}>
+                    <Tab value="/admin" label="Brukeroversikt" onActive={this.handleDefault}>
                         <div id="admin" style={this.style.tabContent}>
-
                             <h2>Brukeroversikt</h2>
                             <ul>
                                 <li>Oversikt over hvem som eier hvilket prosjekt</li>
                             </ul>
                         </div>
                     </Tab>
-                    <Tab label="Brukere" onActive={this.handleUsers}>
+                    <Tab value="/admin/users" label="Brukere" onActive={this.handleUsers}>
                         <div style={this.style.tabContent}>
                             <Users/>
                         </div>
                     </Tab>
-                    <Tab label="Brukerklasser" onActive={this.handleClasses}>
+                    <Tab value="/admin/classes" label="Brukerklasser" onActive={this.handleClasses}>
                         <div style={this.style.tabContent}>
                             <Classes/>
                         </div>
                     </Tab>
-                    <Tab label="Statistikk" onActive={this.handleDefault}>
+                    <Tab value="/admin/stats" label="Statistikk" onActive={this.handleDefault}>
                         <div id="admin" style={this.style.tabContent}>
 
                             <h2>Statistikk</h2>
@@ -94,8 +93,10 @@ class Admin extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let path = state.router.location ? state.router.location.pathname : "/admin";
     return {
         index: state.adminTabReducer.index,
+        path: path
     };
 };
 
