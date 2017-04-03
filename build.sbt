@@ -19,6 +19,18 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.4"
 )
 
+lazy val jsDoc = taskKey[Unit]("Run jsDoc")
+jsDoc := {
+  def isWindows: Boolean = {
+    sys.props("os.name").contains("Windows")
+  }
+  if (isWindows) {
+    "./node_modules/.bin/jsdoc.cmd -c jsdoc_conf.json"!;
+  } else {
+    "./node_modules/.bin/jsdoc -c jsdoc_conf.json"!;
+  }
+}
+
 val browserifyTask = taskKey[Seq[File]]("Run browserify")
 val browserifyOutputDir = settingKey[File]("Browserify output directory")
 browserifyOutputDir := target.value / "web" / "browserify"
@@ -138,4 +150,4 @@ browserifyTask := {
 sourceGenerators in Assets += browserifyTask.taskValue
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/main.js"
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/react.js"
-
+unmanagedResourceDirectories in Assets += baseDirectory.value / "out"

@@ -5,7 +5,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderPassField, renderSelectField} from './../../render.jsx';
 
-class EmptyForm extends React.Component {
+/**
+ * Redux-form for displaying an empty form with user related fields.
+ */
+class EmptyUserForm extends React.Component {
 
     render() {
         const {handleSubmit, handleCreate} = this.props;
@@ -55,5 +58,5 @@ class EmptyForm extends React.Component {
 }
 
 export default reduxForm({
-    form: 'EmptyForm',
-})(EmptyForm);
+    form: 'EmptyUserForm',
+})(EmptyUserForm);

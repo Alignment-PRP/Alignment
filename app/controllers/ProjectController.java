@@ -5,15 +5,11 @@ import database.QueryHandler;
 import database.Statement;
 
 import play.db.Database;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
 
 /**
  * Created by andrfo on 24.02.2017.
@@ -68,18 +64,18 @@ public class ProjectController extends Controller {
         }
 
         //Gets the http body of the POST and converts it to a map
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        final JsonNode values = request().body().asJson();
 
         //Gets the values from the map
-        String name = values.get("name")[0];
-        String ispublic = values.get("isPublic")[0];
-        String securityLevel = values.get("securityLevel")[0];
-        String transactionVolume = values.get("transactionVolume")[0];
-        String userChannel = values.get("userChannel")[0];
-        String deploymentStyle = values.get("deploymentStyle")[0];
+        String name = values.get("name").asText();
+        int securityLevel = values.get("securityLevel").asInt();
+        String transactionVolume = values.get("transactionVolume").asText();
+        String userChannel = values.get("userChannel").asText();
+        String deploymentStyle = values.get("deploymentStyle").asText();
+        int ispublic = values.get("isPublic").asBoolean() ? 1 : 0;
 
         //Inserts a new Project and returns the ID of the project just inserted
-        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, Integer.parseInt(ispublic));
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, ispublic);
 
         //Inserts ProjectMetaData with the project
         qh.insertStatement(Statement.INSERT_PROJECT_META_DATA, Integer.parseInt(ID), securityLevel, transactionVolume, userChannel, deploymentStyle);
@@ -173,6 +169,45 @@ public class ProjectController extends Controller {
     }
 
     /**
+     * Removes a project requirement from a project.
+     * NB!: This will delete the fields specific to that project requirement.
+     * @return Result 200 Ok or 401 Unauthorized
+     * If 200 OK the body contains "Project Requirement deleted"
+     */
+    public Result deleteProjectRequirement(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        final JsonNode values = request().body().asJson();
+        System.out.println(values);
+        Integer PID = values.get("PID").asInt();
+        Integer RID = values.get("RID").asInt();
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
+        System.out.println(project);
+        String managerID = project.get(0).get("managerID").asText();
+        String creatorID = project.get(0).get("creatorID").asText();
+        System.out.println(managerID + " " + creatorID);
+
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        System.out.println(userClass);
+        String className = userClass.get(0).get("NAME").asText();
+
+        JsonNode hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, PID);
+
+        //Checks if the connected user has permission to delete
+        if(!((userID != managerID) || (userID != creatorID) || hasAccess.get("bool").asInt() < 1)){
+            return unauthorized("You do not have permission to delete a project requirement ");
+        }
+
+        qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENT_BY_RID_PID, PID, RID);
+
+
+        return ok("Project Requirement deleted");
+    }
+
+    /**
      * Function for testing, just a form to POST a new project requirement
      * @return 200 OK with a form to add project requirement
      */
@@ -214,6 +249,35 @@ public class ProjectController extends Controller {
 
         return ok("Project Requirement Inserted");
 
+    }
+
+    public Result deleteProject(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        final JsonNode values = request().body().asJson();
+        Integer PID = values.get("PID").asInt();
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
+        String managerID = project.get(0).get("managerID").asText();
+        String creatorID = project.get(0).get("creatorID").asText();
+
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
+        //Checks if the connected user has permission to delete
+        if(!((userID != managerID) || (userID != creatorID) || className != "Admin")){
+            return unauthorized("You do not have permission to delete this project.");
+        }
+
+        qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENTS_BY_PID, PID);
+        qh.executeUpdate(Statement.DELETE_PROJECT_METADATA, PID);
+        qh.executeUpdate(Statement.DELETE_HAS_ACCESS, PID);
+        qh.executeUpdate(Statement.DELETE_PROJECT, PID);
+
+
+        return ok("Project and all related data deleted");
     }
     //SAME AS getProjectRequirementForm()
     public Result addReqForm(){

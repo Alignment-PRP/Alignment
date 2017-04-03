@@ -6,6 +6,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserForm as validate} from './../../render.jsx';
 
+/**
+ * Redux-form for editing users.
+ */
 class EditUserForm extends React.Component {
 
     render() {
@@ -60,8 +63,10 @@ class EditUserForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let initialValues = state.userFormReducer.data;
+    initialValues.oldUSERNAME = state.userFormReducer.user.USERNAME;
     return {
-        initialValues: state.userFormReducer.data,
+        initialValues
     };
 };
 
@@ -73,7 +78,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(reduxForm({
     form: 'EditUserForm',
     validate,

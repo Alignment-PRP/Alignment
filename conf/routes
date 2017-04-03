@@ -27,9 +27,10 @@ GET     /api/user                           controllers.UserController.getConnec
 GET     /api/user/userClasses               controllers.UserController.getUserClasses()
 POST    /api/user/update                    controllers.UserController.updateUser()
 POST    /api/user/new                       controllers.UserController.createUserJson()
-POST    /api/userclass/new                  controllers.UserController.newUserClass()
-POST    /api/userclass/update               controllers.UserController.updateUserClass()
-POST    /api/userclass/delete               controllers.UserController.deleteUserClass()
+
+POST    /api/userclass/new                  controllers.UserClassController.newUserClass()
+POST    /api/userclass/update               controllers.UserClassController.updateUserClass()
+POST    /api/userclass/delete               controllers.UserClassController.deleteUserClass()
 
 POST    /api/login                          controllers.LoginController.authenticate()
 POST    /api/sign-up                        controllers.SignupController.create()
@@ -41,8 +42,11 @@ POST    /api/project/hasAccess              controllers.ProjectController.insert
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
 GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id: String)
 GET     /api/project/:id                    controllers.ProjectController.getProjectByProjectID(id: String)
+POST    /api/project/requirement/delete     controllers.ProjectController.deleteProjectRequirement()
+POST    /api/project/delete                 controllers.ProjectController.deleteProject()
 
 POST    /api/requirement/add                controllers.AdminController.addReq()
+POST    /api/requirement/delete             controllers.AdminController.deleteRequirement()
 POST    /api/requirement/update             controllers.AdminController.updateRequirement()
 POST    /api/requirement/category/add       controllers.AdminController.insertRequirementCategory()
 GET     /api/requirement/category/:id       controllers.RequirementController.getRequirementsByCategoryID(id: String)
