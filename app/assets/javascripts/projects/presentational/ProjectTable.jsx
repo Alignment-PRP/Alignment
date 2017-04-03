@@ -5,6 +5,12 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import ProjectTableRow from './ProjectTableRow.jsx';
 import {projectTablePage, projectTableRows} from './../../redux/actions/projectTableActions.jsx';
+import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
+
+import GenericTable from '../../core/table/GenericTable.jsx';
+import { projectTableMetaData } from './../../core/tableMetaData.jsx';
+
+
 
 /**
  * Class represents a table with projects.
@@ -14,10 +20,11 @@ import {projectTablePage, projectTableRows} from './../../redux/actions/projectT
  */
 class ProjectTable extends React.Component {
 
-    /**
-     * Render method.
-     * @returns {XML}
-     */
+    componentWillMount() {
+        this.props.projectTablePage(1);
+        this.props.projectTableRows(10);
+    }
+
 
     /**
      * Called when a row is clicked.
@@ -28,6 +35,10 @@ class ProjectTable extends React.Component {
     }
 
 
+    /**
+     * Render method.
+     * @returns {XML}
+     */
     render() {
         const {
             projects, page, nRows,
@@ -35,42 +46,16 @@ class ProjectTable extends React.Component {
             projectTableRows
         } = this.props;
         if ((page-1)*nRows+1 > projects.length) projectTablePage(1); //TODO fix side effect
+
+        let tableData = {
+            ...projectTableMetaData,
+            objects: projects,
+            page: page,
+            nRows: nRows
+        };
+
         return (
-            <Table>
-                <TableHeader
-                    displaySelectAll={false}
-                    adjustForCheckbox={false}
-                >
-                    <TableRow>
-                        <TableHeaderColumn>Navn</TableHeaderColumn>
-                        <TableHeaderColumn>Eier</TableHeaderColumn>
-                        <TableHeaderColumn>Leder</TableHeaderColumn>
-                        <TableHeaderColumn/>
-                    </TableRow>
-                </TableHeader>
-                <TableBody
-                    displayRowCheckbox={false}
-                    showRowHover={true}
-                    stripedRows
-                >
-                    {/*TODO remove unknown prop '0'*/}
-                    {projects.slice((page-1)*nRows, page*nRows).map((project, index, ...meta) => {return <ProjectTableRow project={project} key={index} {...meta}/>} )}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TableRowColumn>
-                            {/*TODO add row selection*/}
-                            <span>{(page-1)*nRows+1}-{page*nRows < projects.length ? page*nRows : projects.length}of{projects.length}</span>
-                            <IconButton onClick={() => projectTablePage(page > 1 ? page - 1 : 1)}>
-                                <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>
-                            </IconButton>
-                            <IconButton onClick={() => projectTablePage(page < projects.length / nRows ? page + 1 : page)}>
-                                <FontIcon className="material-icons">keyboard_arrow_right</FontIcon>
-                            </IconButton>
-                        </TableRowColumn>
-                    </TableRow>
-                </TableFooter>
-            </Table>
+            <GenericTable metaData={tableData} tablePage={projectTablePage} tableRows={projectTableRows}/>
         );
     }
 
@@ -79,7 +64,7 @@ class ProjectTable extends React.Component {
 const mapStateToProps = (state) => {
     return {
         page: state.projectTableReducer.page,
-        nRows: state.projectTableReducer.nRows,
+        nRows: state.projectTableReducer.nRows
     };
 };
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {TableRow, TableRowColumn} from 'material-ui/Table';
-import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import {PROJECT_GET_BY_ID} from './../../config.jsx';

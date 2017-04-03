@@ -25,6 +25,9 @@ export const FILL_PROJECT_FORM = "FILL_PROJECT_FORM";
 export const PROJECTS_TABLE_PAGE = "PROJECTS_TABLE_PAGE";
 export const PROJECTS_TABLE_ROWS = "PROJECTS_TABLE_ROWS";
 
+//Table
+export const TABLE_PAGE = "TABLE_PAGE";
+export const TABLE_ROWS = "TABLE_ROWS";
 
 //Requirement
 export const GET_ALL_REQUIREMENTS = "GET_ALL_REQUIREMENTS";
