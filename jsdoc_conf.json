@@ -17,5 +17,13 @@
   "templates": {
     "cleverLinks": false,
     "monospaceLinks": false
+  },
+  "docdash": {
+    "static": true,
+    "sort": true,
+    "search": true,
+    "collapse": true,
+    "typedefs": true,
+    "removeQuotes": "none"
   }
 }
