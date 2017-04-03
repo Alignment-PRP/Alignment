@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
@@ -8,6 +7,9 @@ import {Link} from 'react-router';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 
+/**
+ * Represents the sidebar menu.
+ */
 class Sidebar extends React.Component {
 
     constructor(props) {
@@ -52,6 +54,9 @@ class Sidebar extends React.Component {
         this.state = {open: false};
     }
 
+    /**
+     * Called when the sidebar should open.
+     */
     open() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(220px, 0)';
@@ -60,6 +65,9 @@ class Sidebar extends React.Component {
         this.setState({open: true});
     }
 
+    /**
+     * Called when the sidebar should close.
+     */
     close() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(0, 0)';
@@ -76,8 +84,8 @@ class Sidebar extends React.Component {
                     <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                     <MenuItem primaryText="Prosjekter"containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
                     <MenuItem primaryText="Krav"containerElement={<Link to="/allrequirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                    <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
                     <MenuItem primaryText="Logg ut"containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
-                    <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
                 </Menu>
             </div>
         );

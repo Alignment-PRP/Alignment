@@ -1,10 +1,10 @@
 # Some name for project - blabal
 
-##What is this?
+## What is this?
 
-##Documentation
+## Documentation
 
-###Install
+### Install
 ```bash
 $ git clone https://github.com/Risvaag/vitaminbjorner.git
 
@@ -13,14 +13,14 @@ $ cd vitaminbjorner
 $ npm install
 ```
 
-###Development
+### Development
 ```
 $ sbt run
 
 # Application url: http://localhost:9000
 ```
 
-###Production
+### Production
 ```
 $ sbt dist
 ```

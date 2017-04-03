@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import {connect} from "react-redux";
 import { updateRequirement } from "../../redux/actions/requirementActions.jsx";;
 
-class RequirementListItemCheckbox extends React.Component {
+class RequirementListItem extends React.Component {
     constructor(props){
         super(props)
 
@@ -25,6 +25,7 @@ class RequirementListItemCheckbox extends React.Component {
                 <td>{requirement.cName}</td>
                 <td>{requirement.scName}</td>
                 <td><Link to="editrequirement"><button onClick={() => this.handleOnClick()}>Rediger</button></Link></td>
+                <td><button onClick={() => this.props.deleteRequirement(requirement.RID)}>Slett</button></td>
             </tr>
 
         );
@@ -39,4 +40,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(RequirementListItemCheckbox);
+export default connect(null, mapDispatchToProps)(RequirementListItem);

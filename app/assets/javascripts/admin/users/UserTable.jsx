@@ -1,8 +1,16 @@
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
-export default class UserTable extends React.Component {
+/**
+ * Class represents a table with users.
+ * Parent: {@link Users}
+ */
+class UserTable extends React.Component {
 
+    /**
+     * Maps a list with users to TableRows.
+     * @returns {Array}
+     */
     userList() {
         return this.props.users.map((item, index) => {
             return <TableRow key={index}>
@@ -15,6 +23,10 @@ export default class UserTable extends React.Component {
         })
     }
 
+    /**
+     * Called when a row is clicked.
+     * @param index
+     */
     clicked(index) {
         this.props.userClicked(this.props.users[index]);
     }
@@ -47,3 +59,5 @@ export default class UserTable extends React.Component {
         );
     }
 }
+
+export default UserTable;

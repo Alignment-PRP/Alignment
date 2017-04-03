@@ -1,5 +1,10 @@
 import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types.jsx';
 
+/**
+ * Contains reducer for {@link redux/actions/user}.
+ * @module redux/reducers/user
+ */
+
 const userReducer = (state = {
     userdata: [],
     users: [],

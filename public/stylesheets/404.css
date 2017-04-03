@@ -1,0 +1,38 @@
+.container_404 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.box_404 {
+    margin: 20px;
+}
+
+.font_404_big {
+    font-size: 10em;
+    margin-bottom: 0em;
+}
+.font_404_small {
+    font-size: 2em;
+}
+.hr_404 {
+    width: 25%;
+    height: 1px;
+    background: #1f3759;
+    border: 0px;
+}
+.link_404 {
+    color: black;
+}
+.link_404:link {
+    text-decoration: underline;
+}
+.link_404:visited {
+    text-decoration: underline;
+}
+.link_404:hover {
+    text-decoration: underline;
+}
+.link_404:active {
+    text-decoration: underline;
+}
