@@ -14,9 +14,9 @@ export const projectTableMetaData = {
     nRows: 10,
     objects: [],
     rowMeta: [
-        {type: "DEFAULT", field: "name"},
-        {type: "DEFAULT", field: "creatorID"},
-        {type: "DEFAULT", field: "managerID"},
+        {field: "name"},
+        {field: "creatorID"},
+        {field: "managerID"},
         {type: "LINK", link: PROJECT_GET_BY_ID, linkField: "ID", label: "Endre"}
     ]
 };
@@ -25,10 +25,19 @@ export const userTableMetaData = {
     ...metaData,
     headers: ["Klasse", "Brukernavn", "Fornavn", "Etternavn", "Epost"],
     rowMeta: [
-        {type: "DEFAULT", field: "ucName"},
-        {type: "DEFAULT", field: "USERNAME"},
-        {type: "DEFAULT", field: "firstName"},
-        {type: "DEFAULT", field: "lastName"},
-        {type: "DEFAULT", field: "email"},
+        {field: "ucName"},
+        {field: "USERNAME"},
+        {field: "firstName"},
+        {field: "lastName"},
+        {field: "email"},
+    ]
+};
+
+export const classTableMetaData = {
+    ...metaData,
+    headers: ["Navn", "Beskrivelse"],
+    rowMeta: [
+        {field: "NAME"},
+        {type: "WRAP", field: "description"}
     ]
 };
