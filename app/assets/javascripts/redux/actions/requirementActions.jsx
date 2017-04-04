@@ -4,6 +4,7 @@ import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
+        ADD_REQUIREMENT,
         UPDATE_REQUIREMENT,
         DELETE_REQUIREMENT,
         ADD_TO_FILTER,
@@ -83,7 +84,6 @@ export function removeFromFilter(category) {
 
 export function addRequirement(requirement) {
     return dispatch => {
-        console.log(requirement);
         axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
             .then(function (response) {
                 console.log(response);
@@ -95,7 +95,7 @@ export function addRequirement(requirement) {
     }
 }
 
-function addRequirement(){
+function addRequirementAsync(){
     return {
         type: ADD_REQUIREMENT
     }

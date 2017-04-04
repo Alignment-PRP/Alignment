@@ -12,7 +12,7 @@ import Project from './projects/Project.jsx';
 import NewProject from './projects/NewProject.jsx';
 
 //Requirements
-import AllRequirements from './requirements/AllRequirements.jsx';
+import AllRequirements from './requirements/Requirements.jsx';
 import UpdateRequirement from './requirements/UpdateRequirement.jsx';
 import NewRequirement from './requirements/NewRequirement.jsx';
 
