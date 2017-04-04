@@ -130,6 +130,15 @@ public class AdminController extends Controller {
         return true;
     }
 
+    public Result getRequirementUsage(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_PER_REQUIREMENT));
+    }
     //==================================== GET REQUIREMENT ===================================================
 
     /**

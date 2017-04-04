@@ -69,6 +69,7 @@ class App extends React.Component {
                             <Route path={"admin"} component={Admin} onEnter={() => {}}> {/*TODO fix admin routing*/}
                                 <Route path={"users"} onEnter={() => {}}/>
                                 <Route path={"classes"} onEnter={() => {}}/>
+                                <Route path={"stats"} onEnter={() => {}}/>
                             </Route>
 
                             /*Errors*/
