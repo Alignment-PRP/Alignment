@@ -62,6 +62,19 @@ public enum Statement {
     DELETE_PROJECT_REQUIREMENTS_BY_RID("DELETE FROM ProjectRequirements WHERE RID = ? "),//TODO: This is unfortunate.
     DELETE_GLOBAL_REQUIREMENT("DELETE FROM Requirements WHERE ID = ?"),
 
+    GET_PROJECTS_PER_REQUIREMENT("" +
+            "SELECT rm.RID, rm.name,   COUNT(DISTINCT pr.PID) AS PIDs " + //Just returning RID with the count for now.
+            "FROM ProjectRequirements AS pr " +
+            "INNER JOIN RequirementMetaData AS rm " +
+            "ON pr.RID = rm.RID " +
+            "INNER JOIN HasSubCategory AS hsc " +
+            "ON pr.RID = hsc.RID " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON sc.ID = hsc.SID " +
+            "INNER JOIN Category AS c " +
+            "ON sc.catID = c.ID " +
+            "GROUP BY rm.RID"),
+
 
     //===========================================PROJECT=========================================================================
     GET_PROJECT_REQUIREMENTS("" +
