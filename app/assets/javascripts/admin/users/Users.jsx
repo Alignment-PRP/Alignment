@@ -5,7 +5,6 @@ import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userAct
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
 import { changeUserFormMode, userClicked, fillForm, snackBar, postUserNew, postUserUpdate, postUserDelete } from "./../../redux/actions/userFormActions.jsx";
 import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
-import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
 import GenericTable from './../../core/table/GenericTable.jsx';
 import { userTableMetaData } from './../../core/tableMetaData.jsx';
@@ -13,7 +12,7 @@ import { userTableMetaData } from './../../core/tableMetaData.jsx';
 /**
  * Class represents /admin/users.
  * Parent: {@link Admin}
- * Children: {@link UserForm} and {@link UserTable}
+ * Children: {@link UserForm}
  */
 class Users extends React.Component {
 
@@ -73,8 +72,7 @@ class Users extends React.Component {
                     />
                 </div>
                 <div className="usertable">
-                    <GenericTable metaData={tableData} tablePage={userTablePage} tableRows={userTableRows}/>
-                    <UserTable users={users} userClicked={userClicked}/>
+                    <GenericTable onSelection={userClicked} metaData={tableData} tablePage={userTablePage} tableRows={userTableRows}/>
                 </div>
 
                 <Snackbar
