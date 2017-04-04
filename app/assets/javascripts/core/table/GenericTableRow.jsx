@@ -10,11 +10,11 @@ import GenericTableRowColumn from './GenericTableRowColumn.jsx';
 class GenericTableRow extends React.Component {
 
     render() {
-        const { obj, meta, index, ...extra } = this.props;
+        const { obj, meta, index, ...injectedRowProps } = this.props;
         return (
-            <TableRow key={index} {...extra}>
-                {meta.map((row, index) => {
-                    return <GenericTableRowColumn obj={obj} row={row} key={index}/>
+            <TableRow key={index} {...injectedRowProps}>
+                {meta.map((row, index, objects, ...injectedColumnProps) => {
+                    return <GenericTableRowColumn obj={obj} row={row} key={index} {...injectedColumnProps}/>
                 })}
             </TableRow>
         );

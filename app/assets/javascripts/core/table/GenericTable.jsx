@@ -19,9 +19,6 @@ class GenericTable extends React.Component {
 
         return (
             <Table
-                style={
-                    {tableLayout: 'auto'}
-                }
                 selectable={onSelection ? true : false}
                 onRowSelection={onSelection ? (index) => {onSelection(objects[(page-1)*nRows+index[0]])} : () => {}}
             >
@@ -35,8 +32,8 @@ class GenericTable extends React.Component {
                     displayRowCheckbox={false}
                     showRowHover={true}
                 >
-                    {objects.slice((page-1)*nRows, page*nRows).map((obj, index, props, ...extra) => {
-                        return <GenericTableRow obj={obj} key={index} index={index} meta={rowMeta} {...extra} />
+                    {objects.slice((page-1)*nRows, page*nRows).map((obj, index, objects, ...injectedRowProps) => {
+                        return <GenericTableRow obj={obj} key={index} index={index} meta={rowMeta} {...injectedRowProps} />
                     })}
                 </TableBody>
                 <TableFooter>
