@@ -15,10 +15,13 @@ class GenericTable extends React.Component {
 
     render() {
         const { metaData, tablePage, tableRows, onSelection } = this.props;
-        const { headers, page, nRows, objects, rowMeta } = metaData;
+        const { page, nRows, objects, rowMeta } = metaData;
 
         return (
             <Table
+                style={
+                    {tableLayout: 'auto'}
+                }
                 selectable={onSelection ? true : false}
                 onRowSelection={onSelection ? (index) => {onSelection(objects[(page-1)*nRows+index[0]])} : () => {}}
             >
@@ -26,7 +29,7 @@ class GenericTable extends React.Component {
                     displaySelectAll={false}
                     adjustForCheckbox={false}
                 >
-                    <GenericTableHeaderRows headers={headers}/>
+                    <GenericTableHeaderRows meta={rowMeta}/>
                 </TableHeader>
                 <TableBody
                     displayRowCheckbox={false}
