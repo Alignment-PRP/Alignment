@@ -8,7 +8,7 @@ class ProjectFormDialog extends React.Component {
         const { handleSubmit, title, open, onRequestClose } = this.props;
         return (
             <Dialog title={title} open={open} modal={false} onRequestClose={onRequestClose} >
-                <ProjectForm onSubmit={handleSubmit} disabled={false} handleCreate={()=>{}} handleClear={()=>{}}/>
+                <ProjectForm onSubmit={handleSubmit} disabled={false} handleClose={onRequestClose}/>
             </Dialog>
         );
     }
