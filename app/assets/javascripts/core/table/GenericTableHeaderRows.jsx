@@ -6,12 +6,14 @@ import {
 class GenericTableHeaderRows extends React.Component {
 
     render() {
-        const { headers } = this.props;
+        const { meta } = this.props;
         return (
             <TableRow>
-                {headers.map((header, index) => {
-                        if (header === "") return <TableHeaderColumn key={index}/>;
-                        return <TableHeaderColumn key={index}>{header}</TableHeaderColumn>
+                {meta.map((row, index) => {
+                        return row.label ?
+                            <TableHeaderColumn style={{width: row.width}} key={index}>{row.label}</TableHeaderColumn>
+                            :
+                            <TableHeaderColumn key={index}/>;
                     }
                 )}
             </TableRow>
