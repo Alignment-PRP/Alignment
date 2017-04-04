@@ -4,7 +4,6 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import ProjectTableRow from './ProjectTableRow.jsx';
-import {projectTablePage, projectTableRows} from './../../redux/actions/tableActions.jsx';
 import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
 
 import GenericTable from '../../core/table/GenericTable.jsx';
@@ -71,10 +70,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         projectTablePage: (page) => {
-            dispatch(projectTablePage(page))
+            dispatch(tablePage('project', page))
         },
         projectTableRows: (nRows) => {
-            dispatch(projectTableRows(nRows));
+            dispatch(tableRows('project', nRows));
         }
     };
 };
