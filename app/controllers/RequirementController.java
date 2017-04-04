@@ -163,7 +163,7 @@ public class RequirementController extends Controller{
         }
         JsonNode rStats = qh.executeQuery(Statement.GET_REQUIREMENTS_STATISTICS);
 
-        return ok();
+        return ok(rStats);
     }
 
 

@@ -57,10 +57,17 @@ public enum Statement {
             "WHERE r.ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
     GET_REQUIREMENTS_STATISTICS("" +
-            "SELECT COUNT(pr.RID) " +
+            "SELECT rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc,  COUNT(pr.PID) " +
             "FROM ProjectRequirements AS pr " +
-            "INNER JOIN Requirements AS r " +
-            "ON r.ID = pr.RID "),
+            "INNER JOIN RequirementMetaData AS rm " +
+            "ON pr.RID = rm.RID " +
+            "INNER JOIN HasSubCategory AS hsc " +
+            "ON pr.RID = hsc.RID " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON sc.ID = hsc.SID " +
+            "INNER JOIN Category AS c " +
+            "ON sc.catID = c.ID " +
+            ""),
     DELETE_HAS_STRUCTURE("DELETE FROM HasStructure WHERE RID = ?"),
     DELETE_REQUIREMENT_METADATA("DELETE FROM RequirementMetaData WHERE RID = ?"),
     DELETE_HAS_SUB_CATEGORY("DELETE FROM HasSubCategory WHERE RID = ?"),
