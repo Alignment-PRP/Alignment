@@ -81,6 +81,26 @@ export function removeFromFilter(category) {
     }
 }
 
+export function addRequirement(requirement) {
+    return dispatch => {
+        console.log(requirement);
+        axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(addRequirementAsync())
+    }
+}
+
+function addRequirement(){
+    return {
+        type: ADD_REQUIREMENT
+    }
+}
+
 export function updateRequirement(requirement) {
     return {
         type: UPDATE_REQUIREMENT,
