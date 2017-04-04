@@ -8,17 +8,18 @@ import RaisedButton from 'material-ui/RaisedButton';
 class GenericTableRowColumn extends React.Component {
 
     render() {
-        const {obj, row,} = this.props;
+        const { obj, row, ...injectedColumnProps } = this.props;
+        const icp = injectedColumnProps;
         switch (row.type) {
             case "WRAP":
                 return (
-                    <TableRowColumn style={{width: row.width, whiteSpace: 'normal', wordWrap: 'break-word'}}>
+                    <TableRowColumn {...icp} style={{...icp.style, width: row.width, maxWidth: row.width, whiteSpace: 'normal', wordWrap: 'break-word'}}>
                         {obj[row.field]}
                     </TableRowColumn>
                     );
             case "LINK":
                 return (
-                    <TableRowColumn style={{width: row.width}}>
+                    <TableRowColumn {...icp} style={{...icp.style, width: row.width, maxWidth: row.width}}>
                         <Link to={row.link + obj[row.linkField]}>
                             <RaisedButton label={row.label}/>
                         </Link>
@@ -26,7 +27,7 @@ class GenericTableRowColumn extends React.Component {
                 );
             case "EDIT":
                 return (
-                    <TableRowColumn style={{width: row.width}}>
+                    <TableRowColumn {...icp} style={{...icp.style, width: row.width, maxWidth: row.width}}>
                         <Link to={row.link + obj[row.linkField]}>
                             <IconButton>
                                 <FontIcon className="material-icons">edit</FontIcon>
@@ -36,7 +37,7 @@ class GenericTableRowColumn extends React.Component {
                 );
             default:
                 return (
-                    <TableRowColumn style={{width: row.width}}>
+                    <TableRowColumn {...icp} style={{...icp.style, width: row.width, maxWidth: row.width}}>
                         {obj[row.field]}
                     </TableRowColumn>
                 );
