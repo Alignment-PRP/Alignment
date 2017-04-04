@@ -4,6 +4,7 @@ import { changeSideMenuMode } from "./../redux/actions/sideMenuActions.jsx";
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Users from './users/Users.jsx';
 import Classes from './userclasses/Classes.jsx';
+import Statistics from './St/Classes.jsx';
 import {browserHistory} from 'react-router';
 import {changeTab} from './../redux/actions/adminTabActions.jsx';
 
@@ -61,7 +62,6 @@ class Admin extends React.Component {
                 >
                     <Tab label="Brukeroversikt" onActive={this.handleDefault}>
                         <div id="admin" style={this.style.tabContent}>
-
                             <h2>Brukeroversikt</h2>
                             <ul>
                                 <li>Oversikt over hvem som eier hvilket prosjekt</li>
@@ -80,11 +80,7 @@ class Admin extends React.Component {
                     </Tab>
                     <Tab label="Statistikk" onActive={this.handleDefault}>
                         <div id="admin" style={this.style.tabContent}>
-
-                            <h2>Statistikk</h2>
-                            <ul>
-                                <li>Oversikt over hvilke krav som blir oftest brukt</li>
-                            </ul>
+                            <Statistics />
                         </div>
                     </Tab>
                 </Tabs>

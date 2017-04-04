@@ -9,7 +9,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -161,7 +160,7 @@ public class RequirementController extends Controller{
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        JsonNode rStats = qh.executeQuery(Statement.GET_REQUIREMENTS_STATISTICS);
+        JsonNode rStats = qh.executeQuery(Statement.GET_PROJECTS_PER_REQUIREMENT);
 
         return ok(rStats);
     }

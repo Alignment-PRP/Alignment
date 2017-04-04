@@ -56,8 +56,8 @@ public enum Statement {
             "ON sc.catID = c.ID " +
             "WHERE r.ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
-    GET_REQUIREMENTS_STATISTICS("" +
-            "SELECT rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc,  COUNT(pr.PID) " +
+    GET_PROJECTS_PER_REQUIREMENT("" +
+            "SELECT rm.RID,  COUNT(DISTINCT pr.PID) AS PIDs " + //Just returning RID with the count for now.
             "FROM ProjectRequirements AS pr " +
             "INNER JOIN RequirementMetaData AS rm " +
             "ON pr.RID = rm.RID " +
@@ -67,7 +67,7 @@ public enum Statement {
             "ON sc.ID = hsc.SID " +
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID " +
-            ""),
+            "GROUP BY rm.RID"),
     DELETE_HAS_STRUCTURE("DELETE FROM HasStructure WHERE RID = ?"),
     DELETE_REQUIREMENT_METADATA("DELETE FROM RequirementMetaData WHERE RID = ?"),
     DELETE_HAS_SUB_CATEGORY("DELETE FROM HasSubCategory WHERE RID = ?"),
