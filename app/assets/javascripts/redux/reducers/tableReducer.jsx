@@ -17,6 +17,7 @@ const updateField = (state, object, field, data) => {
 const tableReducer = (state = {
     project: {...data},
     user: {...data},
+    userClass: {...data},
 }, action) => {
     switch (action.type) {
         case TABLE_PAGE:

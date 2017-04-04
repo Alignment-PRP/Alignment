@@ -50,7 +50,7 @@ class Users extends React.Component {
             userTableRows
         } = this.props;
 
-        let tableData = {
+        const tableData = {
             ...userTableMetaData,
             objects: users,
             page: page,
