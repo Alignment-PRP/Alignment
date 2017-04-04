@@ -12,7 +12,7 @@ import Project from './projects/Project.jsx';
 import NewProject from './projects/NewProject.jsx';
 
 //Requirements
-import AllRequirements from './requirements/Requirements.jsx';
+import Requirements from './requirements/Requirements.jsx';
 import UpdateRequirement from './requirements/UpdateRequirement.jsx';
 import NewRequirement from './requirements/NewRequirement.jsx';
 
@@ -58,11 +58,11 @@ class App extends React.Component {
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
                             <Route path={"/api/project/:id"} component={Project}/>
                             <Route path={"newproject"} component={NewProject}/>
-                            <Route path={"allrequirements"} component={AllRequirements}/>
-                            <Route path={"/api/requirement/add"} component={AllRequirements}/> {/* for rerouting purposes*/}
-                            <Route path={"/api/requirement/update"} component={AllRequirements}/> {/* for rerouting purposes*/}
+                            <Route path={"allrequirements"} component={Requirements}/>
+                            <Route path={"/api/requirement/add"} component={Requirements}/> {/* for rerouting purposes*/}
+                            <Route path={"/api/requirement/update"} component={Requirements}/> {/* for rerouting purposes*/}
                             <Route path={"newrequirement"} component={NewRequirement}/>
-                            <Route path={"add-requirement"} component={AllRequirements}/>
+                            <Route path={"add-requirement"} component={Requirements}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} component={Logout}/>
                             <Route path={"admin"} component={Admin} onEnter={() => {}}> {/*TODO fix admin routing*/}
