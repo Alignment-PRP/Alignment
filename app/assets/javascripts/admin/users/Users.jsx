@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
 import { changeUserFormMode, userClicked, fillForm, snackBar, postUserNew, postUserUpdate, postUserDelete } from "./../../redux/actions/userFormActions.jsx";
-import { userTablePage, userTableRows } from './../../redux/actions/tableActions.jsx';
+import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
 import UserTable from './UserTable.jsx';
 import UserForm from './UserForm.jsx';
 import GenericTable from './../../core/table/GenericTable.jsx';
@@ -110,10 +110,10 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         userTablePage: (page) => {
-            dispatch(userTablePage(page));
+            dispatch(tablePage('user', page));
         },
         userTableRows: (nRows) => {
-            dispatch(userTableRows(nRows));
+            dispatch(tableRows('user', nRows));
         },
         postUserNew: (data) => {
             dispatch(postUserNew(data));

@@ -1,8 +1,6 @@
 import {
-    PROJECT_TABLE_PAGE,
-    PROJECT_TABLE_ROWS,
-    USER_TABLE_PAGE,
-    USER_TABLE_ROWS
+    TABLE_PAGE,
+    TABLE_ROWS
 } from './../types.jsx';
 
 const data = {
@@ -10,43 +8,21 @@ const data = {
     nRows: 10
 };
 
+const updateField = (state, object, field, data) => {
+    let newState = {...state};
+    newState[object][field] = data;
+    return newState;
+};
+
 const tableReducer = (state = {
     project: {...data},
     user: {...data},
 }, action) => {
     switch (action.type) {
-        case PROJECT_TABLE_PAGE:
-            return {
-                ...state,
-                project: {
-                    ...state.project,
-                    page: action.payload
-                }
-            };
-        case PROJECT_TABLE_ROWS:
-            return {
-                ...state,
-                project: {
-                    ...state.project,
-                    nRows: action.payload
-                }
-            };
-        case USER_TABLE_PAGE:
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    page: action.payload
-                }
-            };
-        case USER_TABLE_ROWS:
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    nRows: action.payload
-                }
-            };
+        case TABLE_PAGE:
+            return updateField(state, action.object, 'page', action.page);
+        case TABLE_ROWS:
+            return updateField(state, action.object, 'nRows', action.nRows);
         default:
             return state;
     }

@@ -9,10 +9,8 @@ const metaData = {
 };
 
 export const projectTableMetaData = {
+    ...metaData,
     headers: ["Navn", "Eier", "Leder", ""],
-    page: 1,
-    nRows: 10,
-    objects: [],
     rowMeta: [
         {field: "name"},
         {field: "creatorID"},
@@ -39,5 +37,18 @@ export const classTableMetaData = {
     rowMeta: [
         {field: "NAME"},
         {type: "WRAP", field: "description"}
+    ]
+};
+
+//TODO wip metadata, requirement
+export const requirementTableMetaData = {
+    ...metaData,
+    headers: ["Navn", "Beskrivelse", "Kommentar", "Kategori", "UnderKatergori"],
+    rowMeta: [
+        {field: "name"},
+        {field: "description"},
+        {field: "comment"},
+        {field: "cName"},
+        {field: "scName"}
     ]
 };
