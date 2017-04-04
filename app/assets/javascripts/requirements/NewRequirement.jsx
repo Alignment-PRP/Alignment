@@ -1,19 +1,38 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { AddRequirement } from "../redux/actions/requirementActions.jsx";
+import { addRequirement } from "../redux/actions/requirementActions.jsx";
 
-import NewRequirementForm from './form/NewRequirementForm.jsx';
+import RequirementForm from './form/RequirementForm.jsx';
 
-class UpdateRequirement extends React.Component {
+class NewRequirement extends React.Component {
 
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
     }
 
     render() {
+
+        const structure = [
+            {
+                source: "something"
+            },
+            {
+                artifact: "something"
+            },
+            {
+                response: "something"
+            },
+            {
+                responsemeasure: "something"
+            },
+            {
+                environment: "something"
+            }
+        ];
+
         return (
-            <NewRequirementForm onSubmit={this.props.addRequirement}/>
+            <RequirementForm structure={structure} onSubmit={this.props.addRequirement}/>
         );
     }
 }
@@ -35,4 +54,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateRequirement);
+export default connect(mapStateToProps, mapDispatchToProps)(NewRequirement);
