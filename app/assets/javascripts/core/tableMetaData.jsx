@@ -28,7 +28,7 @@ export const userTableMetaData = {
     ]
 };
 
-export const classTableMetaData = {
+export const userClassTableMetaData = {
     ...metaData,
     rowMeta: [
         {label: 'Navn', field: 'NAME', width: '30%'},
