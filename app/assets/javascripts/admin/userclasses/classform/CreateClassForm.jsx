@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderMultiTextField, validateClassForm as validate} from './../../../core/render.jsx';
+import {renderTextField, renderMultiTextField, validateClassForm as validate} from '../../render.jsx';
 
 /**
  * Redux-form form for creating classes.
