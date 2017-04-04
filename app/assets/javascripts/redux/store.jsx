@@ -2,6 +2,8 @@ import {createStore, combineReducers, applyMiddleware} from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 import { reducer as formReducer } from 'redux-form'
+import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 
 import userReducer from "./reducers/userReducer.jsx";
 import requirementReducer from "./reducers/requirementReducer.jsx";
@@ -11,6 +13,7 @@ import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
 import userFormReducer from './reducers/userFormReducer.jsx';
 import adminTabReducer from './reducers/adminTabReducers.jsx';
 import classFormReducer from './reducers/classFormReducer.jsx';
+import tableReducer from './reducers/tableReducer.jsx';
 
 /**
  * Defines the reducer and creates the redux store.
@@ -29,7 +32,9 @@ const reducers = {
     userFormReducer,
     adminTabReducer,
     classFormReducer,
+    tableReducer,
     form: formReducer,
+    router: routerReducer,
 };
 
 /**
@@ -43,7 +48,7 @@ const reducers = {
  * @type {Store<S>}
  */
 const store = createStore(
-    combineReducers(reducers), {}, applyMiddleware(logger(), thunk)
+    combineReducers(reducers), {}, applyMiddleware(logger(), thunk, routerMiddleware(browserHistory))
 );
 
 export default store;

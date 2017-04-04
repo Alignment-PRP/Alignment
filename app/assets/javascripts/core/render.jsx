@@ -7,7 +7,7 @@ import Checkbox from 'material-ui/Checkbox';
 /**
  * Contains functions for rendering and
  * form-validation to use in redux-form components.
- * @module admin/render
+ * @module core/render
  *
  * @example
  * import React from 'react';
@@ -120,7 +120,7 @@ export const normalizeNumberField = value => {
  */
 export const validateProjectForm = (values) => {
     const errors = {};
-    const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle', 'isPublic' ];
+    const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle'];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Må fylles'
