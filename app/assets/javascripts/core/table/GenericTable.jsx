@@ -8,6 +8,8 @@ import {
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 import GenericTableHeaderRows from './GenericTableHeaderRows.jsx';
 import GenericTableRow from './GenericTableRow.jsx';
 
@@ -36,17 +38,33 @@ class GenericTable extends React.Component {
                         return <GenericTableRow obj={obj} key={index} index={index} meta={rowMeta} {...injectedRowProps} />
                     })}
                 </TableBody>
-                <TableFooter>
+                <TableFooter
+                    adjustForCheckbox={false}
+                >
                     <TableRow>
-                        <TableRowColumn>
-                            {/*TODO add row selection*/}
-                            <span>{(page-1)*nRows+1}-{page*nRows < objects.length ? page*nRows : objects.length}of{objects.length}</span>
-                            <IconButton onClick={() => tablePage(page > 1 ? page - 1 : 1)}>
-                                <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>
-                            </IconButton>
-                            <IconButton onClick={() => tablePage(page < objects.length / nRows ? page + 1 : page)}>
-                                <FontIcon className="material-icons">keyboard_arrow_right</FontIcon>
-                            </IconButton>
+                        <TableRowColumn style={{width: '100%'}}>
+                            <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+                                <span>Rader per side:</span>
+                                <DropDownMenu
+                                    value={nRows}
+                                    onChange={(event, key, value) => {tableRows(value)}}
+                                    underlineStyle={{}}
+                                >
+                                    <MenuItem value={10} primaryText="10"/>
+                                    <MenuItem value={20} primaryText="20"/>
+                                    <MenuItem value={40} primaryText="40"/>
+                                    <MenuItem value={100} primaryText="100"/>
+                                </DropDownMenu>
+
+
+                                <span>{(page-1)*nRows+1}-{page*nRows < objects.length ? page*nRows : objects.length}of{objects.length}</span>
+                                <IconButton onClick={() => tablePage(page > 1 ? page - 1 : 1)}>
+                                    <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>
+                                </IconButton>
+                                <IconButton onClick={() => tablePage(page < objects.length / nRows ? page + 1 : page)}>
+                                    <FontIcon className="material-icons">keyboard_arrow_right</FontIcon>
+                                </IconButton>
+                            </div>
                         </TableRowColumn>
                     </TableRow>
                 </TableFooter>
