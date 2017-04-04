@@ -28,6 +28,16 @@ public enum Statement {
     //===========================================GLOBAL==========================================================================
     INSERT_REQUIREMENT("INSERT INTO Requirements () VALUES()"),
     INSERT_REQUIREMENT_META_DATA("INSERT INTO RequirementMetaData (RID, reqResponsible, description, comment, reqCode, reqNo, name) VALUES(?,?,?,?,?,?,?)"),
+    UPDATE_REQUIREMENT_META_DATA("" +
+            "UPDATE RequirementMetaData " +
+            "SET " +
+            "reqResponsible = ?, " +
+            "description = ?, " +
+            "comment = ?, " +
+            "reqCode = ?, " +
+            "reqNo = ?, " +
+            "name = ? " +
+            "WHERE RID = ?"),
     INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?,?)"),
     INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
