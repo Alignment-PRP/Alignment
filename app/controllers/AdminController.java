@@ -21,7 +21,7 @@ import java.util.Map;
 public class AdminController extends Controller {
 
     private QueryHandler qh;
-    List<String> structures;
+    private List<String> structures;
     @Inject //Injects the database object generated from the config file
     public AdminController(Database db){
         this.qh = new QueryHandler(db);
@@ -236,6 +236,8 @@ public class AdminController extends Controller {
 
 
         //Inserts all the structures
+        //TODO: Check current structure and delete and insert accordingly.
+        //qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, ID);
         for (String structureType: structures){
             String content = values.get(0).get(structureType).asText();
             if(content == null){
