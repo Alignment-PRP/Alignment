@@ -1,7 +1,6 @@
 import {PROJECT_GET_BY_ID} from './../config.jsx';
 
 const metaData = {
-    headers: [],
     page: 0,
     nRows: 0,
     objects: [],
@@ -10,45 +9,41 @@ const metaData = {
 
 export const projectTableMetaData = {
     ...metaData,
-    headers: ["Navn", "Eier", "Leder", ""],
     rowMeta: [
-        {field: "name"},
-        {field: "creatorID"},
-        {field: "managerID"},
-        {type: "LINK", link: PROJECT_GET_BY_ID, linkField: "ID", label: "Endre"}
+        {label: 'Navn', field: 'name', width: '30%'},
+        {label: 'Eier', field: 'creatorID', width: '30%'},
+        {label: 'Leder', field: 'managerID', width: '30%'},
+        {type: 'EDIT', link: PROJECT_GET_BY_ID, linkField: 'ID', width: '10%'}
     ]
 };
 
 export const userTableMetaData = {
     ...metaData,
-    headers: ["Klasse", "Brukernavn", "Fornavn", "Etternavn", "Epost"],
     rowMeta: [
-        {field: "ucName"},
-        {field: "USERNAME"},
-        {field: "firstName"},
-        {field: "lastName"},
-        {field: "email"},
+        {label: 'Klasse', field: 'ucName', width: '20%'},
+        {label: 'Brukernavn', field: 'USERNAME', width: '20%'},
+        {label: 'Fornavn', field: 'firstName', width: '20%'},
+        {label: 'Etternavn', field: 'lastName', width: '20%'},
+        {label: 'Epost', field: 'email', width: '20%'},
     ]
 };
 
 export const classTableMetaData = {
     ...metaData,
-    headers: ["Navn", "Beskrivelse"],
     rowMeta: [
-        {field: "NAME"},
-        {type: "WRAP", field: "description"}
+        {label: 'Navn', field: 'NAME', width: '30%'},
+        {label: 'Beskrivelse', type: 'WRAP', field: 'description', width: '70%'}
     ]
 };
 
 //TODO wip metadata, requirement
 export const requirementTableMetaData = {
     ...metaData,
-    headers: ["Navn", "Beskrivelse", "Kommentar", "Kategori", "UnderKatergori"],
     rowMeta: [
-        {field: "name"},
-        {field: "description"},
-        {field: "comment"},
-        {field: "cName"},
-        {field: "scName"}
+        {label: 'Navn', field: 'name', width: '20%'},
+        {label: 'Beskrivelse', field: 'description', width: '20%'},
+        {label: 'Kommentar', field: 'comment', width: '20%'},
+        {label: 'Kategori', field: 'cName', width: '20%'},
+        {label: 'UnderKategori', field: 'scName', width: '20%'}
     ]
 };
