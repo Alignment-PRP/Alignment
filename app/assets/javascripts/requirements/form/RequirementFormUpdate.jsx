@@ -45,7 +45,7 @@ class RequirementFormUpdate extends React.Component {
                     </div>
                     <div>
                         <label htmlFor="scID"> subCategory </label>
-                        <Field type="text" component={renderTextField} name="subCatID" required/>
+                        <Field type="text" component={renderTextField} name="scID" required/>
                     </div>
                     <div>
                         <label htmlFor="description"> Beskrivelse </label>

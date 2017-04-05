@@ -212,7 +212,7 @@ public class AdminController extends Controller {
 
         //Gets the meta data values
         int ID = values.get("ID").asInt();
-        int subCatID = Integer.parseInt(values.get("subCatID").asText());
+        int subCatID = Integer.parseInt(values.get("scID").asText());
         String description = values.get("description").asText();
         String comment = values.get("comment").asText();
         String reqCode = values.get("reqCode").asText();
@@ -354,7 +354,7 @@ public class AdminController extends Controller {
         String className = userClass.get(0).get("NAME").asText();
 
         //Checks if the connected user has permission to delete
-        if(className != "Admin"){
+        if(!className.equals("Admin")){
             return unauthorized("You do not have permission to delete requirements.");
         }
 
