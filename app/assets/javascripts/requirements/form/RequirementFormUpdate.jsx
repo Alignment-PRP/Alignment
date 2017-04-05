@@ -49,44 +49,44 @@ class RequirementFormUpdate extends React.Component {
                 <h2>Oppdater krav</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="ID"> Krav ID </label>
-                        <Field type="text" component={renderTextField} name="ID" readOnly/>
+                        <label htmlFor="ID"> Krav ID </label><br/>
+                        <Field type="text" component={renderTextField} name="ID" readOnly/><br/>
                     </div>
                     <div>
-                        <label htmlFor="name"> Krav Navn </label>
-                        <Field type="text" component={renderTextField} name="name" required/>
+                        <label htmlFor="name"> Krav Navn </label><br/>
+                        <Field type="text" component={renderTextField} name="name" required/><br/>
                     </div>
                     <div>
-                        <label htmlFor="reqNo"> reqNo </label>
-                        <Field type="text" component={renderTextField} name="reqNo" required/>
+                        <label htmlFor="reqNo"> reqNo </label><br/>
+                        <Field type="text" component={renderTextField} name="reqNo" required/><br/>
                     </div>
                     <div>
-                        <label htmlFor="reqCode"> reqCode </label>
-                        <Field type="text" component={renderTextField} name="reqCode" required/>
+                        <label htmlFor="reqCode"> reqCode </label><br/>
+                        <Field type="text" component={renderTextField} name="reqCode" required/><br/>
                     </div>
                     <br/>
                     <div>
-                        <label> reqResponsible </label>
+                        <label> reqResponsible </label><br/>
                         <Field component="select" name="reqResponsible">
                             {this.renderUsers(users)}
-                        </Field>
+                        </Field><br/>
                     </div>
                     <br/>
                     <div>
-                        <label> Kategori </label>
+                        <label> Kategori </label><br/>
                         <Field name="scID" component="select" >
                             {this.renderCategoryItems(categories)}
-                        </Field>
+                        </Field><br/>
                     </div>
                     <div>
-                        <label htmlFor="description"> Beskrivelse </label>
-                        <Field type="text" component={renderTextField} name="description" required/>
+                        <label htmlFor="description"> Beskrivelse </label><br/>
+                        <Field type="text" component={renderTextField} name="description" required/><br/>
                     </div>
                     <div>
-                        <label htmlFor="comment"> Kommentar </label>
-                        <Field type="text" component={renderTextField} name="comment" required/>
+                        <label htmlFor="comment"> Kommentar </label><br/>
+                        <Field type="text" component={renderTextField} name="comment" required/><br/>
                     </div>
-                    {this.renderStructureForm(structure)}
+                    {this.renderStructureForm(structure)}<br/><br/>
                     <button type="submit">Oppdater</button>
                 </form>
             </div>
