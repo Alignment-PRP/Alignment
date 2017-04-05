@@ -89,15 +89,20 @@ public class AdminController extends Controller {
         //Converts the POST data to a map
         final JsonNode values = request().body().asJson();
 
-
         //Gets the meta data values
-        int subCatID = values.get(0).get("subCatID").asInt();
-        String reqResponsible = values.get(0).get("reqResponsible").asText();
-        String description = values.get(0).get("description").asText();
-        String comment = values.get(0).get("comment").asText();
-        String reqCode = values.get(0).get("reqCode").asText();
-        String reqNo = values.get(0).get("reqNo").asText();
-        String name = values.get(0).get("name").asText();
+        int subCatID = Integer.parseInt(values.get("subCatID").asText());
+        String description = values.get("description").asText();
+        String comment = values.get("comment").asText();
+        String reqCode = values.get("reqCode").asText();
+        String reqNo = values.get("reqNo").asText();
+        String name = values.get("name").asText();
+        String reqResponsible;
+        try{
+            reqResponsible = values.get("reqResponsible").asText();
+        }
+        catch (NullPointerException e){
+            reqResponsible = userID;
+        }
         //TODO determine and create correct validation for requirements
         //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
@@ -113,27 +118,30 @@ public class AdminController extends Controller {
         }
 
         //Inserts a new requirement and returns the requirement ID.
-        String ID = qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT);
+        int ID = Integer.parseInt(qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT));
 
         //Inserts a new row in RequirementMetaData using the requirement ID as PK
-        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, Integer.parseInt(ID), reqResponsible, description, comment, reqCode, reqNo, name);
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, ID, reqResponsible, description, comment, reqCode, reqNo, name);
 
-        qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, Integer.parseInt(ID), subCatID);
+        qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, ID, subCatID);
 
         //Inserts all the structures
         for (String structureType: structures){
-            String content = values.get(0).get(structureType).asText();
-            if(content == null){
+            String content;
+            try{
+                content = values.get(structureType).asText();
+            }
+            catch (NullPointerException e){
                 continue;
             }
             int structureID;
             try{
                 structureID = Integer.parseInt(content);
-                insertHasStructure(Integer.parseInt(ID), structureID);
+                insertHasStructure(ID, structureID);
             }
             catch (NumberFormatException e){
                 String SID = insertStructureWithReturnID(structureType, content);
-                insertHasStructure(Integer.parseInt(ID), Integer.parseInt(SID));
+                insertHasStructure(ID, Integer.parseInt(SID));
             }
 
         }
@@ -236,10 +244,14 @@ public class AdminController extends Controller {
 
         //Deletes all the HAS structure relations for this requirement
         qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, ID);
+
         //Inserts all the structures
         for (String structureType: structures){
-            String content = values.get(0).get(structureType).asText();
-            if(content == null){
+            String content;
+            try{
+                content = values.get(structureType).asText();
+            }
+            catch (NullPointerException e){
                 continue;
             }
             int structureID;
