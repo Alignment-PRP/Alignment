@@ -21,7 +21,7 @@ class RequirementForm extends React.Component {
         const { handleSubmit, initialValues, structure } = this.props;
         return (
             <div className="update-requirement">
-                <h2>Lag nytt krav</h2>
+                <h2>Oppdater krav</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="name"> Krav navn </label>
@@ -61,7 +61,7 @@ class RequirementForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        initialValues: state.requirementReducer.projectRequirement,
+        initialValues: state.requirementReducer.requirements
     };
 };
 
@@ -70,5 +70,6 @@ export default connect(
     null
 )(reduxForm({
     form: 'RequirementForm',
+    enableReinitialize: true
 })(RequirementForm));
 

@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { addRequirement } from "../redux/actions/requirementActions.jsx";
 
-import RequirementForm from './form/RequirementForm.jsx';
+import RequirementFormUpdate from './form/RequirementFormUpdate.jsx';
 
 class UpdateRequirement extends React.Component {
 
@@ -28,11 +28,14 @@ class UpdateRequirement extends React.Component {
             },
             {
                 environment: "something"
+            },
+            {
+                stimulus: "something"
             }
         ];
 
         return (
-            <RequirementForm structure={structure} onSubmit={this.props.addRequirement}/>
+            <RequirementFormUpdate structure={structure} onSubmit={this.props.addRequirement}/>
         );
     }
 }
