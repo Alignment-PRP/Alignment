@@ -2,15 +2,18 @@ import React from 'react';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { postUpdateRequirement } from "../redux/actions/requirementActions.jsx";
+import { getUsersWithClass } from "../redux/actions/userActions.jsx";
 
 
 import RequirementFormUpdate from './form/RequirementFormUpdate.jsx';
 
 class UpdateRequirement extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.changeSideMenuMode("HIDE");
+        this.props.getUsersWithClass();
     }
+
 
     render() {
 
@@ -36,7 +39,11 @@ class UpdateRequirement extends React.Component {
         ];
 
         return (
-            <RequirementFormUpdate categories={this.props.categories} structure={structure} onSubmit={this.props.postUpdateRequirement} />
+            <RequirementFormUpdate users={this.props.users}
+                                   categories={this.props.categories}
+                                   structure={structure}
+                                   onSubmit={this.props.postUpdateRequirement}
+            />
         );
     }
 }
@@ -44,7 +51,8 @@ class UpdateRequirement extends React.Component {
 const mapStateToProps = (state) => {
     return {
         mode: state.sideMenuReducer.mode,
-        categories: state.requirementReducer.categoryNames
+        categories: state.requirementReducer.categoryNames,
+        users: state.userReducer.users
     };
 };
 
@@ -55,6 +63,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         postUpdateRequirement: (requirement) => {
             dispatch(postUpdateRequirement(requirement))
+        },
+        getUsersWithClass: () => {
+            dispatch(getUsersWithClass())
         }
     };
 };
