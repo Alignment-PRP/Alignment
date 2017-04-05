@@ -5,7 +5,7 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { tablePage, tableRows } from './../redux/actions/tableActions.jsx';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions.jsx';
 import GenericTable from './../core/table/GenericTable.jsx';
-import RequirementDeleteDialog from './RequirementDeleteDialog.jsx';
+import DeleteDialog from './../core/dialog/DeleteDialog.jsx';
 
 class Requirements extends React.Component {
 
@@ -45,7 +45,9 @@ class Requirements extends React.Component {
         return (
             <div>
                 <GenericTable metaData={metaData} tablePage={changeTablePage} tableRows={changeTableRows}/>
-                <RequirementDeleteDialog
+                <DeleteDialog
+                    title="Slett Krav"
+                    desc="Er du sikker på at du vil slette kravet?"
                     open={deleteDialogIsOpen}
                     action={deleteDialogAction}
                     onRequestClose={deleteDialogOpen.bind(null, false)}

@@ -8,7 +8,7 @@ import ProjectTable from './ProjectTable.jsx';
 import Snackbar from 'material-ui/Snackbar';
 import ProjectsSideMenu from './presentational/ProjectsSideMenu.jsx';
 import ProjectNewDialog from './dialog/ProjectNewDialog.jsx';
-import ProjectDeleteDialog from './dialog/ProjectDeleteDialog.jsx';
+import DeleteDialog from "../core/dialog/DeleteDialog";
 
 
 /**
@@ -116,7 +116,9 @@ class Projects extends React.Component {
                         handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); newDialog(false)}}
                         onRequestClose={newDialog.bind(null, false)}
                     />
-                    <ProjectDeleteDialog
+                    <DeleteDialog
+                        title="Slett Prosjekt"
+                        desc="Er du sikker på at du vil slette prosjektet?"
                         open={deleteDialogIsOpen}
                         action={deleteDialogAction}
                         onRequestClose={deleteDialog.bind(null, false)}
