@@ -7,13 +7,13 @@ class CategoryCheckBox extends React.Component {
     render() {
         const { category, index, onCheck } = this.props;
         return (
-            <ListItem key={index}>
-                <CheckBox onCheck={onCheck}
-                          value={category.name}
-                          label={category.name}
-                          labelPosition="left"
-                />
-            </ListItem>
+            <ListItem key={index}
+                      primaryText={category.name}
+                      leftCheckbox={
+                          <CheckBox onCheck={onCheck}
+                                    value={category.name}
+                          />
+            }/>
         );
     }
 
