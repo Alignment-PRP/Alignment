@@ -9,9 +9,6 @@ const data = {
 };
 
 const updateField = (state, dialog, field, data) => {
-    console.log(dialog);
-    console.log(field);
-    console.log(data);
     let newState = {...state};
     newState[dialog][field] = data;
     return newState;
