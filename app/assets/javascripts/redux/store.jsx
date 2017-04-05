@@ -14,6 +14,7 @@ import userFormReducer from './reducers/userFormReducer.jsx';
 import adminTabReducer from './reducers/adminTabReducers.jsx';
 import classFormReducer from './reducers/classFormReducer.jsx';
 import tableReducer from './reducers/tableReducer.jsx';
+import dialogReducer from './reducers/dialogReducer.jsx';
 
 /**
  * Defines the reducer and creates the redux store.
@@ -33,6 +34,7 @@ const reducers = {
     adminTabReducer,
     classFormReducer,
     tableReducer,
+    dialogReducer,
     form: formReducer,
     router: routerReducer,
 };

@@ -235,7 +235,9 @@ export function deleteProject(id){
     return dispatch => {
         axios.post(URLS.PROJECT_DELETE_BY_ID, post)
             .then(function (response) {
-                dispatch(getAllProjects());
+                dispatch(getPublicProjects());
+                dispatch(getPrivateProjects());
+                dispatch(getArchivedProjects());
                 dispatch(snackBar(true, "Prosjekt slettet!"));
             })
             .catch(function (error) {
