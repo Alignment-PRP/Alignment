@@ -20,9 +20,7 @@ class Statistics extends React.Component {
     }
 
     renderStats(){
-        console.log("STATS: ", this.props.requirementUsageStatistics)
         return this.props.requirementUsageStatistics.map((item, index) => {
-            console.log("ITEM: ", item.RID);
            return (
                <TableRow key={index}>
                    <TableRowColumn>{item.RID}</TableRowColumn>

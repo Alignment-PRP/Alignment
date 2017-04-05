@@ -4,7 +4,9 @@ import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
+        ADD_REQUIREMENT,
         UPDATE_REQUIREMENT,
+        POST_UPDATE_REQUIREMENT,
         DELETE_REQUIREMENT,
         ADD_TO_FILTER,
         REMOVE_FROM_FILTER
@@ -81,6 +83,25 @@ export function removeFromFilter(category) {
     }
 }
 
+export function addRequirement(requirement) {
+    return dispatch => {
+        axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(addRequirementAsync())
+    }
+}
+
+function addRequirementAsync(){
+    return {
+        type: ADD_REQUIREMENT
+    }
+}
+
 export function updateRequirement(requirement) {
     return {
         type: UPDATE_REQUIREMENT,
@@ -112,3 +133,25 @@ function deleteRequirementAsync(){
         type: DELETE_REQUIREMENT
     }
 }
+
+export function postUpdateRequirement(requirement){
+
+    return dispatch => {
+        console.log(requirement);
+        axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(postUpdateRequirementAsync())
+    }
+}
+
+function postUpdateRequirementAsync(){
+    return{
+        type: POST_UPDATE_REQUIREMENT
+    }
+}
+
