@@ -46,9 +46,9 @@ class AllRequirementsFilter extends React.Component {
                 {/*Temporary placeholder before structure gets in place*/}
                 <List>
                     <p>Struktur</p>
-                    <ListItem><Checkbox label="Source" labelPosition="left"/></ListItem>
-                    <ListItem><Checkbox label="Stimulus" labelPosition="left"/></ListItem>
-                    <ListItem><Checkbox label="Artifact" labelPosition="left"/></ListItem>
+                    <ListItem primaryText="Source" leftCheckbox={<Checkbox/>}/>
+                    <ListItem primaryText="Stimulus" leftCheckbox={<Checkbox/>}/>
+                    <ListItem primaryText="Artifact" leftCheckbox={<Checkbox/>}/>
                 </List>
                 <Divider/>
                 <List>
