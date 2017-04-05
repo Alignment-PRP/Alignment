@@ -8,7 +8,7 @@ import ProjectTable from './ProjectTable.jsx';
 import Snackbar from 'material-ui/Snackbar';
 import ProjectsSideMenu from './presentational/ProjectsSideMenu.jsx';
 import ProjectNewDialog from './dialog/ProjectNewDialog.jsx';
-import DeleteDialog from "../core/dialog/DeleteDialog";
+import DeleteDialog from "./../core/dialog/DeleteDialog.jsx";
 
 
 /**
