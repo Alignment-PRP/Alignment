@@ -13,6 +13,67 @@ import MenuItem from 'material-ui/MenuItem';
 import GenericTableHeaderRows from './GenericTableHeaderRows.jsx';
 import GenericTableRow from './GenericTableRow.jsx';
 
+/**
+ * Generic table.
+ *
+ * @example
+ * import React from 'react';
+ * import { connect } from 'react-redux';
+ * import { tablePage, tableRows } from './redux/actions/tableActions.jsx';
+ * import GenericTable from './GenericTable.jsx';
+ *
+ *
+ * class ExampleTable extends React.Component {
+ *
+ *   render() {
+ *       const {
+ *           page, nRows,
+ *           changeTablePage,
+ *           changeTableRows
+ *       } = this.props;
+ *
+ *       const metaData = {
+ *           page: page,
+ *           nRows: nRows,
+ *           objects: [
+ *               {name: 'Bjarne', jobb: 'Lege'},
+ *               {name: 'Idun', jobb: 'Lærer'},
+ *               {name: 'Lise', jobb: 'Ingeniør'},
+ *               {name: 'Arne', jobb: 'Vaktmester'}
+ *           ],
+ *           rowMeta: [
+ *               {label: 'Navn', field: 'name', width: '40%'},
+ *               {label: 'Jobb', field: 'jobb', width: '60%'}
+ *           ]
+ *       };
+ *
+ *       return (
+ *           <GenericTable metaData={metaData} tablePage={changeTablePage} tableRows={changeTableRows}/>
+ *       );
+ *   }
+ *
+ * }
+ *
+ * const mapStateToProps = (state) => {
+ *   return {
+ *       page: state.tableReducer.example.page,
+ *       nRows: state.tableReducer.example.nRows
+ *   };
+ * };
+ *
+ * const mapDispatchToProps = (dispatch) => {
+ *   return {
+ *       changeTablePage: (page) => {
+ *           dispatch(tablePage('example', page))
+ *       },
+ *       changeTableRows: (nRows) => {
+ *           dispatch(tableRows('example', nRows));
+ *       }
+ *   };
+ * };
+
+ * export default connect(mapStateToProps, mapDispatchToProps)(ExampleTable);
+ */
 class GenericTable extends React.Component {
 
     render() {
