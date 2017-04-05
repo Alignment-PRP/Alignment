@@ -47,10 +47,10 @@ class ProjectTable extends React.Component {
             objects: projects,
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '30%'},
-                {label: 'Eier', field: 'creatorID', width: '30%'},
-                {label: 'Leder', field: 'managerID', width: '30%'},
-                {type: 'EDIT_LINK', link: PROJECT_GET_BY_ID, linkField: 'ID', width: '5%'},
-                {type: 'DELETE_ACTION', action: deleteProject, param: 'ID', width: '5%'}
+                {label: 'Eier', field: 'creatorID', width: '25%'},
+                {label: 'Leder', field: 'managerID', width: '25%'},
+                {type: 'EDIT_LINK', link: PROJECT_GET_BY_ID, linkField: 'ID', width: '7%'},
+                {type: 'DELETE_ACTION', action: deleteProject, param: 'ID', width: '7%'}
             ]
         };
 
