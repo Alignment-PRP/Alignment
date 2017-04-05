@@ -28,10 +28,6 @@ class RequirementForm extends React.Component {
                         <Field type="text" component={renderTextField} name="name" required/>
                     </div>
                     <div>
-                        <label htmlFor="reqNo"> reqNo </label>
-                        <Field type="text" component={renderTextField} name="reqNo" required/>
-                    </div>
-                    <div>
                         <label htmlFor="reqCode"> reqCode </label>
                         <Field type="text" component={renderTextField} name="reqCode" required/>
                     </div>
