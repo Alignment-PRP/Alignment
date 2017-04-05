@@ -25,6 +25,10 @@ export const FILL_PROJECT_FORM = "FILL_PROJECT_FORM";
 export const TABLE_PAGE = "TABLE_PAGE";
 export const TABLE_ROWS = "TABLE_ROWS";
 
+//Dialog actions
+export const DIALOG_OPEN = "DIALOG_OPEN";
+export const DIALOG_CHANGE_ACTION = "DIALOG_CHANGE_ACTION";
+
 //Requirement
 export const GET_ALL_REQUIREMENTS = "GET_ALL_REQUIREMENTS";
 export const GET_ALL_CATEGORY_NAMES = "GET_CATEGORIES";

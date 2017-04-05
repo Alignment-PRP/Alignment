@@ -1,20 +1,10 @@
-import {PROJECT_GET_BY_ID} from './../config.jsx';
+//Mockup
 
 const metaData = {
     page: 0,
     nRows: 0,
     objects: [],
     rowMeta: []
-};
-
-export const projectTableMetaData = {
-    ...metaData,
-    rowMeta: [
-        {label: 'Navn', field: 'name', width: '30%'},
-        {label: 'Eier', field: 'creatorID', width: '30%'},
-        {label: 'Leder', field: 'managerID', width: '30%'},
-        {type: 'EDIT', link: PROJECT_GET_BY_ID, linkField: 'ID', width: '10%'}
-    ]
 };
 
 export const userTableMetaData = {
@@ -32,7 +22,7 @@ export const userClassTableMetaData = {
     ...metaData,
     rowMeta: [
         {label: 'Navn', field: 'NAME', width: '30%'},
-        {label: 'Beskrivelse', type: 'WRAP', field: 'description', width: '70%'}
+        {label: 'Beskrivelse', wrap: true, field: 'description', width: '70%'}
     ]
 };
 

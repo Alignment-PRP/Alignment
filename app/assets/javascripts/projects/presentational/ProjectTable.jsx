@@ -1,14 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter} from 'material-ui/Table';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import ProjectTableRow from './ProjectTableRow.jsx';
 import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
-
 import GenericTable from '../../core/table/GenericTable.jsx';
-import { projectTableMetaData } from './../../core/tableMetaData.jsx';
-
+import {PROJECT_GET_BY_ID} from './../../config.jsx';
 
 
 /**
@@ -42,19 +36,26 @@ class ProjectTable extends React.Component {
         const {
             projects, page, nRows,
             projectTablePage,
-            projectTableRows
+            projectTableRows,
+            deleteProject
         } = this.props;
         if ((page-1)*nRows+1 > projects.length) projectTablePage(1); //TODO fix side effect
 
-        let tableData = {
-            ...projectTableMetaData,
-            objects: projects,
+        const projectTableMetaData = {
             page: page,
-            nRows: nRows
+            nRows: nRows,
+            objects: projects,
+            rowMeta: [
+                {label: 'Navn', field: 'name', width: '30%'},
+                {label: 'Eier', field: 'creatorID', width: '30%'},
+                {label: 'Leder', field: 'managerID', width: '30%'},
+                {type: 'EDIT_LINK', link: PROJECT_GET_BY_ID, linkField: 'ID', width: '5%'},
+                {type: 'DELETE_ACTION', action: deleteProject, param: 'ID', width: '5%'}
+            ]
         };
 
         return (
-            <GenericTable metaData={tableData} tablePage={projectTablePage} tableRows={projectTableRows}/>
+            <GenericTable metaData={projectTableMetaData} tablePage={projectTablePage} tableRows={projectTableRows}/>
         );
     }
 
