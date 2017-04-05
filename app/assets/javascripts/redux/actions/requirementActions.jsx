@@ -9,7 +9,9 @@ import {GET_ALL_REQUIREMENTS,
         POST_UPDATE_REQUIREMENT,
         DELETE_REQUIREMENT,
         ADD_TO_FILTER,
-        REMOVE_FROM_FILTER
+        REMOVE_FROM_FILTER,
+        ADD_TO_SUB_FILTER,
+        REMOVE_FROM_SUB_FILTER
 } from './../types.jsx';
 
 export function getAllRequirements() {
@@ -80,6 +82,22 @@ export function removeFromFilter(category) {
     return {
         type: REMOVE_FROM_FILTER,
         payload: category
+    }
+}
+
+export function addToSubFilter(sub, parent) {
+    return {
+        type: ADD_TO_SUB_FILTER,
+        sub: sub,
+        parent: parent
+    }
+}
+
+export function removeFromSubFilter(sub, parent) {
+    return {
+        type: REMOVE_FROM_SUB_FILTER,
+        sub: sub,
+        parent: parent
     }
 }
 

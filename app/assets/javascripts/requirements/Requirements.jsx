@@ -27,7 +27,7 @@ class Requirements extends React.Component {
         const metaData = {
             page: page,
             nRows: nRows,
-            objects: filter.length === 0 ? requirements : filterRequirementList,
+            objects: Object.keys(filter).length > 0 ? filterRequirementList : requirements,
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '20%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '20%'},
