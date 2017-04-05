@@ -47,7 +47,11 @@ public class UserController extends Controller {
     }
 
     public Result getUsers() {
-        //TODO check session
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
         return ok(qh.executeQuery(Statement.GET_USERS));
     }
 

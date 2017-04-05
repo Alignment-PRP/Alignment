@@ -56,12 +56,24 @@ public enum Statement {
             "ON sc.catID = c.ID " +
             "WHERE r.ID = ?"),
     UPDATE_GLOBAL_REQUIREMENT(""),//TODO
-
     DELETE_HAS_STRUCTURE("DELETE FROM HasStructure WHERE RID = ?"),
     DELETE_REQUIREMENT_METADATA("DELETE FROM RequirementMetaData WHERE RID = ?"),
     DELETE_HAS_SUB_CATEGORY("DELETE FROM HasSubCategory WHERE RID = ?"),
     DELETE_PROJECT_REQUIREMENTS_BY_RID("DELETE FROM ProjectRequirements WHERE RID = ? "),//TODO: This is unfortunate.
     DELETE_GLOBAL_REQUIREMENT("DELETE FROM Requirements WHERE ID = ?"),
+
+    GET_PROJECTS_PER_REQUIREMENT("" +
+            "SELECT rm.RID, rm.name,   COUNT(DISTINCT pr.PID) AS PIDs " + //Just returning RID with the count for now.
+            "FROM ProjectRequirements AS pr " +
+            "INNER JOIN RequirementMetaData AS rm " +
+            "ON pr.RID = rm.RID " +
+            "INNER JOIN HasSubCategory AS hsc " +
+            "ON pr.RID = hsc.RID " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON sc.ID = hsc.SID " +
+            "INNER JOIN Category AS c " +
+            "ON sc.catID = c.ID " +
+            "GROUP BY rm.RID"),
 
 
     //===========================================PROJECT=========================================================================
@@ -182,11 +194,11 @@ public enum Statement {
     GET_USERS("SELECT USERNAME, firstName, lastName, email FROM Users"),
     GET_USERS_WITH_CLASSES(
             "SELECT u.USERNAME, u.firstName, u.lastName, uc.NAME AS ucName, u.email " +
-                    "FROM Users AS u " +
-                    "INNER JOIN UserHasClass AS uhc " +
-                    "ON u.USERNAME = uhc.USERNAME " +
-                    "INNER JOIN UserClass AS uc " +
-                    "ON uc.NAME = uhc.NAME "
+            "FROM Users AS u " +
+            "INNER JOIN UserHasClass AS uhc " +
+            "ON u.USERNAME = uhc.USERNAME " +
+            "INNER JOIN UserClass AS uc " +
+            "ON uc.NAME = uhc.NAME "
     ),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
