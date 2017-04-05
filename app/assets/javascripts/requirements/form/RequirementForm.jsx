@@ -41,7 +41,7 @@ class RequirementForm extends React.Component {
                     </div>
                     <div>
                         <label htmlFor="subCategory"> subCategory </label>
-                        <Field type="text" component={renderTextField} name="scName" required/>
+                        <Field type="number" component={renderTextField} name="subCatID" required/>
                     </div>
                     <div>
                         <label htmlFor="description"> Beskrivelse </label>
