@@ -1,6 +1,7 @@
 import React from 'react';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
+import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
 /**
@@ -20,13 +21,17 @@ class ProjectsSideMenu extends React.Component {
             <div className={className}>
                 <Paper>
                     <List>
+                        <ListItem primaryText="PROSJEKT MENY"/>
+                    </List>
+                    <Divider/>
+                    <List>
                         <ListItem primaryText="Mine Prosjekter" onClick={handleUser}/>
                         <ListItem primaryText="Alle Prosjekter" onClick={handleAll}/>
                         <ListItem primaryText="Arkiverte Prosjekter" onClick={handleArchived}/>
                     </List>
                     <Divider/>
                     <List>
-                        <ListItem primaryText="Nytt Prosjekt" onClick={handleNew}/>
+                        <RaisedButton onClick={handleNew} primary={true} label="Nytt Prosjekt" />
                     </List>
                 </Paper>
             </div>
