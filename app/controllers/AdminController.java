@@ -271,7 +271,7 @@ public class AdminController extends Controller {
             }
 
         }
-        return ok("added requirement");
+        return ok("updated requirement");
 
 
     }
