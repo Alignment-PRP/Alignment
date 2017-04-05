@@ -60,7 +60,6 @@ class Header extends React.Component {
         }else {
             return (
                 <div id="user-info">
-                    <p>Laster inn brukerinformasjon</p>
                     <CircularProgress
                         mode="determinate"
                         value={this.state.completed}
