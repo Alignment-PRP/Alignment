@@ -3,7 +3,7 @@ import {
     TABLE_ROWS
 } from './../types.jsx';
 
-const data = {
+const init = {
     page: 1,
     nRows: 10
 };
@@ -15,9 +15,10 @@ const updateField = (state, object, field, data) => {
 };
 
 const tableReducer = (state = {
-    project: {...data},
-    user: {...data},
-    userClass: {...data},
+    project: {...init},
+    user: {...init},
+    userClass: {...init},
+    requirement: {...init}
 }, action) => {
     switch (action.type) {
         case TABLE_PAGE:
