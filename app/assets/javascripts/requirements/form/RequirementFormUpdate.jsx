@@ -18,19 +18,21 @@ class RequirementFormUpdate extends React.Component {
     }
 
     renderSubCategoryItems(subCategories){
-        return subCategories.map((subCategories, index) => {
+        return subCategories.map((subCategory, index) => {
             return (
-                <option>{subCategories.subcategoryName}</option>
+                <option key={index} value={subCategory.subcategoryID}>{subCategory.subcategoryName}</option>
             )
         });
 
     }
 
     renderCategoryItems(categories){
-        return categories.map((categories, index) => {
-            <optgroup label={categories.name}>
-                {this.renderSubCategoryItems(categories.subcategories)}
-            </optgroup>
+        return categories.map((category, index) => {
+            return (
+                <optgroup key={index} label={category.name}>
+                    {this.renderSubCategoryItems(category.subcategories)}
+                </optgroup>
+            )
         });
     }
 
@@ -61,19 +63,13 @@ class RequirementFormUpdate extends React.Component {
                         <Field type="text" component={renderTextField} name="reqResponsible" required/>
                     </div>
                     <div>
-                        <select name="scID">
+                        {/*<select name="scID">
                             {this.renderCategoryItems(categories)}
-                        </select>
-                        /*
-                        <Field
-                            name="scID"
-                            label="Kategori"
-                            disabled={true}
-                            component={renderSelectField}
-                        >
-                            {menuItemsCategories(categories)}
+                        </select>*/}
+                        <label> Kategori </label>
+                        <Field name="scID" component="select" >
+                            {this.renderCategoryItems(categories)}
                         </Field>
-                        */
                     </div>
                     <div>
                         <label htmlFor="description"> Beskrivelse </label>
