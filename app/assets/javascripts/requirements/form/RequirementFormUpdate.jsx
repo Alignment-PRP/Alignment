@@ -24,7 +24,11 @@ class RequirementForm extends React.Component {
                 <h2>Oppdater krav</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="name"> Krav navn </label>
+                        <label htmlFor="ID"> Krav ID </label>
+                        <Field type="text" component={renderTextField} name="ID" readonly/>
+                    </div>
+                    <div>
+                        <label htmlFor="name"> Krav Navn </label>
                         <Field type="text" component={renderTextField} name="name" required/>
                     </div>
                     <div>
@@ -70,5 +74,6 @@ export default connect(
     null
 )(reduxForm({
     form: 'RequirementForm',
+    enableReinitialize: true
 })(RequirementForm));
 
