@@ -1,14 +1,13 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
-import GenericTable from '../../core/table/GenericTable.jsx';
-import {PROJECT_GET_BY_ID} from './../../config.jsx';
+import { tablePage, tableRows } from '../redux/actions/tableActions.jsx';
+import GenericTable from '../core/table/GenericTable.jsx';
+import {PROJECT_GET_BY_ID} from '../config.jsx';
 
 
 /**
  * Class represents a table with projects.
  * @see Projects
- * @see ProjectTableRow
  * @see Project
  */
 class ProjectTable extends React.Component {
@@ -17,16 +16,6 @@ class ProjectTable extends React.Component {
         this.props.projectTablePage(1);
         this.props.projectTableRows(10);
     }
-
-
-    /**
-     * Called when a row is clicked.
-     * @param index
-     */
-    clicked(index) {
-        //this.props.projectClicked(this.props.projects[index]);
-    }
-
 
     /**
      * Render method.

@@ -9,7 +9,6 @@ import Logout from './utility/Logout.jsx';
 //Project
 import Projects from './projects/Projects.jsx';
 import Project from './projects/Project.jsx';
-import NewProject from './projects/NewProject.jsx';
 
 //Requirements
 import AllRequirements from './requirements/AllRequirements.jsx';
@@ -58,7 +57,6 @@ class App extends React.Component {
 
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
                             <Route path={"/api/project/:id"} component={Project}/>
-                            <Route path={"newproject"} component={NewProject}/>
                             <Route path={"allrequirements"} component={AllRequirements}/>
                             <Route path={"/api/requirement/add"} component={AllRequirements}/> {/* for rerouting purposes*/}
                             <Route path={"/api/requirement/update"} component={AllRequirements}/> {/* for rerouting purposes*/}
