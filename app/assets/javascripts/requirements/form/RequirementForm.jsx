@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { renderTextField } from './../../admin/render.jsx';
-import { Link } from 'react-router';
 
 class RequirementForm extends React.Component {
 
@@ -18,8 +17,33 @@ class RequirementForm extends React.Component {
        });
     }
 
+    renderSubCategoryItems(subCategories){
+        return subCategories.map((subCategory, index) => {
+            return (
+                <option key={index} value={subCategory.subcategoryID}>{subCategory.subcategoryName}</option>
+            )
+        });
+
+    }
+
+    renderCategoryItems(categories){
+        return categories.map((category, index) => {
+            return (
+                <optgroup key={index} label={category.name}>
+                    {this.renderSubCategoryItems(category.subcategories)}
+                </optgroup>
+            )
+        });
+    }
+
+    renderUsers(users){
+        return users.map((user, index) => {
+            return <option key={index} value={user.USERNAME}>{user.USERNAME}</option>
+        })
+    }
+
     render() {
-        const { handleSubmit, structure } = this.props;
+        const { handleSubmit, structure, categories, users } = this.props;
         return (
             <div className="add-requirement">
                 <h2>Lag nytt krav</h2>
@@ -36,13 +60,19 @@ class RequirementForm extends React.Component {
                         <label htmlFor="reqCode"> reqCode </label>
                         <Field type="text" component={renderTextField} name="reqCode" required/>
                     </div>
+                    <br/>
                     <div>
-                        <label htmlFor="reqResponsible"> reqResponsible </label>
-                        <Field type="text" component={renderTextField} name="reqResponsible" required/>
+                        <label> reqResponsible </label>
+                        <Field component="select" name="reqResponsible">
+                            {this.renderUsers(users)}
+                        </Field>
                     </div>
+                    <br/>
                     <div>
-                        <label htmlFor="subCatID"> subCategory </label>
-                        <Field type="number" component={renderTextField} name="subCatID" required/>
+                        <label> Kategori </label>
+                        <Field name="scID" component="select" >
+                            {this.renderCategoryItems(categories)}
+                        </Field>
                     </div>
                     <div>
                         <label htmlFor="description"> Beskrivelse </label>
@@ -53,7 +83,7 @@ class RequirementForm extends React.Component {
                         <Field type="text" component={renderTextField} name="comment" required/>
                     </div>
                     {this.renderStructureForm(structure)}
-                    <button type="submit">Oppdater</button>
+                    <button type="submit">Legg til</button>
                 </form>
             </div>
         );
