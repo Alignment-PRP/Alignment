@@ -3,7 +3,7 @@ import {
     DIALOG_CHANGE_ACTION
 } from './../types.jsx';
 
-const data = {
+const init = {
     isOpen: false,
     action: () => {}
 };
@@ -15,8 +15,9 @@ const updateField = (state, dialog, field, data) => {
 };
 
 const dialogReducer = (state = {
-    projectDelete: {...data},
-    projectNew: {...data}
+    projectDelete: {...init},
+    projectNew: {...init},
+    requirementDelete: {...init}
 }, action) => {
     switch (action.type) {
         case DIALOG_OPEN:

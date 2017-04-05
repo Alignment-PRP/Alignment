@@ -122,7 +122,11 @@ export function deleteRequirement(id){
                 dispatch(getAllRequirements());
             })
             .catch(function (error) {
-                console.log(error);
+                if (error.response.status === 401) {
+                    //TODO
+                } else {
+                    console.log(error);
+                }
             });
         dispatch(deleteRequirementAsync())
     }
