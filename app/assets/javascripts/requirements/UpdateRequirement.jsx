@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { addRequirement } from "../redux/actions/requirementActions.jsx";
 
 import RequirementFormUpdate from './form/RequirementFormUpdate.jsx';
 
@@ -35,7 +34,7 @@ class UpdateRequirement extends React.Component {
         ];
 
         return (
-            <RequirementFormUpdate structure={structure} onSubmit={this.props.addRequirement}/>
+            <RequirementFormUpdate structure={structure} />
         );
     }
 }
@@ -50,9 +49,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
-        },
-        addRequirement: (requirement) => {
-            dispatch(addRequirement(requirement))
         }
     };
 };
