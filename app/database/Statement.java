@@ -38,8 +38,8 @@ public enum Statement {
             "reqNo = ?, " +
             "name = ? " +
             "WHERE RID = ?"),
-    INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?,?)"),
-    INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?,?)"),
+    INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?)"),
+    INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
     GET_REQUIREMENTS_BY_CATEGORY_ID("" +
             ""),//TODO
