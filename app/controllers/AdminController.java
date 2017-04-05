@@ -90,7 +90,7 @@ public class AdminController extends Controller {
         final JsonNode values = request().body().asJson();
 
         //Gets the meta data values
-        int subCatID = Integer.parseInt(values.get("subCatID").asText());
+        int subCatID = Integer.parseInt(values.get("scID").asText());
         String description = values.get("description").asText();
         String comment = values.get("comment").asText();
         String reqCode = values.get("reqCode").asText();
