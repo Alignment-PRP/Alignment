@@ -53,6 +53,7 @@ export const REQUIREMENT_GET_CATEGORY_BY_ID = REQUIREMENT_CATEGORY + "/";
 
 export const REQUIREMENTS_GET = REQUIREMENT + "s";
 export const REQUIREMENTS_GET_ADMIN = REQUIREMENTS_GET + "/admin";
+export const REQUIREMENTS_GET_STATISTICS = REQUIREMENTS_GET + "/usage";
 
 export const CATEGORY = API + "/category";
 export const CATEGORY_POST_ADD = CATEGORY + "/add";
