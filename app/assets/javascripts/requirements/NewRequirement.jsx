@@ -28,9 +28,6 @@ class NewRequirement extends React.Component {
             },
             {
                 environment: "something"
-            },
-            {
-                test: "something"
             }
         ];
 
