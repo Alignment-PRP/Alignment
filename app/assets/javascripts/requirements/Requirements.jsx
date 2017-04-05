@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from "react-redux";
-import RequirementTable from './presentational/RequirementsTable.jsx';
 import { getAllRequirements, getAllCategoryNames, updateRequirement, deleteRequirement } from "../redux/actions/requirementActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { tablePage, tableRows } from './../redux/actions/tableActions.jsx';
