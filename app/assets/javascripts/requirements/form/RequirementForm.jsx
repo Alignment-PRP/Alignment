@@ -19,7 +19,7 @@ class RequirementForm extends React.Component {
     }
 
     render() {
-        const { handleSubmit, initialValues, structure } = this.props;
+        const { handleSubmit, structure } = this.props;
         return (
             <div className="add-requirement">
                 <h2>Lag nytt krav</h2>
