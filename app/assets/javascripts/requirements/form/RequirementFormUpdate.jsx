@@ -36,8 +36,14 @@ class RequirementFormUpdate extends React.Component {
         });
     }
 
+    renderUsers(users){
+        return users.map((user, index) => {
+            return <option key={index} value={user.USERNAME}>{user.USERNAME}</option>
+        })
+    }
+
     render() {
-        const { handleSubmit, structure, categories } = this.props;
+        const { handleSubmit, structure, categories, users } = this.props;
         return (
             <div className="update-requirement">
                 <h2>Oppdater krav</h2>
@@ -58,14 +64,15 @@ class RequirementFormUpdate extends React.Component {
                         <label htmlFor="reqCode"> reqCode </label>
                         <Field type="text" component={renderTextField} name="reqCode" required/>
                     </div>
+                    <br/>
                     <div>
-                        <label htmlFor="reqResponsible"> reqResponsible </label>
-                        <Field type="text" component={renderTextField} name="reqResponsible" required/>
+                        <label> reqResponsible </label>
+                        <Field component="select" name="reqResponsible">
+                            {this.renderUsers(users)}
+                        </Field>
                     </div>
+                    <br/>
                     <div>
-                        {/*<select name="scID">
-                            {this.renderCategoryItems(categories)}
-                        </select>*/}
                         <label> Kategori </label>
                         <Field name="scID" component="select" >
                             {this.renderCategoryItems(categories)}
