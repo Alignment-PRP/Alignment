@@ -70,6 +70,5 @@ export default connect(
     null
 )(reduxForm({
     form: 'RequirementForm',
-    enableReinitialize: true
 })(RequirementForm));
 

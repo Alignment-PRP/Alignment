@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { renderTextField } from './../../admin/render.jsx';
+import { Link } from 'react-router';
 
 class RequirementForm extends React.Component {
 
@@ -20,7 +21,7 @@ class RequirementForm extends React.Component {
     render() {
         const { handleSubmit, initialValues, structure } = this.props;
         return (
-            <div className="update-requirement">
+            <div className="add-requirement">
                 <h2>Lag nytt krav</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -41,7 +42,7 @@ class RequirementForm extends React.Component {
                     </div>
                     <div>
                         <label htmlFor="subCatID"> subCategory </label>
-                        <Field type="text" component={renderTextField} name="subCatID" required/>
+                        <Field type="number" component={renderTextField} name="subCatID" required/>
                     </div>
                     <div>
                         <label htmlFor="description"> Beskrivelse </label>
@@ -61,7 +62,6 @@ class RequirementForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        initialValues: state.requirementReducer.projectRequirement,
     };
 };
 
