@@ -4,9 +4,9 @@ import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProject
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { snackBar } from './../redux/actions/projectFormActions.jsx';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions.jsx';
-import ProjectTable from './presentational/ProjectTable.jsx';
+import ProjectTable from './ProjectTable.jsx';
 import Snackbar from 'material-ui/Snackbar';
-import ProjectsSideMenu from './ProjectsSideMenu.jsx';
+import ProjectsSideMenu from './presentational/ProjectsSideMenu.jsx';
 import ProjectNewDialog from './dialog/ProjectNewDialog.jsx';
 import ProjectDeleteDialog from './dialog/ProjectDeleteDialog.jsx';
 

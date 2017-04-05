@@ -7,7 +7,6 @@ class ProjectDeleteDialog extends React.Component {
 
     render() {
         const { open, action, onRequestClose } = this.props;
-        console.log(open);
         const actions = [
             <RaisedButton
                 label="Slett"
