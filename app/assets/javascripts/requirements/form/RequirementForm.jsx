@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { renderTextField } from './../../admin/render.jsx';
 import { Link } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class RequirementForm extends React.Component {
 
@@ -25,35 +26,36 @@ class RequirementForm extends React.Component {
                 <h2>Lag nytt krav</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="name"> Krav navn </label>
+                        <label htmlFor="name"> Krav navn </label><br/>
                         <Field type="text" component={renderTextField} name="name" required/>
                     </div>
                     <div>
-                        <label htmlFor="reqNo"> reqNo </label>
+                        <label htmlFor="reqNo"> reqNo </label><br/>
                         <Field type="text" component={renderTextField} name="reqNo" required/>
                     </div>
                     <div>
-                        <label htmlFor="reqCode"> reqCode </label>
+                        <label htmlFor="reqCode"> reqCode </label><br/>
                         <Field type="text" component={renderTextField} name="reqCode" required/>
                     </div>
                     <div>
-                        <label htmlFor="reqResponsible"> reqResponsible </label>
+                        <label htmlFor="reqResponsible"> reqResponsible </label><br/>
                         <Field type="text" component={renderTextField} name="reqResponsible" required/>
                     </div>
                     <div>
-                        <label htmlFor="subCatID"> subCategory </label>
+                        <label htmlFor="subCatID"> subCategory </label><br/>
                         <Field type="number" component={renderTextField} name="subCatID" required/>
                     </div>
                     <div>
-                        <label htmlFor="description"> Beskrivelse </label>
+                        <label htmlFor="description"> Beskrivelse </label><br/>
                         <Field type="text" component={renderTextField} name="description" required/>
                     </div>
                     <div>
-                        <label htmlFor="comment"> Kommentar </label>
+                        <label htmlFor="comment"> Kommentar </label><br/>
                         <Field type="text" component={renderTextField} name="comment" required/>
                     </div>
                     {this.renderStructureForm(structure)}
-                    <button type="submit">Oppdater</button>
+                    <br/>
+                    <RaisedButton type="submit">Oppdater</RaisedButton>
                 </form>
             </div>
         );
