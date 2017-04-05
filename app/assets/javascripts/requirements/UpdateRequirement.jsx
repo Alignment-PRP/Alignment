@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { postUpdateRequirement } from "../redux/actions/requirementActions.jsx";
 
+
 import RequirementFormUpdate from './form/RequirementFormUpdate.jsx';
 
 class UpdateRequirement extends React.Component {
@@ -35,7 +36,7 @@ class UpdateRequirement extends React.Component {
         ];
 
         return (
-            <RequirementFormUpdate structure={structure} onSubmit={this.props.postUpdateRequirement} />
+            <RequirementFormUpdate categories={this.props.categories} structure={structure} onSubmit={this.props.postUpdateRequirement} />
         );
     }
 }
@@ -43,6 +44,7 @@ class UpdateRequirement extends React.Component {
 const mapStateToProps = (state) => {
     return {
         mode: state.sideMenuReducer.mode,
+        categories: state.requirementReducer.categoryNames
     };
 };
 
