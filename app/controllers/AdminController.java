@@ -234,10 +234,9 @@ public class AdminController extends Controller {
         //Inserts a new row in RequirementMetaData using the requirement ID as PK
         qh.insertStatement(Statement.UPDATE_REQUIREMENT_META_DATA, reqResponsible, description, comment, reqCode, reqNo, name, ID);
 
-
+        //Deletes all the HAS structure relations for this requirement
+        qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, ID);
         //Inserts all the structures
-        //TODO: Check current structure and delete and insert accordingly.
-        //qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, ID);
         for (String structureType: structures){
             String content = values.get(0).get(structureType).asText();
             if(content == null){
