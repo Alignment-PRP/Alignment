@@ -18,14 +18,14 @@ class RequirementFormUpdate extends React.Component {
     }
 
     render() {
-        const { handleSubmit, initialValues, structure } = this.props;
+        const { handleSubmit, structure } = this.props;
         return (
             <div className="update-requirement">
                 <h2>Oppdater krav</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="ID"> Krav ID </label>
-                        <Field type="text" component={renderTextField} name="ID" readonly/>
+                        <Field type="text" component={renderTextField} name="ID" readOnly/>
                     </div>
                     <div>
                         <label htmlFor="name"> Krav Navn </label>
@@ -44,7 +44,7 @@ class RequirementFormUpdate extends React.Component {
                         <Field type="text" component={renderTextField} name="reqResponsible" required/>
                     </div>
                     <div>
-                        <label htmlFor="subCatID"> subCategory </label>
+                        <label htmlFor="scID"> subCategory </label>
                         <Field type="text" component={renderTextField} name="subCatID" required/>
                     </div>
                     <div>
@@ -65,7 +65,7 @@ class RequirementFormUpdate extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        initialValues: state.requirementReducer.requirements
+        initialValues: state.requirementReducer.requirement
     };
 };
 

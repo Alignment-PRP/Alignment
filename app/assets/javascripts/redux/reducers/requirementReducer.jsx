@@ -3,6 +3,7 @@ import {GET_ALL_REQUIREMENTS,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
         ADD_REQUIREMENT,
+        POST_UPDATE_REQUIREMENT,
         UPDATE_REQUIREMENT,
         DELETE_REQUIREMENT,
         ADD_TO_FILTER,
@@ -55,6 +56,7 @@ const requirementReducer = (state = {
                 filter: state.filter.filter(e => e !== action.payload)
             };
         case ADD_REQUIREMENT:
+        case POST_UPDATE_REQUIREMENT:
         case DELETE_REQUIREMENT:
         default:
             return state
