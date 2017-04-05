@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { renderTextField } from './../../admin/render.jsx';
+import {renderTextField, renderPassField, renderSelectField, menuItemsClasses} from '../../admin/render.jsx';
 
 class RequirementFormUpdate extends React.Component {
 
@@ -17,8 +17,25 @@ class RequirementFormUpdate extends React.Component {
        });
     }
 
+    renderSubCategoryItems(subCategories){
+        return subCategories.map((subCategories, index) => {
+            return (
+                <option>{subCategories.subcategoryName}</option>
+            )
+        });
+
+    }
+
+    renderCategoryItems(categories){
+        return categories.map((categories, index) => {
+            <optgroup label={categories.name}>
+                {this.renderSubCategoryItems(categories.subcategories)}
+            </optgroup>
+        });
+    }
+
     render() {
-        const { handleSubmit, structure } = this.props;
+        const { handleSubmit, structure, categories } = this.props;
         return (
             <div className="update-requirement">
                 <h2>Oppdater krav</h2>
@@ -44,8 +61,19 @@ class RequirementFormUpdate extends React.Component {
                         <Field type="text" component={renderTextField} name="reqResponsible" required/>
                     </div>
                     <div>
-                        <label htmlFor="scID"> subCategory </label>
-                        <Field type="text" component={renderTextField} name="scID" required/>
+                        <select name="scID">
+                            {this.renderCategoryItems(categories)}
+                        </select>
+                        /*
+                        <Field
+                            name="scID"
+                            label="Kategori"
+                            disabled={true}
+                            component={renderSelectField}
+                        >
+                            {menuItemsCategories(categories)}
+                        </Field>
+                        */
                     </div>
                     <div>
                         <label htmlFor="description"> Beskrivelse </label>

@@ -8,6 +8,7 @@ class Requirements extends React.Component {
 
     componentDidMount(){
         this.props.getAllRequirements();
+        this.props.getAllCategoryNames();
         this.props.changeSideMenuMode("FILTER");
     }
 
