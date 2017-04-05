@@ -8,7 +8,6 @@ export function getRequirementUsageStatistics() {
         axios.get(URLS.REQUIREMENTS_GET_STATISTICS)
             .then( response => {
                 const data = [];
-                console.log("Print Response:", response);
                 response.data.map((object) => {
                     data.push(object);
                     return data

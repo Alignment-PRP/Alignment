@@ -28,8 +28,18 @@ public enum Statement {
     //===========================================GLOBAL==========================================================================
     INSERT_REQUIREMENT("INSERT INTO Requirements () VALUES()"),
     INSERT_REQUIREMENT_META_DATA("INSERT INTO RequirementMetaData (RID, reqResponsible, description, comment, reqCode, reqNo, name) VALUES(?,?,?,?,?,?,?)"),
-    INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?,?)"),
-    INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?,?)"),
+    UPDATE_REQUIREMENT_META_DATA("" +
+            "UPDATE RequirementMetaData " +
+            "SET " +
+            "reqResponsible = ?, " +
+            "description = ?, " +
+            "comment = ?, " +
+            "reqCode = ?, " +
+            "reqNo = ?, " +
+            "name = ? " +
+            "WHERE RID = ?"),
+    INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?)"),
+    INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
     GET_REQUIREMENTS_BY_CATEGORY_ID("" +
             ""),//TODO
@@ -50,8 +60,10 @@ public enum Statement {
             "FROM Requirements AS r " +
             "INNER JOIN RequirementMetaData AS rm " +
             "ON r.ID = rm.RID " +
+            "INNER JOIN HasSubCategory AS hsc " +
+            "ON r.ID = hsc.RID " +
             "INNER JOIN SubCategory AS sc " +
-            "ON rm.subCatID = sc.ID " +
+            "ON hsc.SID = sc.ID " +
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID " +
             "WHERE r.ID = ?"),

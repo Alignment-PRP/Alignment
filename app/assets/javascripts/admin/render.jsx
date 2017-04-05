@@ -220,6 +220,12 @@ export const menuItemsClasses = (classes) => {
     })
 };
 
+export const menuItemsCategories = (classes) => {
+    return classes.map((item, index) => {
+        return <MenuItem key={index} value={item.scID} primaryText={item.NAME}/>
+    })
+};
+
 /**
  * Renders a SelectField from Material-UI.
  * Redux-form injects parameters.
