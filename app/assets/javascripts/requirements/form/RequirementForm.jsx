@@ -40,10 +40,6 @@ class RequirementForm extends React.Component {
                         <Field type="text" component={renderTextField} name="reqResponsible" required/>
                     </div>
                     <div>
-                        <label htmlFor="category"> category </label>
-                        <Field type="text" component={renderTextField} name="cName" required/>
-                    </div>
-                    <div>
                         <label htmlFor="subCategory"> subCategory </label>
                         <Field type="text" component={renderTextField} name="scName" required/>
                     </div>
