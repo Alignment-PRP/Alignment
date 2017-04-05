@@ -80,7 +80,7 @@ class Admin extends React.Component {
                         </div>
                     </Tab>
                     <Tab value="/admin/stats" label="Statistikk" onActive={this.handleStatistic}>
-                        <div style={this.style.tabContent}>
+                        <div id="admin" style={this.style.tabContent}>
                             <Statistics/>
                         </div>
                     </Tab>
