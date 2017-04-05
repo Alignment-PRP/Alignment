@@ -39,7 +39,6 @@ class Statistics extends React.Component {
         } = this.props;
         return (
             <div className="containerStatistics">
-                <br/>
                 <h2>Statistikk</h2>
                 <p>
                     Antall ganger et krav er brukt i forskjellige prosjekter
