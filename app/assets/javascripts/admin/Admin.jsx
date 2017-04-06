@@ -1,12 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
+import { push } from 'react-router-redux';
 import { changeSideMenuMode } from "./../redux/actions/sideMenuActions.jsx";
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Users from './users/Users.jsx';
 import Classes from './userclasses/Classes.jsx';
 import Statistics from './statistics/Statistics.jsx';
-import {browserHistory} from 'react-router';
-import {changeTab} from './../redux/actions/adminTabActions.jsx';
 
 /**
  * Class represents the admin page.
@@ -25,11 +24,6 @@ class Admin extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleDefault = this.handleActive.bind(this, '/admin');
-        this.handleUsers = this.handleActive.bind(this, '/admin/users');
-        this.handleClasses = this.handleActive.bind(this, '/admin/classes');
-        this.handleStatistic = this.handleActive.bind(this, '/admin/stats');
-
         this.style = {
             tabContent: {
 
@@ -42,26 +36,18 @@ class Admin extends React.Component {
      */
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
+        console.log(this.props.path);
     }
-
-    /**
-     * Pushes an url when a tab is changed.
-     * @param {string} url
-     */
-    handleActive(url) {
-        browserHistory.push(url)
-    }
-
 
     render() {
-        const { index, path, changeTab } = this.props;
+        const { index, path, push } = this.props;
         return (
             <div>
                 <Tabs
                     initialSelectedIndex={index}
                     value={path}
                 >
-                    <Tab value="/admin" label="Brukeroversikt" onActive={this.handleDefault}>
+                    <Tab value="/admin" label="Brukeroversikt" onActive={() => push('/admin')}>
                         <div id="admin" style={this.style.tabContent}>
                             <h2>Brukeroversikt</h2>
                             <ul>
@@ -69,17 +55,17 @@ class Admin extends React.Component {
                             </ul>
                         </div>
                     </Tab>
-                    <Tab value="/admin/users" label="Brukere" onActive={this.handleUsers}>
+                    <Tab value="/admin/users" label="Brukere" onActive={push.bind(null, '/admin/users')}>
                         <div style={this.style.tabContent}>
                             <Users/>
                         </div>
                     </Tab>
-                    <Tab value="/admin/classes" label="Brukerklasser" onActive={this.handleClasses}>
+                    <Tab value="/admin/classes" label="Brukerklasser" onActive={push.bind(null, '/admin/classes')}>
                         <div style={this.style.tabContent}>
                             <Classes/>
                         </div>
                     </Tab>
-                    <Tab value="/admin/stats" label="Statistikk" onActive={this.handleStatistic}>
+                    <Tab value="/admin/stats" label="Statistikk" onActive={push.bind(null, '/admin/stats')}>
                         <div id="admin" style={this.style.tabContent}>
                             <Statistics/>
                         </div>
@@ -100,8 +86,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeTab: (index) => {
-            dispatch(changeTab(index))
+        push: (url) => {
+            dispatch(push(url));
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
