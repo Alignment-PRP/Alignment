@@ -12,7 +12,6 @@ import projectFormReducer from "./reducers/projectFormReducer.jsx";
 import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
 import statisticsReducer from "./reducers/statisticsReducer.jsx";
 import userFormReducer from './reducers/userFormReducer.jsx';
-import adminTabReducer from './reducers/adminTabReducers.jsx';
 import classFormReducer from './reducers/classFormReducer.jsx';
 import tableReducer from './reducers/tableReducer.jsx';
 import dialogReducer from './reducers/dialogReducer.jsx';
@@ -32,7 +31,6 @@ const reducers = {
     projectFormReducer,
     sideMenuReducer,
     userFormReducer,
-    adminTabReducer,
     classFormReducer,
     tableReducer,
     dialogReducer,
