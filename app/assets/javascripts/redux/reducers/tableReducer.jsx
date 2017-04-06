@@ -1,6 +1,7 @@
 import {
     TABLE_PAGE,
-    TABLE_ROWS
+    TABLE_ROWS,
+    TABLE_ADD
 } from './../types.jsx';
 
 const init = {
@@ -9,16 +10,21 @@ const init = {
 };
 
 const updateField = (state, object, field, data) => {
-    let newState = {...state};
-    newState[object][field] = data;
-    return newState;
+    if (state.tables[object]) {
+        return {
+            ...state,
+            tables: { ...state.tables, [object]: {...state.tables[object], [field]: data}}
+        }
+    } else {
+        return {
+            ...state,
+            tables: { ...state.tables, [object]: {...init, [field]: data}}
+        }
+    }
 };
 
 const tableReducer = (state = {
-    project: {...init},
-    user: {...init},
-    userClass: {...init},
-    requirement: {...init}
+    tables: []
 }, action) => {
     switch (action.type) {
         case TABLE_PAGE:
