@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 import { getAllRequirements, getAllCategoryNames, updateRequirement, deleteRequirement } from "../redux/actions/requirementActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { tablePage, tableRows } from './../redux/actions/tableActions.jsx';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions.jsx';
 import GenericTable from './../core/table/GenericTable.jsx';
 import DeleteDialog from './../core/dialog/DeleteDialog.jsx';
@@ -20,13 +19,11 @@ class Requirements extends React.Component {
         const {
             filterRequirementList, requirements, filter,
             updateRequirement, deleteRequirement,
-            page, nRows, changeTablePage, changeTableRows,
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
         } = this.props;
 
         const metaData = {
-            page: page,
-            nRows: nRows,
+            table: 'requirements',
             objects: Object.keys(filter).length > 0 ? filterRequirementList : requirements,
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '20%'},
@@ -44,7 +41,7 @@ class Requirements extends React.Component {
 
         return (
             <div>
-                <GenericTable metaData={metaData} tablePage={changeTablePage} tableRows={changeTableRows}/>
+                <GenericTable metaData={metaData}/>
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -62,8 +59,6 @@ const mapStateToProps = (state) => {
         filterRequirementList: state.requirementReducer.filterRequirementList,
         requirements: state.requirementReducer.requirements,
         filter: state.requirementReducer.filter,
-        page: state.tableReducer.requirement.page,
-        nRows: state.tableReducer.requirement.nRows,
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action
     };
@@ -76,12 +71,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteDialogChangeAction: (action) => {
             dispatch(dialogChangeAction('requirementDelete', action));
-        },
-        changeTablePage: (page) => {
-            dispatch(tablePage('requirement', page))
-        },
-        changeTableRows: (nRows) => {
-            dispatch(tableRows('requirement', nRows));
         },
         getAllRequirements: () => {
             dispatch(getAllRequirements())

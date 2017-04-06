@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { tablePage, tableRows } from '../redux/actions/tableActions.jsx';
 import GenericTable from '../core/table/GenericTable.jsx';
 import {PROJECT_GET_BY_ID} from '../config.jsx';
 
@@ -12,27 +11,19 @@ import {PROJECT_GET_BY_ID} from '../config.jsx';
  */
 class ProjectTable extends React.Component {
 
-    componentWillMount() {
-        this.props.projectTablePage(1);
-        this.props.projectTableRows(10);
-    }
-
     /**
      * Render method.
      * @returns {XML}
      */
     render() {
         const {
-            projects, page, nRows,
-            projectTablePage,
-            projectTableRows,
+            projects,
             deleteProject
         } = this.props;
-        if ((page-1)*nRows+1 > projects.length) projectTablePage(1); //TODO fix side effect
+        //if ((page-1)*nRows+1 > projects.length) projectTablePage(1); //TODO fix side effect
 
         const projectTableMetaData = {
-            page: page,
-            nRows: nRows,
+            table: 'project',
             objects: projects,
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '30%'},
@@ -44,28 +35,10 @@ class ProjectTable extends React.Component {
         };
 
         return (
-            <GenericTable metaData={projectTableMetaData} tablePage={projectTablePage} tableRows={projectTableRows}/>
+            <GenericTable metaData={projectTableMetaData} />
         );
     }
 
 }
 
-const mapStateToProps = (state) => {
-    return {
-        page: state.tableReducer.project.page,
-        nRows: state.tableReducer.project.nRows
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        projectTablePage: (page) => {
-            dispatch(tablePage('project', page))
-        },
-        projectTableRows: (nRows) => {
-            dispatch(tableRows('project', nRows));
-        }
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectTable);
+export default ProjectTable;
