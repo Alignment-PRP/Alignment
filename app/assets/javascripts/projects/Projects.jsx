@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
+import { push } from 'react-router-redux';
 import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
 import { snackBar } from './../redux/actions/projectFormActions.jsx';
@@ -42,7 +43,17 @@ class Projects extends React.Component {
         this.props.changeSideMenuMode("HIDE");
         this.props.newDialog(false);
         this.props.deleteDialog(false);
-        this.props.changeProjectsTableMode("PUBLIC");
+
+        switch (this.props.path.replace('/projects/', '')) {
+            case "private":
+                this.props.changeProjectsTableMode("PRIVATE");
+                break;
+            case "archive":
+                this.props.changeProjectsTableMode("ARCHIVED");
+                break;
+            default:
+                this.props.changeProjectsTableMode("PUBLIC");
+        }
     }
 
     /**
@@ -85,17 +96,17 @@ class Projects extends React.Component {
             tableMode, snack,
             postProjectNew,
             deleteProject,
-            changeProjectsTableMode
+            changeProjectsTableMode,
+            push
         } = this.props;
-        console.log(deleteDialogIsOpen);
         return (
             <div>
                 <div className="containerUsers">
                     <ProjectsSideMenu
                         className="projects-sidemenu"
-                        handleUser={() => changeProjectsTableMode("PRIVATE")}
-                        handleAll={() => changeProjectsTableMode("PUBLIC")}
-                        handleArchived={() => changeProjectsTableMode("ARCHIVED")}
+                        handleUser={() => {changeProjectsTableMode("PRIVATE"); push('/projects/private')}}
+                        handleAll={() => {changeProjectsTableMode("PUBLIC"); push('/projects')}}
+                        handleArchived={() => {changeProjectsTableMode("ARCHIVED"); push('/projects/archive')}}
                         handleNew={newDialog.bind(null, true)}
                     />
                     <div className="usertable">
@@ -136,7 +147,9 @@ class Projects extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let path = state.router.location ? state.router.location.pathname : '/projects';
     return {
+        path: path,
         publicProjects: state.projectReducer.publicProjects,
         privateProjects: state.projectReducer.privateProjects,
         archivedProjects: state.projectReducer.archivedProjects,
@@ -150,6 +163,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        push: (url) => {
+            dispatch(push(url));
+        },
         getPublicProjects: () => {
             dispatch(getPublicProjects());
         },
