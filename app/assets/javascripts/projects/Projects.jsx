@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, changeProjectsTableMode } from "../redux/actions/projectActions.jsx";
+import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import {changeProjectFormMode, snackBar} from './../redux/actions/projectFormActions.jsx';
-import ProjectTable from './presentational/ProjectTable.jsx';
+import { snackBar } from './../redux/actions/projectFormActions.jsx';
+import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions.jsx';
+import ProjectTable from './ProjectTable.jsx';
 import Snackbar from 'material-ui/Snackbar';
-import ProjectsSideMenu from './ProjectsSideMenu.jsx';
-import ProjectFormDialog from './form/ProjectFormDialog.jsx';
+import ProjectsSideMenu from './presentational/ProjectsSideMenu.jsx';
+import ProjectNewDialog from './dialog/ProjectNewDialog.jsx';
+import DeleteDialog from "./../core/dialog/DeleteDialog.jsx";
 
 
 /**
@@ -38,7 +40,8 @@ class Projects extends React.Component {
         this.props.getPrivateProjects();
         this.props.getArchivedProjects();
         this.props.changeSideMenuMode("HIDE");
-        this.props.changeProjectFormMode(true);
+        this.props.newDialog(false);
+        this.props.deleteDialog(false);
         this.props.changeProjectsTableMode("PUBLIC");
     }
 
@@ -77,11 +80,14 @@ class Projects extends React.Component {
      */
     render(){
         const {
-            formMode, tableMode, snack,
+            newDialogIsOpen, deleteDialogIsOpen,
+            newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
+            tableMode, snack,
             postProjectNew,
-            changeProjectFormMode,
+            deleteProject,
             changeProjectsTableMode
         } = this.props;
+        console.log(deleteDialogIsOpen);
         return (
             <div>
                 <div className="containerUsers">
@@ -90,17 +96,32 @@ class Projects extends React.Component {
                         handleUser={() => changeProjectsTableMode("PRIVATE")}
                         handleAll={() => changeProjectsTableMode("PUBLIC")}
                         handleArchived={() => changeProjectsTableMode("ARCHIVED")}
-                        handleNew={() => changeProjectFormMode(false)}
+                        handleNew={newDialog.bind(null, true)}
                     />
                     <div className="usertable">
                         {this._title(tableMode)}
-                        <ProjectTable projects={this._projects.bind(this, tableMode)()}/>
+                        <ProjectTable
+                            projects={this._projects.bind(this, tableMode)()}
+                            deleteProject={
+                                (ID) => {
+                                    deleteDialog(true);
+                                    deleteDialogChangeAction(() => {deleteProject(ID); deleteDialog(false)})
+                                }
+                            }
+                        />
                     </div>
-                    <ProjectFormDialog
+                    <ProjectNewDialog
                         title="Nytt Prosjekt"
-                        open={!formMode}
-                        handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); changeProjectFormMode(true)}}
-                        onRequestClose={() => {changeProjectFormMode(true)}}
+                        open={newDialogIsOpen}
+                        handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); newDialog(false)}}
+                        onRequestClose={newDialog.bind(null, false)}
+                    />
+                    <DeleteDialog
+                        title="Slett Prosjekt"
+                        desc="Er du sikker på at du vil slette prosjektet?"
+                        open={deleteDialogIsOpen}
+                        action={deleteDialogAction}
+                        onRequestClose={deleteDialog.bind(null, false)}
                     />
                     <Snackbar
                         open={snack.open}
@@ -120,7 +141,9 @@ const mapStateToProps = (state) => {
         privateProjects: state.projectReducer.privateProjects,
         archivedProjects: state.projectReducer.archivedProjects,
         tableMode: state.projectReducer.tableMode,
-        formMode: state.projectFormReducer.mode,
+        newDialogIsOpen: state.dialogReducer.projectNew.isOpen,
+        deleteDialogIsOpen: state.dialogReducer.projectDelete.isOpen,
+        deleteDialogAction: state.dialogReducer.projectDelete.action,
         snack: state.projectFormReducer.snack,
     };
 };
@@ -148,8 +171,14 @@ const mapDispatchToProps = (dispatch) => {
         deleteProject: (id) => {
             dispatch(deleteProject(id));
         },
-        changeProjectFormMode: (mode) => {
-            dispatch(changeProjectFormMode(mode));
+        newDialog: (open) => {
+            dispatch(dialogOpen('projectNew', open));
+        },
+        deleteDialog: (open) => {
+            dispatch(dialogOpen('projectDelete', open));
+        },
+        deleteDialogChangeAction: (action) => {
+            dispatch(dialogChangeAction('projectDelete', action))
         },
         snackBar: (bool, text) => {
             dispatch(snackBar(bool, text))

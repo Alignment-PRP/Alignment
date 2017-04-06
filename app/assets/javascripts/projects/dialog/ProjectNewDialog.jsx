@@ -1,18 +1,18 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import ProjectForm from './ProjectForm.jsx';
+import ProjectForm from './../form/ProjectForm.jsx';
 
-class ProjectFormDialog extends React.Component {
+class ProjectNewDialog extends React.Component {
 
     render() {
         const { handleSubmit, title, open, onRequestClose } = this.props;
         return (
             <Dialog title={title} open={open} modal={false} onRequestClose={onRequestClose} >
-                <ProjectForm onSubmit={handleSubmit} disabled={false} handleCreate={()=>{}} handleClear={()=>{}}/>
+                <ProjectForm onSubmit={handleSubmit} disabled={false} handleClose={onRequestClose}/>
             </Dialog>
         );
     }
 
 }
 
-export default ProjectFormDialog;
+export default ProjectNewDialog;

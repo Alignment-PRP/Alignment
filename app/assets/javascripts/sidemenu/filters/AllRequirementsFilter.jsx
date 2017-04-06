@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
-import { updateFilter, updateFilterRequirementList, getAllCategoryNames, addToFilter, removeFromFilter  } from '../../redux/actions/requirementActions.jsx';
+import { updateFilter, updateFilterRequirementList, getAllCategoryNames, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../../redux/actions/requirementActions.jsx';
 import CategoryCheckBoxes from './presentational/CategoryCheckBoxes.jsx';
 
 class AllRequirementsFilter extends React.Component {
@@ -33,22 +33,35 @@ class AllRequirementsFilter extends React.Component {
         this.props.updateFilterRequirementList();
     }
 
+    _sub(event, isChecked, parent) {
+        const value = event.target.value;
+        if (isChecked) {
+            if (!this.props.filter[parent]) {
+                this.props.addToFilter(parent);
+            }
+            this.props.addToSubFilter(value, parent);
+        } else {
+            this.props.removeFromSubFilter(value, parent);
+        }
+        this.props.updateFilterRequirementList();
+    }
+
     render() {
-        const { categories } = this.props;
+        const { categories, filter, title } = this.props;
         return (
             <div id="filter" style={this.styles.root}>
                 <List>
-                    <h2>{this.props.title}</h2>
+                    <h2>{title}</h2>
                     <p>Kategori</p>
-                    <CategoryCheckBoxes categories={categories} onCheck={this._updateFilter.bind(this)}/>
+                    <CategoryCheckBoxes filter={filter} categories={categories} onCheck={this._updateFilter.bind(this)} onCheckSub={this._sub.bind(this)}/>
                 </List>
                 <Divider/>
                 {/*Temporary placeholder before structure gets in place*/}
                 <List>
                     <p>Struktur</p>
-                    <ListItem><Checkbox label="Source" labelPosition="left"/></ListItem>
-                    <ListItem><Checkbox label="Stimulus" labelPosition="left"/></ListItem>
-                    <ListItem><Checkbox label="Artifact" labelPosition="left"/></ListItem>
+                    <ListItem primaryText="Source" leftCheckbox={<Checkbox/>}/>
+                    <ListItem primaryText="Stimulus" leftCheckbox={<Checkbox/>}/>
+                    <ListItem primaryText="Artifact" leftCheckbox={<Checkbox/>}/>
                 </List>
                 <Divider/>
                 <List>
@@ -79,6 +92,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         removeFromFilter: (category) => {
             dispatch(removeFromFilter(category));
+        },
+        addToSubFilter: (sub, parent) => {
+            dispatch(addToSubFilter(sub, parent));
+        },
+        removeFromSubFilter: (sub, parent) => {
+            dispatch(removeFromSubFilter(sub, parent));
         },
         updateFilterRequirementList: () => {
             dispatch(updateFilterRequirementList())

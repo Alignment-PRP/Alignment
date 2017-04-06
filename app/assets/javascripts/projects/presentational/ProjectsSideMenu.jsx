@@ -21,7 +21,7 @@ class ProjectsSideMenu extends React.Component {
             <div className={className}>
                 <Paper>
                     <List>
-                        <ListItem primaryText="PROSJEKT MENY"/>
+                        <ListItem disabled={true} primaryText="PROSJEKT MENY"/>
                     </List>
                     <Divider/>
                     <List>
@@ -30,7 +30,7 @@ class ProjectsSideMenu extends React.Component {
                         <ListItem primaryText="Arkiverte Prosjekter" onClick={handleArchived}/>
                     </List>
                     <Divider/>
-                    <List>
+                    <List style={{display: 'flex', justifyContent: 'center'}}>
                         <RaisedButton onClick={handleNew} primary={true} label="Nytt Prosjekt" />
                     </List>
                 </Paper>

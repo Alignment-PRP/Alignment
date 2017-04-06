@@ -16,7 +16,7 @@ class ProjectForm extends React.Component {
 
     render() {
         const {
-            handleSubmit, handleClear,
+            handleSubmit, handleClose,
             pristine, reset, submitting
         } = this.props;
         return(
@@ -67,9 +67,10 @@ class ProjectForm extends React.Component {
                             />
                         </div>
                     </div>
-                    <div>
+                    <div style={{display: 'flex', justifyContent: 'flex-start'}}>
                         <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
-                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset}/>
+                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
+                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
                     </div>
                 </form>
             </MuiThemeProvider>

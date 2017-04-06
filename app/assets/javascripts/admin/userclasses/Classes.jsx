@@ -4,13 +4,13 @@ import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
 import { changeClassFormMode, classClicked, fillClassForm, snackBar, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions.jsx";
-import ClassTable from './ClassTable.jsx';
+import GenericTable from './../../core/table/GenericTable.jsx';
 import ClassForm from './ClassForm.jsx';
 
 /**
  * Class represents /admin/classes.
  * Parent: {@link Admin}
- * Children: {@link ClassForm} and {@link ClassTable}
+ * Children: {@link ClassForm}.
  */
 class Classes extends React.Component {
 
@@ -37,8 +37,18 @@ class Classes extends React.Component {
             changeClassFormMode,
             postClassNew,
             postClassUpdate,
-            postClassDelete,
+            postClassDelete
         } = this.props;
+
+        const tableData = {
+            table: 'userClasses',
+            objects: userclasses,
+            rowMeta: [
+                {label: 'Navn', field: 'NAME', width: '30%'},
+                {label: 'Beskrivelse', wrap: true, field: 'description', width: '70%'}
+            ]
+        };
+
         return (
             <div className="containerUsers">
                 <div className="form">
@@ -54,10 +64,7 @@ class Classes extends React.Component {
                     />
                 </div>
                 <div className="usertable">
-                    <ClassTable
-                        classes={userclasses}
-                        classClicked={classClicked}
-                    />
+                    <GenericTable onSelection={classClicked} metaData={tableData}/>
                 </div>
 
                 <Snackbar
