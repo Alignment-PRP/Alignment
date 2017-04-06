@@ -34,12 +34,35 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
+const location = (state, dispatch, path) => {
+    console.log(path);
+    if (state.router.location) {
+        if (state.router.location.pathname !== path) {
+            dispatch(push(path));
+        }
+    } else {
+        dispatch(push(path));
+    }
+};
+
+
 //Defining URL links
 /**
  * Starting point for the application.
  * Defines a provider for the redux store and routes with react-router
  */
 class App extends React.Component {
+
+    _location(state, dispatch, path) {
+        if (state.router.location) {
+            if (state.router.location.pathname !== path) {
+                dispatch(push(path));
+            }
+        } else {
+            dispatch(push(path));
+        }
+    };
+
 
     render() {
         return (
@@ -66,10 +89,10 @@ class App extends React.Component {
                             <Route path={"add-requirement"} component={Requirements}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} component={Logout}/>
-                            <Route path={"admin"} component={Admin} onEnter={() => {}}> {/*TODO fix admin routing*/}
-                                <Route path={"users"} onEnter={() => {}}/>
-                                <Route path={"classes"} onEnter={() => {}}/>
-                                <Route path={"stats"} onEnter={() => {}}/>
+                            <Route path={"admin"} component={Admin} onEnter={() => {}}>
+                                <Route path={"users"} onEnter={() => this._location(store.getState(), store.dispatch, "/admin/users")}/>
+                                <Route path={"classes"} onEnter={() => this._location(store.getState(), store.dispatch, "/admin/classes")}/>
+                                <Route path={"stats"} onEnter={() => this._location(store.getState(), store.dispatch, "/admin/stats")}/>
                             </Route>
 
                             /*Errors*/
