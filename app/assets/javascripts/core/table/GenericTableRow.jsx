@@ -1,34 +1,15 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {TableRow, TableRowColumn} from 'material-ui/Table';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
+import { TableRow } from 'material-ui/Table';
+import GenericTableRowColumn from './GenericTableRowColumn.jsx';
 
-/**
- * Represents a TableRow with project data.
- * @see ProjectTable
- * @see Project
- */
 class GenericTableRow extends React.Component {
 
-    _generateRow(obj, row, index) {
-        switch (row.type) {
-            case "WRAP":
-                return <TableRowColumn style={{whiteSpace: 'normal', wordWrap: 'break-word'}} key={index}>{obj[row.field]}</TableRowColumn>;
-            case "LINK":
-                return <TableRowColumn key={index}><Link to={row.link + obj[row.linkField]}><RaisedButton label={row.label}/></Link></TableRowColumn>;
-            default:
-                return <TableRowColumn key={index}>{obj[row.field]}</TableRowColumn>;
-        }
-    }
-
     render() {
-        const { obj, meta, index, ...extra } = this.props;
+        const { obj, meta, index, ...injectedRowProps } = this.props;
         return (
-            <TableRow key={index} {...extra}>
-                {meta.map((row, index) => {
-                    return this._generateRow(obj, row, index);
+            <TableRow key={index} {...injectedRowProps}>
+                {meta.map((row, index, objects, ...injectedColumnProps) => {
+                    return <GenericTableRowColumn obj={obj} row={row} key={index} {...injectedColumnProps}/>
                 })}
             </TableRow>
         );
