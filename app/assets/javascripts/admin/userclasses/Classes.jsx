@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
 import { changeClassFormMode, classClicked, fillClassForm, snackBar, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions.jsx";
-import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
-import { userClassTableMetaData } from './../../core/tableMetaData.jsx';
 import GenericTable from './../../core/table/GenericTable.jsx';
 import ClassForm from './ClassForm.jsx';
 
@@ -39,16 +37,16 @@ class Classes extends React.Component {
             changeClassFormMode,
             postClassNew,
             postClassUpdate,
-            postClassDelete,
-            userClassTablePage, page,
-            userClassTableRows, nRows
+            postClassDelete
         } = this.props;
 
         const tableData = {
-            ...userClassTableMetaData,
+            table: 'userClasses',
             objects: userclasses,
-            page: page,
-            nRows: nRows
+            rowMeta: [
+                {label: 'Navn', field: 'NAME', width: '30%'},
+                {label: 'Beskrivelse', wrap: true, field: 'description', width: '70%'}
+            ]
         };
 
         return (
@@ -66,7 +64,7 @@ class Classes extends React.Component {
                     />
                 </div>
                 <div className="usertable">
-                    <GenericTable onSelection={classClicked} metaData={tableData} tablePage={userClassTablePage} tableRows={userClassTableRows}/>
+                    <GenericTable onSelection={classClicked} metaData={tableData}/>
                 </div>
 
                 <Snackbar
@@ -86,8 +84,6 @@ const mapStateToProps = (state) => {
         uclass: state.classFormReducer.uclass,
         userclasses : state.userReducer.userclasses,
         snack: state.userFormReducer.snack,
-        page: state.tableReducer.userClass.page,
-        nRows: state.tableReducer.userClass.nRows
     };
 };
 
@@ -99,12 +95,6 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(classClicked(uclass));
                 dispatch(fillClassForm(uclass))
             }
-        },
-        userClassTablePage: (page) => {
-            dispatch(tablePage('userClass', page));
-        },
-        userClassTableRows: (nRows) => {
-            dispatch(tableRows('userClass', nRows));
         },
         postClassNew: (data) => {
             dispatch(postClassNew(data));
