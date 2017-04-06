@@ -1,13 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
-import {getRequirementUsageStatistics} from "../../redux/actions/statisticsActions.jsx";
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { getRequirementUsageStatistics } from "../../redux/actions/statisticsActions.jsx";
+import GenericTable from './../../core/table/GenericTable.jsx';
 
 /**
- * Class represents /admin/classes.
+ * Class represents /admin/stats.
  * Parent: {@link Admin}
- * Children: {@link ClassForm} and {@link ClassTable}
  */
 class Statistics extends React.Component {
 
@@ -19,24 +18,19 @@ class Statistics extends React.Component {
         this.props.getRequirementUsageStatistics();
     }
 
-    renderStats(){
-        return this.props.requirementUsageStatistics.map((item, index) => {
-           return (
-               <TableRow key={index}>
-                   <TableRowColumn>{item.RID}</TableRowColumn>
-                   <TableRowColumn>{item.name}</TableRowColumn>
-                   <TableRowColumn>{item.PIDs}</TableRowColumn>
-               </TableRow>
-
-           );
-
-        })
-    }
-
     render() {
+        const { requirementUsageStatistics } = this.props;
 
-        const {
-        } = this.props;
+        const metaData = {
+            table: 'statistics',
+            objects: requirementUsageStatistics,
+            rowMeta: [
+                {label: 'Krav ID', field: 'RID', width: '33%'},
+                {label: 'Krav Navn', field: 'name', width: '33%'},
+                {label: 'Antall Prosjekter', field: 'PIDs', width: '33%'}
+            ]
+        };
+
         return (
             <div className="containerStatistics">
                 <h2>Statistikk</h2>
@@ -44,32 +38,7 @@ class Statistics extends React.Component {
                     Antall ganger et krav er brukt i forskjellige prosjekter
                 </p>
                 <br/>
-                <Table>
-                    <TableHeader
-                        displaySelectAll={false}
-                        adjustForCheckbox={false}
-                    >
-                        <TableRow>
-                            <TableHeaderColumn>
-                                Requirement ID
-                            </TableHeaderColumn>
-                            <TableHeaderColumn>
-                                Requirement Name
-                            </TableHeaderColumn>
-                            <TableHeaderColumn>
-                                Number of Projects
-                            </TableHeaderColumn>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody
-                        displayRowCheckbox={false}
-                        showRowHover={true}
-                    >
-                        {this.renderStats()}
-                    </TableBody>
-
-
-                </Table>
+                <GenericTable metaData={metaData} />
             </div>
         );
     }
