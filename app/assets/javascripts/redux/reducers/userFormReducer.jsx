@@ -7,28 +7,23 @@ const userFormReducer = (state = {
 }, action) => {
     switch (action.type) {
         case CHANGE_USER_FORM_MODE:
-            state = {
-                mode: action.payload,
-                user: state.user,
-                data: state.data
+            return {
+                ...state,
+                mode: action.payload
             };
-            break;
         case USER_CLICKED:
-            state = {
-                mode: state.mode,
-                user: action.payload,
-                data: state.data
+            return {
+                ...state,
+                user: action.payload
             };
-            break;
         case FILL_FORM:
-            state = {
-                mode: state.mode,
-                user: state.user,
+            return {
+                ...state,
                 data: action.payload
             };
-            break;
+        default:
+            return state;
     }
-    return state;
 };
 
 export default userFormReducer;

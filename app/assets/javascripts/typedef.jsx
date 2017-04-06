@@ -30,6 +30,6 @@
 /**
  * @global
  * @typedef {Object} Snack
- * @property {boolean} open
+ * @property {boolean} isOpen
  * @property {string} text
  */
