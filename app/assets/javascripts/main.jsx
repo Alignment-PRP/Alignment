@@ -17,7 +17,6 @@ import NewRequirement from './requirements/NewRequirement.jsx';
 
 //Admin
 import Admin from './admin/Admin.jsx';
-import {changeTab} from './redux/actions/adminTabActions.jsx';
 
 //Stuff
 import {changeSideMenuMode} from './redux/actions/sideMenuActions.jsx';
