@@ -43,17 +43,6 @@ class Projects extends React.Component {
         this.props.changeSideMenuMode("HIDE");
         this.props.newDialog(false);
         this.props.deleteDialog(false);
-
-        switch (this.props.path.replace('/projects/', '')) {
-            case "private":
-                this.props.changeProjectsTableMode("PRIVATE");
-                break;
-            case "archive":
-                this.props.changeProjectsTableMode("ARCHIVED");
-                break;
-            default:
-                this.props.changeProjectsTableMode("PUBLIC");
-        }
     }
 
     /**
@@ -65,23 +54,23 @@ class Projects extends React.Component {
 
     _projects(mode) {
         switch (mode) {
-            case "PUBLIC":
-                return this.props.publicProjects;
-            case "PRIVATE":
+            case "private":
                 return this.props.privateProjects;
-            case "ARCHIVED":
+            case "archive":
                 return this.props.archivedProjects;
+            default:
+                return this.props.publicProjects;
         }
     }
 
     _title(mode) {
         switch (mode) {
-            case "PUBLIC":
-                return <h2>Åpne Prosjekter</h2>;
-            case "PRIVATE":
+            case "private":
                 return <h2>Mine Prosjekter</h2>;
-            case "ARCHIVED":
+            case "archive":
                 return <h2>Arkiverte Prosjekter</h2>;
+            default:
+                return <h2>Åpne Prosjekter</h2>;
         }
     }
 
@@ -93,20 +82,20 @@ class Projects extends React.Component {
         const {
             newDialogIsOpen, deleteDialogIsOpen,
             newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
-            tableMode, snack,
+            snack,
             postProjectNew,
             deleteProject,
-            changeProjectsTableMode,
-            push
+            push, path
         } = this.props;
+        const tableMode = path.replace('/projects/', '');
         return (
             <div>
                 <div className="containerUsers">
                     <ProjectsSideMenu
                         className="projects-sidemenu"
-                        handleUser={() => {changeProjectsTableMode("PRIVATE"); push('/projects/private')}}
-                        handleAll={() => {changeProjectsTableMode("PUBLIC"); push('/projects')}}
-                        handleArchived={() => {changeProjectsTableMode("ARCHIVED"); push('/projects/archive')}}
+                        handleUser={() => push('/projects/private')}
+                        handleAll={() => push('/projects')}
+                        handleArchived={() => push('/projects/archive')}
                         handleNew={newDialog.bind(null, true)}
                     />
                     <div className="usertable">
@@ -174,9 +163,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         getArchivedProjects: () => {
             dispatch(getArchivedProjects());
-        },
-        changeProjectsTableMode: (mode) => {
-            dispatch(changeProjectsTableMode(mode));
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode));
