@@ -50,6 +50,7 @@ browserifyTask := {
     "react-dom",
     "react-redux",
     "react-router",
+    "react-router-redux",
     "react-tap-event-plugin",
     "redux",
     "redux-form",
@@ -122,7 +123,7 @@ browserifyTask := {
 
   def timestamp: String = {
     def format(n: Integer): String = {
-      if (n<9) "0"+n else ""+n
+      if (n<=9) "0"+n else ""+n
     }
     val now = Calendar.getInstance()
     val hour = format(now.get(Calendar.HOUR_OF_DAY))
