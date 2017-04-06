@@ -10,6 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
 import GenericTableHeaderRows from './GenericTableHeaderRows.jsx';
 import GenericTableRow from './GenericTableRow.jsx';
 
@@ -77,9 +78,10 @@ import GenericTableRow from './GenericTableRow.jsx';
 class GenericTable extends React.Component {
 
     render() {
-        const { metaData, tablePage, tableRows, onSelection } = this.props;
-        const { page, nRows, objects, rowMeta } = metaData;
-
+        const { metaData, tables, tablePage, tableRows, onSelection } = this.props;
+        const { table, objects, rowMeta } = metaData;
+        const page = tables[table] ? tables[table].page : 1;
+        const nRows = tables[table] ? tables[table].nRows : 10;
         return (
             <Table
                 selectable={onSelection ? true : false}
@@ -108,7 +110,7 @@ class GenericTable extends React.Component {
                                 <span>Rader per side:</span>
                                 <DropDownMenu
                                     value={nRows}
-                                    onChange={(event, key, value) => {tableRows(value)}}
+                                    onChange={(event, key, value) => {tableRows(table, value)}}
                                     underlineStyle={{}}
                                 >
                                     <MenuItem value={10} primaryText="10"/>
@@ -119,10 +121,10 @@ class GenericTable extends React.Component {
 
 
                                 <span>{(page-1)*nRows+1}-{page*nRows < objects.length ? page*nRows : objects.length}of{objects.length}</span>
-                                <IconButton onClick={() => tablePage(page > 1 ? page - 1 : 1)}>
+                                <IconButton onClick={() => tablePage(table, page > 1 ? page - 1 : 1)}>
                                     <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>
                                 </IconButton>
-                                <IconButton onClick={() => tablePage(page < objects.length / nRows ? page + 1 : page)}>
+                                <IconButton onClick={() => tablePage(table, page < objects.length / nRows ? page + 1 : page)}>
                                     <FontIcon className="material-icons">keyboard_arrow_right</FontIcon>
                                 </IconButton>
                             </div>
@@ -135,4 +137,21 @@ class GenericTable extends React.Component {
 
 }
 
-export default GenericTable;
+const mapStateToProps = (state) => {
+    return {
+        tables: state.tableReducer.tables
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        tablePage: (table, page) => {
+            dispatch(tablePage(table, page));
+        },
+        tableRows: (table, nRows) => {
+            dispatch(tableRows(table, nRows));
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GenericTable);
