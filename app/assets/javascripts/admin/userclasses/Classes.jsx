@@ -1,9 +1,8 @@
 import React from 'react';
-import Snackbar from 'material-ui/Snackbar';
 import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
-import { changeClassFormMode, classClicked, fillClassForm, snackBar, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions.jsx";
+import { changeClassFormMode, classClicked, fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions.jsx";
 import GenericTable from './../../core/table/GenericTable.jsx';
 import ClassForm from './ClassForm.jsx';
 
@@ -23,16 +22,9 @@ class Classes extends React.Component {
         this.props.changeSideMenuMode("HIDE");
     }
 
-    /**
-     * Closes the snackbar.
-     */
-    closeSnack() {
-        this.props.snackBar(false, "");
-    }
-
     render() {
         const {
-            snack, mode, userclasses, uclass,
+            mode, userclasses, uclass,
             classClicked,
             changeClassFormMode,
             postClassNew,
@@ -66,13 +58,6 @@ class Classes extends React.Component {
                 <div className="usertable">
                     <GenericTable onSelection={classClicked} metaData={tableData}/>
                 </div>
-
-                <Snackbar
-                    open={snack.open}
-                    message={snack.text}
-                    autoHideDuration={4000}
-                    onRequestClose={this.closeSnack.bind(this)}
-                />
             </div>
         );
     }
@@ -82,8 +67,7 @@ const mapStateToProps = (state) => {
     return {
         mode : state.classFormReducer.mode,
         uclass: state.classFormReducer.uclass,
-        userclasses : state.userReducer.userclasses,
-        snack: state.userFormReducer.snack,
+        userclasses : state.userReducer.userclasses
     };
 };
 
@@ -113,9 +97,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         getUserClasses: () => {
             dispatch(getUserClasses())
-        },
-        snackBar: (bool, text) => {
-            dispatch(snackBar(bool, text))
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))

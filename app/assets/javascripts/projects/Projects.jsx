@@ -3,10 +3,9 @@ import {connect} from "react-redux";
 import { push } from 'react-router-redux';
 import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions.jsx";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { snackBar } from './../redux/actions/projectFormActions.jsx';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions.jsx';
+import { snackBar } from './../redux/actions/snackBarActions.jsx';
 import ProjectTable from './ProjectTable.jsx';
-import Snackbar from 'material-ui/Snackbar';
 import ProjectsSideMenu from './presentational/ProjectsSideMenu.jsx';
 import ProjectNewDialog from './dialog/ProjectNewDialog.jsx';
 import DeleteDialog from "./../core/dialog/DeleteDialog.jsx";
@@ -45,13 +44,6 @@ class Projects extends React.Component {
         this.props.deleteDialog(false);
     }
 
-    /**
-     * Closes the snackbar.
-     */
-    closeSnack() {
-        this.props.snackBar(false, "");
-    }
-
     _projects(mode) {
         switch (mode) {
             case "private":
@@ -82,7 +74,6 @@ class Projects extends React.Component {
         const {
             newDialogIsOpen, deleteDialogIsOpen,
             newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
-            snack,
             postProjectNew,
             deleteProject,
             push, path
@@ -123,12 +114,7 @@ class Projects extends React.Component {
                         action={deleteDialogAction}
                         onRequestClose={deleteDialog.bind(null, false)}
                     />
-                    <Snackbar
-                        open={snack.open}
-                        message={snack.text}
-                        autoHideDuration={4000}
-                        onRequestClose={this.closeSnack.bind(this)}
-                    />
+
                 </div>
             </div>
         );
@@ -146,7 +132,6 @@ const mapStateToProps = (state) => {
         newDialogIsOpen: state.dialogReducer.projectNew.isOpen,
         deleteDialogIsOpen: state.dialogReducer.projectDelete.isOpen,
         deleteDialogAction: state.dialogReducer.projectDelete.action,
-        snack: state.projectFormReducer.snack,
     };
 };
 
@@ -181,10 +166,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteDialogChangeAction: (action) => {
             dispatch(dialogChangeAction('projectDelete', action))
-        },
-        snackBar: (bool, text) => {
-            dispatch(snackBar(bool, text))
-        },
+        }
     };
 };
 

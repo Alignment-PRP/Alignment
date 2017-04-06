@@ -8,13 +8,13 @@ import { browserHistory } from 'react-router';
 import userReducer from "./reducers/userReducer.jsx";
 import requirementReducer from "./reducers/requirementReducer.jsx";
 import projectReducer from "./reducers/projectReducer.jsx";
-import projectFormReducer from "./reducers/projectFormReducer.jsx";
 import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
 import statisticsReducer from "./reducers/statisticsReducer.jsx";
 import userFormReducer from './reducers/userFormReducer.jsx';
 import classFormReducer from './reducers/classFormReducer.jsx';
 import tableReducer from './reducers/tableReducer.jsx';
 import dialogReducer from './reducers/dialogReducer.jsx';
+import snackBarReducer from './reducers/snackBarReducer.jsx';
 
 /**
  * Defines the reducer and creates the redux store.
@@ -28,13 +28,13 @@ const reducers = {
     userReducer,
     requirementReducer,
     projectReducer,
-    projectFormReducer,
     sideMenuReducer,
     userFormReducer,
     classFormReducer,
     tableReducer,
     dialogReducer,
     statisticsReducer,
+    snackBarReducer,
     form: formReducer,
     router: routerReducer,
 };

@@ -79,7 +79,6 @@ class Admin extends React.Component {
 const mapStateToProps = (state) => {
     let path = state.router.location ? state.router.location.pathname : "/admin";
     return {
-        index: state.adminTabReducer.index,
         path: path
     };
 };
