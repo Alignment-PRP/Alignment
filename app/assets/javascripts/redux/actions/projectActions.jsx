@@ -12,9 +12,8 @@ import {GET_PUBLIC_PROJECTS,
         CHANGE_PROJECTS_TABLE_MODE
 } from './../types.jsx';
 import {
-    changeProjectFormMode,
     snackBar,
-} from './projectFormActions.jsx';
+} from './snackBarActions.jsx';
 
 /**
  * <p>
@@ -196,7 +195,6 @@ export function postProjectNew(data){
         axios.post(URLS.PROJECT_POST_NEW, data)
             .then(function (response) {
                 dispatch(getPublicProjects());
-                dispatch(changeProjectFormMode(true));
                 dispatch(snackBar(true, "Prosjekt laget!"));
             })
             .catch(function (error) {

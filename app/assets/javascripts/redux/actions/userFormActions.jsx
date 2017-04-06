@@ -3,7 +3,6 @@ import {
     CHANGE_USER_FORM_MODE,
     USER_CLICKED,
     FILL_FORM,
-    SNACKBAR,
     POST_USER_NEW,
     POST_USER_UPDATE,
     POST_USER_DELETE,
@@ -16,6 +15,7 @@ import {
 import {
     getUsersWithClass,
 } from './userActions.jsx';
+import { snackBar } from './snackBarActions.jsx';
 
 /**
  * Contains action creators for {@link UserForm}
@@ -52,18 +52,6 @@ export function fillForm(data) {
     return {
         type: FILL_FORM,
         payload: data,
-    }
-}
-
-/**
- * @param {boolean} bool
- * @param {string} text
- * @returns {{type, payload: {open: *, text: *}}}
- */
-export function snackBar(bool, text) {
-    return {
-        type: SNACKBAR,
-        payload: {open: bool, text: text},
     }
 }
 

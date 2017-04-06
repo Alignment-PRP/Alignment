@@ -3,7 +3,6 @@ import {
     CHANGE_CLASS_FORM_MODE,
     CLASS_CLICKED,
     FILL_CLASS_FORM,
-    SNACKBAR,
     POST_CLASS_NEW,
     POST_CLASS_UPDATE,
     POST_CLASS_DELETE,
@@ -17,6 +16,7 @@ import {
     getUsersWithClass,
     getUserClasses
 } from './userActions.jsx';
+import { snackBar } from './snackBarActions.jsx';
 
 /**
  * Contains action creators for {@link ClassForm}
@@ -53,18 +53,6 @@ export function fillClassForm(data) {
     return {
         type: FILL_CLASS_FORM,
         payload: data,
-    }
-}
-
-/**
- * @param {boolean} bool
- * @param {string} text
- * @returns {{type, payload: {open: *, text: *}}}
- */
-export function snackBar(bool, text) {
-    return {
-        type: SNACKBAR,
-        payload: {open: bool, text: text},
     }
 }
 
