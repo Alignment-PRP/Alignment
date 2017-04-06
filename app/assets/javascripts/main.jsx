@@ -33,18 +33,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const location = (state, dispatch, path) => {
-    console.log(path);
-    if (state.router.location) {
-        if (state.router.location.pathname !== path) {
-            dispatch(push(path));
-        }
-    } else {
-        dispatch(push(path));
-    }
-};
-
-
 //Defining URL links
 /**
  * Starting point for the application.
@@ -52,13 +40,13 @@ const location = (state, dispatch, path) => {
  */
 class App extends React.Component {
 
-    _location(state, dispatch, path) {
-        if (state.router.location) {
-            if (state.router.location.pathname !== path) {
-                dispatch(push(path));
+    _forceUpdate(path) {
+        if (store.getState().router.location) {
+            if (store.getState().router.location.pathname !== path) {
+                store.dispatch(push(path));
             }
         } else {
-            dispatch(push(path));
+            store.dispatch(push(path));
         }
     };
 
@@ -72,8 +60,8 @@ class App extends React.Component {
                             <IndexRoute component={Home}/>
                             <Route path={"/api/login"} component={Home}/> {/* for rerouting purposes*/}
                             <Route path={"projects"} component={Projects}>
-                                <Route path={"private"} onEnter={()=>{}}/>
-                                <Route path={"archive"} onEnter={()=>{}}/>
+                                <Route path={"private"} onEnter={() => this._forceUpdate("/projects/private")}/>
+                                <Route path={"archive"} onEnter={() => this._forceUpdate("/projects/archive")}/>
                             </Route>
 
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
@@ -89,9 +77,9 @@ class App extends React.Component {
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} component={Logout}/>
                             <Route path={"admin"} component={Admin} onEnter={() => {}}>
-                                <Route path={"users"} onEnter={() => this._location(store.getState(), store.dispatch, "/admin/users")}/>
-                                <Route path={"classes"} onEnter={() => this._location(store.getState(), store.dispatch, "/admin/classes")}/>
-                                <Route path={"stats"} onEnter={() => this._location(store.getState(), store.dispatch, "/admin/stats")}/>
+                                <Route path={"users"} onEnter={() => this._forceUpdate("/admin/users")}/>
+                                <Route path={"classes"} onEnter={() => this._forceUpdate("/admin/classes")}/>
+                                <Route path={"stats"} onEnter={() => this._forceUpdate("/admin/stats")}/>
                             </Route>
 
                             /*Errors*/
