@@ -2,9 +2,6 @@ import {
     CHANGE_CLASS_FORM_MODE,
     CLASS_CLICKED,
     FILL_CLASS_FORM,
-    POST_CLASS_NEW,
-    POST_CLASS_UPDATE,
-    POST_CLASS_DELETE,
 } from './../types.jsx';
 
 const classFormReducer = (state = {
@@ -14,32 +11,23 @@ const classFormReducer = (state = {
 }, action) => {
     switch (action.type) {
         case CHANGE_CLASS_FORM_MODE:
-            state = {
-                mode: action.payload,
-                uclass: state.uclass,
-                data: state.data
+            return {
+                ...state,
+                mode: action.payload
             };
-            break;
         case CLASS_CLICKED:
-            state = {
-                mode: state.mode,
-                uclass: action.payload,
-                data: state.data
+            return {
+                ...state,
+                uclass: action.payload
             };
-            break;
         case FILL_CLASS_FORM:
-            state = {
-                mode: state.mode,
-                uclass: state.uclass,
+            return {
+                ...state,
                 data: action.payload
             };
-            break;
-        case POST_CLASS_NEW:
-        case POST_CLASS_UPDATE:
-        case POST_CLASS_DELETE:
-            break;
+        default:
+            return state;
     }
-    return state;
 };
 
 export default classFormReducer;
