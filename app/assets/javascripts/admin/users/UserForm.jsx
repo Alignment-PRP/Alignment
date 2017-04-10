@@ -1,8 +1,8 @@
 import React from 'react';
-import EmptyUserForm from './userform/EmptyUserForm.jsx';
-import UserInForm from './userform/UserInForm.jsx';
-import EditUserForm from './userform/EditUserForm.jsx';
-import CreateUserForm from './userform/CreateUserForm.jsx';
+import EmptyUserForm from './userform/EmptyUserForm';
+import UserInForm from './userform/UserInForm';
+import EditUserForm from './userform/EditUserForm';
+import CreateUserForm from './userform/CreateUserForm';
 
 /**
  * Class represents a multi-form.

@@ -1,5 +1,5 @@
 import React from 'react';
-import CategoryCheckBox from './CategoryCheckBox.jsx';
+import CategoryCheckBox from './CategoryCheckBox';
 
 class CategoryCheckBoxes extends React.Component {
 

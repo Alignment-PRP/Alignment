@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
 
 
-import { getUserData } from '../redux/actions/userActions.jsx';
+import { getUserData } from '../redux/actions/userActions';
 
 /**
  * Represents a header.

@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Filter from './filters/AllRequirementsFilter.jsx';
+import Filter from './filters/AllRequirementsFilter';
 
-import { changeSideMenuMode } from '../redux/actions/sideMenuActions.jsx';
+import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
 
 class SideMenu extends React.Component {
     constructor(props) {

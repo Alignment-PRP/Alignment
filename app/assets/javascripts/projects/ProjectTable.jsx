@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
-import GenericTable from '../core/table/GenericTable.jsx';
-import {PROJECT_GET_BY_ID} from '../config.jsx';
+import GenericTable from '../core/table/GenericTable';
+import {PROJECT_GET_BY_ID} from '../config';
 
 
 /**

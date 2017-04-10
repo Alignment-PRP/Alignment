@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
-import { getRequirementUsageStatistics } from "../../redux/actions/statisticsActions.jsx";
-import GenericTable from './../../core/table/GenericTable.jsx';
+import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
+import { getRequirementUsageStatistics } from "../../redux/actions/statisticsActions";
+import GenericTable from './../../core/table/GenericTable';
 
 /**
  * Class represents /admin/stats.
