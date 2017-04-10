@@ -5,17 +5,17 @@ import {
     FILL_FORM,
     POST_USER_NEW,
     POST_USER_UPDATE,
-    POST_USER_DELETE,
-} from './../types.jsx';
+    POST_USER_DELETE
+} from './../types';
 import {
     USER_POST_NEW,
     USER_POST_UPDATE,
-    USER_POST_DELETE,
-} from './../../config.jsx';
+    USER_POST_DELETE
+} from './../../config';
 import {
-    getUsersWithClass,
-} from './userActions.jsx';
-import { snackBar } from './snackBarActions.jsx';
+    getUsersWithClass
+} from './userActions';
+import { snackBar } from './snackBarActions';
 
 /**
  * Contains action creators for {@link UserForm}

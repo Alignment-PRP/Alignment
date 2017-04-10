@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getUserData } from './redux/actions/userActions.jsx';
-import {changeSideMenuMode} from './redux/actions/sideMenuActions.jsx';
+import { getUserData } from './redux/actions/userActions';
+import {changeSideMenuMode} from './redux/actions/sideMenuActions';
 
 class Home extends React.Component {
 
@@ -41,7 +41,7 @@ class Home extends React.Component {
     render() {
         return (
             <div id="home">
-                <h2>Velkommen</h2>
+                <h2>Velkommennklnkln</h2>
                 {this.UserData()}
             </div>
         );

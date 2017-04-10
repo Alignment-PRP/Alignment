@@ -1,8 +1,8 @@
 import React from 'react';
-import EmptyClassForm from './classform/EmptyClassForm.jsx';
-import ClassInForm from './classform/ClassInForm.jsx';
-import EditClassForm from './classform/EditClassForm.jsx';
-import CreateClassForm from './classform/CreateClassForm.jsx';
+import EmptyClassForm from './classform/EmptyClassForm';
+import ClassInForm from './classform/ClassInForm';
+import EditClassForm from './classform/EditClassForm';
+import CreateClassForm from './classform/CreateClassForm';
 
 /**
  * Class represents a multi-form.

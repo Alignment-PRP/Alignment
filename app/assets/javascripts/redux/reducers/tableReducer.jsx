@@ -1,7 +1,7 @@
 import {
     TABLE_PAGE,
     TABLE_ROWS
-} from './../types.jsx';
+} from './../types';
 
 const init = {
     page: 1,

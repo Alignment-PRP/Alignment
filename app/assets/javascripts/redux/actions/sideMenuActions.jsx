@@ -1,4 +1,4 @@
-import {CHANGE_SIDE_MENU_MODE} from './../types.jsx';
+import {CHANGE_SIDE_MENU_MODE} from './../types';
 
 /**
  * Contains action creators for {@link SideMenu}
