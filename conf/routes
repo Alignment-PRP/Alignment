@@ -71,7 +71,6 @@ GET     /assets/*file                       controllers.Assets.versioned(path="/
 
 
 ### ROUTES FOR REACT ###
-GET     /webjars/*file                      controllers.WebJarAssets.at(file)
 GET     /                                   controllers.ApplicationController.init()
 GET     /*url                               controllers.ApplicationController.initUrl(url)
 ### DO NOT ADD ROUTES BELOW THIS ###

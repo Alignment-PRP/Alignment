@@ -1,13 +1,12 @@
 import sbt._
 
 name := """play-java-intro"""
-
 version := "1.0-SNAPSHOT"
+scalaVersion := "2.11.8"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava, SbtWeb)
 
-scalaVersion := "2.11.8"
-
+/* Dependencies */
 libraryDependencies ++= Seq(
   javaJpa,
   "org.mockito" % "mockito-core" % "2.1.0",
@@ -15,25 +14,26 @@ libraryDependencies ++= Seq(
   "org.hibernate" % "hibernate-core" % "5.2.5.Final",
   javaJdbc,
   "mysql" % "mysql-connector-java" % "5.1.36",
-  "org.mindrot" % "jbcrypt" % "0.4",
-  "org.webjars" %% "webjars-play" % "2.4.0-1"
-
-  //"org.webjars.npm" % "react" % "15.4.2"
+  "org.mindrot" % "jbcrypt" % "0.4"
 )
+
+/* Import settings */
 Client.settings
 NpmLibs.settings
 JsDoc.settings
 
+/* Babel */
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
-
 BabelKeys.options := WebJs.JS.Object(
   "presets" -> List("es2015", "react", "stage-3")
 )
 
+/* Digest */
 includeFilter in digest := FileFilter.globFilter("*main.js") || FileFilter.globFilter("*npmlibs.js") || FileFilter.globFilter("*.css")
 excludeFilter in digest := FileFilter.globFilter("*.jsx")
 
+/* Pipeline */
 pipelineStages in Assets := Seq(Client.clientCompile, digest)
 
-
+/* Unmanaged */
 unmanagedResources in Assets += baseDirectory.value / "target/web/browserify/npmlibs.js"
