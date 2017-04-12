@@ -22,13 +22,13 @@ Client.settings
 NpmLibs.settings
 JsDoc.settings
 
-/* Babel */
+/* Babel (Settings for babel) */
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 BabelKeys.options := WebJs.JS.Object(
   "presets" -> List("es2015", "react", "stage-3")
 )
 
-/* Digest */
+/* Digest (filter for fingerprinting) */
 includeFilter in digest := FileFilter.globFilter("*main.js") || FileFilter.globFilter("*npmlibs.js") || FileFilter.globFilter("*.css")
 excludeFilter in digest := FileFilter.globFilter("*.jsx")
 
