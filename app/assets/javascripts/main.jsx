@@ -2,31 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 //Importing components that will be rendered by url link
-import Root from './Root.jsx';
-import Home from './Home.jsx';
-import Logout from './utility/Logout.jsx';
+import Root from './Root';
+import Home from './Home';
+import Logout from './utility/Logout';
 
 //Project
-import Projects from './projects/Projects.jsx';
-import Project from './projects/Project.jsx';
+import Projects from './projects/Projects';
+import Project from './projects/Project';
 
 //Requirements
-import Requirements from './requirements/Requirements.jsx';
-import UpdateRequirement from './requirements/UpdateRequirement.jsx';
-import NewRequirement from './requirements/NewRequirement.jsx';
+import Requirements from './requirements/Requirements';
+import UpdateRequirement from './requirements/UpdateRequirement';
+import NewRequirement from './requirements/NewRequirement';
 
 //Admin
-import Admin from './admin/Admin.jsx';
+import Admin from './admin/Admin';
 
 //Stuff
-import {changeSideMenuMode} from './redux/actions/sideMenuActions.jsx';
-import NotFound from './layout/NotFound.jsx';
-import NotAuth from './layout/NotAuth.jsx';
+import {changeSideMenuMode} from './redux/actions/sideMenuActions';
+import NotFound from './layout/NotFound';
+import NotAuth from './layout/NotAuth';
+
+
 
 //Utility
 import {Router, Route, IndexRoute, Redirect, browserHistory} from "react-router";
 import {Provider} from "react-redux";
-import store from './redux/store.jsx';
+import store from './redux/store';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {ConnectedRouter, push} from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';

@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import RequirementForm from './RequirementForm.jsx';
+import RequirementForm from './RequirementForm';
 
 class RequirementFormDialog extends React.Component {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TableRow } from 'material-ui/Table';
-import GenericTableRowColumn from './GenericTableRowColumn.jsx';
+import GenericTableRowColumn from './GenericTableRowColumn';
 
 class GenericTableRow extends React.Component {
 
