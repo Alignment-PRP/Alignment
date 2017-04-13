@@ -5,7 +5,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {Link} from 'react-router';
 
 import {connect} from "react-redux";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 
 /**
  * Represents the sidebar menu.

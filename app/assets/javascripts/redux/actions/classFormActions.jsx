@@ -5,18 +5,18 @@ import {
     FILL_CLASS_FORM,
     POST_CLASS_NEW,
     POST_CLASS_UPDATE,
-    POST_CLASS_DELETE,
-} from './../types.jsx';
+    POST_CLASS_DELETE
+} from './../types';
 import {
     USERCLASS_POST_NEW,
     USERCLASS_POST_UPDATE,
     USERCLASS_POST_DELETE
-} from './../../config.jsx';
+} from './../../config';
 import {
     getUsersWithClass,
     getUserClasses
-} from './userActions.jsx';
-import { snackBar } from './snackBarActions.jsx';
+} from './userActions';
+import { snackBar } from './snackBarActions';
 
 /**
  * Contains action creators for {@link ClassForm}

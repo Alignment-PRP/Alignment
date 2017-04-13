@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { addRequirement } from "../redux/actions/requirementActions.jsx";
-import { getUsersWithClass } from "../redux/actions/userActions.jsx";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { addRequirement } from "../redux/actions/requirementActions";
+import { getUsersWithClass } from "../redux/actions/userActions";
 
-import RequirementForm from './form/RequirementForm.jsx';
+import RequirementForm from './form/RequirementForm';
 
 class NewRequirement extends React.Component {
 

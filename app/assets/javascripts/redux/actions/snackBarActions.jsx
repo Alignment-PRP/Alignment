@@ -1,4 +1,4 @@
-import { SNACKBAR } from './../types.jsx';
+import { SNACKBAR } from './../types';
 
 /**
  * @param {boolean} bool

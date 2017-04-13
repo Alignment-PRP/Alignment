@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
-import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
-import { changeClassFormMode, classClicked, fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions.jsx";
-import GenericTable from './../../core/table/GenericTable.jsx';
-import ClassForm from './ClassForm.jsx';
+import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
+import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
+import { changeClassFormMode, classClicked, fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
+import GenericTable from './../../core/table/GenericTable';
+import ClassForm from './ClassForm';
 
 /**
  * Class represents /admin/classes.

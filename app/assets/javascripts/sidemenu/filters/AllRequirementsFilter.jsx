@@ -5,8 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
-import { updateFilter, updateFilterRequirementList, getAllCategoryNames, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../../redux/actions/requirementActions.jsx';
-import CategoryCheckBoxes from './presentational/CategoryCheckBoxes.jsx';
+import { updateFilter, updateFilterRequirementList, getAllCategoryNames, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../../redux/actions/requirementActions';
+import CategoryCheckBoxes from './presentational/CategoryCheckBoxes';
 
 class AllRequirementsFilter extends React.Component {
     constructor(props) {

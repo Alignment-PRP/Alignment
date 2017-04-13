@@ -1,5 +1,5 @@
 import React from 'react';
-import * as URLS from '../config.jsx';
+import * as URLS from '../config';
 
 export default class Logout extends React.Component {
 

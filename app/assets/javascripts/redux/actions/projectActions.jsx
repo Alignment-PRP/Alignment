@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as URLS from './../../config.jsx';
+import * as URLS from './../../config';
 import {GET_PUBLIC_PROJECTS,
         GET_PRIVATE_PROJECTS,
         GET_ARCHIVED_PROJECTS,
@@ -10,10 +10,10 @@ import {GET_PUBLIC_PROJECTS,
         DELETE_PROJECT,
         POST_PROJECT_NEW,
         CHANGE_PROJECTS_TABLE_MODE
-} from './../types.jsx';
+} from './../types';
 import {
-    snackBar,
-} from './snackBarActions.jsx';
+    snackBar
+} from './snackBarActions';
 
 /**
  * <p>

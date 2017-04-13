@@ -1,4 +1,4 @@
-import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types.jsx';
+import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types';
 
 /**
  * Contains reducer for {@link redux/actions/user}.

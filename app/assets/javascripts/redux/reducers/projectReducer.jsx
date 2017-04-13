@@ -7,8 +7,8 @@ import {GET_PUBLIC_PROJECTS,
         DELETE_REQUIREMENT_TO_PROJECT,
         DELETE_PROJECT,
         POST_PROJECT_NEW,
-        CHANGE_PROJECTS_TABLE_MODE,
-} from './../types.jsx';
+        CHANGE_PROJECTS_TABLE_MODE
+} from './../types';
 //Here is where the global state of the projectReducer actually get stored and changed. The projectReducer get passed actions.types into a switch function.
 //When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from redux actions.
 //Check project.jsx comment to see how to use the this project states and redux actions.

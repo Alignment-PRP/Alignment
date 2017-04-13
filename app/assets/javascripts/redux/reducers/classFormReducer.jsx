@@ -1,8 +1,8 @@
 import {
     CHANGE_CLASS_FORM_MODE,
     CLASS_CLICKED,
-    FILL_CLASS_FORM,
-} from './../types.jsx';
+    FILL_CLASS_FORM
+} from './../types';
 
 const classFormReducer = (state = {
     mode: "EMPTY",
