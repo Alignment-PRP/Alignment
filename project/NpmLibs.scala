@@ -11,14 +11,18 @@ object NpmLibs {
   val settings = Seq[Setting[_]] (
     libOutputDir := target.value / "web" / "browserify",
     npmCompile := {
-      println(Utility.timestamp + " NpmLibs: Running...")
-
-      val outputVendorFile = libOutputDir.value / "npmlibs.js"
-      libOutputDir.value.mkdirs
-      "./node_modules/.bin/"+Utility.browserify+" --fast -o " + outputVendorFile + " " + Utility.libs("-r ") !
-
-      println(Utility.timestamp + " NpmLibs: Done")
+      runNpmCompile(libOutputDir.value)
     }
   )
+
+  def runNpmCompile(libOutputDir: File): Unit = {
+    println(Utility.timestamp + " NpmLibs: Running...")
+
+    val outputVendorFile = libOutputDir / "npmlibs.js"
+    libOutputDir.mkdirs
+    "./node_modules/.bin/"+Utility.browserify+" --fast -o " + outputVendorFile + " " + Utility.libs("-r ") !
+
+    println(Utility.timestamp + " NpmLibs: Done")
+  }
 
 }
