@@ -10,6 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import CircularProgress from 'material-ui/CircularProgress';
 import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
 import GenericTableHeaderRows from './GenericTableHeaderRows.jsx';
 import GenericTableRow from './GenericTableRow.jsx';
@@ -71,9 +72,19 @@ class GenericTable extends React.Component {
                     displayRowCheckbox={false}
                     showRowHover={true}
                 >
-                    {objects.slice((page-1)*nRows, page*nRows).map((obj, index, objects, ...injectedRowProps) => {
+                    {objects.length > 0 ?
+                    objects.slice((page-1)*nRows, page*nRows).map((obj, index, objects, ...injectedRowProps) => {
                         return <GenericTableRow obj={obj} key={index} index={index} meta={rowMeta} {...injectedRowProps} />
-                    })}
+                    })
+                    :
+                        <TableRow>
+                            <TableRowColumn>
+                                <div style={{display: 'flex', justifyContent: 'center'}}>
+                                    <CircularProgress/>
+                                </div>
+                            </TableRowColumn>
+                        </TableRow>
+                    }
                 </TableBody>
                 <TableFooter
                     adjustForCheckbox={false}
