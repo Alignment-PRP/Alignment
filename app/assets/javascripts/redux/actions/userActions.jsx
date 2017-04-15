@@ -29,7 +29,7 @@ export function getUserData() {
 function getUserDataAsync(data) {
     return {
         type: GET_USER_DATA,
-        payload: data
+        payload: data[0]
     }
 }
 
