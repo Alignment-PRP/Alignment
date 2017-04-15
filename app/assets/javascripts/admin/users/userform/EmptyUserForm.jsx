@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderPassField, renderSelectField} from '../../render.jsx';
+import {renderTextField, renderPassField, renderSelectField} from '../../render';
 
 /**
  * Redux-form for displaying an empty form with user related fields.

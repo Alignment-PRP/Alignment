@@ -5,16 +5,16 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
-import userReducer from "./reducers/userReducer.jsx";
-import requirementReducer from "./reducers/requirementReducer.jsx";
-import projectReducer from "./reducers/projectReducer.jsx";
-import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
-import statisticsReducer from "./reducers/statisticsReducer.jsx";
-import userFormReducer from './reducers/userFormReducer.jsx';
-import classFormReducer from './reducers/classFormReducer.jsx';
-import tableReducer from './reducers/tableReducer.jsx';
-import dialogReducer from './reducers/dialogReducer.jsx';
-import snackBarReducer from './reducers/snackBarReducer.jsx';
+import userReducer from "./reducers/userReducer";
+import requirementReducer from "./reducers/requirementReducer";
+import projectReducer from "./reducers/projectReducer";
+import sideMenuReducer from "./reducers/sideMenuReducer";
+import statisticsReducer from "./reducers/statisticsReducer";
+import userFormReducer from './reducers/userFormReducer';
+import classFormReducer from './reducers/classFormReducer';
+import tableReducer from './reducers/tableReducer';
+import dialogReducer from './reducers/dialogReducer';
+import snackBarReducer from './reducers/snackBarReducer';
 
 /**
  * Defines the reducer and creates the redux store.

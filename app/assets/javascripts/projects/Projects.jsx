@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { push } from 'react-router-redux';
-import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions.jsx";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions.jsx';
-import { snackBar } from './../redux/actions/snackBarActions.jsx';
-import ProjectTable from './ProjectTable.jsx';
-import ProjectsSideMenu from './presentational/ProjectsSideMenu.jsx';
-import ProjectNewDialog from './dialog/ProjectNewDialog.jsx';
-import DeleteDialog from "./../core/dialog/DeleteDialog.jsx";
+import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import { snackBar } from './../redux/actions/snackBarActions';
+import ProjectTable from './ProjectTable';
+import ProjectsSideMenu from './presentational/ProjectsSideMenu';
+import ProjectNewDialog from './dialog/ProjectNewDialog';
+import DeleteDialog from "./../core/dialog/DeleteDialog";
 
 
 /**

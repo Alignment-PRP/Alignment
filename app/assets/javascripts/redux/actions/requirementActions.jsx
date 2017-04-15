@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as URLS from './../../config.jsx';
+import * as URLS from './../../config';
 import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
@@ -12,7 +12,7 @@ import {GET_ALL_REQUIREMENTS,
         REMOVE_FROM_FILTER,
         ADD_TO_SUB_FILTER,
         REMOVE_FROM_SUB_FILTER
-} from './../types.jsx';
+} from './../types';
 
 export function getAllRequirements() {
     return dispatch => {

@@ -9,7 +9,7 @@
     "excludePattern": "(^|\\/|\\\\)_"
   },
   "opts": {
-    "destination": "./out/jsdoc/",
+    "destination": "./target/jsdoc/",
     "recurse": true,
     "template": "node_modules/docdash",
     "readme": "README.md"

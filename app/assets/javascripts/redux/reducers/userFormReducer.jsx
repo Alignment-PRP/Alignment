@@ -1,4 +1,4 @@
-import {CHANGE_USER_FORM_MODE, USER_CLICKED, FILL_FORM, SNACKBAR} from './../types.jsx';
+import {CHANGE_USER_FORM_MODE, USER_CLICKED, FILL_FORM, SNACKBAR} from './../types';
 
 const userFormReducer = (state = {
     mode: "EMPTY",

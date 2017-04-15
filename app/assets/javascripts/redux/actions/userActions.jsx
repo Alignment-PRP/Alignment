@@ -1,6 +1,6 @@
 import axios from 'axios';
-import * as URLS from './../../config.jsx';
-import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types.jsx';
+import * as URLS from './../../config';
+import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types';
 
 /**
  * Contains action creators for fetching userdata from the server.

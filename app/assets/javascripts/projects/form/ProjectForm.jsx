@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from '../../admin/render.jsx';
+import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from '../../admin/render';
 
 /**
  * Redux-form for project creation.

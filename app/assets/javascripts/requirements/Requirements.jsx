@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { getAllRequirements, getAllCategoryNames, updateRequirement, deleteRequirement } from "../redux/actions/requirementActions.jsx";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions.jsx';
-import GenericTable from './../core/table/GenericTable.jsx';
-import DeleteDialog from './../core/dialog/DeleteDialog.jsx';
+import { getAllRequirements, getAllCategoryNames, updateRequirement, deleteRequirement } from "../redux/actions/requirementActions";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import GenericTable from './../core/table/GenericTable';
+import DeleteDialog from './../core/dialog/DeleteDialog';
 
 class Requirements extends React.Component {
 

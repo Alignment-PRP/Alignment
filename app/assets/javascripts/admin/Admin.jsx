@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { push } from 'react-router-redux';
-import { changeSideMenuMode } from "./../redux/actions/sideMenuActions.jsx";
+import { changeSideMenuMode } from "./../redux/actions/sideMenuActions";
 import {Tabs, Tab} from 'material-ui/Tabs';
-import Users from './users/Users.jsx';
-import Classes from './userclasses/Classes.jsx';
-import Statistics from './statistics/Statistics.jsx';
+import Users from './users/Users';
+import Classes from './userclasses/Classes';
+import Statistics from './statistics/Statistics';
 
 /**
  * Class represents the admin page.

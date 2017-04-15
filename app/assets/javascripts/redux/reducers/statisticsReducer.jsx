@@ -1,4 +1,4 @@
-import { GET_PROJECTS_PER_REQUIREMENT } from './../types.jsx';
+import { GET_PROJECTS_PER_REQUIREMENT } from './../types';
 
 const statisticsReducer = (state = {
     projectsPerRequirement: []
