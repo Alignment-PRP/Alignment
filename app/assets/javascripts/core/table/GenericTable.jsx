@@ -11,9 +11,9 @@ import FontIcon from 'material-ui/FontIcon';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import CircularProgress from 'material-ui/CircularProgress';
-import { tablePage, tableRows } from './../../redux/actions/tableActions.jsx';
-import GenericTableHeaderRows from './GenericTableHeaderRows.jsx';
-import GenericTableRow from './GenericTableRow.jsx';
+import { tablePage, tableRows } from './../../redux/actions/tableActions';
+import GenericTableHeaderRows from './GenericTableHeaderRows';
+import GenericTableRow from './GenericTableRow';
 
 /**
  * Generic table.

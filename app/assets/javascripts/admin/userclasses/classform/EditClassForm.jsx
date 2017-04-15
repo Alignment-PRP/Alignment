@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderMultiTextField, validateClassForm as validate} from '../../render.jsx';
+import {renderTextField, renderMultiTextField, validateClassForm as validate} from '../../render';
 
 /**
  * Redux-form for editing classes.

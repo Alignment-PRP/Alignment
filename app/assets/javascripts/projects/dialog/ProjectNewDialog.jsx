@@ -1,6 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import ProjectForm from './../form/ProjectForm.jsx';
+import ProjectForm from './../form/ProjectForm';
 
 class ProjectNewDialog extends React.Component {
 

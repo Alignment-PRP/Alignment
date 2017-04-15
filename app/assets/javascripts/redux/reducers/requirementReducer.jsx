@@ -10,7 +10,7 @@ import {GET_ALL_REQUIREMENTS,
         REMOVE_FROM_FILTER,
         ADD_TO_SUB_FILTER,
         REMOVE_FROM_SUB_FILTER
-} from './../types.jsx';
+} from './../types';
 
 const requirementReducer = (state = {
     requirements: [],

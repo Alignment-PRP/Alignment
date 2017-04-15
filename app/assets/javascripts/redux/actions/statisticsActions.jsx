@@ -1,7 +1,6 @@
 import axios from 'axios';
-import * as URLS from './../../config.jsx';
-import {GET_PROJECTS_PER_REQUIREMENT,
-} from './../types.jsx';
+import * as URLS from './../../config';
+import { GET_PROJECTS_PER_REQUIREMENT } from './../types';
 
 export function getRequirementUsageStatistics() {
     return dispatch => {

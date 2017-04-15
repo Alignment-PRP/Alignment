@@ -1,7 +1,7 @@
 import {
     DIALOG_OPEN,
     DIALOG_CHANGE_ACTION
-} from './../types.jsx';
+} from './../types';
 
 export function dialogOpen(dialog, isOpen) {
     return {
