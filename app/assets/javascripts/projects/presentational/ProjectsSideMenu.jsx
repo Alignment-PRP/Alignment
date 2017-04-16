@@ -4,6 +4,9 @@ import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
+import { AuthMin } from './../../core/auth/Auth';
+import { NEW_PROJECT } from './../../core/auth/rights';
+
 /**
  * SideMenu component for projects page
  * @param {function} handleUser
@@ -30,14 +33,20 @@ class ProjectsSideMenu extends React.Component {
                         <ListItem primaryText="Arkiverte Prosjekter" onClick={handleArchived}/>
                     </List>
                     <Divider/>
-                    <List style={{display: 'flex', justifyContent: 'center'}}>
-                        <RaisedButton onClick={handleNew} primary={true} label="Nytt Prosjekt" />
-                    </List>
+                    <NewButton handleNew={handleNew}/>
                 </Paper>
             </div>
         );
     }
 
 }
+
+const NewButton = AuthMin(NEW_PROJECT)(({handleNew}) => {
+    return (
+        <List style={{display: 'flex', justifyContent: 'center'}}>
+            <RaisedButton onClick={handleNew} primary={true} label="Nytt Prosjekt" />
+        </List>
+    );
+});
 
 export default ProjectsSideMenu;
