@@ -30,7 +30,7 @@ class ProjectTable extends React.Component {
                 {label: 'Eier', field: 'creatorID', width: '25%'},
                 {label: 'Leder', field: 'managerID', width: '25%'},
                 {type: 'EDIT_LINK', link: PROJECT_GET_BY_ID, linkField: 'ID', width: '7%'},
-                {type: 'DELETE_ACTION', action: deleteProject, param: 'ID', width: '7%'}
+                {type: 'DELETE_ACTION', action: deleteProject, width: '7%'}
             ]
         };
 

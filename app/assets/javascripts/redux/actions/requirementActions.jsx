@@ -127,11 +127,11 @@ export function updateRequirement(requirement) {
     }
 }
 
-export function deleteRequirement(id){
+export function deleteRequirement(requirement){
 
     //Create JSON
     const post = {
-        RID: id
+        RID: requirement.RID
     };
 
     return dispatch => {

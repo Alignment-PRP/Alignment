@@ -223,11 +223,11 @@ export function changeProjectsTableMode(mode) {
     }
 }
 
-export function deleteProject(id){
+export function deleteProject(project){
 
     //Create JSON
     const post = {
-        PID: id
+        PID: project.PID
     };
 
     return dispatch => {

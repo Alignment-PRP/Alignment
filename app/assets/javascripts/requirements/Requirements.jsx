@@ -31,10 +31,10 @@ class Requirements extends React.Component {
                 {label: 'Kommentar', wrap: true, field: 'comment', width: '20%'},
                 {label: 'Kategori', field: 'cName', width: '12%'},
                 {label: 'UnderKategori', field: 'scName', width: '12%'},
-                {type: 'EDIT_LINK_ACTION', link: "editrequirement", action: updateRequirement, param: false, width: '8%'},
-                {type: 'DELETE_ACTION', action: (RID) => {
+                {type: 'EDIT_LINK_ACTION', link: "editrequirement", action: updateRequirement, width: '8%'},
+                {type: 'DELETE_ACTION', action: (requirement) => {
                             deleteDialogOpen(true);
-                            deleteDialogChangeAction(() => {deleteRequirement(RID); deleteDialogOpen(false)})
+                            deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
                         }, param: 'RID', width: '8%'}
             ]
         };
@@ -78,8 +78,8 @@ const mapDispatchToProps = (dispatch) => {
         updateRequirement: (requirement) => {
             dispatch(updateRequirement(requirement))
         },
-        deleteRequirement: (id) => {
-            dispatch(deleteRequirement(id))
+        deleteRequirement: (requirement) => {
+            dispatch(deleteRequirement(requirement))
         },
         getAllCategoryNames: () => {
             dispatch(getAllCategoryNames())
