@@ -15,6 +15,12 @@
     margin-top: 40px;
     width: 256px;
 }
+.form-inner-class {
+    padding: 20px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+}
 .usertable {
     max-width: 1500px;
     min-width: 800px;
