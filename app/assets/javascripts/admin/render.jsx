@@ -169,38 +169,24 @@ export const validateDeleteClassForm = values => {
 };
 
 /**
- * Validates {@link EditUserForm}.
+ * Validates {@link CreateUserForm}.
  * @function
  * @param {User} values
+ * @param {string} values.pass
  * @returns {{}}
  */
 export const validateUserForm = values => {
     const errors = {};
-    const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Må fylles'
-        }
-    });
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Ugyldig epost'
-    }
-    return errors
-};
-
-/**
- * Validates {@link CreateUserForm}.
- * @function
- * @param {User} value
- * @param {string} values.pass
- * @returns {{}}
- */
-export const validateUserFormPass = values => {
-    const errors = {};
     const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName', 'pass' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
-            errors[ field ] = 'Må fylles'
+            if (field !== 'pass') {
+                errors[ field ] = 'Må fylles'
+            } else {
+                if (!values.oldUSERNAME) {
+                    errors[ field ] = 'Må fylles'
+                }
+            }
         }
     });
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {

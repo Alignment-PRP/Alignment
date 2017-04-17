@@ -12,6 +12,8 @@ class GenericTableRowColumn extends React.Component {
         const icp = injectedColumnProps;
         const defaultStyle = {...icp.style, width: row.width, maxWidth: row.width};
         const link = row.link + (row.linkField ? obj[row.linkField] : '');
+        const onClick = row.action ? row.action.bind(null, obj) : null;
+
         switch (row.type) {
             case "LINK":
                 return (
@@ -34,7 +36,7 @@ class GenericTableRowColumn extends React.Component {
             case "EDIT_ACTION":
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
-                        <IconButton onClick={row.action.bind(null, row.param === false ? obj : obj[row.param])}>
+                        <IconButton onClick={onClick}>
                             <FontIcon className="material-icons">edit</FontIcon>
                         </IconButton>
                     </TableRowColumn>
@@ -43,7 +45,7 @@ class GenericTableRowColumn extends React.Component {
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
                         <Link to={link}>
-                            <IconButton onClick={row.action.bind(null, row.param === false ? obj : obj[row.param])}>
+                            <IconButton onClick={onClick}>
                                 <FontIcon className="material-icons">edit</FontIcon>
                             </IconButton>
                         </Link>
@@ -62,7 +64,7 @@ class GenericTableRowColumn extends React.Component {
             case "DELETE_ACTION":
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
-                        <IconButton onClick={row.action.bind(null, row.param === false ? obj : obj[row.param])}>
+                        <IconButton onClick={onClick}>
                             <FontIcon className="material-icons">delete</FontIcon>
                         </IconButton>
                     </TableRowColumn>
