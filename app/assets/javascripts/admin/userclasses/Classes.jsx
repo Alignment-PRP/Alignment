@@ -25,14 +25,13 @@ class Classes extends React.Component {
     render() {
         const {
             userClasses, uClass,
-            classClicked,
             postClassNew,
             postClassUpdate,
             postClassDelete,
             fillForm,
 
             updateDialogIsOpen, updateDialog,
-            deleteDialogIsOpen, deleteDialogAction, deleteDialog, deleteDialogChangeAction,
+            deleteDialogIsOpen, deleteDialog
         } = this.props;
 
         const tableData = {
@@ -53,7 +52,7 @@ class Classes extends React.Component {
                         <RaisedButton label="Ny Brukerklasse" onTouchTap={() => { updateDialog(true); fillForm(null); }}/>
                     </div>
 
-                    <GenericTable onSelection={classClicked} metaData={tableData}/>
+                    <GenericTable metaData={tableData}/>
                 </div>
 
                 <ClassFormDialog
@@ -98,7 +97,6 @@ const mapStateToProps = (state) => {
 
         updateDialogIsOpen: state.dialogReducer.classUpdate.isOpen,
         deleteDialogIsOpen: state.dialogReducer.classDelete.isOpen,
-        deleteDialogAction: state.dialogReducer.classDelete.action,
     };
 };
 
@@ -128,9 +126,6 @@ const mapDispatchToProps = (dispatch) => {
         deleteDialog: (open) => {
             dispatch(dialogOpen('classDelete', open));
         },
-        deleteDialogChangeAction: (action) => {
-            dispatch(dialogChangeAction('classDelete', action))
-        }
     };
 };
 
