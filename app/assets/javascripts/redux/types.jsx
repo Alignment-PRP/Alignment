@@ -46,6 +46,9 @@ export const REMOVE_FROM_SUB_FILTER = "REMOVE_FROM_SUB_FILTER";
 //SideMenu
 export const CHANGE_SIDE_MENU_MODE = "CHANGE_SIDE_MENU_MODE";
 
+//Snackbar
+export const SNACKBAR = "SNACKBAR";
+
 //User
 export const GET_USER_DATA = "GET_USER_DATA";
 export const GET_USERS = "GET_USERS";
@@ -53,10 +56,7 @@ export const GET_USERS_WITH_CLASS = "GET_USERS_WITH_CLASS";
 export const GET_USERCLASSES = "GET_USERCLASSES";
 
 //UserForm
-export const CHANGE_USER_FORM_MODE = "CHANGE_USER_FORM_MODE";
-export const USER_CLICKED = "USER_CLICKED";
 export const FILL_FORM = "FILL_FORM";
-export const SNACKBAR = "SNACKBAR";
 export const POST_USER_NEW = "POST_USER_NEW";
 export const POST_USER_UPDATE = "POST_USER_UPDATE";
 export const POST_USER_DELETE = "POST_USER_DELETE";

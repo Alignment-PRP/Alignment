@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as URLS from './../../config';
-import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types';
+import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from './../types';
 
 /**
  * Contains action creators for fetching userdata from the server.
@@ -26,10 +26,10 @@ export function getUserData() {
     }
 }
 
-function getUserDataAsync(data) {
+function getUserDataAsync(user) {
     return {
         type: GET_USER_DATA,
-        payload: data
+        payload: user
     }
 }
 
@@ -52,10 +52,10 @@ export function getUsers() {
 
 }
 
-function getUsersAsync(data) {
+function getUsersAsync(users) {
     return {
         type: GET_USERS,
-        payload: data
+        payload: users
     }
 }
 
@@ -78,10 +78,10 @@ export function getUsersWithClass() {
 
 }
 
-function getUsersWithClassAsync(data) {
+function getUsersWithClassAsync(users) {
     return {
         type: GET_USERS_WITH_CLASS,
-        payload: data
+        payload: users
     }
 }
 
@@ -104,9 +104,9 @@ export function getUserClasses() {
 
 }
 
-function getUserClassesAsync(data) {
+function getUserClassesAsync(userClasses) {
     return {
         type: GET_USERCLASSES,
-        payload: data
+        payload: userClasses
     }
 }

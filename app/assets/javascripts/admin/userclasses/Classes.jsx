@@ -19,12 +19,11 @@ class Classes extends React.Component {
     componentDidMount() {
         this.props.changeClassFormMode("EMPTY");
         this.props.getUserClasses();
-        this.props.changeSideMenuMode("HIDE");
     }
 
     render() {
         const {
-            mode, userclasses, uclass,
+            mode, userClasses, uclass,
             classClicked,
             changeClassFormMode,
             postClassNew,
@@ -34,7 +33,7 @@ class Classes extends React.Component {
 
         const tableData = {
             table: 'userClasses',
-            objects: userclasses,
+            objects: userClasses,
             rowMeta: [
                 {label: 'Navn', field: 'NAME', width: '30%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '70%'}
@@ -49,7 +48,7 @@ class Classes extends React.Component {
                         handleSubmitNew={postClassNew}
                         handleSubmitDelete={postClassDelete}
                         mode={mode} uclass={uclass}
-                        classes={userclasses}
+                        classes={userClasses}
                         handleEdit={() => changeClassFormMode("EDIT")}
                         handleCreate={() => changeClassFormMode("CREATE")}
                         handleClear={() => changeClassFormMode("EMPTY")}
@@ -67,7 +66,7 @@ const mapStateToProps = (state) => {
     return {
         mode : state.classFormReducer.mode,
         uclass: state.classFormReducer.uclass,
-        userclasses : state.userReducer.userclasses
+        userClasses : state.userReducer.userClasses
     };
 };
 
