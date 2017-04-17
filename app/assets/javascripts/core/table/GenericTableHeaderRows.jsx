@@ -1,19 +1,17 @@
 import React from 'react';
-import {
-    TableRow, TableHeaderColumn
-} from 'material-ui/Table';
+import { TableRow, TableHeaderColumn } from 'material-ui/Table';
 
 class GenericTableHeaderRows extends React.Component {
 
     render() {
-        const { meta } = this.props;
+        const { meta, ...other } = this.props;
         return (
-            <TableRow>
-                {meta.map((row, index) => {
+            <TableRow {...other}>
+                {meta.map((row, index, objects, ...icp) => {
                         return row.label ?
-                            <TableHeaderColumn style={{width: row.width}} key={index}>{row.label}</TableHeaderColumn>
+                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp} >{row.label}</TableHeaderColumn>
                             :
-                            <TableHeaderColumn key={index}/>;
+                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp}/>;
                     }
                 )}
             </TableRow>

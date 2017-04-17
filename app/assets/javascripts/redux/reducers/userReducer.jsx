@@ -1,4 +1,4 @@
-import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types';
+import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from './../types';
 
 /**
  * Contains reducer for {@link redux/actions/user}.
@@ -8,7 +8,7 @@ import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from '.
 const userReducer = (state = {
     userdata: null,
     users: [],
-    userclasses: [],
+    userClasses: [],
 }, action) => {
     switch (action.type) {
         case GET_USER_DATA:
@@ -29,7 +29,7 @@ const userReducer = (state = {
         case GET_USERCLASSES:
             return {
                 ...state,
-                userclasses: action.payload
+                userClasses: action.payload
             };
         default:
             return state

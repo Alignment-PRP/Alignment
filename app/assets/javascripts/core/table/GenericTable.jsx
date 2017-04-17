@@ -1,10 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-    Table, TableBody, TableHeader,
-    TableHeaderColumn, TableRow,
-    TableRowColumn, TableFooter
-} from 'material-ui/Table';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -57,6 +53,7 @@ class GenericTable extends React.Component {
         const { table, objects, rowMeta } = metaData;
         const page = tables[table] ? tables[table].page : 1;
         const nRows = tables[table] ? tables[table].nRows : 10;
+
         return (
             <Table
                 selectable={onSelection ? true : false}
