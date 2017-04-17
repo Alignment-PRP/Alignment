@@ -94,9 +94,9 @@ class Projects extends React.Component {
                         <ProjectTable
                             projects={this._projects.bind(this, tableMode)()}
                             deleteProject={
-                                (ID) => {
+                                (project) => {
                                     deleteDialog(true);
-                                    deleteDialogChangeAction(() => {deleteProject(ID); deleteDialog(false)})
+                                    deleteDialogChangeAction(() => {deleteProject(project); deleteDialog(false)})
                                 }
                             }
                         />
@@ -155,8 +155,8 @@ const mapDispatchToProps = (dispatch) => {
         postProjectNew: (data) => {
             dispatch(postProjectNew(data));
         },
-        deleteProject: (id) => {
-            dispatch(deleteProject(id));
+        deleteProject: (project) => {
+            dispatch(deleteProject(project));
         },
         newDialog: (open) => {
             dispatch(dialogOpen('projectNew', open));
