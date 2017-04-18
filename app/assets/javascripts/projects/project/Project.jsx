@@ -10,7 +10,7 @@ import { postRequirementToProject } from '../../redux/actions/projectActions';
 import { deleteRequirementToProject } from '../../redux/actions/projectActions';
 import { addFilterComponent } from './../../redux/actions/filterActions';
 
-import Filter from './filter/Filter';
+import Filter from './Filter';
 import Paper from 'material-ui/Paper';
 import GenericTable from './../../core/table/GenericTable';
 

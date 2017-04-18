@@ -7,8 +7,7 @@ import { getAllRequirements, getAllCategoryNames, addFilterComponent } from './.
 import Paper from 'material-ui/Paper';
 import GenericTable from './../core/table/GenericTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
-import Filter from './filter/Filter';
-import Filter2 from './../sidemenu/filters/AllRequirementsFilter';
+import Filter from './Filter';
 
 class Requirements extends React.Component {
 
