@@ -8,7 +8,7 @@ import Logout from './utility/Logout';
 
 //Project
 import Projects from './projects/Projects';
-import Project from './projects/Project';
+import Project from './projects/project/Project';
 
 //Requirements
 import Requirements from './requirements/Requirements';

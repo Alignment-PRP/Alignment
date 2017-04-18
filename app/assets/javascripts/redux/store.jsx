@@ -5,16 +5,17 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
-import userReducer from "./reducers/userReducer";
-import requirementReducer from "./reducers/requirementReducer";
-import projectReducer from "./reducers/projectReducer";
-import sideMenuReducer from "./reducers/sideMenuReducer";
-import statisticsReducer from "./reducers/statisticsReducer";
-import userFormReducer from './reducers/userFormReducer';
 import classFormReducer from './reducers/classFormReducer';
-import tableReducer from './reducers/tableReducer';
 import dialogReducer from './reducers/dialogReducer';
+import filterReducer from './reducers/filterReducer';
+import projectReducer from './reducers/projectReducer';
+import requirementReducer from './reducers/requirementReducer';
+import sideMenuReducer from './reducers/sideMenuReducer';
 import snackBarReducer from './reducers/snackBarReducer';
+import statisticsReducer from './reducers/statisticsReducer';
+import tableReducer from './reducers/tableReducer';
+import userFormReducer from './reducers/userFormReducer';
+import userReducer from './reducers/userReducer';
 
 /**
  * Defines the reducer and creates the redux store.
@@ -25,16 +26,17 @@ import snackBarReducer from './reducers/snackBarReducer';
  * @const
  */
 const reducers = {
-    userReducer,
-    requirementReducer,
-    projectReducer,
-    sideMenuReducer,
-    userFormReducer,
     classFormReducer,
-    tableReducer,
     dialogReducer,
-    statisticsReducer,
+    filterReducer,
+    projectReducer,
+    requirementReducer,
+    sideMenuReducer,
     snackBarReducer,
+    statisticsReducer,
+    tableReducer,
+    userFormReducer,
+    userReducer,
     form: formReducer,
     router: routerReducer,
 };
