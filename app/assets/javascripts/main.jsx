@@ -67,7 +67,7 @@ class App extends React.Component {
                             </Route>
 
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
-                            <Route path={"/api/project/:id"} component={Project}/>
+                            <Route path={"/project/:id"} component={Project}/>
 
                             <Route path={"allrequirements"} component={Requirements}/>
                             <Route path={"/api/requirement/new"} component={Requirements}/> {/* for rerouting purposes*/}
