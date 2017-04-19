@@ -23,8 +23,6 @@ import {changeSideMenuMode} from './redux/actions/sideMenuActions';
 import NotFound from './layout/NotFound';
 import NotAuth from './layout/NotAuth';
 
-
-
 //Utility
 import {Router, Route, IndexRoute, Redirect, browserHistory} from "react-router";
 import {Provider} from "react-redux";
