@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
+import SubHeader from 'material-ui/Subheader';
 import { getAllCategoryNames } from '../../redux/actions/requirementActions';
 import { updateFilter, updateFilterRequirementList, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../../redux/actions/filterActions';
 import CategoryCheckBoxes from '../../core/filter/checkboxes/CategoryCheckBoxes';
@@ -42,23 +43,27 @@ class Filter extends React.Component {
         const { categories, filter, title } = this.props;
         return (
             <div style={{minWidth: '250px', height: '100%'}}>
+                <h2>{title}</h2>
                 <List>
-                    <h2>{title}</h2>
-                    <p>Kategori</p>
+                    <SubHeader>Kategori</SubHeader>
                     <CategoryCheckBoxes filter={filter} categories={categories} onCheck={this._updateFilter.bind(this)} onCheckSub={this._sub.bind(this)}/>
                 </List>
                 <Divider/>
                 {/*Temporary placeholder before structure gets in place*/}
                 <List>
-                    <p>Struktur</p>
+                    <SubHeader>Struktur</SubHeader>
                     <ListItem primaryText="Source" leftCheckbox={<Checkbox/>}/>
                     <ListItem primaryText="Stimulus" leftCheckbox={<Checkbox/>}/>
                     <ListItem primaryText="Artifact" leftCheckbox={<Checkbox/>}/>
                 </List>
                 <Divider/>
                 <List>
-                    <p>Krav Meny</p>
-                    <ListItem><Link to="newrequirement"><RaisedButton primary={true} label="Nytt krav"/></Link></ListItem>
+                    <SubHeader>Krav Meny</SubHeader>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Link to="newrequirement">
+                            <RaisedButton primary={true} label="Nytt Krav" />
+                        </Link>
+                    </div>
                 </List>
             </div>
         )
