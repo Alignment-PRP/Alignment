@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderMultiTextField, renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../../render.jsx';
+import {renderTextField, renderMultiTextField, renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from '../../render';
 
 /**
  * Redux-form for displaying a form filled with classdata.
@@ -17,6 +17,7 @@ class ClassInForm extends React.Component {
         return (
             <MuiThemeProvider>
                 <Paper className="form-inner">
+                    <h2>Rediger brukerklasse</h2>
                     <form onSubmit={handleSubmit}>
                         <Field
                             name="NAME"

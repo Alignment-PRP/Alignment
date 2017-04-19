@@ -1,4 +1,4 @@
-import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from './../types.jsx';
+import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from './../types';
 
 /**
  * Contains reducer for {@link redux/actions/user}.
@@ -6,41 +6,34 @@ import {GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES} from '.
  */
 
 const userReducer = (state = {
-    userdata: [],
+    userdata: null,
     users: [],
-    userclasses: [],
+    userClasses: [],
 }, action) => {
     switch (action.type) {
         case GET_USER_DATA:
-            state = {
-                userdata: action.payload,
-                users: state.users,
-                userclasses: state.userclasses,
+            return {
+                ...state,
+                userdata: action.payload
             };
-            break;
         case GET_USERS:
-            state = {
-                userdata: state.userdata,
-                users: action.payload,
-                userclasses: state.userclasses,
+            return {
+                ...state,
+                users: action.payload
             };
-            break;
         case GET_USERS_WITH_CLASS:
-            state = {
-                userdata: state.userdata,
-                users: action.payload,
-                userclasses: state.userclasses,
+            return {
+                ...state,
+                users: action.payload
             };
-            break;
         case GET_USERCLASSES:
-            state = {
-                userdata: state.userdata,
-                users: state.users,
-                userclasses: action.payload,
+            return {
+                ...state,
+                userClasses: action.payload
             };
-            break;
+        default:
+            return state
     }
-    return state;
 };
 
 export default userReducer;

@@ -2,9 +2,15 @@ import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
+        ADD_REQUIREMENT,
+        POST_UPDATE_REQUIREMENT,
         UPDATE_REQUIREMENT,
-        DELETE_REQUIREMENT
-} from './../types.jsx';
+        DELETE_REQUIREMENT,
+        ADD_TO_FILTER,
+        REMOVE_FROM_FILTER,
+        ADD_TO_SUB_FILTER,
+        REMOVE_FROM_SUB_FILTER
+} from './../types';
 
 const requirementReducer = (state = {
     requirements: [],
@@ -15,53 +21,67 @@ const requirementReducer = (state = {
 }, action) => {
     switch (action.type) {
         case GET_ALL_REQUIREMENTS:
-            state = {
+            return {
+                ...state,
                 requirements: action.payload,
-                requirement: state.requirement,
-                filterRequirementList: state.filterRequirementList,
-                filter: state.filter,
-                categoryNames: state.categoryNames
             };
-            break;
         case GET_ALL_CATEGORY_NAMES:
-            state = {
-                requirements: state.requirements,
-                requirement: state.requirement,
-                filterRequirementList: state.filterRequirementList,
-                filter: state.filter,
+            return {
+                ...state,
                 categoryNames: action.payload
             };
-            break;
         case UPDATE_REQUIREMENT:
-            state = {
-                requirements: state.requirements,
-                requirement: action.payload,
-                filterRequirementList: state.filterRequirementList,
-                filter: state.filter,
-                categoryNames: state.categoryNames
+            return {
+                ...state,
+                requirement: action.payload
             };
         case UPDATE_FILTER_REQUIREMENT_LIST:
-            state = {
-                requirements: state.requirements,
-                requirement: state.requirement,
-                filterRequirementList: action.payload,
-                filter: state.filter,
-                categoryNames: state.categoryNames
+            console.log(state.filter);
+            return {
+                ...state,
+                filterRequirementList: state.requirements.filter(req => {
+                    if (state.filter[req.cName]) {
+                        if (state.filter[req.cName].length !== 0) {
+                            if (state.filter[req.cName].indexOf(req.scName) !== -1 ) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        return true;
+                    }
+                })
             };
-            break;
         case UPDATE_FILTER:
-            state = {
-                requirements: state.requirements,
-                requirement: state.requirement,
-                filterRequirementList: state.filterRequirementList,
-                filter: action.payload,
-                categoryNames: state.categoryNames
+            return {
+                ...state,
+                filter: action.payload
             };
-            break;
+        case ADD_TO_FILTER:
+            return {
+                ...state,
+                filter: { ...state.filter, [action.payload]: []}
+            };
+        case REMOVE_FROM_FILTER:
+            delete state.filter[action.payload];
+            return {
+                ...state
+            };
+        case ADD_TO_SUB_FILTER:
+            return {
+                ...state,
+                filter: { ...state.filter, [action.parent]: state.filter[action.parent].concat([action.sub]) }
+            };
+        case REMOVE_FROM_SUB_FILTER:
+            return {
+                ...state,
+                filter: { ...state.filter, [action.parent]: state.filter[action.parent].filter(e => e !== action.sub)}
+            };
+        case ADD_REQUIREMENT:
+        case POST_UPDATE_REQUIREMENT:
         case DELETE_REQUIREMENT:
-            break;
+        default:
+            return state
     }
-    return state;
 };
 
 export default requirementReducer;

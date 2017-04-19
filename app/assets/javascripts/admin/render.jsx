@@ -7,7 +7,7 @@ import Checkbox from 'material-ui/Checkbox';
 /**
  * Contains functions for rendering and
  * form-validation to use in redux-form components.
- * @module admin/render
+ * @module core/render
  *
  * @example
  * import React from 'react';
@@ -120,7 +120,7 @@ export const normalizeNumberField = value => {
  */
 export const validateProjectForm = (values) => {
     const errors = {};
-    const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle', 'isPublic' ];
+    const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle'];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
             errors[ field ] = 'Må fylles'
@@ -169,38 +169,24 @@ export const validateDeleteClassForm = values => {
 };
 
 /**
- * Validates {@link EditUserForm}.
+ * Validates {@link CreateUserForm}.
  * @function
  * @param {User} values
+ * @param {string} values.pass
  * @returns {{}}
  */
 export const validateUserForm = values => {
     const errors = {};
-    const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName' ];
-    requiredFields.forEach(field => {
-        if (!values[ field ]) {
-            errors[ field ] = 'Må fylles'
-        }
-    });
-    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Ugyldig epost'
-    }
-    return errors
-};
-
-/**
- * Validates {@link CreateUserForm}.
- * @function
- * @param {User} value
- * @param {string} values.pass
- * @returns {{}}
- */
-export const validateUserFormPass = values => {
-    const errors = {};
     const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'ucName', 'pass' ];
     requiredFields.forEach(field => {
         if (!values[ field ]) {
-            errors[ field ] = 'Må fylles'
+            if (field !== 'pass') {
+                errors[ field ] = 'Må fylles'
+            } else {
+                if (!values.oldUSERNAME) {
+                    errors[ field ] = 'Må fylles'
+                }
+            }
         }
     });
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -217,6 +203,12 @@ export const validateUserFormPass = values => {
 export const menuItemsClasses = (classes) => {
     return classes.map((item, index) => {
         return <MenuItem key={index} value={item.NAME} primaryText={item.NAME}/>
+    })
+};
+
+export const menuItemsCategories = (classes) => {
+    return classes.map((item, index) => {
+        return <MenuItem key={index} value={item.scID} primaryText={item.NAME}/>
     })
 };
 

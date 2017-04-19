@@ -2,15 +2,19 @@ import {createStore, combineReducers, applyMiddleware} from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 import { reducer as formReducer } from 'redux-form'
+import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 
-import userReducer from "./reducers/userReducer.jsx";
-import requirementReducer from "./reducers/requirementReducer.jsx";
-import projectReducer from "./reducers/projectReducer.jsx";
-import projectFormReducer from "./reducers/projectFormReducer.jsx";
-import sideMenuReducer from "./reducers/sideMenuReducer.jsx";
-import userFormReducer from './reducers/userFormReducer.jsx';
-import adminTabReducer from './reducers/adminTabReducers.jsx';
-import classFormReducer from './reducers/classFormReducer.jsx';
+import userReducer from "./reducers/userReducer";
+import requirementReducer from "./reducers/requirementReducer";
+import projectReducer from "./reducers/projectReducer";
+import sideMenuReducer from "./reducers/sideMenuReducer";
+import statisticsReducer from "./reducers/statisticsReducer";
+import userFormReducer from './reducers/userFormReducer';
+import classFormReducer from './reducers/classFormReducer';
+import tableReducer from './reducers/tableReducer';
+import dialogReducer from './reducers/dialogReducer';
+import snackBarReducer from './reducers/snackBarReducer';
 
 /**
  * Defines the reducer and creates the redux store.
@@ -24,12 +28,15 @@ const reducers = {
     userReducer,
     requirementReducer,
     projectReducer,
-    projectFormReducer,
     sideMenuReducer,
     userFormReducer,
-    adminTabReducer,
     classFormReducer,
+    tableReducer,
+    dialogReducer,
+    statisticsReducer,
+    snackBarReducer,
     form: formReducer,
+    router: routerReducer,
 };
 
 /**
@@ -43,7 +50,7 @@ const reducers = {
  * @type {Store<S>}
  */
 const store = createStore(
-    combineReducers(reducers), {}, applyMiddleware(logger(), thunk)
+    combineReducers(reducers), {}, applyMiddleware(logger(), thunk, routerMiddleware(browserHistory))
 );
 
 export default store;

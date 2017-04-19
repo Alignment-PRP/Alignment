@@ -1,12 +1,18 @@
 import axios from 'axios';
-import * as URLS from './../../config.jsx';
+import * as URLS from './../../config';
 import {GET_ALL_REQUIREMENTS,
         GET_ALL_CATEGORY_NAMES,
         UPDATE_FILTER_REQUIREMENT_LIST,
         UPDATE_FILTER,
+        ADD_REQUIREMENT,
         UPDATE_REQUIREMENT,
-        DELETE_REQUIREMENT
-} from './../types.jsx';
+        POST_UPDATE_REQUIREMENT,
+        DELETE_REQUIREMENT,
+        ADD_TO_FILTER,
+        REMOVE_FROM_FILTER,
+        ADD_TO_SUB_FILTER,
+        REMOVE_FROM_SUB_FILTER
+} from './../types';
 
 export function getAllRequirements() {
     return dispatch => {
@@ -52,10 +58,9 @@ function getAllCategoryNamesAsync(data) {
     }
 }
 
-export function updateFilterRequirementList(newFilterRequirementList) {
+export function updateFilterRequirementList() {
     return {
-        type: UPDATE_FILTER_REQUIREMENT_LIST,
-        payload: newFilterRequirementList
+        type: UPDATE_FILTER_REQUIREMENT_LIST
     }
 }
 
@@ -66,6 +71,55 @@ export function updateFilter(newFilter) {
     }
 }
 
+export function addToFilter(category) {
+    return {
+        type: ADD_TO_FILTER,
+        payload: category
+    }
+}
+
+export function removeFromFilter(category) {
+    return {
+        type: REMOVE_FROM_FILTER,
+        payload: category
+    }
+}
+
+export function addToSubFilter(sub, parent) {
+    return {
+        type: ADD_TO_SUB_FILTER,
+        sub: sub,
+        parent: parent
+    }
+}
+
+export function removeFromSubFilter(sub, parent) {
+    return {
+        type: REMOVE_FROM_SUB_FILTER,
+        sub: sub,
+        parent: parent
+    }
+}
+
+export function addRequirement(requirement) {
+    return dispatch => {
+        axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(addRequirementAsync())
+    }
+}
+
+function addRequirementAsync(){
+    return {
+        type: ADD_REQUIREMENT
+    }
+}
+
 export function updateRequirement(requirement) {
     return {
         type: UPDATE_REQUIREMENT,
@@ -73,11 +127,11 @@ export function updateRequirement(requirement) {
     }
 }
 
-export function deleteRequirement(id){
+export function deleteRequirement(requirement){
 
     //Create JSON
     const post = {
-        RID: id
+        RID: requirement.RID
     };
 
     return dispatch => {
@@ -86,7 +140,11 @@ export function deleteRequirement(id){
                 dispatch(getAllRequirements());
             })
             .catch(function (error) {
-                console.log(error);
+                if (error.response.status === 401) {
+                    //TODO
+                } else {
+                    console.log(error);
+                }
             });
         dispatch(deleteRequirementAsync())
     }
@@ -97,3 +155,25 @@ function deleteRequirementAsync(){
         type: DELETE_REQUIREMENT
     }
 }
+
+export function postUpdateRequirement(requirement){
+
+    return dispatch => {
+        console.log(requirement);
+        axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(postUpdateRequirementAsync())
+    }
+}
+
+function postUpdateRequirementAsync(){
+    return{
+        type: POST_UPDATE_REQUIREMENT
+    }
+}
+

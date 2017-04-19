@@ -1,69 +1,23 @@
 import axios from 'axios';
-import {
-    CHANGE_USER_FORM_MODE,
-    USER_CLICKED,
-    FILL_FORM,
-    SNACKBAR,
-    POST_USER_NEW,
-    POST_USER_UPDATE,
-    POST_USER_DELETE,
-} from './../types.jsx';
-import {
-    USER_POST_NEW,
-    USER_POST_UPDATE,
-    USER_POST_DELETE,
-} from './../../config.jsx';
-import {
-    getUsersWithClass,
-} from './userActions.jsx';
+import { FILL_FORM, POST_USER_NEW, POST_USER_UPDATE, POST_USER_DELETE } from './../types';
+import { USER_POST_NEW, USER_POST_UPDATE, USER_POST_DELETE } from './../../config';
+import { getUsersWithClass } from './userActions';
+import { snackBar } from './snackBarActions';
 
 /**
  * Contains action creators for {@link UserForm}
  * @module redux/actions/userForm
  */
 
-/**
- * @param {string} mode
- * @returns {{type, payload: *}}
- */
-export function changeUserFormMode(mode) {
-    return {
-        type: CHANGE_USER_FORM_MODE,
-        payload: mode
-    }
-}
-
-/**
- * @param {User} user
- * @returns {{type, payload: *}}
- */
-export function userClicked(user) {
-    return {
-        type: USER_CLICKED,
-        payload: user
-    }
-}
 
 /**
  * @param {User} data
  * @returns {{type, payload: *}}
  */
-export function fillForm(data) {
+export function fillForm(user) {
     return {
         type: FILL_FORM,
-        payload: data,
-    }
-}
-
-/**
- * @param {boolean} bool
- * @param {string} text
- * @returns {{type, payload: {open: *, text: *}}}
- */
-export function snackBar(bool, text) {
-    return {
-        type: SNACKBAR,
-        payload: {open: bool, text: text},
+        payload: user,
     }
 }
 
@@ -72,12 +26,11 @@ export function snackBar(bool, text) {
  * @param {User} data.pass
  * @returns {function(*)}
  */
-export function postUserNew(data){
+export function postUserNew(user){
     return dispatch => {
-        axios.post(USER_POST_NEW, data)
+        axios.post(USER_POST_NEW, user)
             .then(function (response) {
                 dispatch(getUsersWithClass());
-                dispatch(changeUserFormMode("EMPTY"));
                 dispatch(snackBar(true, "Bruker laget!"));
             })
             .catch(function (error) {
@@ -99,12 +52,11 @@ function postUserNewAsync() {
  * @param {string} data.oldUSERNAME
  * @returns {function(*)}
  */
-export function postUserUpdate(data){
+export function postUserUpdate(user){
     return dispatch => {
-        axios.post(USER_POST_UPDATE, data)
+        axios.post(USER_POST_UPDATE, user)
             .then(function (response) {
                 dispatch(getUsersWithClass());
-                dispatch(changeUserFormMode("EMPTY"));
                 dispatch(snackBar(true, "Bruker oppdatert!"));
             })
             .catch(function (error) {
@@ -125,12 +77,11 @@ function postUserUpdateAsync() {
  * @param {User} data
  * @returns {function(*)}
  */
-export function postUserDelete(data){
+export function postUserDelete(user){
     return dispatch => {
-        axios.post(USER_POST_DELETE, data)
+        axios.post(USER_POST_DELETE, user)
             .then(function (response) {
                 dispatch(getUsersWithClass());
-                dispatch(changeUserFormMode("EMPTY"));
                 dispatch(snackBar(true, "Bruker slettet!"));
             })
             .catch(function (error) {
