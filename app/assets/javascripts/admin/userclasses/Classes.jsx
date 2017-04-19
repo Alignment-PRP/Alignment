@@ -1,16 +1,15 @@
 import React from 'react';
-import Snackbar from 'material-ui/Snackbar';
 import {connect} from "react-redux";
-import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions.jsx";
-import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions.jsx";
-import { changeClassFormMode, classClicked, fillClassForm, snackBar, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions.jsx";
-import ClassTable from './ClassTable.jsx';
-import ClassForm from './ClassForm.jsx';
+import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
+import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
+import { changeClassFormMode, classClicked, fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
+import GenericTable from './../../core/table/GenericTable';
+import ClassForm from './ClassForm';
 
 /**
  * Class represents /admin/classes.
  * Parent: {@link Admin}
- * Children: {@link ClassForm} and {@link ClassTable}
+ * Children: {@link ClassForm}.
  */
 class Classes extends React.Component {
 
@@ -20,25 +19,27 @@ class Classes extends React.Component {
     componentDidMount() {
         this.props.changeClassFormMode("EMPTY");
         this.props.getUserClasses();
-        this.props.changeSideMenuMode("HIDE");
-    }
-
-    /**
-     * Closes the snackbar.
-     */
-    closeSnack() {
-        this.props.snackBar(false, "");
     }
 
     render() {
         const {
-            snack, mode, userclasses, uclass,
+            mode, userClasses, uclass,
             classClicked,
             changeClassFormMode,
             postClassNew,
             postClassUpdate,
-            postClassDelete,
+            postClassDelete
         } = this.props;
+
+        const tableData = {
+            table: 'userClasses',
+            objects: userClasses,
+            rowMeta: [
+                {label: 'Navn', field: 'NAME', width: '30%'},
+                {label: 'Beskrivelse', wrap: true, field: 'description', width: '70%'}
+            ]
+        };
+
         return (
             <div className="containerUsers">
                 <div className="form">
@@ -47,25 +48,15 @@ class Classes extends React.Component {
                         handleSubmitNew={postClassNew}
                         handleSubmitDelete={postClassDelete}
                         mode={mode} uclass={uclass}
-                        classes={userclasses}
+                        classes={userClasses}
                         handleEdit={() => changeClassFormMode("EDIT")}
                         handleCreate={() => changeClassFormMode("CREATE")}
                         handleClear={() => changeClassFormMode("EMPTY")}
                     />
                 </div>
                 <div className="usertable">
-                    <ClassTable
-                        classes={userclasses}
-                        classClicked={classClicked}
-                    />
+                    <GenericTable onSelection={classClicked} metaData={tableData}/>
                 </div>
-
-                <Snackbar
-                    open={snack.open}
-                    message={snack.text}
-                    autoHideDuration={4000}
-                    onRequestClose={this.closeSnack.bind(this)}
-                />
             </div>
         );
     }
@@ -75,8 +66,7 @@ const mapStateToProps = (state) => {
     return {
         mode : state.classFormReducer.mode,
         uclass: state.classFormReducer.uclass,
-        userclasses : state.userReducer.userclasses,
-        snack: state.userFormReducer.snack,
+        userClasses : state.userReducer.userClasses
     };
 };
 
@@ -106,9 +96,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         getUserClasses: () => {
             dispatch(getUserClasses())
-        },
-        snackBar: (bool, text) => {
-            dispatch(snackBar(bool, text))
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))

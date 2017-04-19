@@ -1,27 +1,37 @@
 import axios from 'axios';
-import * as URLS from './../../config.jsx';
-import {GET_ALL_PROJECTS,
+import * as URLS from './../../config';
+import {GET_PUBLIC_PROJECTS,
+        GET_PRIVATE_PROJECTS,
+        GET_ARCHIVED_PROJECTS,
         GET_PROJECT_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
         DELETE_REQUIREMENT_TO_PROJECT,
         DELETE_PROJECT,
         POST_PROJECT_NEW,
-} from './../types.jsx';
+        CHANGE_PROJECTS_TABLE_MODE
+} from './../types';
 import {
-    changeProjectFormMode,
-    snackBar,
-} from './projectFormActions.jsx';
+    snackBar
+} from './snackBarActions';
 
 /**
- * Contains action creators for {@link Project} related data.
+ * <p>
+ * All actions that changes the global state of the projectReducer is defined here.
+ * Async methods need to get defined in two separate functions because the axios.get
+ * method will take sometime before we want to send the data to the Reducer.
+ * This is made possible with react-thunk middleware.
+ * </p>
+ *
+ * <p>
+ * All actions returns a object with type: descriptive name of action,
+ * and payload: which hold the new data of the reducer(reducers holds the global state of the
+ * application.
+ * </p>
  * @module redux/actions/project
  */
 
-//All actions that changes the global state of the projectReducer is defined here.
-//Async methods need to get defined in two separate functions because the axios.get
-//method will take sometime before we want to send the data to the Reducer. This is made possible with react-thunk middleware.
-export function getAllProjects() {
+export function getPublicProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS)
             .then( response => {
@@ -30,24 +40,66 @@ export function getAllProjects() {
                     data.push(object);
                     return data
                 });
-                dispatch(getAllProjectsAsync(data))
+                dispatch(getPublicProjectsAsync(data))
             });
 
     }
 
 }
 
-
-//All actions returns a object with type: descriptive name of action,
-//and payload: which hold the new data of the reducer(reducers holds the global state of the
-//application.
-function getAllProjectsAsync(data) {
+function getPublicProjectsAsync(data) {
     return {
-        type: GET_ALL_PROJECTS,
+        type: GET_PUBLIC_PROJECTS,
         payload: data
     }
 }
 
+export function getPrivateProjects() {
+    return dispatch => {
+        axios.get(URLS.PROJECTS_GET_USER)
+            .then( response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                    return data
+                });
+                dispatch(getPrivateProjectsAsync(data))
+            });
+
+    }
+
+}
+
+function getPrivateProjectsAsync(data) {
+    return {
+        type: GET_PRIVATE_PROJECTS,
+        payload: data
+    }
+}
+
+
+export function getArchivedProjects() {
+    return dispatch => {
+        axios.get(URLS.PROJECTS_GET_USER)
+            .then( response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                    return data
+                });
+                dispatch(getArchivedProjectsAsync(data))
+            });
+
+    }
+
+}
+
+function getArchivedProjectsAsync(data) {
+    return {
+        type: GET_ARCHIVED_PROJECTS,
+        payload: data
+    }
+}
 
 export function getProjectById(id) {
     return dispatch => {
@@ -142,8 +194,7 @@ export function postProjectNew(data){
     return dispatch => {
         axios.post(URLS.PROJECT_POST_NEW, data)
             .then(function (response) {
-                dispatch(getAllProjects());
-                dispatch(changeProjectFormMode(true));
+                dispatch(getPublicProjects());
                 dispatch(snackBar(true, "Prosjekt laget!"));
             })
             .catch(function (error) {
@@ -160,17 +211,31 @@ function postProjectNewAsync() {
     }
 }
 
-export function deleteProject(id){
+
+/**
+ * @param {string} mode
+ * @returns {{type, payload: *}}
+ */
+export function changeProjectsTableMode(mode) {
+    return {
+        type: CHANGE_PROJECTS_TABLE_MODE,
+        payload: mode
+    }
+}
+
+export function deleteProject(project){
 
     //Create JSON
     const post = {
-        PID: id
+        PID: project.PID
     };
 
     return dispatch => {
         axios.post(URLS.PROJECT_DELETE_BY_ID, post)
             .then(function (response) {
-                dispatch(getAllProjects());
+                dispatch(getPublicProjects());
+                dispatch(getPrivateProjects());
+                dispatch(getArchivedProjects());
                 dispatch(snackBar(true, "Prosjekt slettet!"));
             })
             .catch(function (error) {

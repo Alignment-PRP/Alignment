@@ -1,76 +1,153 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { getAllProjects, postProjectNew, deleteProject } from "../redux/actions/projectActions.jsx";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { changeProjectFormMode, projectClicked, fillProjectForm, snackBar } from './../redux/actions/projectFormActions.jsx';
-import ProjectTable from './presentational/ProjectTable.jsx';
-import ProjectForm from './form/ProjectForm.jsx';
-import Snackbar from 'material-ui/Snackbar';
+import { push } from 'react-router-redux';
+import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import { snackBar } from './../redux/actions/snackBarActions';
+import ProjectTable from './ProjectTable';
+import ProjectsSideMenu from './presentational/ProjectsSideMenu';
+import ProjectNewDialog from './dialog/ProjectNewDialog';
+import DeleteDialog from "./../core/dialog/DeleteDialog";
+
 
 /**
  * Class represents /projects.
  * @see ProjectTable
  * @see ProjectForm
  * @see Project
+ *
+ * @param {Array.<Project>} publicProjects
+ * @param {Array.<Project>} privateProjects
+ * @param {Array.<Project>} archivedProjects
+ * @param {string} tableMode
+ * @param {boolean} formMode
+ * @param {Snack} snack
+ *
+ * @param {function} postProjectNew {@link module:redux/actions/project.postProjectNew}
+ * @param {function} getPublicProjects {@link module:redux/actions/project.getPublicProjects}
+ * @param {function} getPrivateProjects {@link module:redux/actions/project.getPrivateProjects}
+ * @param {function} getArchivedProjects {@link module:redux/actions/project.getArchivedProjects}
+ * @param {function} changeProjectFormMode {@link module:redux/actions/project.changeProjectFormMode}
+ * @param {function} changeProjectTableMode {@link module:redux/actions/projectForm.changeProjectTableMode}
+ * @param {function} snackBar {@link module:redux/actions/projectForm.snackBar}
+ * @param {function} changeSideMenuMode {@link module:redux/actions/sideMenu.changeSideMenuMode}
  */
 class Projects extends React.Component {
 
     componentDidMount(){
-        this.props.getAllProjects();
+        this.props.getPublicProjects();
+        this.props.getPrivateProjects();
+        this.props.getArchivedProjects();
         this.props.changeSideMenuMode("HIDE");
-        this.props.changeProjectFormMode(true);
+        this.props.newDialog(false);
+        this.props.deleteDialog(false);
+    }
+
+    _projects(mode) {
+        switch (mode) {
+            case "private":
+                return this.props.privateProjects;
+            case "archive":
+                return this.props.archivedProjects;
+            default:
+                return this.props.publicProjects;
+        }
+    }
+
+    _title(mode) {
+        switch (mode) {
+            case "private":
+                return <h2>Mine Prosjekter</h2>;
+            case "archive":
+                return <h2>Arkiverte Prosjekter</h2>;
+            default:
+                return <h2>Åpne Prosjekter</h2>;
+        }
     }
 
     /**
-     * Closes the snackbar.
+     * Render method
+     * @returns {XML}
      */
-    closeSnack() {
-        this.props.snackBar(false, "");
-    }
-
     render(){
         const {
-            projects, mode, snack,
+            newDialogIsOpen, deleteDialogIsOpen,
+            newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
             postProjectNew,
-            changeProjectFormMode,
-            fillProjectForm,
+            deleteProject,
+            push, path
         } = this.props;
+        const tableMode = path.replace('/projects/', '');
         return (
-            <div className="containerUsers">
-                <div className="form">
-                    <ProjectForm
-                        disabled={mode}
-                        onSubmit={postProjectNew}
-                        handleCreate={() => {fillProjectForm({}); changeProjectFormMode(false)}}
-                        handleClear={() => {fillProjectForm({}); changeProjectFormMode(true)}}
+            <div>
+                <div className="containerUsers">
+                    <ProjectsSideMenu
+                        className="projects-sidemenu"
+                        handleUser={() => push('/projects/private')}
+                        handleAll={() => push('/projects')}
+                        handleArchived={() => push('/projects/archive')}
+                        handleNew={newDialog.bind(null, true)}
                     />
+                    <div className="usertable">
+                        {this._title(tableMode)}
+                        <ProjectTable
+                            projects={this._projects.bind(this, tableMode)()}
+                            deleteProject={
+                                (project) => {
+                                    deleteDialog(true);
+                                    deleteDialogChangeAction(() => {deleteProject(project); deleteDialog(false)})
+                                }
+                            }
+                        />
+                    </div>
+                    <ProjectNewDialog
+                        title="Nytt Prosjekt"
+                        open={newDialogIsOpen}
+                        handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); newDialog(false)}}
+                        onRequestClose={newDialog.bind(null, false)}
+                    />
+                    <DeleteDialog
+                        title="Slett Prosjekt"
+                        desc="Er du sikker på at du vil slette prosjektet?"
+                        open={deleteDialogIsOpen}
+                        action={deleteDialogAction}
+                        onRequestClose={deleteDialog.bind(null, false)}
+                    />
+
                 </div>
-                <div className="usertable">
-                    <ProjectTable projects={projects} projectClicked={() => {}} deleteProject={this.props.deleteProject}/>
-                </div>
-                <Snackbar
-                    open={snack.open}
-                    message={snack.text}
-                    autoHideDuration={4000}
-                    onRequestClose={this.closeSnack.bind(this)}
-                />
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
+    let path = state.router.location ? state.router.location.pathname : '/projects';
     return {
-        projects: state.projectReducer.projects,
-        mode: state.projectFormReducer.mode,
-        snack: state.projectFormReducer.snack,
+        path: path,
+        publicProjects: state.projectReducer.publicProjects,
+        privateProjects: state.projectReducer.privateProjects,
+        archivedProjects: state.projectReducer.archivedProjects,
+        tableMode: state.projectReducer.tableMode,
+        newDialogIsOpen: state.dialogReducer.projectNew.isOpen,
+        deleteDialogIsOpen: state.dialogReducer.projectDelete.isOpen,
+        deleteDialogAction: state.dialogReducer.projectDelete.action,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllProjects: () => {
-            dispatch(getAllProjects());
+        push: (url) => {
+            dispatch(push(url));
+        },
+        getPublicProjects: () => {
+            dispatch(getPublicProjects());
+        },
+        getPrivateProjects: () => {
+            dispatch(getPrivateProjects());
+        },
+        getArchivedProjects: () => {
+            dispatch(getArchivedProjects());
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode));
@@ -78,18 +155,18 @@ const mapDispatchToProps = (dispatch) => {
         postProjectNew: (data) => {
             dispatch(postProjectNew(data));
         },
-        deleteProject: (id) => {
-            dispatch(deleteProject(id));
+        deleteProject: (project) => {
+            dispatch(deleteProject(project));
         },
-        changeProjectFormMode: (mode) => {
-            dispatch(changeProjectFormMode(mode));
+        newDialog: (open) => {
+            dispatch(dialogOpen('projectNew', open));
         },
-        fillProjectForm: (data) => {
-            dispatch(fillProjectForm(data));
+        deleteDialog: (open) => {
+            dispatch(dialogOpen('projectDelete', open));
         },
-        snackBar: (bool, text) => {
-            dispatch(snackBar(bool, text))
-        },
+        deleteDialogChangeAction: (action) => {
+            dispatch(dialogChangeAction('projectDelete', action))
+        }
     };
 };
 

@@ -1,11 +1,3 @@
-/**
- * Your classic Foo Engine
- * @global
- * @typedef {Object} FooEngine
- * @property {Function} start Starts the Foo Engine
- * @property {Function} stop Stops the Foo Engine
- * @property {String} state Current state of the Foo Engine
- */
 
 /**
  * @global
@@ -33,4 +25,11 @@
  * @property {string} lastName
  * @property {string} email
  * @property {string} ucName
+ */
+
+/**
+ * @global
+ * @typedef {Object} Snack
+ * @property {boolean} isOpen
+ * @property {string} text
  */

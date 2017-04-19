@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { changeSideMenuMode } from "./../redux/actions/sideMenuActions.jsx";
+import { push } from 'react-router-redux';
+import { changeSideMenuMode } from "./../redux/actions/sideMenuActions";
 import {Tabs, Tab} from 'material-ui/Tabs';
-import Users from './users/Users.jsx';
-import Classes from './userclasses/Classes.jsx';
-import {browserHistory} from 'react-router';
-import {changeTab} from './../redux/actions/adminTabActions.jsx';
+import Users from './users/Users';
+import Classes from './userclasses/Classes';
+import Statistics from './statistics/Statistics';
 
 /**
  * Class represents the admin page.
@@ -24,10 +24,6 @@ class Admin extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleDefault = this.handleActive.bind(this, '/admin');
-        this.handleUsers = this.handleActive.bind(this, '/admin/users');
-        this.handleClasses = this.handleActive.bind(this, '/admin/classes');
-
         this.style = {
             tabContent: {
 
@@ -40,42 +36,38 @@ class Admin extends React.Component {
      */
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
+        console.log(this.props.path);
     }
-
-    /**
-     * Pushes an url when a tab is changed.
-     * @param {string} url
-     */
-    handleActive(url) {
-        browserHistory.push(url)
-    }
-
 
     render() {
-        const { index, changeTab } = this.props;
+        const { index, path, push } = this.props;
         return (
             <div>
                 <Tabs
                     initialSelectedIndex={index}
-                    onChange={changeTab}
+                    value={path}
                 >
-                    <Tab label="Noe admin stuff" onActive={this.handleDefault}>
-                        <div style={this.style.tabContent}>
-
-                            <h2>Admin stuff. WIP</h2>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla magna diam, mattis ut accumsan id, dapibus mattis dui. Praesent accumsan tempor est vitae commodo. Maecenas facilisis lectus eget malesuada mollis. Duis et risus dolor. Integer fermentum vulputate ex vel imperdiet. Nam dignissim sem vel dignissim ornare. Quisque accumsan ultricies quam.
-                            </p>
+                    <Tab value="/admin" label="Brukeroversikt" onActive={() => push('/admin')}>
+                        <div id="admin" style={this.style.tabContent}>
+                            <h2>Brukeroversikt</h2>
+                            <ul>
+                                <li>Oversikt over hvem som eier hvilket prosjekt</li>
+                            </ul>
                         </div>
                     </Tab>
-                    <Tab label="Brukere" onActive={this.handleUsers}>
+                    <Tab value="/admin/users" label="Brukere" onActive={push.bind(null, '/admin/users')}>
                         <div style={this.style.tabContent}>
                             <Users/>
                         </div>
                     </Tab>
-                    <Tab label="Brukerklasser" onActive={this.handleClasses}>
+                    <Tab value="/admin/classes" label="Brukerklasser" onActive={push.bind(null, '/admin/classes')}>
                         <div style={this.style.tabContent}>
                             <Classes/>
+                        </div>
+                    </Tab>
+                    <Tab value="/admin/stats" label="Statistikk" onActive={push.bind(null, '/admin/stats')}>
+                        <div id="admin" style={this.style.tabContent}>
+                            <Statistics/>
                         </div>
                     </Tab>
                 </Tabs>
@@ -85,15 +77,16 @@ class Admin extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let path = state.router.location ? state.router.location.pathname : "/admin";
     return {
-        index: state.adminTabReducer.index,
+        path: path
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeTab: (index) => {
-            dispatch(changeTab(index))
+        push: (url) => {
+            dispatch(push(url));
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))

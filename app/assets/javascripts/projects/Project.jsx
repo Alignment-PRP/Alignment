@@ -1,20 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
 
 
 //Importing other react components (child   component) for presentational purposes.
 //This component (parent component / container) get the information that is going
 //to be viewed from Redux, and passing it down with props to the child components.
-import RequirementListItemMiniDelete from '../requirements/presentational/RequirementListItemMiniDelete.jsx'
-import RequirementListItemMiniAdd from '../requirements/presentational/RequirementListItemMiniAdd.jsx'
+import RequirementListItemMiniDelete from '../requirements/presentational/RequirementListItemMiniDelete'
+import RequirementListItemMiniAdd from '../requirements/presentational/RequirementListItemMiniAdd'
 
 //Importing the methods declared in redux/actions. These methodes handles the global state of the app.
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions.jsx";
-import { getRequirementsByProjectId } from "../redux/actions/projectActions.jsx";
-import { getAllRequirements } from '../redux/actions/requirementActions.jsx';
-import { postRequirementToProject } from '../redux/actions/projectActions.jsx';
-import { deleteRequirementToProject } from '../redux/actions/projectActions.jsx';
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { getRequirementsByProjectId } from "../redux/actions/projectActions";
+import { getAllRequirements } from '../redux/actions/requirementActions';
+import { postRequirementToProject } from '../redux/actions/projectActions';
+import { deleteRequirementToProject } from '../redux/actions/projectActions';
 
 
 
@@ -40,7 +41,7 @@ class Project extends React.Component {
     //This gets called before render, methods that the render component dont depend on can get called here.
     //ChangeSideMenuMode changes the stats of the sidemenu. The sidemenu automatically rerenders when this gets called.
     componentWillMount(){
-        this.props.changeSideMenuMode("HIDE")
+        this.props.changeSideMenuMode("FILTER")
     }
 
 
@@ -109,32 +110,45 @@ class Project extends React.Component {
             <div className="container">
                 <div className="add-requirements">
                     <h2>Legg til Krav</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Navn</th>
-                            <th>Beskrivelse</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {/* to call on fuctions inside JSX you need {} around the function call. */}
-                        {this.renderAllRequirementList()}
-                        </tbody>
-                    </table>
+                    <Table>
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                        >
+                            <TableRow>
+                                <TableHeaderColumn>Navn</TableHeaderColumn>
+                                <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                                <TableHeaderColumn/>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            showRowHover={true}
+                        >
+                            {this.renderAllRequirementList()}
+                        </TableBody>
+                    </Table>
                 </div>
                 <div className="project-requirements">
                     <h2>Prosjekt Krav</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Beskrivelse</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <Table>
+                        <TableHeader
+                            displaySelectAll={false}
+                            adjustForCheckbox={false}
+                        >
+                            <TableRow>
+                                <TableHeaderColumn>Navn</TableHeaderColumn>
+                                <TableHeaderColumn>Beskrivelse</TableHeaderColumn>
+                                <TableHeaderColumn/>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody
+                            displayRowCheckbox={false}
+                            showRowHover={true}
+                        >
                         {this.renderProjectRequirementList()}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         )

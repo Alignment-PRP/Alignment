@@ -1,4 +1,9 @@
-import {CHANGE_SIDE_MENU_MODE} from './../types.jsx';
+import {CHANGE_SIDE_MENU_MODE} from './../types';
+
+/**
+ * Contains action creators for {@link SideMenu}
+ * @module redux/actions/sideMenu
+ */
 
 export function changeSideMenuMode(mode) {
     return {

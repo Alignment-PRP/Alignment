@@ -4,12 +4,15 @@ import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.Statement;
+import play.api.libs.json.Json;
 import play.db.Database;
 
 import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,10 +21,17 @@ import java.util.Map;
 public class AdminController extends Controller {
 
     private QueryHandler qh;
-
+    private List<String> structures;
     @Inject //Injects the database object generated from the config file
     public AdminController(Database db){
         this.qh = new QueryHandler(db);
+        this.structures = new ArrayList<String>();
+        structures.add("source");
+        structures.add("stimulus");
+        structures.add("artifact");
+        structures.add("response");
+        structures.add("responsemeasure");
+        structures.add("environment");
     }
 
 
@@ -39,8 +49,11 @@ public class AdminController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
         return ok("Structure added");
+    }
+    private String insertStructureWithReturnID(String type, String content){
+        return qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
     }
 
     /**
@@ -48,8 +61,8 @@ public class AdminController extends Controller {
      * @param rid requirementID
      * @param sid structureID
      */
-    private void insertHasStructure(String rid, String sid){
-        qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, Integer.parseInt(rid), Integer.parseInt(sid));
+    private void insertHasStructure(int rid, int sid){
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, rid, sid);
     }
 
     /**
@@ -74,25 +87,22 @@ public class AdminController extends Controller {
         //TODO: Validate user class
 
         //Converts the POST data to a map
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-
-        //Adds the strucutre values to a list
-        //List<String> structures = new ArrayList<String>();
-        //structures.add(values.get("source")[0]);
-        //structures.add(values.get("stimulus")[0]);
-        //structures.add(values.get("artifact")[0]);
-        //structures.add(values.get("response")[0]);
-        //structures.add(values.get("responsemeasure")[0]);
-        //structures.add(values.get("environment")[0]);
+        final JsonNode values = request().body().asJson();
 
         //Gets the meta data values
-        String subCatID = values.get("subCatID")[0];
-        String reqResponsible = values.get("reqResponsible")[0];
-        String description = values.get("description")[0];
-        String comment = values.get("comment")[0];
-        String reqCode = values.get("reqCode")[0];
-        String reqNo = values.get("reqNo")[0];
-        String name = values.get("name")[0];
+        int subCatID = Integer.parseInt(values.get("scID").asText());
+        String description = values.get("description").asText();
+        String comment = values.get("comment").asText();
+        String reqCode = values.get("reqCode").asText();
+        String reqNo = values.get("reqNo").asText();
+        String name = values.get("name").asText();
+        String reqResponsible;
+        try{
+            reqResponsible = values.get("reqResponsible").asText();
+        }
+        catch (NullPointerException e){
+            reqResponsible = userID;
+        }
         //TODO determine and create correct validation for requirements
         //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
 
@@ -108,28 +118,52 @@ public class AdminController extends Controller {
         }
 
         //Inserts a new requirement and returns the requirement ID.
-        String ID = qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT);
+        int ID = Integer.parseInt(qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT));
 
         //Inserts a new row in RequirementMetaData using the requirement ID as PK
-        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, Integer.parseInt(ID), reqResponsible, description, comment, reqCode, reqNo, name);
+        qh.insertStatement(Statement.INSERT_REQUIREMENT_META_DATA, ID, reqResponsible, description, comment, reqCode, reqNo, name);
 
-        qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, Integer.parseInt(ID), Integer.parseInt(subCatID));
+        qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, ID, subCatID);
+
         //Inserts all the structures
-        /*for (String SID: structures){
-            if(SID != null){
-                insertHasStructure(ID, SID);
+        for (String structureType: structures){
+            String content;
+            try{
+                content = values.get(structureType).asText();
             }
+            catch (NullPointerException e){
+                continue;
+            }
+            int structureID;
+            try{
+                structureID = Integer.parseInt(content);
+                insertHasStructure(ID, structureID);
+            }
+            catch (NumberFormatException e){
+                String SID = insertStructureWithReturnID(structureType, content);
+                insertHasStructure(ID, Integer.parseInt(SID));
+            }
+
         }
-        */
         return ok("added requirement");
 
     }
+
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
         //TODO
         return true;
     }
 
+    public Result getRequirementUsage(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_PER_REQUIREMENT));
+    }
     //==================================== GET REQUIREMENT ===================================================
 
     /**
@@ -164,43 +198,80 @@ public class AdminController extends Controller {
      * @return
      */
     public Result updateRequirement(){
-        //TODO: fix duplicates with add req and every local req
-
-        //Converts the POST data to a map
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        int id = Integer.parseInt(values.get("id")[0]);
-
-        //Checks if the requirement exists, if not: returns 401 Unauthorized
-        JsonNode exists = qh.executeQuery(Statement.REQUIREMENT_EXISTS, id);
-        if(exists.get(0).get("bool").asInt() != 1) {
-            return unauthorized("no such requirement");
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
         }
 
-        //Gets the values from the map
-        String source = values.get("source")[0];
-        String stimulus = values.get("stimulus")[0];
-        String artifact = values.get("artifact")[0];
-        String response = values.get("response")[0];
-        String responsemeasure = values.get("responsemeasure")[0];
-        String environment = values.get("environment")[0];
+        //TODO: Validate user class
 
-        //TODO duplicate of addReq
-        validateReq(source, stimulus, artifact, response, responsemeasure, environment);
+        //Gets the POST data as Json
+        final JsonNode values = request().body().asJson();
 
+
+        //Gets the meta data values
+        int ID = values.get("ID").asInt();
+        int subCatID = Integer.parseInt(values.get("scID").asText());
+        String description = values.get("description").asText();
+        String comment = values.get("comment").asText();
+        String reqCode = values.get("reqCode").asText();
+        String reqNo = values.get("reqNo").asText();
+        String name = values.get("name").asText();
+        String reqResponsible;
+        try{
+            reqResponsible = values.get("reqResponsible").asText();
+        }
+        catch (NullPointerException e){
+            reqResponsible = userID;
+        }
+        //TODO determine and create correct validation for requirements
+        //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
+
+
+        //TODO determine if private global reqs are a thing
         //Checks if isPublic
         int pub;
-        if (values.get("public") != null) {
+        if(values.get("public") != null){
             pub = 1;
-        } else {
+        }
+        else {
             pub = 0;
         }
-        String name = values.get("name")[0];
-        String desc = values.get("description")[0];
+        JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, ID);
+        int scID = req.get(0).get("scID").asInt();
+        //Checks if the subcategory has been changed, if so delete the old and insert the new.
+        if(subCatID != scID){
+            qh.executeUpdate(Statement.DELETE_HAS_SUB_CATEGORY, ID);
+            qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, ID, subCatID);
+        }
+        //Inserts a new row in RequirementMetaData using the requirement ID as PK
+        qh.insertStatement(Statement.UPDATE_REQUIREMENT_META_DATA, reqResponsible, description, comment, reqCode, reqNo, name, ID);
 
-        //Executes the update statement
-        qh.insertStatement(Statement.UPDATE_GLOBAL_REQUIREMENT, pub, name, desc, source, stimulus, artifact, response, responsemeasure, environment, id);
+        //Deletes all the HAS structure relations for this requirement
+        qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, ID);
 
-        return ok(views.html.dashboard.render());
+        //Inserts all the structures
+        for (String structureType: structures){
+            String content;
+            try{
+                content = values.get(structureType).asText();
+            }
+            catch (NullPointerException e){
+                continue;
+            }
+            int structureID;
+            try{
+                structureID = Integer.parseInt(content);
+                insertHasStructure(ID, structureID);
+            }
+            catch (NumberFormatException e){
+                String SID = insertStructureWithReturnID(structureType, content);
+                insertHasStructure(ID, Integer.parseInt(SID));
+            }
+
+        }
+        return ok("updated requirement");
 
 
     }
@@ -283,7 +354,7 @@ public class AdminController extends Controller {
         String className = userClass.get(0).get("NAME").asText();
 
         //Checks if the connected user has permission to delete
-        if(className != "Admin"){
+        if(!className.equals("Admin")){
             return unauthorized("You do not have permission to delete requirements.");
         }
 

@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
-import {renderTextField, renderMultiTextField, validateClassForm as validate} from './../../render.jsx';
+import {renderTextField, renderMultiTextField, validateClassForm as validate} from '../../render';
 
 /**
  * Redux-form form for creating classes.
@@ -15,6 +15,7 @@ class CreateClassForm extends React.Component {
         return (
             <MuiThemeProvider>
                 <Paper className="form-inner">
+                    <h2>Lag brukerklasse</h2>
                     <form onSubmit={handleSubmit}>
                         <Field
                             name="NAME"
