@@ -146,7 +146,11 @@ function getRequirementsByProjectIdAsync(data) {
     }
 }
 
-export function postRequirementToProject(post){
+export function postRequirementToProject(projectID, requirement){
+    const post = {
+        ...requirement,
+        PID: projectID
+    };
     return dispatch => {
         axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
             .then(function (response) {
@@ -166,7 +170,11 @@ function postRequirementToProjectAsync() {
     }
 }
 
-export function deleteRequirementToProject(post){
+export function deleteRequirementToProject(projectID, requirement){
+    const post = {
+        ...requirement,
+        PID: projectID
+    };
     return dispatch => {
         axios.post(URLS.PROJECT_REQUIREMENT_POST_DELETE, post)
             .then(function (response) {
