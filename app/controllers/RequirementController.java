@@ -58,8 +58,13 @@ public class RequirementController extends Controller{
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
+        Map<String, Object> requirementMap = new HashMap<>();
         JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
-        return ok(req);
+        for (JsonNode r:
+                req) {
+            requirementMap.put(r.get("RID").asText(), r);
+        }
+        return ok(Json.toJson(requirementMap));
     }
 
     @Deprecated //Use the one in projectcontroller

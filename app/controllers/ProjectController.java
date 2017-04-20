@@ -5,10 +5,14 @@ import database.QueryHandler;
 import database.Statement;
 
 import play.db.Database;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -164,8 +168,14 @@ public class ProjectController extends Controller {
         }
         int projectID = Integer.parseInt(id);
         //TODO validate access permission
+
+        Map<String, Object> requirementMap = new HashMap<>();
         JsonNode projectRequirements = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENTS, projectID);
-        return ok(projectRequirements);
+        for (JsonNode pr:
+             projectRequirements) {
+            requirementMap.put(pr.get("RID").asText(), pr);
+        }
+        return ok(Json.toJson(requirementMap));
     }
 
     /**
