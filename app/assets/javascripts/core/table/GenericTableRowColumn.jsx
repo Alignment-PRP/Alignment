@@ -5,6 +5,28 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 
+const LinkTo = ({icp, style, link, icon}) => {
+    return (
+        <TableRowColumn {...icp} style={style}>
+            <Link to={link}>
+                <IconButton>
+                    <FontIcon className="material-icons">{icon}</FontIcon>
+                </IconButton>
+            </Link>
+        </TableRowColumn>
+    );
+};
+
+const Action = ({icp, style, onClick, icon}) => {
+    return (
+        <TableRowColumn {...icp} style={style}>
+            <IconButton onClick={onClick}>
+                <FontIcon className="material-icons">{icon}</FontIcon>
+            </IconButton>
+        </TableRowColumn>
+    );
+};
+
 class GenericTableRowColumn extends React.Component {
 
     render() {
@@ -24,23 +46,9 @@ class GenericTableRowColumn extends React.Component {
                     </TableRowColumn>
                 );
             case "EDIT_LINK":
-                return (
-                    <TableRowColumn {...icp} style={defaultStyle}>
-                        <Link to={link}>
-                            <IconButton>
-                                <FontIcon className="material-icons">edit</FontIcon>
-                            </IconButton>
-                        </Link>
-                    </TableRowColumn>
-                );
+                return <LinkTo icp={icp} style={defaultStyle} link={link} icon="edit" />;
             case "EDIT_ACTION":
-                return (
-                    <TableRowColumn {...icp} style={defaultStyle}>
-                        <IconButton onClick={onClick}>
-                            <FontIcon className="material-icons">edit</FontIcon>
-                        </IconButton>
-                    </TableRowColumn>
-                );
+                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="edit" />;
             case "EDIT_LINK_ACTION":
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
@@ -52,23 +60,11 @@ class GenericTableRowColumn extends React.Component {
                     </TableRowColumn>
                 );
             case "DELETE_LINK":
-                return (
-                    <TableRowColumn {...icp} style={defaultStyle}>
-                        <Link to={link}>
-                            <IconButton>
-                                <FontIcon className="material-icons">delete</FontIcon>
-                            </IconButton>
-                        </Link>
-                    </TableRowColumn>
-                );
+                return <LinkTo icp={icp} style={defaultStyle} link={link} icon="delete" />;
             case "DELETE_ACTION":
-                return (
-                    <TableRowColumn {...icp} style={defaultStyle}>
-                        <IconButton onClick={onClick}>
-                            <FontIcon className="material-icons">delete</FontIcon>
-                        </IconButton>
-                    </TableRowColumn>
-                );
+                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="delete" />;
+            case "ADD_ACTION":
+                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="add" />;
             default:
                 return (
                     <TableRowColumn
