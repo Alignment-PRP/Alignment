@@ -7,21 +7,31 @@ import {
     REMOVE_FROM_FILTER,
     ADD_TO_SUB_FILTER,
     REMOVE_FROM_SUB_FILTER,
-    ADD_FILTER_COMPONENT,
+    ADD_FILTER,
+    ADD_FILTERED,
     GET_ALL_REQUIREMENTS
 } from './../types';
 
-export function addFilterComponent(comp) {
+export function addFilter(filter) {
     return {
-        type: ADD_FILTER_COMPONENT,
+        type: ADD_FILTER,
+        filter: filter
+    }
+}
+
+export function addFiltered(comp) {
+    return {
+        type: ADD_FILTERED,
         comp: comp
     }
 }
 
-export function updateFilterRequirementList(comp) {
+export function updateFilterRequirementList(filter, comp, unFiltered) {
     return {
         type: UPDATE_FILTER_REQUIREMENT_LIST,
-        comp: comp
+        filter: filter,
+        comp: comp,
+        unFiltered: unFiltered
     }
 }
 
@@ -32,57 +42,36 @@ export function updateFilter(newFilter) {
     }
 }
 
-export function addToFilter(comp, category) {
+export function addToFilter(filter, category) {
     return {
         type: ADD_TO_FILTER,
-        comp: comp,
+        filter: filter,
         category: category
     }
 }
 
-export function removeFromFilter(comp, category) {
+export function removeFromFilter(filter, category) {
     return {
         type: REMOVE_FROM_FILTER,
-        comp: comp,
+        filter: filter,
         category: category
     }
 }
 
-export function addToSubFilter(comp, sub, parent) {
+export function addToSubFilter(filter, sub, parent) {
     return {
         type: ADD_TO_SUB_FILTER,
-        comp: comp,
+        filter: filter,
         sub: sub,
         parent: parent
     }
 }
 
-export function removeFromSubFilter(comp, sub, parent) {
+export function removeFromSubFilter(filter, sub, parent) {
     return {
         type: REMOVE_FROM_SUB_FILTER,
-        comp: comp,
+        filter: filter,
         sub: sub,
         parent: parent
-    }
-}
-
-export function getAllRequirements() {
-    return dispatch => {
-        axios.get(URLS.REQUIREMENTS_GET)
-            .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getAllRequirementsAsync(data))
-            });
-    }
-}
-
-function getAllRequirementsAsync(data) {
-    return {
-        type: GET_ALL_REQUIREMENTS,
-        payload: data
     }
 }

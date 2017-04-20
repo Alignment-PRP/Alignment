@@ -5,10 +5,10 @@ import {connect} from 'react-redux'
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
 import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
-import { getAllRequirements } from '../../redux/actions/filterActions';
+import { getAllRequirements } from '../../redux/actions/requirementActions';
 import { postRequirementToProject } from '../../redux/actions/projectActions';
 import { deleteRequirementToProject } from '../../redux/actions/projectActions';
-import { addFilterComponent } from './../../redux/actions/filterActions';
+import { addFilter, addFiltered } from './../../redux/actions/filterActions';
 
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
@@ -35,23 +35,24 @@ class Project extends React.Component {
      * automatically rerenders when this gets called.
      */
     componentWillMount(){
-        this.props.addFilterComponent('pro_requirements');
+        this.props.addFilter('project');
+        this.props.addFiltered('allRequirements');
+        this.props.addFiltered('projectRequirements');
         this.props.changeSideMenuMode("HIDE")
     }
 
-    //TODO see render method
-    _filterProjectRequirements(projectRequirements, filter) {
-        return projectRequirements.filter(req => {
-            if (filter[req.cName]) {
-                if (filter[req.cName].length !== 0) {
-                    if (filter[req.cName].indexOf(req.scName) !== -1 ) {
-                        return true;
-                    }
-                    return false;
-                }
-                return true;
+    _filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements) {
+        if ((filter ? Object.keys(filter).length > 0 : false)) {
+            if (allRequirements_filtered) {
+                return Object.keys(allRequirements_filtered)
+                    .filter(key => { if (projectRequirements[key]) return false; else return true })
+                    .map(key => allRequirements_filtered[key])
+            } else {
+                return [];
             }
-        })
+        } else {
+            return allRequirements;
+        }
     }
 
     /**
@@ -63,26 +64,15 @@ class Project extends React.Component {
     render() {
 
         const {
-            filter, filterRequirementList, allRequirements, projectRequirements,
+            filter,
+            allRequirements_filtered, projectRequirements_filtered,
+            allRequirements, projectRequirements,
             postRequirementToProject, deleteRequirementToProject, params
         } = this.props;
 
-        const allrs = (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : [] ) : allRequirements;
-
-        //TODO fix filtering for projectRequirements
-        // const allprs = (filter ? Object.keys(filter).length > 0 : false) ? this._filterProjectRequirements(projectRequirements, filter) : projectRequirements;
-
-        const filteredAll = allrs.filter(
-            e => {
-                for (let e2 of projectRequirements) {
-                    if (e.ID === e2.ID) return false;
-                }
-                return true;
-            });
-
         const metaDataLeft = {
             table: 'allRequirements',
-            objects: filteredAll,
+            objects: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
@@ -94,7 +84,7 @@ class Project extends React.Component {
 
         const metaDataRight = {
             table: 'projectRequirements',
-            objects: projectRequirements,
+            objects: (filter ? Object.keys(filter).length > 0 : false) ? projectRequirements_filtered : projectRequirements,
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
@@ -132,9 +122,10 @@ class Project extends React.Component {
  */
 const mapStateToProps = (state) => {
     return {
-        filter: state.filterReducer.filter['pro_requirements'],
-        filterRequirementList: state.filterReducer.filterRequirementList['pro_requirements'],
-        allRequirements: state.filterReducer.requirements,
+        filter: state.filterReducer.filters['project'],
+        allRequirements_filtered: state.filterReducer.filterRequirementList['allRequirements'],
+        projectRequirements_filtered: state.filterReducer.filterRequirementList['projectRequirements'],
+        allRequirements: state.requirementReducer.requirements,
         projectRequirements: state.projectReducer.projectRequirements
     };
 };
@@ -146,8 +137,11 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        addFilterComponent: (comp) => {
-            dispatch(addFilterComponent(comp));
+        addFilter: (filter) => {
+            dispatch(addFilter(filter));
+        },
+        addFiltered: (comp) => {
+            dispatch(addFiltered(comp));
         },
         getAllRequirements: () => {
             dispatch(getAllRequirements())
