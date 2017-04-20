@@ -1,39 +1,12 @@
 import axios from 'axios';
 import * as URLS from './../../config';
-import {GET_ALL_REQUIREMENTS,
-        GET_ALL_CATEGORY_NAMES,
-        UPDATE_FILTER_REQUIREMENT_LIST,
-        UPDATE_FILTER,
-        ADD_REQUIREMENT,
-        UPDATE_REQUIREMENT,
-        POST_UPDATE_REQUIREMENT,
-        DELETE_REQUIREMENT,
-        ADD_TO_FILTER,
-        REMOVE_FROM_FILTER,
-        ADD_TO_SUB_FILTER,
-        REMOVE_FROM_SUB_FILTER
+import {
+    ADD_REQUIREMENT,
+    UPDATE_REQUIREMENT,
+    POST_UPDATE_REQUIREMENT,
+    DELETE_REQUIREMENT,
+    GET_ALL_CATEGORY_NAMES
 } from './../types';
-
-export function getAllRequirements() {
-    return dispatch => {
-        axios.get(URLS.REQUIREMENTS_GET)
-            .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getAllRequirementsAsync(data))
-            });
-    }
-}
-
-function getAllRequirementsAsync(data) {
-    return {
-        type: GET_ALL_REQUIREMENTS,
-        payload: data
-    }
-}
 
 export function getAllCategoryNames() {
     return dispatch => {
@@ -55,49 +28,6 @@ function getAllCategoryNamesAsync(data) {
     return {
         type: GET_ALL_CATEGORY_NAMES,
         payload: data
-    }
-}
-
-export function updateFilterRequirementList() {
-    return {
-        type: UPDATE_FILTER_REQUIREMENT_LIST
-    }
-}
-
-export function updateFilter(newFilter) {
-    return {
-        type: UPDATE_FILTER,
-        payload: newFilter
-    }
-}
-
-export function addToFilter(category) {
-    return {
-        type: ADD_TO_FILTER,
-        payload: category
-    }
-}
-
-export function removeFromFilter(category) {
-    return {
-        type: REMOVE_FROM_FILTER,
-        payload: category
-    }
-}
-
-export function addToSubFilter(sub, parent) {
-    return {
-        type: ADD_TO_SUB_FILTER,
-        sub: sub,
-        parent: parent
-    }
-}
-
-export function removeFromSubFilter(sub, parent) {
-    return {
-        type: REMOVE_FROM_SUB_FILTER,
-        sub: sub,
-        parent: parent
     }
 }
 

@@ -1,17 +1,24 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { getAllRequirements, getAllCategoryNames, updateRequirement, deleteRequirement } from "../redux/actions/requirementActions";
+import { updateRequirement, deleteRequirement, getAllCategoryNames } from "../redux/actions/requirementActions";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import { getAllRequirements, addFilterComponent } from './../redux/actions/filterActions';
+import Paper from 'material-ui/Paper';
 import GenericTable from './../core/table/GenericTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
+import Filter from './Filter';
 
 class Requirements extends React.Component {
+
+    componentWillMount() {
+        this.props.addFilterComponent('requirements');
+    }
 
     componentDidMount(){
         this.props.getAllRequirements();
         this.props.getAllCategoryNames();
-        this.props.changeSideMenuMode("FILTER");
+        this.props.changeSideMenuMode("HIDE");
     }
 
 
@@ -24,7 +31,7 @@ class Requirements extends React.Component {
 
         const metaData = {
             table: 'requirements',
-            objects: Object.keys(filter).length > 0 ? filterRequirementList : requirements,
+            objects: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : [] ) : requirements,
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '20%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '20%'},
@@ -40,8 +47,16 @@ class Requirements extends React.Component {
         };
 
         return (
-            <div>
-                <GenericTable metaData={metaData}/>
+            <div className="containerUsers">
+                <div style={{display: 'flex'}}>
+                    <Paper>
+                        <Filter/>
+                    </Paper>
+                </div>
+                <div className="usertable">
+                    <GenericTable metaData={metaData}/>
+                </div>
+
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -56,9 +71,9 @@ class Requirements extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        filterRequirementList: state.requirementReducer.filterRequirementList,
-        requirements: state.requirementReducer.requirements,
-        filter: state.requirementReducer.filter,
+        filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
+        requirements: state.filterReducer.requirements,
+        filter: state.filterReducer.filter['requirements'],
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action
     };
@@ -66,6 +81,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        addFilterComponent: (comp) => {
+            dispatch(addFilterComponent(comp));
+        },
         deleteDialogOpen: (open) => {
             dispatch(dialogOpen('requirementDelete', open));
         },
