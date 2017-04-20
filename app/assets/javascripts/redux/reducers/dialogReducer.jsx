@@ -17,7 +17,9 @@ const dialogReducer = (state = {
     requirementDelete: {...init},
     userNew: {...init},
     userUpdate: {...init},
-    userDelete: {...init}
+    userDelete: {...init},
+    classUpdate: {...init},
+    classDelete: {...init},
 }, action) => {
     switch (action.type) {
         case DIALOG_OPEN:
