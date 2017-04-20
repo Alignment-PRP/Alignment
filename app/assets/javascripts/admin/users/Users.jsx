@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
 import { fillForm, postUserNew, postUserUpdate, postUserDelete } from "./../../redux/actions/userFormActions";
 import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import GenericTable from './../../core/table/GenericTable';
 import DeleteDialog from './../../core/dialog/DeleteDialog';
 import UserFormDialog from "./UserFormDialog";
@@ -52,7 +52,7 @@ class Users extends React.Component {
             <div className="containerUsers">
                 <div className="usertable">
                     <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                        <FlatButton label="Ny Bruker" onTouchTap={() => { updateDialog(true); fillForm(null); }}/>
+                        <RaisedButton label="Ny Bruker" onTouchTap={() => { updateDialog(true); fillForm(null); }}/>
                     </div>
 
                     <GenericTable metaData={tableData}/>
