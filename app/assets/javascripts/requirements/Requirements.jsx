@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import { updateRequirement, deleteRequirement, getAllCategoryNames } from "../redux/actions/requirementActions";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
-import { getAllRequirements, addFilterComponent } from './../redux/actions/filterActions';
+import { addFilter, addFiltered } from './../redux/actions/filterActions';
+import { getAllRequirements } from './../redux/actions/requirementActions';
 import Paper from 'material-ui/Paper';
 import GenericTable from './../core/table/GenericTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
@@ -12,7 +13,8 @@ import Filter from './Filter';
 class Requirements extends React.Component {
 
     componentWillMount() {
-        this.props.addFilterComponent('requirements');
+        this.props.addFilter('requirements');
+        this.props.addFiltered('requirements');
     }
 
     componentDidMount(){
@@ -31,7 +33,7 @@ class Requirements extends React.Component {
 
         const metaData = {
             table: 'requirements',
-            objects: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : [] ) : requirements,
+            objects: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '20%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '20%'},
@@ -72,8 +74,8 @@ class Requirements extends React.Component {
 const mapStateToProps = (state) => {
     return {
         filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
-        requirements: state.filterReducer.requirements,
-        filter: state.filterReducer.filter['requirements'],
+        requirements: state.requirementReducer.requirements,
+        filter: state.filterReducer.filters['requirements'],
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action
     };
@@ -81,8 +83,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addFilterComponent: (comp) => {
-            dispatch(addFilterComponent(comp));
+        addFilter: (filter) => {
+            dispatch(addFilter(filter));
+        },
+        addFiltered: (comp) => {
+            dispatch(addFiltered(comp));
         },
         deleteDialogOpen: (open) => {
             dispatch(dialogOpen('requirementDelete', open));
