@@ -5,78 +5,94 @@ import {
     REMOVE_FROM_FILTER,
     ADD_TO_SUB_FILTER,
     REMOVE_FROM_SUB_FILTER,
-    ADD_FILTER_COMPONENT,
-    GET_ALL_REQUIREMENTS
+    ADD_FILTER,
+    ADD_FILTERED
 } from './../types';
 
 const filterReducer = (state = {
-    requirements: [],
-    filterRequirementList: [],
-    filter: []
+    filterRequirementList: {},
+    filters: {}
 }, action) => {
     switch (action.type) {
-        case GET_ALL_REQUIREMENTS:
+        case ADD_FILTERED: {
             return {
                 ...state,
-                requirements: action.payload,
-            };
-        case ADD_FILTER_COMPONENT:
+                filterRequirementList: { ...state.filterRequirementList, [action.comp]: {} }
+            }
+        }
+        case ADD_FILTER:
             return {
                 ...state,
-                filterRequirementList: { ...state.filterRequirementList, [action.comp]: [] },
-                filter: { ...state.filter, [action.comp]: [] }
+                filters: { ...state.filters, [action.filter]: {} }
             };
         case UPDATE_FILTER_REQUIREMENT_LIST:
+            const unFiltered = action.unFiltered;
+            const comp = action.comp;
+            const filter = state.filters[action.filter];
+            const list = {};
+            Object.keys(unFiltered).filter(key => {
+                const cName = unFiltered[key].cName;
+                const scName = unFiltered[key].scName;
+                if (filter[cName]) {
+                    if (filter[cName].length !== 0) {
+                        if (filter[cName].indexOf(scName) !== -1) {
+                            return true
+                        }
+                        return false
+                    }
+                    return true
+                }
+            }).forEach(key => { list[key] = unFiltered[key] });
             return {
                 ...state,
-                filterRequirementList: { ...state.filterRequirementList,
-                    [action.comp]: state.requirements.filter(req => {
-                        if (state.filter[action.comp][req.cName]) {
-                            if (state.filter[action.comp][req.cName].length !== 0) {
-                                if (state.filter[action.comp][req.cName].indexOf(req.scName) !== -1 ) {
-                                    return true;
-                                }
-                                return false;
-                            }
-                            return true;
-                        }
-                    })
+                filterRequirementList: {
+                    ...state.filterRequirementList,
+                    [comp]: list
                 }
             };
         case UPDATE_FILTER:
             return {
                 ...state,
-                filter: action.payload
+                filters: action.payload
             };
         case ADD_TO_FILTER:
             return {
                 ...state,
-                filter: { ...state.filter, [action.comp]: { ...state.filter[action.comp], [action.category]: []}}
+                filters: {
+                    ...state.filters,
+                    [action.filter]: {
+                        ...state.filters[action.filter],
+                        [action.category]: []
+                    }
+                }
             };
         case REMOVE_FROM_FILTER:
-            delete state.filter[action.comp][action.category];
+            let newState = Object.assign({}, state);
+            newState.filters = Object.assign({}, state.filters);
+            newState.filters[action.filter] = Object.assign({}, state.filters[action.filter]);
+            delete newState.filters[action.filter][action.category];
             return {
-                ...state
+                ...newState
             };
         case ADD_TO_SUB_FILTER:
             return {
                 ...state,
-                filter: {
-                    ...state.filter,
-                    [action.comp]: {
-                        ...state.filter[action.comp],
-                        [action.parent]: state.filter[action.comp][action.parent].concat([action.sub])
+                filters: {
+                    ...state.filters,
+                    [action.filter]: {
+                        ...state.filters[action.filter],
+                        [action.parent]: state.filters[action.filter][action.parent].concat([action.sub])
                     }
                 }
             };
         case REMOVE_FROM_SUB_FILTER:
             return {
                 ...state,
-                filter: {
-                    ...state.filter,
-                    [action.comp]: {
-                        ...state.filter[action.comp],
-                        [action.parent]: state.filter[action.comp][action.parent].filter(e => e !== action.sub)
+                filters: {
+                    ...state.filters,
+                    [action.filter]: {
+                        ...state.filters[action.filter],
+                        [action.parent]: state.filters[action.filter][action.parent].filter(e => e !== action.sub)
                     }
                 }
             };

@@ -127,12 +127,7 @@ export function getRequirementsByProjectId(id) {
     return dispatch => {
         axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID + id)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getRequirementsByProjectIdAsync(data))
+                dispatch(getRequirementsByProjectIdAsync(response.data))
             });
 
     }

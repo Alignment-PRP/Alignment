@@ -20,7 +20,7 @@ const projectReducer = (state = {
     archivedProjects: [],
     tableMode: "PUBLIC",
     project: [],
-    projectRequirements: []
+    projectRequirements: null
 }, action) => {
     switch (action.type) {
         case GET_PUBLIC_PROJECTS:

@@ -5,8 +5,25 @@ import {
     UPDATE_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
     DELETE_REQUIREMENT,
-    GET_ALL_CATEGORY_NAMES
+    GET_ALL_CATEGORY_NAMES,
+    GET_ALL_REQUIREMENTS
 } from './../types';
+
+export function getAllRequirements() {
+    return dispatch => {
+        axios.get(URLS.REQUIREMENTS_GET)
+            .then( response => {
+                dispatch(getAllRequirementsAsync(response.data))
+            });
+    }
+}
+
+function getAllRequirementsAsync(data) {
+    return {
+        type: GET_ALL_REQUIREMENTS,
+        payload: data
+    }
+}
 
 export function getAllCategoryNames() {
     return dispatch => {
