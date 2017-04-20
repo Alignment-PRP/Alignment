@@ -16,6 +16,11 @@ class Filter extends React.Component {
         this.props.getAllCategoryNames()
     }
 
+    _updateLists() {
+        this.props.updateFilterRequirementList('allRequirements', this.props.requirements);
+        this.props.updateFilterRequirementList('projectRequirements', this.props.projectRequirements);
+    }
+
     _updateFilter(event, isChecked) {
         const value = event.target.value;
         if (isChecked) {
@@ -23,7 +28,7 @@ class Filter extends React.Component {
         } else {
             this.props.removeFromFilter(value);
         }
-        this.props.updateFilterRequirementList();
+        this._updateLists();
     }
 
     _sub(event, isChecked, parent) {
@@ -36,11 +41,14 @@ class Filter extends React.Component {
         } else {
             this.props.removeFromSubFilter(value, parent);
         }
-        this.props.updateFilterRequirementList();
+        this._updateLists();
     }
 
     render() {
         const { categories, filter, title } = this.props;
+        console.log("#########");
+        console.log(filter);
+        console.log("#########");
         return (
             <div style={{minWidth: '250px', height: '100%'}}>
                 <h2>{title}</h2>
@@ -72,9 +80,9 @@ class Filter extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        requirements: state.filterReducer.requirements,
-        filter: state.filterReducer.filter['pro_requirements'],
-        filterRequirementList: state.filterReducer.filterRequirementList['pro_requirements'],
+        requirements: state.requirementReducer.requirements,
+        projectRequirements: state.projectReducer.projectRequirements,
+        filter: state.filterReducer.filters['project'],
         categories: state.requirementReducer.categoryNames
     };
 };
@@ -85,19 +93,19 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateFilter(newFilter))
         },
         addToFilter: (category) => {
-            dispatch(addToFilter('pro_requirements', category));
+            dispatch(addToFilter('project', category));
         },
         removeFromFilter: (category) => {
-            dispatch(removeFromFilter('pro_requirements', category));
+            dispatch(removeFromFilter('project', category));
         },
         addToSubFilter: (sub, parent) => {
-            dispatch(addToSubFilter('pro_requirements', sub, parent));
+            dispatch(addToSubFilter('project', sub, parent));
         },
         removeFromSubFilter: (sub, parent) => {
-            dispatch(removeFromSubFilter('pro_requirements', sub, parent));
+            dispatch(removeFromSubFilter('project', sub, parent));
         },
-        updateFilterRequirementList: () => {
-            dispatch(updateFilterRequirementList('pro_requirements'))
+        updateFilterRequirementList: (comp, unFiltered) => {
+            dispatch(updateFilterRequirementList('project', comp, unFiltered))
         },
         getAllCategoryNames: () => {
             dispatch(getAllCategoryNames())
