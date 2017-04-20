@@ -1,29 +1,13 @@
-import {
-    CHANGE_CLASS_FORM_MODE,
-    CLASS_CLICKED,
-    FILL_CLASS_FORM
-} from './../types';
+import { FILL_CLASS_FORM } from './../types';
 
 const classFormReducer = (state = {
-    mode: "EMPTY",
-    uclass: null,
-    data: []
+    uClass: null
 }, action) => {
     switch (action.type) {
-        case CHANGE_CLASS_FORM_MODE:
-            return {
-                ...state,
-                mode: action.payload
-            };
-        case CLASS_CLICKED:
-            return {
-                ...state,
-                uclass: action.payload
-            };
         case FILL_CLASS_FORM:
             return {
                 ...state,
-                data: action.payload
+                uClass: action.payload
             };
         default:
             return state;

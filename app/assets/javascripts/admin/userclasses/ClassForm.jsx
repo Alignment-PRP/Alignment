@@ -1,36 +1,70 @@
 import React from 'react';
-import EmptyClassForm from './classform/EmptyClassForm';
-import ClassInForm from './classform/ClassInForm';
-import EditClassForm from './classform/EditClassForm';
-import CreateClassForm from './classform/CreateClassForm';
+import { Field, reduxForm } from 'redux-form';
+import {connect} from "react-redux";
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {renderTextField, renderMultiTextField, validateClassForm as validate} from './../render';
 
 /**
- * Class represents a multi-form.
- * Renders different components based on global state.
- * Parent: {@link Classes}
+ * Redux-form for user creation and updating.
  */
 class ClassForm extends React.Component {
 
     render() {
-        const {
-            handleSubmitUpdate, handleSubmitNew, handleSubmitDelete,
-            handleEdit, handleCreate, handleClear,
-            mode, classes
-        } = this.props;
-        switch(mode) {
-            case "EMPTY":
-                return <EmptyClassForm onSubmit={()=>{}} handleCreate={handleCreate}/>;
-            case "SHOW":
-                return <ClassInForm onSubmit={handleSubmitDelete} handleEdit={handleEdit} handleClear={handleClear} classes={classes}/>;
-            case "EDIT":
-                return <EditClassForm onSubmit={handleSubmitUpdate} handleClear={handleClear}/>;
-            case "CREATE":
-                return <CreateClassForm onSubmit={handleSubmitNew} handleClear={handleClear} classes={classes}/>;
-            default:
-                return(<p>potato</p>)
-        }
+        const {handleSubmit, handleClose, pristine, submitting, reset} = this.props;
+        return (
+            <MuiThemeProvider>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-inner-class">
+                        <div className="form-inner-field">
+                            <Field
+                                name="NAME"
+                                label="Klassenavn"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="description"
+                                label="Beskrivelse"
+                                component={renderMultiTextField}
+                            />
+                        </div>
+                    </div>
+                    <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
+                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
+                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                    </div>
+                </form>
+            </MuiThemeProvider>
+        );
     }
 
 }
 
-export default ClassForm;
+const mapStateToProps = (state) => {
+    let initialValues;
+    if (state.classFormReducer.uClass) {
+        initialValues = state.classFormReducer.uClass;
+        initialValues.oldNAME = initialValues.NAME;
+    }
+    return {
+        initialValues: initialValues
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(reduxForm({
+    form: 'ClassForm',
+    validate,
+    enableReinitialize: true
+})(ClassForm));

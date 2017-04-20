@@ -83,7 +83,7 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(reduxForm({
-    form: 'TUserForm',
+    form: 'UserForm',
     validate,
     enableReinitialize: true
 })(UserForm));
