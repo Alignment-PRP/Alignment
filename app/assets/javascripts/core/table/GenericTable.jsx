@@ -4,6 +4,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
+import Paper from 'material-ui/Paper';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -58,6 +59,22 @@ class GenericTable extends React.Component {
             <Table
                 selectable={onSelection ? true : false}
                 onRowSelection={onSelection ? (index) => {onSelection(objects[(page-1)*nRows+index[0]])} : () => {}}
+                onCellHover={
+                    (row, col, event) => {
+                        this.handleCellHover(row, col, event)
+                        /*
+                        {console.log(event.target.innerHTML)}
+                        <Paper
+                        style={ {
+                            'padding': '0 1rem 3rem 2rem'
+                        } }
+                        zDepth={1}
+                        rounded>
+                            {event.target.innerHTML}
+                        </Paper>
+                        */
+                    }
+                }
             >
                 <TableHeader
                     displaySelectAll={false}
@@ -114,6 +131,20 @@ class GenericTable extends React.Component {
                     </TableRow>
                 </TableFooter>
             </Table>
+        );
+    }
+
+    handleCellHover(rowNumber, columnId, event) {
+        console.log(event.target.innerHTML);
+        return (
+            <Paper
+                style={ {
+                    'padding': '0 1rem 3rem 2rem'
+                } }
+                zDepth={1}
+                rounded>
+                {event.target.innerHTML}
+            </Paper>
         );
     }
 
