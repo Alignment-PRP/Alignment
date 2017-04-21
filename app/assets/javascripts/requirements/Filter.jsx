@@ -23,7 +23,7 @@ class Filter extends React.Component {
         } else {
             this.props.removeFromFilter(value);
         }
-        this.props.updateFilterRequirementList();
+        this.props.updateFilterRequirementList(this.props.requirements);
     }
 
     _sub(event, isChecked, parent) {
@@ -36,7 +36,7 @@ class Filter extends React.Component {
         } else {
             this.props.removeFromSubFilter(value, parent);
         }
-        this.props.updateFilterRequirementList();
+        this.props.updateFilterRequirementList(this.props.requirements);
     }
 
     render() {
@@ -72,8 +72,8 @@ class Filter extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        requirements: state.filterReducer.requirements,
-        filter: state.filterReducer.filter['requirements'],
+        requirements: state.requirementReducer.requirements,
+        filter: state.filterReducer.filters['requirements'],
         filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
         categories: state.requirementReducer.categoryNames
     };
@@ -96,8 +96,8 @@ const mapDispatchToProps = (dispatch) => {
         removeFromSubFilter: (sub, parent) => {
             dispatch(removeFromSubFilter('requirements', sub, parent));
         },
-        updateFilterRequirementList: () => {
-            dispatch(updateFilterRequirementList('requirements'))
+        updateFilterRequirementList: (unFiltered) => {
+            dispatch(updateFilterRequirementList('requirements', 'requirements', unFiltered))
         },
         getAllCategoryNames: () => {
             dispatch(getAllCategoryNames())
