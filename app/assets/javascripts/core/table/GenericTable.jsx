@@ -93,13 +93,14 @@ class GenericTable extends React.Component {
         const { table, objects, rowMeta, toolbar } = metaData;
         const page = tables[table] ? tables[table].page : 1;
         const nRows = tables[table] ? tables[table].nRows : 10;
+        const _objects = objects ? (objects instanceof Array ? objects : Object.values(objects)) : [];
 
         return (
             <div>
                 {toolbar ? <GenToolbar {...toolbar}/> : null }
                 <Table
                     selectable={onSelection ? true : false}
-                    onRowSelection={onSelection ? (index) => {onSelection(objects[(page-1)*nRows+index[0]])} : () => {}}
+                    onRowSelection={onSelection ? (index) => {onSelection(_objects[(page-1)*nRows+index[0]])} : () => {}}
                 >
                     <TableHeader
                         displaySelectAll={false}
@@ -107,16 +108,24 @@ class GenericTable extends React.Component {
                     >
                         <GenericTableHeaderRows meta={rowMeta}/>
                     </TableHeader>
-
                     <TableBody
                         displayRowCheckbox={false}
                         showRowHover={true}
                     >
-                        {objects.length > 0 ?
-                        objects.slice((page-1)*nRows, page*nRows).map((obj, index, objects, ...injectedRowProps) => {
-                            return <GenericTableRow obj={obj} key={index} index={index} meta={rowMeta} {...injectedRowProps} />
-                        })
-                        :
+                        {_objects ?
+                            _objects.length > 0 ?
+                                _objects.slice((page-1)*nRows, page*nRows).map((obj, index, objects, ...injectedRowProps) => {
+                                    return <GenericTableRow obj={obj} key={index} index={index} meta={rowMeta} {...injectedRowProps} />
+                                })
+                                :
+                                <TableRow>
+                                    <TableRowColumn>
+                                        <div style={{display: 'flex', justifyContent: 'center'}}>
+                                            <h3>Ingen data</h3>
+                                        </div>
+                                    </TableRowColumn>
+                                </TableRow>
+                            :
                             <TableRow>
                                 <TableRowColumn>
                                     <div style={{display: 'flex', justifyContent: 'center'}}>
@@ -145,11 +154,11 @@ class GenericTable extends React.Component {
                                     </DropDownMenu>
 
 
-                                    <span>{(page-1)*nRows+1}-{page*nRows < objects.length ? page*nRows : objects.length}of{objects.length}</span>
+                                    <span>{(page-1)*nRows+1}-{page*nRows < _objects.length ? page*nRows : _objects.length}of{_objects.length}</span>
                                     <IconButton onClick={() => tablePage(table, page > 1 ? page - 1 : 1)}>
                                         <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>
                                     </IconButton>
-                                    <IconButton onClick={() => tablePage(table, page < objects.length / nRows ? page + 1 : page)}>
+                                    <IconButton onClick={() => tablePage(table, page < _objects.length / nRows ? page + 1 : page)}>
                                         <FontIcon className="material-icons">keyboard_arrow_right</FontIcon>
                                     </IconButton>
                                 </div>

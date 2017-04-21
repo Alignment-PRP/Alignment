@@ -3,14 +3,21 @@ import {
     POST_UPDATE_REQUIREMENT,
     UPDATE_REQUIREMENT,
     DELETE_REQUIREMENT,
-    GET_ALL_CATEGORY_NAMES
+    GET_ALL_CATEGORY_NAMES,
+    GET_ALL_REQUIREMENTS
 } from './../types';
 
 const requirementReducer = (state = {
+    requirements: null,
     requirement: [],
     categoryNames: []
 }, action) => {
     switch (action.type) {
+        case GET_ALL_REQUIREMENTS:
+            return {
+                ...state,
+                requirements: action.payload,
+            };
         case UPDATE_REQUIREMENT:
             return {
                 ...state,
