@@ -27,6 +27,8 @@ class ClassForm extends React.Component {
                             <Field
                                 name="description"
                                 label="Beskrivelse"
+                                rows={4}
+                                maxRows={4}
                                 component={renderMultiTextField}
                             />
                         </div>

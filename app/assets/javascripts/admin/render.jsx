@@ -266,11 +266,12 @@ export const renderTextField = ({ input, label, meta: { touched, error, warning 
  * @param {string} meta.error
  * @param {Array} custom
  */
-export const renderMultiTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+export const renderMultiTextField = ({ input, label, rows, maxRows, meta: { touched, error }, ...custom }) => (
     <TextField hintText={label}
                multiLine={true}
                style={{width: '512px'}}
-               rows={3}
+               rows={rows}
+               maxRows={maxRows}
                floatingLabelText={label}
                errorText={touched && error}
                {...input}

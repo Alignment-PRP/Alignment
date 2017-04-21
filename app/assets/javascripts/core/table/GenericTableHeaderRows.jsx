@@ -11,7 +11,7 @@ class GenericTableHeaderRows extends React.Component {
                         return row.label ?
                             <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp} >{row.label}</TableHeaderColumn>
                             :
-                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp}/>;
+                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp}><div style={{width: '48px', height: '48px'}}/></TableHeaderColumn>;
                     }
                 )}
             </TableRow>
