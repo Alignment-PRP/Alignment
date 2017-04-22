@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../render';
+import {renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../../core/render';
 
 /**
  * Redux-form for user creation and updating.
