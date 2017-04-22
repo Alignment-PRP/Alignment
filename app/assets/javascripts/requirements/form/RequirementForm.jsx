@@ -4,8 +4,19 @@ import { Field, reduxForm } from 'redux-form';
 import { renderTextField } from './../../admin/render';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+
 
 class RequirementForm extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.style = {
+            display: 'inline-block',
+            margin: '16px 32px 16px 0'
+        };
+    }
 
     renderStructureForm(structure){
 
@@ -48,46 +59,47 @@ class RequirementForm extends React.Component {
         const { handleSubmit, structure, categories, users } = this.props;
         return (
             <div className="add-requirement">
-                <h2>Lag nytt krav</h2>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="name"> Krav navn </label><br/>
-                        <Field type="text" component={renderTextField} name="name" required/><br/>
-                    </div>
-                    <div>
-                        <label htmlFor="reqNo"> reqNo </label><br/>
-                        <Field type="text" component={renderTextField} name="reqNo" required/><br/>
-                    </div>
-                    <div>
-                        <label htmlFor="reqCode"> reqCode </label><br/>
-                        <Field type="text" component={renderTextField} name="reqCode" required/><br/>
-                    </div>
-                    <br/>
-                    <div>
-                        <label> reqResponsible </label><br/>
-                        <Field component="select" name="reqResponsible">
-                            {this.renderUsers(users)}
-                        </Field><br/>
-                    </div>
-                    <br/>
-                    <div>
-                        <label> Kategori </label><br/>
-                        <Field name="scID" component="select" >
-                            {this.renderCategoryItems(categories)}
-                        </Field><br/>
-                    </div>
-                    <div>
-                        <label htmlFor="description"> Beskrivelse </label><br/><br/>
-                        <Field type="text" component={renderTextField} name="description" required/><br/>
-                    </div>
-                    <div>
-                        <label htmlFor="comment"> Kommentar </label><br/>
-                        <Field type="text" component={renderTextField} name="comment" /><br/>
-                    </div>
-                    {this.renderStructureForm(structure)}
-                    <br/><br/>
-                    <RaisedButton type="submit">Legg Til</RaisedButton>
-                </form>
+                <Paper style={this.style} zDepth={2}>
+                    <h2>Lag nytt krav</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="name"> Krav navn </label><br/>
+                            <Field type="text" component={renderTextField} name="name" required/><br/>
+                        </div>
+                        <div>
+                            <label htmlFor="reqNo"> reqNo </label><br/>
+                            <Field type="text" component={renderTextField} name="reqNo" required/><br/>
+                        </div>
+                        <div>
+                            <label htmlFor="reqCode"> reqCode </label><br/>
+                            <Field type="text" component={renderTextField} name="reqCode" required/><br/>
+                        </div>
+                        <br/>
+                        <div>
+                            <label> reqResponsible </label><br/>
+                            <Field component="select" name="reqResponsible">
+                                {this.renderUsers(users)}
+                            </Field><br/>
+                        </div>
+                        <br/>
+                        <div>
+                            <label> Kategori </label><br/>
+                            <Field name="scID" component="select" >
+                                {this.renderCategoryItems(categories)}
+                            </Field><br/>
+                        </div>
+                        <div>
+                            <label htmlFor="description"> Beskrivelse </label><br/><br/>
+                            <Field type="text" component={renderTextField} name="description" required/><br/>
+                        </div>
+                        <div>
+                            <label htmlFor="comment"> Kommentar </label><br/>
+                            <Field type="text" component={renderTextField} name="comment" /><br/>
+                        </div>
+                        {this.renderStructureForm(structure)}
+                        <RaisedButton type="submit">Legg Til</RaisedButton>
+                    </form>
+                </Paper>
             </div>
         );
     }
