@@ -43,8 +43,8 @@ class Users extends React.Component {
         const tableData = {
             table: 'users',
             title: 'kake',
-            objects: users,
-            rowMeta: [
+            data: users,
+            columns: [
                 {label: 'Klasse', field: 'ucName', width: '15%'},
                 {label: 'Brukernavn', field: 'USERNAME', width: '15%'},
                 {label: 'Fornavn', field: 'firstName', width: '15%'},

@@ -38,8 +38,8 @@ class Classes extends React.Component {
 
         const tableData = {
             table: 'userClasses',
-            objects: userClasses,
-            rowMeta: [
+            data: userClasses,
+            columns: [
                 {label: 'Navn', field: 'NAME', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '61%'},
                 {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
@@ -47,7 +47,7 @@ class Classes extends React.Component {
             ],
             toolbar: {
                 title: 'Brukerklasses',
-                renderMenu: () => {
+                render: () => {
                     return (
                         <ToolbarGroup>
                             <ToolbarSeparator />

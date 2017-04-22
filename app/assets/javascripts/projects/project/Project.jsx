@@ -72,8 +72,8 @@ class Project extends React.Component {
 
         const metaDataLeft = {
             table: 'allRequirements',
-            objects: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
-            rowMeta: [
+            data: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
+            columns: [
                 {label: 'Navn', field: 'name', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
                 {type: 'ADD_ACTION', action: (requirement) => {
@@ -84,8 +84,8 @@ class Project extends React.Component {
 
         const metaDataRight = {
             table: 'projectRequirements',
-            objects: (filter ? Object.keys(filter).length > 0 : false) ? projectRequirements_filtered : projectRequirements,
-            rowMeta: [
+            data: (filter ? Object.keys(filter).length > 0 : false) ? projectRequirements_filtered : projectRequirements,
+            columns: [
                 {label: 'Navn', field: 'name', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {

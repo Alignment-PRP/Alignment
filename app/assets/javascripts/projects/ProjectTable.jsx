@@ -24,8 +24,8 @@ class ProjectTable extends React.Component {
 
         const projectTableMetaData = {
             table: 'project',
-            objects: projects,
-            rowMeta: [
+            data: projects,
+            columns: [
                 {label: 'Navn', field: 'name', width: '30%'},
                 {label: 'Eier', field: 'creatorID', width: '25%'},
                 {label: 'Leder', field: 'managerID', width: '25%'},

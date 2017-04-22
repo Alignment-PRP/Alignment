@@ -30,6 +30,7 @@ import GenToolbar from "./GenToolbar";
  * |-----------|------|----------|---------|-------------|
  * |label|String|Yes|null|Header text|
  * |field|String|Yes|null|Determines the attribute in the data object to populate the column.|
+ * |wrap|Boolean|no|false|Determines if the text should wrap or not.|
  * |width|String|Yes|null|Column width|
  *
  * ### Action column
@@ -43,6 +44,7 @@ import GenToolbar from "./GenToolbar";
  * | Attribute | Type | Required | Default | Description |
  * |-----------|------|----------|---------|-------------|
  * |type|String|Yes|null|Determines rendering method based on predefined types. Valid types are: `LINK`, `EDIT_LINK` and `DELETE_LINK.|
+ * |label|String|No|null|Label.|
  * |link|String|Yes|null|Link url.|
  * |linkField|String|No|null|If defined, the value from the attribute on the data object is added to the link.|
  * |width|String|Yes|null|Column width.|
@@ -72,9 +74,30 @@ import GenToolbar from "./GenToolbar";
  *               {name: 'Arne', jobb: 'Vaktmester'}
  *           ],
  *           columns: [
- *               {label: 'Navn', field: 'name', width: '40%'},
- *               {label: 'Jobb', field: 'jobb', width: '60%'}
+ *               {label: 'Navn', field: 'name', width: '30%'},
+ *               {label: 'Jobb', field: 'jobb', width: '30%'},
+ *               {type: 'ADD_ACTION', action: (obj) => console.log(obj), width: '20%'},
+ *               {type: 'LINK', label: 'Kaker', link: 'cakes', width: '20%'}
  *           ]
+ *           toolbar: {
+ *               title: 'Brukere',
+ *               render: () => {
+ *                   return (
+ *                       <ToolbarGroup>
+ *                           <ToolbarSeparator />
+ *                           <RaisedButton label="Ny Bruker" primary={true} onTouchTap={() => console.log("ny bruker...") } />
+ *                           <IconMenu
+ *                               iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+ *                               anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+ *                               targetOrigin={{horizontal: 'right', vertical: 'top'}}
+ *                           >
+ *                               <MenuItem primaryText="Oppdater" />
+ *                               <MenuItem primaryText="Settings" />
+ *                           </IconMenu>
+ *                       </ToolbarGroup>
+ *                   );
+ *               }
+ *           }
  *       };
  *
  *       return (
@@ -90,32 +113,32 @@ class GenericTable extends React.Component {
 
     render() {
         const { metaData, tables, tablePage, tableRows, onSelection } = this.props;
-        const { table, objects, rowMeta, toolbar } = metaData;
+        const { table, data, columns, toolbar } = metaData;
         const page = tables[table] ? tables[table].page : 1;
         const nRows = tables[table] ? tables[table].nRows : 10;
-        const _objects = objects ? (objects instanceof Array ? objects : Object.values(objects)) : [];
+        const _data = data ? (data instanceof Array ? data : Object.values(data)) : [];
 
         return (
             <div>
                 {toolbar ? <GenToolbar {...toolbar}/> : null }
                 <Table
                     selectable={onSelection ? true : false}
-                    onRowSelection={onSelection ? (index) => {onSelection(_objects[(page-1)*nRows+index[0]])} : () => {}}
+                    onRowSelection={onSelection ? (index) => {onSelection(_data[(page-1)*nRows+index[0]])} : () => {}}
                 >
                     <TableHeader
                         displaySelectAll={false}
                         adjustForCheckbox={false}
                     >
-                        <GenericTableHeaderRows meta={rowMeta}/>
+                        <GenericTableHeaderRows meta={columns}/>
                     </TableHeader>
                     <TableBody
                         displayRowCheckbox={false}
                         showRowHover={true}
                     >
-                        {_objects ?
-                            _objects.length > 0 ?
-                                _objects.slice((page-1)*nRows, page*nRows).map((obj, index, objects, ...injectedRowProps) => {
-                                    return <GenericTableRow obj={obj} key={index} index={index} meta={rowMeta} {...injectedRowProps} />
+                        {_data ?
+                            _data.length > 0 ?
+                                _data.slice((page-1)*nRows, page*nRows).map((obj, index, objects, ...injectedRowProps) => {
+                                    return <GenericTableRow obj={obj} key={index} index={index} meta={columns} {...injectedRowProps} />
                                 })
                                 :
                                 <TableRow>
@@ -154,11 +177,11 @@ class GenericTable extends React.Component {
                                     </DropDownMenu>
 
 
-                                    <span>{(page-1)*nRows+1}-{page*nRows < _objects.length ? page*nRows : _objects.length}of{_objects.length}</span>
+                                    <span>{(page-1)*nRows+1}-{page*nRows < _data.length ? page*nRows : _data.length}of{_data.length}</span>
                                     <IconButton onClick={() => tablePage(table, page > 1 ? page - 1 : 1)}>
                                         <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>
                                     </IconButton>
-                                    <IconButton onClick={() => tablePage(table, page < _objects.length / nRows ? page + 1 : page)}>
+                                    <IconButton onClick={() => tablePage(table, page < _data.length / nRows ? page + 1 : page)}>
                                         <FontIcon className="material-icons">keyboard_arrow_right</FontIcon>
                                     </IconButton>
                                 </div>

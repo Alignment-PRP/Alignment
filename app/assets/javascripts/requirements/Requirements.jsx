@@ -33,8 +33,8 @@ class Requirements extends React.Component {
 
         const metaData = {
             table: 'requirements',
-            objects: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
-            rowMeta: [
+            data: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
+            columns: [
                 {label: 'Navn', field: 'name', width: '20%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '20%'},
                 {label: 'Kommentar', wrap: true, field: 'comment', width: '20%'},
