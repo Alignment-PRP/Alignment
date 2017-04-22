@@ -12,8 +12,8 @@ class RequirementForm extends React.Component {
        return structure.map(structure => {
            return (
                <div>
-                   <label htmlFor={Object.keys(structure)}> {Object.keys(structure)} </label>
-                   <Field type="text" component={renderTextField} name={Object.keys(structure)} required/>
+                   <label htmlFor={Object.keys(structure)}> {Object.keys(structure)} </label><br/>
+                   <Field type="text" component={renderTextField} name={Object.keys(structure)} /><br/>
                </div>
            )
        });
@@ -82,7 +82,7 @@ class RequirementForm extends React.Component {
                     </div>
                     <div>
                         <label htmlFor="comment"> Kommentar </label><br/>
-                        <Field type="text" component={renderTextField} name="comment" required/><br/>
+                        <Field type="text" component={renderTextField} name="comment" /><br/>
                     </div>
                     {this.renderStructureForm(structure)}
                     <br/><br/>
