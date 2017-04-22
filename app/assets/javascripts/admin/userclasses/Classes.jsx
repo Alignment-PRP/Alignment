@@ -1,3 +1,8 @@
+/**
+ * Class represents /admin/classes.
+ * Parent: {@link Admin}
+ * Children: {@link ClassForm}.
+ */
 import React from 'react';
 import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
@@ -7,12 +12,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import GenericTable from './../../core/table/GenericTable';
 import ClassFormDialog from './ClassFormDialog';
 import ClassFormDialogDelete from './ClassFormDialogDelete';
+import {IconButton, IconMenu, MenuItem, ToolbarGroup, ToolbarSeparator} from "material-ui";
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
-/**
- * Class represents /admin/classes.
- * Parent: {@link Admin}
- * Children: {@link ClassForm}.
- */
 class Classes extends React.Component {
 
     /**
@@ -36,22 +38,37 @@ class Classes extends React.Component {
 
         const tableData = {
             table: 'userClasses',
-            objects: userClasses,
-            rowMeta: [
+            data: userClasses,
+            columns: [
                 {label: 'Navn', field: 'NAME', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '61%'},
                 {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
                 {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
-            ]
+            ],
+            toolbar: {
+                title: 'Brukerklasses',
+                render: () => {
+                    return (
+                        <ToolbarGroup>
+                            <ToolbarSeparator />
+                            <RaisedButton label="Ny Brukerklasse" primary={true} onTouchTap={() => { updateDialog(true); fillForm(null); }} />
+                            <IconMenu
+                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                            >
+                                <MenuItem primaryText="Oppdater" />
+                                <MenuItem primaryText="Settings" />
+                            </IconMenu>
+                        </ToolbarGroup>
+                    );
+                }
+            }
         };
 
         return (
             <div className="containerUsers">
                 <div className="usertable">
-                    <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                        <RaisedButton label="Ny Brukerklasse" onTouchTap={() => { updateDialog(true); fillForm(null); }}/>
-                    </div>
-
                     <GenericTable metaData={tableData}/>
                 </div>
 

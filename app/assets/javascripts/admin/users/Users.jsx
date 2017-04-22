@@ -4,6 +4,11 @@ import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userAct
 import { fillForm, postUserNew, postUserUpdate, postUserDelete } from "./../../redux/actions/userFormActions";
 import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
 import RaisedButton from 'material-ui/RaisedButton';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconButton from 'material-ui/IconButton';
+import MenuItem from 'material-ui/MenuItem';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import GenericTable from './../../core/table/GenericTable';
 import DeleteDialog from './../../core/dialog/DeleteDialog';
 import UserFormDialog from "./UserFormDialog";
@@ -36,25 +41,40 @@ class Users extends React.Component {
         const tableData = {
             table: 'users',
             title: 'kake',
-            objects: users,
-            rowMeta: [
+            data: users,
+            columns: [
                 {label: 'Klasse', field: 'ucName', width: '15%'},
                 {label: 'Brukernavn', field: 'USERNAME', width: '15%'},
-                {label: 'Fornavn', field: 'firstName', width: '16%'},
-                {label: 'Etternavn', field: 'lastName', width: '20%'},
+                {label: 'Fornavn', field: 'firstName', width: '15%'},
+                {label: 'Etternavn', field: 'lastName', width: '15%'},
                 {label: 'Epost', field: 'email', width: '20%'},
-                {type: 'EDIT_ACTION', action: (user) => { updateDialog(true); fillForm(user); }, param: 'USERNAME', width: '7%'},
-                {type: 'DELETE_ACTION', action: (user) => { deleteDialog(true); deleteDialogChangeAction(() => { postUserDelete(user); deleteDialog(false); }); }, param: 'USERNAME', width: '7%'}
-            ]
+                {type: 'EDIT_ACTION', action: (user) => { updateDialog(true); fillForm(user); }, width: '10%'},
+                {type: 'DELETE_ACTION', action: (user) => { deleteDialog(true); deleteDialogChangeAction(() => { postUserDelete(user); deleteDialog(false); }); }, width: '10%'}
+            ],
+            toolbar: {
+                title: 'Brukere',
+                render: () => {
+                    return (
+                        <ToolbarGroup>
+                            <ToolbarSeparator />
+                            <RaisedButton label="Ny Bruker" primary={true} onTouchTap={() => { updateDialog(true); fillForm(null); }} />
+                            <IconMenu
+                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                            >
+                                <MenuItem primaryText="Oppdater" />
+                                <MenuItem primaryText="Settings" />
+                            </IconMenu>
+                        </ToolbarGroup>
+                    );
+                }
+            }
         };
 
         return (
             <div className="containerUsers">
                 <div className="usertable">
-                    <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                        <RaisedButton label="Ny Bruker" onTouchTap={() => { updateDialog(true); fillForm(null); }}/>
-                    </div>
-
                     <GenericTable metaData={tableData}/>
                 </div>
 
