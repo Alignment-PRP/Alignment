@@ -33,8 +33,8 @@ class Requirements extends React.Component {
 
         const metaData = {
             table: 'requirements',
-            objects: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
-            rowMeta: [
+            data: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
+            columns: [
                 {label: 'Navn', field: 'name', width: '20%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '20%'},
                 {label: 'Kommentar', wrap: true, field: 'comment', width: '20%'},
@@ -42,9 +42,9 @@ class Requirements extends React.Component {
                 {label: 'UnderKategori', field: 'scName', width: '12%'},
                 {type: 'EDIT_LINK_ACTION', link: "editrequirement", action: updateRequirement, width: '8%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
-                            deleteDialogOpen(true);
-                            deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
-                        }, param: 'RID', width: '8%'}
+                    deleteDialogOpen(true);
+                    deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
+                }, width: '8%'}
             ]
         };
 

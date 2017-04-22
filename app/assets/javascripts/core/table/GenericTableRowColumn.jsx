@@ -71,10 +71,10 @@ class GenericTableRowColumn extends React.Component {
                         {...icp}
                         style={
                             row.wrap ?
-                                {...icp.style, width: row.width, maxWidth: row.width, whiteSpace: 'normal', wordWrap: 'break-word'}
+                                {...icp.style, width: row.width, maxWidth: row.width, maxHeight: '100px', overflow: 'hidden' , whiteSpace: 'normal', wordWrap: 'break-word'}
                                 :
                                 defaultStyle
-                            }
+                        }
                     >
                         {obj[row.field]}
                     </TableRowColumn>

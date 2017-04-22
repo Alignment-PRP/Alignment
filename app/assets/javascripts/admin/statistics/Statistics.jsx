@@ -23,8 +23,8 @@ class Statistics extends React.Component {
 
         const metaData = {
             table: 'statistics',
-            objects: requirementUsageStatistics,
-            rowMeta: [
+            data: requirementUsageStatistics,
+            columns: [
                 {label: 'Krav ID', field: 'RID', width: '33%'},
                 {label: 'Krav Navn', field: 'name', width: '33%'},
                 {label: 'Antall Prosjekter', field: 'PIDs', width: '33%'}
