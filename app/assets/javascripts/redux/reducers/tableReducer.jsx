@@ -1,13 +1,15 @@
 import {
     TABLE_PAGE,
     TABLE_ROWS,
-    TABLE_SEARCH_DATA
+    TABLE_SEARCH_DATA,
+    TABLE_SEARCH_VALUE
 } from './../types';
 
 const init = {
     page: 1,
     nRows: 10,
-    searchData: null
+    searchData: null,
+    searchText: null
 };
 
 const updateField = (state, object, field, data) => {
@@ -34,6 +36,8 @@ const tableReducer = (state = {
             return updateField(state, action.object, 'nRows', action.nRows);
         case TABLE_SEARCH_DATA:
             return updateField(state, action.object, 'searchData', action.data);
+        case TABLE_SEARCH_VALUE:
+            return updateField(state, action.object, 'searchText', action.data);
         default:
             return state;
     }

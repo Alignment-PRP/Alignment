@@ -25,6 +25,7 @@ export const FILL_PROJECT_FORM = 'FILL_PROJECT_FORM';
 export const TABLE_PAGE = 'TABLE_PAGE';
 export const TABLE_ROWS = 'TABLE_ROWS';
 export const TABLE_SEARCH_DATA = 'TABLE_SEARCH_DATA';
+export const TABLE_SEARCH_VALUE = 'TABLE_SEARCH_VALUE';
 
 //Dialog actions
 export const DIALOG_OPEN = 'DIALOG_OPEN';
@@ -74,3 +75,9 @@ export const POST_CLASS_DELETE = "POST_CLASS_DELETE";
 
 //Statistics
 export const GET_PROJECTS_PER_REQUIREMENT = 'GET_PROJECTS_PER_REQUIREMENT';
+
+//Popover
+export const POPOVER_ANCHOR = 'POPOVER_ANCHOR';
+export const POPOVER_CONTENT = 'POPOVER_CONTENT';
+export const POPOVER_OPEN = 'POPOVER_OPEN';
+export const POPOVER_ADD = 'POPOVER_ADD';

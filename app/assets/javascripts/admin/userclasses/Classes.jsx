@@ -8,14 +8,21 @@ import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
 import { fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
 import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
+import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../../redux/actions/popoverActions';
 import RaisedButton from 'material-ui/RaisedButton';
 import DataTable from '../../core/table/DataTable';
 import ClassFormDialog from './ClassFormDialog';
 import ClassFormDialogDelete from './ClassFormDialogDelete';
 import {IconButton, IconMenu, MenuItem, ToolbarGroup, ToolbarSeparator} from "material-ui";
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Ellipsis from "../../core/popover/Ellipsis";
+import Popover from "../../core/popover/Popover";
 
 class Classes extends React.Component {
+
+    componentWillMount() {
+        this.props.popoverAdd('userClasses');
+    }
 
     /**
      * Called when the component did mount.
@@ -33,7 +40,8 @@ class Classes extends React.Component {
             fillForm,
 
             updateDialogIsOpen, updateDialog,
-            deleteDialogIsOpen, deleteDialog
+            deleteDialogIsOpen, deleteDialog,
+            popover, popoverChangeAnchor, popoverChangeContent, popoverChangeOpen
         } = this.props;
 
         const config = {
@@ -41,7 +49,18 @@ class Classes extends React.Component {
             data: userClasses,
             columns: [
                 {label: 'Navn', property: 'NAME', width: '25%'},
-                {label: 'Beskrivelse', property: 'description', width: '61%'},
+                {label: 'Beskrivelse', property: 'description', width: '61%', wrap: {
+                        lines: 3,
+                        ellipsis: (userClass) => {
+                            const props = {
+                                ...{popoverChangeAnchor, popoverChangeContent, popoverChangeOpen},
+                                object: userClass,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props} />
+                        }
+                    }
+                },
                 {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
                 {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
             ],
@@ -102,6 +121,8 @@ class Classes extends React.Component {
                     }
                 />
 
+                <Popover {...{popover, popoverChangeOpen}} />
+
             </div>
         );
     }
@@ -111,9 +132,9 @@ const mapStateToProps = (state) => {
     return {
         uClass: state.classFormReducer.uClass,
         userClasses : state.userReducer.userClasses,
-
         updateDialogIsOpen: state.dialogReducer.classUpdate.isOpen,
         deleteDialogIsOpen: state.dialogReducer.classDelete.isOpen,
+        popover: state.popoverReducer.popovers['userClasses']
     };
 };
 
@@ -143,6 +164,18 @@ const mapDispatchToProps = (dispatch) => {
         deleteDialog: (open) => {
             dispatch(dialogOpen('classDelete', open));
         },
+        popoverChangeAnchor: (anchor) => {
+            dispatch(popoverAnchor('userClasses', anchor));
+        },
+        popoverChangeContent: (content) => {
+            dispatch(popoverContent('userClasses', content));
+        },
+        popoverChangeOpen: (open) => {
+            dispatch(popoverOpen('userClasses', open));
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
+        }
     };
 };
 
