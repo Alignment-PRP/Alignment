@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { updateRequirement, deleteRequirement, getAllCategoryNames } from "../redux/actions/requirementActions";
+import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement } from "../redux/actions/requirementActions";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
@@ -59,6 +59,13 @@ class Requirements extends React.Component {
                     <GenericTable metaData={metaData}/>
                 </div>
 
+                <NewRequirementDialog
+                    title="Nytt Krav"
+                    open={newRequirementDialogIsOpen}
+                    handleSubmit={(values) => {addRequirement(values); newDialog(false)}}
+                    onRequestClose={newDialog.bind(null, false)}
+                />
+
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -76,6 +83,7 @@ const mapStateToProps = (state) => {
         filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
         requirements: state.requirementReducer.requirements,
         filter: state.filterReducer.filters['requirements'],
+        newRequirementDialogIsOpen: state.dialogReducer.requirementNew.isOpen,
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action
     };
@@ -89,6 +97,9 @@ const mapDispatchToProps = (dispatch) => {
         addFiltered: (comp) => {
             dispatch(addFiltered(comp));
         },
+        newDialog: (open) => {
+            dispatch(dialogOpen('requirementNew', open));
+        },
         deleteDialogOpen: (open) => {
             dispatch(dialogOpen('requirementDelete', open));
         },
@@ -97,6 +108,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getAllRequirements: () => {
             dispatch(getAllRequirements())
+        },
+        addRequirement: (requirement) => {
+            dispatch(addRequirement(requirement))
         },
         updateRequirement: (requirement) => {
             dispatch(updateRequirement(requirement))
