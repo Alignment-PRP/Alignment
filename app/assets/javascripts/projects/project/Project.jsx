@@ -47,12 +47,12 @@ class Project extends React.Component {
     }
 
     intersectRequirements(allreq, proreq) {
-        if (allreq) {
+        if (allreq && proreq) {
             return Object.keys(allreq)
                 .filter(key => { if (proreq[key]) return false; else return true })
                 .map(key => allreq[key])
         } else {
-            return [];
+            return null;
         }
     }
 
@@ -81,7 +81,7 @@ class Project extends React.Component {
 
         const configLeft = {
             table: 'allRequirements',
-            data: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
+            data: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements_filtered, projectRequirements),
             columns: [
                 {label: 'Navn', property: 'name', width: '25%'},
                 {label: 'Beskrivelse', property: 'description', width: '60%', wrap: {
