@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { popoverAnchor, popoverContent, popoverOpen } from './../../redux/actions/popoverActions';
-import {blueGrey500} from "material-ui/styles/colors";
+import { cyan500 } from "material-ui/styles/colors";
 
 /**
  * Basic ellipsis.
@@ -15,7 +15,7 @@ class Ellipsis extends React.Component {
         return (
             <span>
                 ...
-                <span style={{color: blueGrey500, cursor: 'pointer'}} onClick={(event) => {
+                <span style={{color: cyan500, fontWeight: 'bold', cursor: 'pointer'}} onClick={(event) => {
                     popoverOpen(component, true);
                     popoverAnchor(component, event.currentTarget);
                     popoverContent(component, object[property]);
