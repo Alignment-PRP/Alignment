@@ -1,15 +1,15 @@
 import React from 'react';
 import { TableRow } from 'material-ui/Table';
-import GenericTableRowColumn from './GenericTableRowColumn';
+import DataTableRowColumn from './DataTableRowColumn';
 
-class GenericTableRow extends React.Component {
+class DataTableRow extends React.Component {
 
     render() {
         const { obj, meta, index, ...injectedRowProps } = this.props;
         return (
             <TableRow key={index} {...injectedRowProps}>
                 {meta.map((row, index, objects, ...injectedColumnProps) => {
-                    return <GenericTableRowColumn obj={obj} row={row} key={index} {...injectedColumnProps}/>
+                    return <DataTableRowColumn obj={obj} row={row} key={index} {...injectedColumnProps}/>
                 })}
             </TableRow>
         );
@@ -17,4 +17,4 @@ class GenericTableRow extends React.Component {
 
 }
 
-export default GenericTableRow;
+export default DataTableRow;

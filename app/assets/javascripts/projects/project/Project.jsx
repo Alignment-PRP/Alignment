@@ -11,10 +11,12 @@ import {
     deleteRequirementToProject, deleteRequirementToProjectWithFilter
 } from '../../redux/actions/projectActions';
 import { addFilter, addFiltered } from './../../redux/actions/filterActions';
-
+import { popoverAdd } from './../../redux/actions/popoverActions';
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
-import GenericTable from './../../core/table/GenericTable';
+import DataTable from '../../core/table/DataTable';
+import Popover from './../../core/popover/Popover';
+import Ellipsis from './../../core/popover/Ellipsis';
 
 
 
@@ -40,6 +42,7 @@ class Project extends React.Component {
         this.props.addFilter('project');
         this.props.addFiltered('allRequirements');
         this.props.addFiltered('projectRequirements');
+        this.props.popoverAdd('project');
         this.props.changeSideMenuMode("HIDE")
     }
 
@@ -76,15 +79,26 @@ class Project extends React.Component {
             deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
         } = this.props;
 
-        const metaDataLeft = {
+        const configLeft = {
             table: 'allRequirements',
-            objects: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements_filtered, projectRequirements),
-            rowMeta: [
-                {label: 'Navn', field: 'name', width: '25%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
+            data: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
+            columns: [
+                {label: 'Navn', property: 'name', width: '25%'},
+                {label: 'Beskrivelse', property: 'description', width: '60%', wrap: {
+                        lines: 4,
+                        ellipsis: (requirement) => {
+                            const props = {
+                                component: 'project',
+                                object: requirement,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props} />;
+                        }
+                    }
+                },
                 {type: 'ADD_ACTION', action: (requirement) => {
                         if (filter && Object.keys(filter).length > 0) {
-                            postRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements', projectRequirements);
+                            postRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
                         } else {
                             postRequirementToProject(params.id, requirement);
                         }
@@ -92,12 +106,23 @@ class Project extends React.Component {
             ]
         };
 
-        const metaDataRight = {
+        const configRight = {
             table: 'projectRequirements',
-            objects: (filter ? Object.keys(filter).length > 0 : false) ? projectRequirements_filtered : projectRequirements,
-            rowMeta: [
-                {label: 'Navn', field: 'name', width: '25%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
+            data: (filter ? Object.keys(filter).length > 0 : false) ? projectRequirements_filtered : projectRequirements,
+            columns: [
+                {label: 'Navn', property: 'name', width: '25%'},
+                {label: 'Beskrivelse', property: 'description', width: '60%', wrap: {
+                        lines: 4,
+                        ellipsis: (requirement) => {
+                            const props = {
+                                component: 'project',
+                                object: requirement,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props} />;
+                        }
+                    }
+                },
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     if (filter && Object.keys(filter).length > 0) {
                         deleteRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
@@ -117,12 +142,14 @@ class Project extends React.Component {
                 </div>
                 <div className="add-requirements">
                     <h2>Legg til Krav</h2>
-                    <GenericTable metaData={metaDataLeft} />
+                    <DataTable config={configLeft} />
                 </div>
                 <div className="project-requirements">
                     <h2>Prosjekt Krav</h2>
-                    <GenericTable metaData={metaDataRight}/>
+                    <DataTable config={configRight}/>
                 </div>
+
+                <Popover component="project"/>
             </div>
         )
     }
@@ -177,6 +204,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
             dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp))
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
         }
     };
 };

@@ -1,0 +1,44 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import { popoverAnchor, popoverContent, popoverOpen } from './../../redux/actions/popoverActions';
+import {blueGrey500} from "material-ui/styles/colors";
+
+/**
+ * Basic ellipsis.
+ * Mostly used for multi-line columns in {@link DataTable}.
+ * @see Popover
+ */
+class Ellipsis extends React.Component {
+
+    render() {
+        const { component, object, property, popoverOpen, popoverAnchor, popoverContent } = this.props;
+        return (
+            <span>
+                ...
+                <span style={{color: blueGrey500, cursor: 'pointer'}} onClick={(event) => {
+                    popoverOpen(component, true);
+                    popoverAnchor(component, event.currentTarget);
+                    popoverContent(component, object[property]);
+                }
+                }>Les Mer</span>
+            </span>
+        );
+    }
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        popoverOpen: (component, open) => {
+            dispatch(popoverOpen(component, open));
+        },
+        popoverAnchor: (component, anchor) => {
+            dispatch(popoverAnchor(component, anchor));
+        },
+        popoverContent: (component, content) => {
+            dispatch(popoverContent(component, content));
+        }
+    }
+};
+
+export default connect(null, mapDispatchToProps)(Ellipsis);

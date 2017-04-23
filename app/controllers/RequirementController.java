@@ -67,32 +67,7 @@ public class RequirementController extends Controller{
         return ok(Json.toJson(requirementMap));
     }
 
-    @Deprecated //Use the one in projectcontroller
-    public Result InsertProjectRequirement(){
-        String userID = session("connected");
-        if(userID == null){
-            return unauthorized(views.html.login.render());
-        }
 
-        //TODO: Add relevant category.
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String projectID = values.get("projectid")[0];
-        String name = values.get("name")[0];
-        String desc = values.get("desc")[0];
-        String ispublic = values.get("ispublic")[0];
-        String source = values.get("source")[0];
-        String stimulus = values.get("stimulus")[0];
-        String artifact = values.get("artifact")[0];
-        String response = values.get("response")[0];
-        String responsemeasure= values.get("responsemeasure")[0];
-        String environment = values.get("environment")[0];
-        //TODO: Check if the user is authorized to edit the project. (If the user is part of the project)
-        //TODO: Check if the project referenced by projectid actually exists
-
-        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT, projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
-
-        return ok();
-    }
 
     /**
      * Returns a HTML form to insert a requirement. For testing.

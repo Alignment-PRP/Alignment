@@ -46,9 +46,6 @@ class Filter extends React.Component {
 
     render() {
         const { categories, filter, title } = this.props;
-        console.log("#########");
-        console.log(filter);
-        console.log("#########");
         return (
             <div style={{minWidth: '250px', height: '100%'}}>
                 <h2>{title}</h2>
