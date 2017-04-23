@@ -6,8 +6,10 @@ import {connect} from 'react-redux'
 import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
 import { getAllRequirements } from '../../redux/actions/requirementActions';
-import { postRequirementToProject } from '../../redux/actions/projectActions';
-import { deleteRequirementToProject } from '../../redux/actions/projectActions';
+import {
+    postRequirementToProject, postRequirementToProjectWithFilter,
+    deleteRequirementToProject, deleteRequirementToProjectWithFilter
+} from '../../redux/actions/projectActions';
 import { addFilter, addFiltered } from './../../redux/actions/filterActions';
 
 import Filter from './Filter';
@@ -41,18 +43,21 @@ class Project extends React.Component {
         this.props.changeSideMenuMode("HIDE")
     }
 
-    _filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements) {
-        if ((filter ? Object.keys(filter).length > 0 : false)) {
-            if (allRequirements_filtered) {
-                return Object.keys(allRequirements_filtered)
-                    .filter(key => { if (projectRequirements[key]) return false; else return true })
-                    .map(key => allRequirements_filtered[key])
-            } else {
-                return [];
-            }
+    intersectRequirements(allreq, proreq) {
+        if (allreq) {
+            return Object.keys(allreq)
+                .filter(key => { if (proreq[key]) return false; else return true })
+                .map(key => allreq[key])
         } else {
-            return allRequirements;
+            return [];
         }
+    }
+
+    _filterAll(filter, allreq_f, allreq, proreq_f, proreq) {
+        if ((filter ? Object.keys(filter).length > 0 : false)) {
+            return this.intersectRequirements(allreq_f, proreq_f);
+        }
+        return this.intersectRequirements(allreq, proreq);
     }
 
     /**
@@ -67,17 +72,22 @@ class Project extends React.Component {
             filter,
             allRequirements_filtered, projectRequirements_filtered,
             allRequirements, projectRequirements,
-            postRequirementToProject, deleteRequirementToProject, params
+            postRequirementToProject, postRequirementToProjectWithFilter,
+            deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
         } = this.props;
 
         const metaDataLeft = {
             table: 'allRequirements',
-            objects: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
+            objects: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements_filtered, projectRequirements),
             rowMeta: [
                 {label: 'Navn', field: 'name', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
                 {type: 'ADD_ACTION', action: (requirement) => {
-                        postRequirementToProject(params.id, requirement);
+                        if (filter && Object.keys(filter).length > 0) {
+                            postRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements', projectRequirements);
+                        } else {
+                            postRequirementToProject(params.id, requirement);
+                        }
                 }, width: '15%'}
             ]
         };
@@ -89,7 +99,11 @@ class Project extends React.Component {
                 {label: 'Navn', field: 'name', width: '25%'},
                 {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
-                    deleteRequirementToProject(params.id, requirement);
+                    if (filter && Object.keys(filter).length > 0) {
+                        deleteRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
+                    } else {
+                        deleteRequirementToProject(params.id, requirement);
+                    }
                 }, width: '15%'}
             ]
         };
@@ -155,8 +169,14 @@ const mapDispatchToProps = (dispatch) => {
         postRequirementToProject: (projectID, requirement) => {
             dispatch(postRequirementToProject(projectID, requirement))
         },
+        postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
+            dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp))
+        },
         deleteRequirementToProject: (projectID, requirement) => {
             dispatch(deleteRequirementToProject(projectID, requirement))
+        },
+        deleteRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
+            dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp))
         }
     };
 };
