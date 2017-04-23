@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableRow, TableHeaderColumn } from 'material-ui/Table';
 
-class GenericTableHeaderRows extends React.Component {
+class DataTableHeaderRows extends React.Component {
 
     render() {
         const { meta, ...other } = this.props;
@@ -20,4 +20,4 @@ class GenericTableHeaderRows extends React.Component {
 
 }
 
-export default GenericTableHeaderRows;
+export default DataTableHeaderRows;

@@ -6,7 +6,7 @@ import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import Paper from 'material-ui/Paper';
-import GenericTable from './../core/table/GenericTable';
+import DataTable from '../core/table/DataTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
 import Filter from './Filter';
 
@@ -31,15 +31,23 @@ class Requirements extends React.Component {
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
         } = this.props;
 
-        const metaData = {
+        const config = {
             table: 'requirements',
             data: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
             columns: [
-                {label: 'Navn', field: 'name', width: '20%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '20%'},
-                {label: 'Kommentar', wrap: true, field: 'comment', width: '20%'},
-                {label: 'Kategori', field: 'cName', width: '12%'},
-                {label: 'UnderKategori', field: 'scName', width: '12%'},
+                {label: 'Navn', property: 'name', width: '10%'},
+                {label: 'Beskrivelse', property: 'description', width: '30%', wrap: {
+                        lines: 5,
+                        ellipsis: <span>... Mer</span>
+                    }
+                },
+                {label: 'Kommentar', property: 'comment', width: '20%', wrap: {
+                        lines: 5,
+                        ellipsis: <span>....</span>
+                    }
+                },
+                {label: 'Kategori', property: 'cName', width: '12%'},
+                {label: 'UnderKategori', property: 'scName', width: '12%'},
                 {type: 'EDIT_LINK_ACTION', link: "editrequirement", action: updateRequirement, width: '8%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     deleteDialogOpen(true);
@@ -56,7 +64,7 @@ class Requirements extends React.Component {
                     </Paper>
                 </div>
                 <div className="usertable">
-                    <GenericTable metaData={metaData}/>
+                    <DataTable config={config}/>
                 </div>
 
                 <DeleteDialog

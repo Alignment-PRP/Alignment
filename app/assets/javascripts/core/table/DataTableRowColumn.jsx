@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { TableRowColumn } from 'material-ui/Table';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
+import Truncate from 'react-truncate';
+import {FontIcon, IconButton, TableRowColumn} from "material-ui";
 
 const LinkTo = ({icp, style, link, icon}) => {
     return (
@@ -27,7 +25,7 @@ const Action = ({icp, style, onClick, icon}) => {
     );
 };
 
-class GenericTableRowColumn extends React.Component {
+class DataTableRowColumn extends React.Component {
 
     render() {
         const { obj, row, ...injectedColumnProps } = this.props;
@@ -35,6 +33,9 @@ class GenericTableRowColumn extends React.Component {
         const defaultStyle = {...icp.style, width: row.width, maxWidth: row.width};
         const link = row.link + (row.linkField ? obj[row.linkField] : '');
         const onClick = row.action ? row.action.bind(null, obj) : null;
+        if (row.wrap) {
+            console.log(row.wrap.lines);
+        }
 
         switch (row.type) {
             case "LINK":
@@ -67,16 +68,16 @@ class GenericTableRowColumn extends React.Component {
                 return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="add" />;
             default:
                 return (
-                    <TableRowColumn
-                        {...icp}
-                        style={
-                            row.wrap ?
-                                {...icp.style, width: row.width, maxWidth: row.width, maxHeight: '100px', overflow: 'hidden' , whiteSpace: 'normal', wordWrap: 'break-word'}
-                                :
-                                defaultStyle
+                    <TableRowColumn{...icp} style={defaultStyle}>
+                        {row.wrap ?
+                            <div style={{width: '85%'}}>
+                                <Truncate lines={row.wrap.lines ? row.wrap.lines : 4} ellipsis={row.wrap.ellipsis ? row.wrap.ellipsis : <span>... </span>}>
+                                    {obj[row.property]}
+                                </Truncate>
+                            </div>
+                            :
+                            obj[row.property]
                         }
-                    >
-                        {obj[row.field]}
                     </TableRowColumn>
                 );
         }
@@ -84,4 +85,4 @@ class GenericTableRowColumn extends React.Component {
 
 }
 
-export default GenericTableRowColumn;
+export default DataTableRowColumn;

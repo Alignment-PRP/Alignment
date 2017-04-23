@@ -9,7 +9,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import GenericTable from './../../core/table/GenericTable';
+import DataTable from '../../core/table/DataTable';
 import DeleteDialog from './../../core/dialog/DeleteDialog';
 import UserFormDialog from "./UserFormDialog";
 
@@ -38,21 +38,22 @@ class Users extends React.Component {
         } = this.props;
 
 
-        const tableData = {
+        const config = {
             table: 'users',
             title: 'kake',
             data: users,
             columns: [
-                {label: 'Klasse', field: 'ucName', width: '15%'},
-                {label: 'Brukernavn', field: 'USERNAME', width: '15%'},
-                {label: 'Fornavn', field: 'firstName', width: '15%'},
-                {label: 'Etternavn', field: 'lastName', width: '15%'},
-                {label: 'Epost', field: 'email', width: '20%'},
+                {label: 'Klasse', property: 'ucName', width: '15%'},
+                {label: 'Brukernavn', property: 'USERNAME', width: '15%'},
+                {label: 'Fornavn', property: 'firstName', width: '15%'},
+                {label: 'Etternavn', property: 'lastName', width: '15%'},
+                {label: 'Epost', property: 'email', width: '20%'},
                 {type: 'EDIT_ACTION', action: (user) => { updateDialog(true); fillForm(user); }, width: '10%'},
                 {type: 'DELETE_ACTION', action: (user) => { deleteDialog(true); deleteDialogChangeAction(() => { postUserDelete(user); deleteDialog(false); }); }, width: '10%'}
             ],
             toolbar: {
                 title: 'Brukere',
+                search: 'USERNAME|ucName',
                 render: () => {
                     return (
                         <ToolbarGroup>
@@ -75,7 +76,7 @@ class Users extends React.Component {
         return (
             <div className="containerUsers">
                 <div className="usertable">
-                    <GenericTable metaData={tableData}/>
+                    <DataTable config={config}/>
                 </div>
 
                 <UserFormDialog

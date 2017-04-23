@@ -9,7 +9,7 @@ import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userAct
 import { fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
 import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
 import RaisedButton from 'material-ui/RaisedButton';
-import GenericTable from './../../core/table/GenericTable';
+import DataTable from '../../core/table/DataTable';
 import ClassFormDialog from './ClassFormDialog';
 import ClassFormDialogDelete from './ClassFormDialogDelete';
 import {IconButton, IconMenu, MenuItem, ToolbarGroup, ToolbarSeparator} from "material-ui";
@@ -36,12 +36,12 @@ class Classes extends React.Component {
             deleteDialogIsOpen, deleteDialog
         } = this.props;
 
-        const tableData = {
+        const config = {
             table: 'userClasses',
             data: userClasses,
             columns: [
-                {label: 'Navn', field: 'NAME', width: '25%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '61%'},
+                {label: 'Navn', property: 'NAME', width: '25%'},
+                {label: 'Beskrivelse', property: 'description', width: '61%'},
                 {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
                 {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
             ],
@@ -69,7 +69,7 @@ class Classes extends React.Component {
         return (
             <div className="containerUsers">
                 <div className="usertable">
-                    <GenericTable metaData={tableData}/>
+                    <DataTable config={config}/>
                 </div>
 
                 <ClassFormDialog

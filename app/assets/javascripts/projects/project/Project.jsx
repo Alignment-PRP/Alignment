@@ -12,7 +12,7 @@ import { addFilter, addFiltered } from './../../redux/actions/filterActions';
 
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
-import GenericTable from './../../core/table/GenericTable';
+import DataTable from '../../core/table/DataTable';
 
 
 
@@ -70,24 +70,24 @@ class Project extends React.Component {
             postRequirementToProject, deleteRequirementToProject, params
         } = this.props;
 
-        const metaDataLeft = {
+        const configLeft = {
             table: 'allRequirements',
             data: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
             columns: [
-                {label: 'Navn', field: 'name', width: '25%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
+                {label: 'Navn', property: 'name', width: '25%'},
+                {label: 'Beskrivelse', property: 'description', width: '60%'},
                 {type: 'ADD_ACTION', action: (requirement) => {
                     postRequirementToProject(params.id, requirement);
                 }, width: '15%'}
             ]
         };
 
-        const metaDataRight = {
+        const configRight = {
             table: 'projectRequirements',
             data: (filter ? Object.keys(filter).length > 0 : false) ? projectRequirements_filtered : projectRequirements,
             columns: [
-                {label: 'Navn', field: 'name', width: '25%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '60%'},
+                {label: 'Navn', property: 'name', width: '25%'},
+                {label: 'Beskrivelse', property: 'description', width: '60%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     deleteRequirementToProject(params.id, requirement);
                 }, width: '15%'}
@@ -103,11 +103,11 @@ class Project extends React.Component {
                 </div>
                 <div className="add-requirements">
                     <h2>Legg til Krav</h2>
-                    <GenericTable metaData={metaDataLeft} />
+                    <DataTable config={configLeft} />
                 </div>
                 <div className="project-requirements">
                     <h2>Prosjekt Krav</h2>
-                    <GenericTable metaData={metaDataRight}/>
+                    <DataTable config={configRight}/>
                 </div>
             </div>
         )

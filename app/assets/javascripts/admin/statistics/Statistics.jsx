@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
 import { getRequirementUsageStatistics } from "../../redux/actions/statisticsActions";
-import GenericTable from './../../core/table/GenericTable';
+import DataTable from '../../core/table/DataTable';
 
 /**
  * Class represents /admin/stats.
@@ -21,13 +21,13 @@ class Statistics extends React.Component {
     render() {
         const { requirementUsageStatistics } = this.props;
 
-        const metaData = {
+        const config = {
             table: 'statistics',
             data: requirementUsageStatistics,
             columns: [
-                {label: 'Krav ID', field: 'RID', width: '33%'},
-                {label: 'Krav Navn', field: 'name', width: '33%'},
-                {label: 'Antall Prosjekter', field: 'PIDs', width: '33%'}
+                {label: 'Krav ID', property: 'RID', width: '33%'},
+                {label: 'Krav Navn', property: 'name', width: '33%'},
+                {label: 'Antall Prosjekter', property: 'PIDs', width: '33%'}
             ]
         };
 
@@ -38,7 +38,7 @@ class Statistics extends React.Component {
                     Antall ganger et krav er brukt i forskjellige prosjekter
                 </p>
                 <br/>
-                <GenericTable metaData={metaData} />
+                <DataTable config={config} />
             </div>
         );
     }
