@@ -1,6 +1,7 @@
 import {
     TABLE_PAGE,
-    TABLE_ROWS
+    TABLE_ROWS,
+    TABLE_SEARCH_DATA
 } from './../types';
 
 export function tablePage(object, page) {
@@ -18,3 +19,12 @@ export function tableRows(object, nRows) {
         nRows: nRows
     }
 }
+
+export function tableSearchData(object, data) {
+    return {
+        type: TABLE_SEARCH_DATA,
+        object: object,
+        data: data
+    }
+}
+

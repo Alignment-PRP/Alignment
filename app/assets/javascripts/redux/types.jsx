@@ -24,6 +24,7 @@ export const FILL_PROJECT_FORM = 'FILL_PROJECT_FORM';
 //Table actions
 export const TABLE_PAGE = 'TABLE_PAGE';
 export const TABLE_ROWS = 'TABLE_ROWS';
+export const TABLE_SEARCH_DATA = 'TABLE_SEARCH_DATA';
 
 //Dialog actions
 export const DIALOG_OPEN = 'DIALOG_OPEN';
