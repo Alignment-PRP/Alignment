@@ -8,6 +8,7 @@ import { browserHistory } from 'react-router';
 import classFormReducer from './reducers/classFormReducer';
 import dialogReducer from './reducers/dialogReducer';
 import filterReducer from './reducers/filterReducer';
+import popoverReducer from './reducers/popoverReducer';
 import projectReducer from './reducers/projectReducer';
 import requirementReducer from './reducers/requirementReducer';
 import sideMenuReducer from './reducers/sideMenuReducer';
@@ -29,6 +30,7 @@ const reducers = {
     classFormReducer,
     dialogReducer,
     filterReducer,
+    popoverReducer,
     projectReducer,
     requirementReducer,
     sideMenuReducer,

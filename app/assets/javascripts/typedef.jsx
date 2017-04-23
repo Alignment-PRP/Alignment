@@ -75,5 +75,5 @@
  * @global
  * @typedef {Object} Wrap
  * @property {Number} lines - Determines the maximum number of lines before overflow is hidden.|
- * @property {XML} ellipsis - Renderer for ellipsis.
+ * @property {Function} ellipsis - Renderer for ellipsis. Passes the data object.
  */

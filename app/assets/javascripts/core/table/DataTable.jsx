@@ -6,7 +6,7 @@ import FontIcon from 'material-ui/FontIcon';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import CircularProgress from 'material-ui/CircularProgress';
-import { tablePage, tableRows, tableSearchData } from './../../redux/actions/tableActions';
+import { tablePage, tableRows, tableSearchData, tableSearchValue } from './../../redux/actions/tableActions';
 import DataTableHeaderRows from './DataTableHeaderRows';
 import DataTableRow from './DataTableRow';
 import DataTableToolbar from "./DataTableToolbar";
@@ -37,7 +37,7 @@ import DataTableToolbar from "./DataTableToolbar";
  * | Attribute | Type | Required | Default | Description |
  * |-----------|------|----------|---------|-------------|
  * |lines|int|No|4|Determines the maximum number of lines before overflow is hidden.|
- * |ellipsis|XML|No|`<span>... </span>`|Renderer for ellipsis.|
+ * |ellipsis|Function|No|null|Renderer for ellipsis. Passes the data object.|
  *
  * ### Action column
  * | Attribute | Type | Required | Default | Description |
@@ -329,6 +329,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         tableSearchData: (table, data) => {
             dispatch(tableSearchData(table, data));
+        },
+        tableSearchValue: (table, value) => {
+            dispatch(tableSearchValue(table, value))
         }
     };
 };

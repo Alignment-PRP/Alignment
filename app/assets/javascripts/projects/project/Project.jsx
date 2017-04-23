@@ -9,10 +9,12 @@ import { getAllRequirements } from '../../redux/actions/requirementActions';
 import { postRequirementToProject } from '../../redux/actions/projectActions';
 import { deleteRequirementToProject } from '../../redux/actions/projectActions';
 import { addFilter, addFiltered } from './../../redux/actions/filterActions';
-
+import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../../redux/actions/popoverActions';
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
 import DataTable from '../../core/table/DataTable';
+import Popover from './../../core/popover/Popover';
+import Ellipsis from './../../core/popover/Ellipsis';
 
 
 
@@ -38,6 +40,7 @@ class Project extends React.Component {
         this.props.addFilter('project');
         this.props.addFiltered('allRequirements');
         this.props.addFiltered('projectRequirements');
+        this.props.popoverAdd('project');
         this.props.changeSideMenuMode("HIDE")
     }
 
@@ -67,7 +70,8 @@ class Project extends React.Component {
             filter,
             allRequirements_filtered, projectRequirements_filtered,
             allRequirements, projectRequirements,
-            postRequirementToProject, deleteRequirementToProject, params
+            postRequirementToProject, deleteRequirementToProject, params,
+            popoverChangeAnchor, popoverChangeContent, popoverChangeOpen, popover
         } = this.props;
 
         const configLeft = {
@@ -75,7 +79,18 @@ class Project extends React.Component {
             data: this._filterAll(filter, allRequirements_filtered, allRequirements, projectRequirements),
             columns: [
                 {label: 'Navn', property: 'name', width: '25%'},
-                {label: 'Beskrivelse', property: 'description', width: '60%'},
+                {label: 'Beskrivelse', property: 'description', width: '60%', wrap: {
+                        lines: 4,
+                        ellipsis: (requirement) => {
+                            const props = {
+                                ...{popoverChangeOpen, popoverChangeContent, popoverChangeAnchor},
+                                object: requirement,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props} />;
+                        }
+                    }
+                },
                 {type: 'ADD_ACTION', action: (requirement) => {
                     postRequirementToProject(params.id, requirement);
                 }, width: '15%'}
@@ -87,7 +102,18 @@ class Project extends React.Component {
             data: (filter ? Object.keys(filter).length > 0 : false) ? projectRequirements_filtered : projectRequirements,
             columns: [
                 {label: 'Navn', property: 'name', width: '25%'},
-                {label: 'Beskrivelse', property: 'description', width: '60%'},
+                {label: 'Beskrivelse', property: 'description', width: '60%', wrap: {
+                        lines: 4,
+                        ellipsis: (requirement) => {
+                            const props = {
+                                ...{popoverChangeOpen, popoverChangeContent, popoverChangeAnchor},
+                                object: requirement,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props} />;
+                        }
+                    }
+                },
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     deleteRequirementToProject(params.id, requirement);
                 }, width: '15%'}
@@ -109,6 +135,8 @@ class Project extends React.Component {
                     <h2>Prosjekt Krav</h2>
                     <DataTable config={configRight}/>
                 </div>
+
+                <Popover {...{popover, popoverChangeOpen}}/>
             </div>
         )
     }
@@ -126,7 +154,8 @@ const mapStateToProps = (state) => {
         allRequirements_filtered: state.filterReducer.filterRequirementList['allRequirements'],
         projectRequirements_filtered: state.filterReducer.filterRequirementList['projectRequirements'],
         allRequirements: state.requirementReducer.requirements,
-        projectRequirements: state.projectReducer.projectRequirements
+        projectRequirements: state.projectReducer.projectRequirements,
+        popover: state.popoverReducer.popovers['project']
     };
 };
 
@@ -157,6 +186,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteRequirementToProject: (projectID, requirement) => {
             dispatch(deleteRequirementToProject(projectID, requirement))
+        },
+        popoverChangeAnchor: (anchor) => {
+            dispatch(popoverAnchor('project', anchor));
+        },
+        popoverChangeContent: (content) => {
+            dispatch(popoverContent('project', content));
+        },
+        popoverChangeOpen: (open) => {
+            dispatch(popoverOpen('project', open));
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
         }
     };
 };

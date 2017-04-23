@@ -33,9 +33,6 @@ class DataTableRowColumn extends React.Component {
         const defaultStyle = {...icp.style, width: row.width, maxWidth: row.width};
         const link = row.link + (row.linkField ? obj[row.linkField] : '');
         const onClick = row.action ? row.action.bind(null, obj) : null;
-        if (row.wrap) {
-            console.log(row.wrap.lines);
-        }
 
         switch (row.type) {
             case "LINK":
@@ -70,8 +67,8 @@ class DataTableRowColumn extends React.Component {
                 return (
                     <TableRowColumn{...icp} style={defaultStyle}>
                         {row.wrap ?
-                            <div style={{width: '85%'}}>
-                                <Truncate lines={row.wrap.lines ? row.wrap.lines : 4} ellipsis={row.wrap.ellipsis ? row.wrap.ellipsis : <span>... </span>}>
+                            <div style={{width: '85%', padding: '12px 0 12px 0'}}>
+                                <Truncate lines={row.wrap.lines ? row.wrap.lines : 4} ellipsis={row.wrap.ellipsis ? row.wrap.ellipsis(obj) : <span>... </span>}>
                                     {obj[row.property]}
                                 </Truncate>
                             </div>

@@ -5,30 +5,34 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
+import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
 import Paper from 'material-ui/Paper';
 import DataTable from '../core/table/DataTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
 import Filter from './Filter';
+import Ellipsis from './../core/popover/Ellipsis';
+import Popover from './../core/popover/Popover';
 
 class Requirements extends React.Component {
 
     componentWillMount() {
         this.props.addFilter('requirements');
         this.props.addFiltered('requirements');
+        this.props.popoverAdd('requirements');
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getAllRequirements();
         this.props.getAllCategoryNames();
         this.props.changeSideMenuMode("HIDE");
     }
-
 
     render() {
         const {
             filterRequirementList, requirements, filter,
             updateRequirement, deleteRequirement,
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
+            popoverChangeAnchor, popoverChangeContent, popoverChangeOpen, popover
         } = this.props;
 
         const config = {
@@ -38,12 +42,26 @@ class Requirements extends React.Component {
                 {label: 'Navn', property: 'name', width: '10%'},
                 {label: 'Beskrivelse', property: 'description', width: '30%', wrap: {
                         lines: 5,
-                        ellipsis: <span>... Mer</span>
+                        ellipsis: (requirement) => {
+                            const props = {
+                                ...{ popoverChangeAnchor, popoverChangeContent, popoverChangeOpen },
+                                object: requirement,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props}/>;
+                        }
                     }
                 },
                 {label: 'Kommentar', property: 'comment', width: '20%', wrap: {
                         lines: 5,
-                        ellipsis: <span>....</span>
+                    ellipsis: (requirement) => {
+                        const props = {
+                            ...{ popoverChangeAnchor, popoverChangeContent, popoverChangeOpen },
+                            object: requirement,
+                            property: 'description'
+                        };
+                        return <Ellipsis {...props}/>;
+                    }
                     }
                 },
                 {label: 'Kategori', property: 'cName', width: '12%'},
@@ -67,6 +85,7 @@ class Requirements extends React.Component {
                     <DataTable config={config}/>
                 </div>
 
+                <Popover {...{popover, popoverChangeOpen}}/>
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -85,7 +104,8 @@ const mapStateToProps = (state) => {
         requirements: state.requirementReducer.requirements,
         filter: state.filterReducer.filters['requirements'],
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
-        deleteDialogAction: state.dialogReducer.requirementDelete.action
+        deleteDialogAction: state.dialogReducer.requirementDelete.action,
+        popover: state.popoverReducer.popovers['requirements']
     };
 };
 
@@ -117,6 +137,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
+        },
+        popoverChangeAnchor: (anchor) => {
+            dispatch(popoverAnchor('requirements',anchor));
+        },
+        popoverChangeContent: (content) => {
+            dispatch(popoverContent('requirements',content));
+        },
+        popoverChangeOpen: (open) => {
+            dispatch(popoverOpen('requirements',open));
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
         }
     };
 };
