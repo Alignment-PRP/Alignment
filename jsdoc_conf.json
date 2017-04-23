@@ -8,6 +8,7 @@
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
+  "plugins": ["plugins/markdown"],
   "opts": {
     "destination": "./target/jsdoc/",
     "recurse": true,

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { TableRowColumn } from 'material-ui/Table';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
+import Truncate from 'react-truncate';
+import {FontIcon, IconButton, TableRowColumn} from "material-ui";
 
 const LinkTo = ({icp, style, link, icon}) => {
     return (
@@ -27,7 +25,7 @@ const Action = ({icp, style, onClick, icon}) => {
     );
 };
 
-class GenericTableRowColumn extends React.Component {
+class DataTableRowColumn extends React.Component {
 
     render() {
         const { obj, row, ...injectedColumnProps } = this.props;
@@ -67,16 +65,16 @@ class GenericTableRowColumn extends React.Component {
                 return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="add" />;
             default:
                 return (
-                    <TableRowColumn
-                        {...icp}
-                        style={
-                            row.wrap ?
-                                {...icp.style, width: row.width, maxWidth: row.width, whiteSpace: 'normal', wordWrap: 'break-word'}
-                                :
-                                defaultStyle
-                            }
-                    >
-                        {obj[row.field]}
+                    <TableRowColumn{...icp} style={defaultStyle}>
+                        {row.wrap ?
+                            <div style={{width: '85%', padding: '12px 0 12px 0'}}>
+                                <Truncate lines={row.wrap.lines ? row.wrap.lines : 4} ellipsis={row.wrap.ellipsis ? row.wrap.ellipsis(obj) : <span>... </span>}>
+                                    {obj[row.property]}
+                                </Truncate>
+                            </div>
+                            :
+                            obj[row.property]
+                        }
                     </TableRowColumn>
                 );
         }
@@ -84,4 +82,4 @@ class GenericTableRowColumn extends React.Component {
 
 }
 
-export default GenericTableRowColumn;
+export default DataTableRowColumn;

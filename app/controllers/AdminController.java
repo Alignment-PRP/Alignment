@@ -92,16 +92,22 @@ public class AdminController extends Controller {
         //Gets the meta data values
         int subCatID = Integer.parseInt(values.get("scID").asText());
         String description = values.get("description").asText();
-        String comment = values.get("comment").asText();
         String reqCode = values.get("reqCode").asText();
         String reqNo = values.get("reqNo").asText();
         String name = values.get("name").asText();
         String reqResponsible;
+        String comment;
         try{
             reqResponsible = values.get("reqResponsible").asText();
         }
         catch (NullPointerException e){
             reqResponsible = userID;
+        }
+        try{
+            comment = values.get("comment").asText();
+        }
+        catch (NullPointerException e){
+            comment = "-";
         }
         //TODO determine and create correct validation for requirements
         //validateReq(source, stimulus, artifact, response, responsemeasure, environment);
