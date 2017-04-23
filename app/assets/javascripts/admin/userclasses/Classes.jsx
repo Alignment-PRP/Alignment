@@ -1,19 +1,28 @@
-import React from 'react';
-import {connect} from "react-redux";
-import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
-import { fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
-import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
-import RaisedButton from 'material-ui/RaisedButton';
-import GenericTable from './../../core/table/GenericTable';
-import ClassFormDialog from './ClassFormDialog';
-import ClassFormDialogDelete from './ClassFormDialogDelete';
-
 /**
  * Class represents /admin/classes.
  * Parent: {@link Admin}
  * Children: {@link ClassForm}.
  */
+import React from 'react';
+import {connect} from "react-redux";
+import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
+import { fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
+import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
+import { popoverAdd } from './../../redux/actions/popoverActions';
+import RaisedButton from 'material-ui/RaisedButton';
+import DataTable from '../../core/table/DataTable';
+import ClassFormDialog from './ClassFormDialog';
+import ClassFormDialogDelete from './ClassFormDialogDelete';
+import {IconButton, IconMenu, MenuItem, ToolbarGroup, ToolbarSeparator} from "material-ui";
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Ellipsis from "../../core/popover/Ellipsis";
+import Popover from "../../core/popover/Popover";
+
 class Classes extends React.Component {
+
+    componentWillMount() {
+        this.props.popoverAdd('userClasses');
+    }
 
     /**
      * Called when the component did mount.
@@ -34,25 +43,51 @@ class Classes extends React.Component {
             deleteDialogIsOpen, deleteDialog
         } = this.props;
 
-        const tableData = {
+        const config = {
             table: 'userClasses',
-            objects: userClasses,
-            rowMeta: [
-                {label: 'Navn', field: 'NAME', width: '25%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '61%'},
+            data: userClasses,
+            columns: [
+                {label: 'Navn', property: 'NAME', width: '25%'},
+                {label: 'Beskrivelse', property: 'description', width: '61%', wrap: {
+                        lines: 3,
+                        ellipsis: (userClass) => {
+                            const props = {
+                                component: 'userClasses',
+                                object: userClass,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props} />
+                        }
+                    }
+                },
                 {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
                 {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
-            ]
+            ],
+            toolbar: {
+                title: 'Brukerklasses',
+                render: () => {
+                    return (
+                        <ToolbarGroup>
+                            <ToolbarSeparator />
+                            <RaisedButton label="Ny Brukerklasse" primary={true} onTouchTap={() => { updateDialog(true); fillForm(null); }} />
+                            <IconMenu
+                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                            >
+                                <MenuItem primaryText="Oppdater" />
+                                <MenuItem primaryText="Settings" />
+                            </IconMenu>
+                        </ToolbarGroup>
+                    );
+                }
+            }
         };
 
         return (
             <div className="containerUsers">
                 <div className="usertable">
-                    <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                        <RaisedButton label="Ny Brukerklasse" onTouchTap={() => { updateDialog(true); fillForm(null); }}/>
-                    </div>
-
-                    <GenericTable metaData={tableData}/>
+                    <DataTable config={config}/>
                 </div>
 
                 <ClassFormDialog
@@ -85,6 +120,8 @@ class Classes extends React.Component {
                     }
                 />
 
+                <Popover component="userClasses"/>
+
             </div>
         );
     }
@@ -94,9 +131,8 @@ const mapStateToProps = (state) => {
     return {
         uClass: state.classFormReducer.uClass,
         userClasses : state.userReducer.userClasses,
-
         updateDialogIsOpen: state.dialogReducer.classUpdate.isOpen,
-        deleteDialogIsOpen: state.dialogReducer.classDelete.isOpen,
+        deleteDialogIsOpen: state.dialogReducer.classDelete.isOpen
     };
 };
 
@@ -126,6 +162,9 @@ const mapDispatchToProps = (dispatch) => {
         deleteDialog: (open) => {
             dispatch(dialogOpen('classDelete', open));
         },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
+        }
     };
 };
 
