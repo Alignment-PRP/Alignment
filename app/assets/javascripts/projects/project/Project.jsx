@@ -9,7 +9,7 @@ import { getAllRequirements } from '../../redux/actions/requirementActions';
 import { postRequirementToProject } from '../../redux/actions/projectActions';
 import { deleteRequirementToProject } from '../../redux/actions/projectActions';
 import { addFilter, addFiltered } from './../../redux/actions/filterActions';
-import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../../redux/actions/popoverActions';
+import { popoverAdd } from './../../redux/actions/popoverActions';
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
 import DataTable from '../../core/table/DataTable';
@@ -70,8 +70,7 @@ class Project extends React.Component {
             filter,
             allRequirements_filtered, projectRequirements_filtered,
             allRequirements, projectRequirements,
-            postRequirementToProject, deleteRequirementToProject, params,
-            popoverChangeAnchor, popoverChangeContent, popoverChangeOpen, popover
+            postRequirementToProject, deleteRequirementToProject, params
         } = this.props;
 
         const configLeft = {
@@ -83,7 +82,7 @@ class Project extends React.Component {
                         lines: 4,
                         ellipsis: (requirement) => {
                             const props = {
-                                ...{popoverChangeOpen, popoverChangeContent, popoverChangeAnchor},
+                                component: 'project',
                                 object: requirement,
                                 property: 'description'
                             };
@@ -106,7 +105,7 @@ class Project extends React.Component {
                         lines: 4,
                         ellipsis: (requirement) => {
                             const props = {
-                                ...{popoverChangeOpen, popoverChangeContent, popoverChangeAnchor},
+                                component: 'project',
                                 object: requirement,
                                 property: 'description'
                             };
@@ -136,7 +135,7 @@ class Project extends React.Component {
                     <DataTable config={configRight}/>
                 </div>
 
-                <Popover {...{popover, popoverChangeOpen}}/>
+                <Popover component="project"/>
             </div>
         )
     }
@@ -154,8 +153,7 @@ const mapStateToProps = (state) => {
         allRequirements_filtered: state.filterReducer.filterRequirementList['allRequirements'],
         projectRequirements_filtered: state.filterReducer.filterRequirementList['projectRequirements'],
         allRequirements: state.requirementReducer.requirements,
-        projectRequirements: state.projectReducer.projectRequirements,
-        popover: state.popoverReducer.popovers['project']
+        projectRequirements: state.projectReducer.projectRequirements
     };
 };
 
@@ -186,15 +184,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteRequirementToProject: (projectID, requirement) => {
             dispatch(deleteRequirementToProject(projectID, requirement))
-        },
-        popoverChangeAnchor: (anchor) => {
-            dispatch(popoverAnchor('project', anchor));
-        },
-        popoverChangeContent: (content) => {
-            dispatch(popoverContent('project', content));
-        },
-        popoverChangeOpen: (open) => {
-            dispatch(popoverOpen('project', open));
         },
         popoverAdd: (popover) => {
             dispatch(popoverAdd(popover));

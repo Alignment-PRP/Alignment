@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { popoverOpen } from './../../redux/actions/popoverActions';
 import MuiPopover from 'material-ui/Popover';
 
 /**
@@ -8,7 +10,8 @@ import MuiPopover from 'material-ui/Popover';
 class Popover extends React.Component {
 
     render() {
-        const { popover, popoverChangeOpen, style } = this.props;
+        const { component, popovers, popoverOpen, style } = this.props;
+        const popover = popovers[component];
         if (popover) {
             return (
                 <MuiPopover
@@ -16,7 +19,7 @@ class Popover extends React.Component {
                     anchorEl={popover.anchor}
                     anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    onRequestClose={popoverChangeOpen.bind(null, false)}
+                    onRequestClose={popoverOpen.bind(null, component, false)}
                 >
                     <div style={style ? style : {width: '500px', padding: '12px'}}>{popover.content}</div>
                 </MuiPopover>
@@ -27,4 +30,18 @@ class Popover extends React.Component {
 
 }
 
-export default Popover;
+const mapStateToProps = (state) => {
+    return {
+        popovers: state.popoverReducer.popovers
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        popoverOpen: (component, open) => {
+            dispatch(popoverOpen(component, open));
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Popover);
