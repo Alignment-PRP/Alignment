@@ -21,7 +21,7 @@ class Popover extends React.Component {
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
                     onRequestClose={popoverOpen.bind(null, component, false)}
                 >
-                    <div style={style ? style : {width: '500px', padding: '12px'}}>{popover.content}</div>
+                    <div style={style ? style : {width: '500px', padding: '24px'}}>{popover.content}</div>
                 </MuiPopover>
             );
         }
