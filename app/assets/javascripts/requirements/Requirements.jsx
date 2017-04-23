@@ -5,7 +5,7 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
-import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
+import { popoverAdd } from './../redux/actions/popoverActions';
 import Paper from 'material-ui/Paper';
 import DataTable from '../core/table/DataTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
@@ -31,8 +31,7 @@ class Requirements extends React.Component {
         const {
             filterRequirementList, requirements, filter,
             updateRequirement, deleteRequirement,
-            deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
-            popoverChangeAnchor, popoverChangeContent, popoverChangeOpen, popover
+            deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction
         } = this.props;
 
         const config = {
@@ -44,7 +43,7 @@ class Requirements extends React.Component {
                         lines: 5,
                         ellipsis: (requirement) => {
                             const props = {
-                                ...{ popoverChangeAnchor, popoverChangeContent, popoverChangeOpen },
+                                component: 'requirements',
                                 object: requirement,
                                 property: 'description'
                             };
@@ -56,7 +55,7 @@ class Requirements extends React.Component {
                         lines: 5,
                     ellipsis: (requirement) => {
                         const props = {
-                            ...{ popoverChangeAnchor, popoverChangeContent, popoverChangeOpen },
+                            component: 'requirements',
                             object: requirement,
                             property: 'description'
                         };
@@ -85,7 +84,7 @@ class Requirements extends React.Component {
                     <DataTable config={config}/>
                 </div>
 
-                <Popover {...{popover, popoverChangeOpen}}/>
+                <Popover component="requirements"/>
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -137,15 +136,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
-        },
-        popoverChangeAnchor: (anchor) => {
-            dispatch(popoverAnchor('requirements',anchor));
-        },
-        popoverChangeContent: (content) => {
-            dispatch(popoverContent('requirements',content));
-        },
-        popoverChangeOpen: (open) => {
-            dispatch(popoverOpen('requirements',open));
         },
         popoverAdd: (popover) => {
             dispatch(popoverAdd(popover));

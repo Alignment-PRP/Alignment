@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
 import { fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
 import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
-import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../../redux/actions/popoverActions';
+import { popoverAdd } from './../../redux/actions/popoverActions';
 import RaisedButton from 'material-ui/RaisedButton';
 import DataTable from '../../core/table/DataTable';
 import ClassFormDialog from './ClassFormDialog';
@@ -40,8 +40,7 @@ class Classes extends React.Component {
             fillForm,
 
             updateDialogIsOpen, updateDialog,
-            deleteDialogIsOpen, deleteDialog,
-            popover, popoverChangeAnchor, popoverChangeContent, popoverChangeOpen
+            deleteDialogIsOpen, deleteDialog
         } = this.props;
 
         const config = {
@@ -53,7 +52,7 @@ class Classes extends React.Component {
                         lines: 3,
                         ellipsis: (userClass) => {
                             const props = {
-                                ...{popoverChangeAnchor, popoverChangeContent, popoverChangeOpen},
+                                component: 'userClasses',
                                 object: userClass,
                                 property: 'description'
                             };
@@ -121,7 +120,7 @@ class Classes extends React.Component {
                     }
                 />
 
-                <Popover {...{popover, popoverChangeOpen}} />
+                <Popover component="userClasses"/>
 
             </div>
         );
@@ -133,8 +132,7 @@ const mapStateToProps = (state) => {
         uClass: state.classFormReducer.uClass,
         userClasses : state.userReducer.userClasses,
         updateDialogIsOpen: state.dialogReducer.classUpdate.isOpen,
-        deleteDialogIsOpen: state.dialogReducer.classDelete.isOpen,
-        popover: state.popoverReducer.popovers['userClasses']
+        deleteDialogIsOpen: state.dialogReducer.classDelete.isOpen
     };
 };
 
@@ -163,15 +161,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteDialog: (open) => {
             dispatch(dialogOpen('classDelete', open));
-        },
-        popoverChangeAnchor: (anchor) => {
-            dispatch(popoverAnchor('userClasses', anchor));
-        },
-        popoverChangeContent: (content) => {
-            dispatch(popoverContent('userClasses', content));
-        },
-        popoverChangeOpen: (open) => {
-            dispatch(popoverOpen('userClasses', open));
         },
         popoverAdd: (popover) => {
             dispatch(popoverAdd(popover));
