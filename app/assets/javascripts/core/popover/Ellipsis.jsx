@@ -20,7 +20,7 @@ class Ellipsis extends React.Component {
                     popoverAnchor(component, event.currentTarget);
                     popoverContent(component, object[property]);
                 }
-                }><br/>Les Mer...</span>
+                }><br/>mer...</span>
             </span>
         );
     }
