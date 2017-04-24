@@ -3,28 +3,6 @@ body {
     margin: 0px;
     padding: 0px;
     font-family: 'Roboto', sans-serif;
-    letter-spacing: 1.4px;
-}
-
-h1{
-    margin-top: 0;
-    line-height: 1;
-    color:#191919;
-    font-weight: 400;
-    font-size: 40px;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    text-align: left;
-}
-h2{
-    margin-top: 0;
-    line-height: 1;
-    color:#191919;
-    font-weight: 200;
-    font-size: 15px;
-    text-align: left;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
 }
 
 .transparent {
