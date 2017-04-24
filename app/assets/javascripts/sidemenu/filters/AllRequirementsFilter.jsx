@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
+import { dialogOpen } from '../../redux/actions/dialogActions';
 import { updateFilter, updateFilterRequirementList, getAllCategoryNames, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../../redux/actions/requirementActions';
 import CategoryCheckBoxes from './presentational/CategoryCheckBoxes';
 
@@ -66,7 +67,7 @@ class AllRequirementsFilter extends React.Component {
                 <Divider/>
                 <List>
                     <p>Krav Meny</p>
-                    <ListItem><Link to="newrequirement"><RaisedButton primary={true} label="Nytt krav"/></Link></ListItem>
+                    <ListItem><RaisedButton primary={true} onClick={newDialog.bind(null, true)} label="Nytt krav"/></ListItem>
                 </List>
             </div>
         )
@@ -104,7 +105,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         getAllCategoryNames: () => {
             dispatch(getAllCategoryNames())
-        }
+        },
+        newDialog: (open) => {
+            dispatch(dialogOpen('requirementNew', open));
+        },
     }
 };
 
