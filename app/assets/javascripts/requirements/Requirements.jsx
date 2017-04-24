@@ -6,6 +6,7 @@ import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import { popoverAdd } from './../redux/actions/popoverActions';
+import { getUsersWithClass } from './../redux/actions/userActions';
 import RequirementNewDialog from './dialog/RequirementNewDialog';
 import Paper from 'material-ui/Paper';
 import DataTable from '../core/table/DataTable';
@@ -25,6 +26,7 @@ class Requirements extends React.Component {
     componentDidMount() {
         this.props.getAllRequirements();
         this.props.getAllCategoryNames();
+        this.props.getUsersWithClass();
         this.props.changeSideMenuMode("HIDE");
     }
 
@@ -34,6 +36,27 @@ class Requirements extends React.Component {
             updateRequirement, deleteRequirement,
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction
         } = this.props;
+
+        const reqStructure = [
+            {
+                source: "something"
+            },
+            {
+                artifact: "something"
+            },
+            {
+                response: "something"
+            },
+            {
+                responsemeasure: "something"
+            },
+            {
+                environment: "something"
+            },
+            {
+                stimulus: "something"
+            }
+        ];
 
         const config = {
             table: 'requirements',
@@ -89,9 +112,12 @@ class Requirements extends React.Component {
 
                 <RequirementNewDialog
                     title="Nytt Krav"
-                    open={newRequirementDialogIsOpen}
-                    handleSubmit={(values) => {addRequirement(values); newDialog(false)}}
-                    onRequestClose={newDialog.bind(null, false)}
+                    open={this.props.newRequirementDialogIsOpen}
+                    handleSubmit={(values) => {addRequirement(values); this.props.newDialog(false)}}
+                    onRequestClose={this.props.newDialog.bind(null, false)}
+                    users={this.props.users}
+                    categories={this.props.categories}
+                    structure={reqStructure}
                 />
 
                 <DeleteDialog
@@ -114,7 +140,9 @@ const mapStateToProps = (state) => {
         newRequirementDialogIsOpen: state.dialogReducer.requirementNew.isOpen,
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action,
-        popover: state.popoverReducer.popovers['requirements']
+        popover: state.popoverReducer.popovers['requirements'],
+        users: state.userReducer.userClasses,
+        categories: state.requirementReducer.categoryNames
     };
 };
 
@@ -155,6 +183,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         popoverAdd: (popover) => {
             dispatch(popoverAdd(popover));
+        },
+        getUsersWithClass: () => {
+            dispatch(getUsersWithClass())
         }
     };
 };
