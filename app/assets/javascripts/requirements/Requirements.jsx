@@ -1,7 +1,8 @@
 import React from 'react';
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
 import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement } from "../redux/actions/requirementActions";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
+import RequirementNewDialog from './dialog/RequirementNewDialog';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
@@ -86,7 +87,7 @@ class Requirements extends React.Component {
 
                 <Popover component="requirements"/>
 
-                <NewRequirementDialog
+                <RequirementNewDialog
                     title="Nytt Krav"
                     open={newRequirementDialogIsOpen}
                     handleSubmit={(values) => {addRequirement(values); newDialog(false)}}

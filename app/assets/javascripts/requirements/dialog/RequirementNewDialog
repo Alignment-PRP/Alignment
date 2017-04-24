@@ -1,0 +1,17 @@
+import React from 'react';
+import Dialog from 'material-ui/Dialog';
+
+class RequirementNewDialog extends React.Component {
+
+    render() {
+        const { title, open, onRequestClose } = this.props;
+        return (
+            <Dialog title={title} open={open} modal={false} onRequestClose={onRequestClose} >
+                <h1>dialog</h1>
+            </Dialog>
+        );
+    }
+
+}
+
+export default RequirementNewDialog;
