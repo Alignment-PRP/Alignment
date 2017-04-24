@@ -56,62 +56,55 @@ class RequirementForm extends React.Component {
     }
 
     render() {
-        const { handleSubmit, structure, categories, users } = this.props;
+        const { handleSubmit, structure, categories, users} = this.props;
         return (
-            <div className="add-requirement">
-                <Paper style={this.style} zDepth={2}>
-                    <h2>Lag nytt krav</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-inner">
+                        <div className="form-inner-field">
                             <label htmlFor="name"> Krav navn </label><br/>
                             <Field type="text" component={renderTextField} name="name" required/><br/>
                         </div>
-                        <div>
+                        <div className="form-inner-field">
                             <label htmlFor="reqNo"> reqNo </label><br/>
                             <Field type="text" component={renderTextField} name="reqNo" required/><br/>
                         </div>
-                        <div>
+                        <div className="form-inner-field">
                             <label htmlFor="reqCode"> reqCode </label><br/>
                             <Field type="text" component={renderTextField} name="reqCode" required/><br/>
                         </div>
                         <br/>
-                        <div>
+                        <divt >
                             <label> reqResponsible </label><br/>
                             <Field component="select" name="reqResponsible">
                                 {this.renderUsers(users)}
                             </Field><br/>
-                        </div>
+                        </divt>
                         <br/>
-                        <div>
+                        <div className="form-inner-field">
                             <label> Kategori </label><br/>
                             <Field name="scID" component="select" >
                                 {this.renderCategoryItems(categories)}
                             </Field><br/>
                         </div>
-                        <div>
+                        <div className="form-inner-field">
                             <label htmlFor="description"> Beskrivelse </label><br/><br/>
                             <Field type="text" component={renderTextField} name="description" required/><br/>
                         </div>
-                        <div>
+                        <div className="form-inner-field">
                             <label htmlFor="comment"> Kommentar </label><br/>
                             <Field type="text" component={renderTextField} name="comment" /><br/>
                         </div>
                         {this.renderStructureForm(structure)}
-                        <RaisedButton type="submit">Legg Til</RaisedButton>
-                    </form>
-                </Paper>
-            </div>
+                        <RaisedButton primary={true} type="submit">Legg Til</RaisedButton>
+                    </div>
+                </form>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-    };
-};
 
 export default connect(
-    mapStateToProps,
+    null,
     null
 )(reduxForm({
     form: 'RequirementForm',
