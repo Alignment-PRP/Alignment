@@ -13,6 +13,7 @@ object Reference {
     "react-router",
     "react-router-redux",
     "react-tap-event-plugin",
+    "react-truncate",
     "redux",
     "redux-form",
     "redux-form-material-ui",
