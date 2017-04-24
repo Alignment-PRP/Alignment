@@ -67,7 +67,7 @@ class DataTableRowColumn extends React.Component {
                 return (
                     <TableRowColumn{...icp} style={defaultStyle}>
                         {row.wrap ?
-                            <div style={{width: '85%', padding: '12px 0 12px 0'}}>
+                            <div style={{padding: '12px 0 12px 0'}}>
                                 <Truncate lines={row.wrap.lines ? row.wrap.lines : 4} ellipsis={row.wrap.ellipsis ? row.wrap.ellipsis(obj) : <span>... </span>}>
                                     {obj[row.property]}
                                 </Truncate>
