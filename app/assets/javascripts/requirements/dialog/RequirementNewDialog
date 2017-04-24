@@ -7,7 +7,7 @@ class RequirementNewDialog extends React.Component {
         const { title, open, onRequestClose } = this.props;
         return (
             <Dialog title={title} open={open} modal={false} onRequestClose={onRequestClose} >
-                <h1>dialog</h1>
+                <h1>dialog test!</h1>
             </Dialog>
         );
     }

@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement } from "../redux/actions/requirementActions";
+import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement } from '../redux/actions/requirementActions';
 import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
-import RequirementNewDialog from './dialog/RequirementNewDialog';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import { popoverAdd } from './../redux/actions/popoverActions';
+import RequirementNewDialog from './dialog/RequirementNewDialog';
 import Paper from 'material-ui/Paper';
 import DataTable from '../core/table/DataTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';

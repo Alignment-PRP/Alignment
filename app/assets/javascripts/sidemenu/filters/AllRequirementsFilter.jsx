@@ -67,7 +67,7 @@ class AllRequirementsFilter extends React.Component {
                 <Divider/>
                 <List>
                     <p>Krav Meny</p>
-                    <ListItem><RaisedButton primary={true} onClick={newDialog.bind(null, true)} label="Nytt krav"/></ListItem>
+                    <ListItem><RaisedButton primary={true} label="Nytt krav"/></ListItem>
                 </List>
             </div>
         )
@@ -108,7 +108,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         newDialog: (open) => {
             dispatch(dialogOpen('requirementNew', open));
-        },
+        }
     }
 };
 
