@@ -14,6 +14,7 @@ import {GET_PUBLIC_PROJECTS,
 import {
     snackBar
 } from './snackBarActions';
+import { updateFilterRequirementList } from './filterActions';
 
 /**
  * <p>
@@ -165,6 +166,35 @@ function postRequirementToProjectAsync() {
     }
 }
 
+export function postRequirementToProjectWithFilter(projectID, requirement, filter, comp){
+    const post = {
+        ...requirement,
+        PID: projectID
+    };
+    return dispatch => {
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
+            .then((response) => {
+                dispatch(getRequirementsByProjectIdWithFilter(post.PID, filter, comp));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        dispatch(postRequirementToProjectAsync())
+    }
+}
+
+export function getRequirementsByProjectIdWithFilter(id, filter, comp) {
+    return dispatch => {
+        axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID + id)
+            .then((response) => {
+                dispatch(getRequirementsByProjectIdAsync(response.data));
+                dispatch(updateFilterRequirementList(filter, comp, response.data))
+            });
+
+    }
+
+}
+
 export function deleteRequirementToProject(projectID, requirement){
     const post = {
         ...requirement,
@@ -172,11 +202,10 @@ export function deleteRequirementToProject(projectID, requirement){
     };
     return dispatch => {
         axios.post(URLS.PROJECT_REQUIREMENT_POST_DELETE, post)
-            .then(function (response) {
-                console.log(response);
+            .then((response) => {
                 dispatch(getRequirementsByProjectId(post.PID));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log(error);
             });
         dispatch(deleteRequirementToProjectAsync())
@@ -186,6 +215,23 @@ export function deleteRequirementToProject(projectID, requirement){
 function deleteRequirementToProjectAsync() {
     return {
         type: DELETE_REQUIREMENT_TO_PROJECT
+    }
+}
+
+export function deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp){
+    const post = {
+        ...requirement,
+        PID: projectID
+    };
+    return dispatch => {
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_DELETE, post)
+            .then((response) => {
+                dispatch(getRequirementsByProjectIdWithFilter(post.PID, filter, comp));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        dispatch(deleteRequirementToProjectAsync())
     }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableRow, TableHeaderColumn } from 'material-ui/Table';
 
-class GenericTableHeaderRows extends React.Component {
+class DataTableHeaderRows extends React.Component {
 
     render() {
         const { meta, ...other } = this.props;
@@ -11,7 +11,7 @@ class GenericTableHeaderRows extends React.Component {
                         return row.label ?
                             <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp} >{row.label}</TableHeaderColumn>
                             :
-                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp}/>;
+                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp}><div style={{width: '48px', height: '48px'}}/></TableHeaderColumn>;
                     }
                 )}
             </TableRow>
@@ -20,4 +20,4 @@ class GenericTableHeaderRows extends React.Component {
 
 }
 
-export default GenericTableHeaderRows;
+export default DataTableHeaderRows;

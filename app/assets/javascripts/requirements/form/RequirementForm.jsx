@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { renderTextField } from './../../admin/render';
+import { renderTextField } from './../../core/render';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
