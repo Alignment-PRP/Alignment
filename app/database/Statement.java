@@ -140,17 +140,17 @@ public enum Statement {
      * ==========================================================================================================================
      */
     DELETE_PROJECT("" +
-            "DELETE FROM Project WHERE ID = ? "),
+            "DELETE FROM ProjectRequirementView WHERE ID = ? "),
     DELETE_PROJECT_METADATA("" +
             "DELETE FROM ProjectMetaData WHERE PID = ? "),
     DELETE_HAS_ACCESS("DELETE FROM HasAccess WHERE PID = ? "),
     DELETE_PROJECT_REQUIREMENTS_BY_PID("DELETE FROM ProjectRequirements WHERE PID = ? "),
 
-    PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
-    GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
+    PROJECT_EXISTS("SELECT count(1) as bool FROM ProjectRequirementView WHERE ID = ?"),
+    GET_PROJECT_BY_ID("SELECT *  FROM ProjectRequirementView WHERE ID=?"),
     GET_PROJECTS_ACCESSIBLE_BY_USER("" +
             "SELECT pmd.*, p.* " +
-            "FROM Project AS p " +
+            "FROM ProjectRequirementView AS p " +
             "INNER JOIN ProjectMetaData AS pmd " +
             "ON pmd.PID = p.ID " +
             "INNER JOIN HasAccess AS ha " +
@@ -163,19 +163,19 @@ public enum Statement {
             "GROUP BY p.ID"),
     GET_PUBLIC_PROJECTS("" +
             "SELECT * " +
-            "FROM Project AS p " +
+            "FROM ProjectRequirementView AS p " +
             "INNER JOIN ProjectMetaData AS pmd " +
             "ON pmd.PID = p.ID " +
             "WHERE p.isPublic = 1 "),
     GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
     GET_USER_HAS_ACCESS("" +
             "SELECT count(1) as bool " +
-            "FROM Project AS p " +
+            "FROM ProjectRequirementView AS p " +
             "INNER JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
             "WHERE ha.NAME = ? AND p.ID = ?"),
 
-    INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, isPublic) VALUES(?,?,?,?)"),
+    INSERT_PROJECT("INSERT INTO ProjectRequirementView (managerID, creatorID, name, isPublic) VALUES(?,?,?,?)"),
     INSERT_PROJECT_META_DATA("INSERT INTO ProjectMetaData (PID, securityLevel, transactionVolume, userChannel, deploymentStyle) VALUES(?,?,?,?,?)"),
     INSERT_HAS_ACCESS("INSERT INTO HasAccess (NAME, PID) VALUES(?,?)"),
     DELETE_PROJECT_REQUIREMENT_BY_RID_PID("" +

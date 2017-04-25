@@ -3,7 +3,7 @@
  * Representation of a project.
  * @global
  * @typedef {Object} Project
- * @property {string} name - Project name
+ * @property {string} name - ProjectRequirementView name
  * @property {string} securityLevel
  * @property {string} transactionVolume
  * @property {string} userChannel

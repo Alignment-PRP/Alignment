@@ -3,7 +3,7 @@
  * @module redux/types
  */
 
-//Project
+//ProjectRequirementView
 export const GET_PUBLIC_PROJECTS = 'GET_PUBLIC_PROJECTS';
 export const GET_PRIVATE_PROJECTS = 'GET_PRIVATE_PROJECTS';
 export const GET_ARCHIVED_PROJECTS = 'GET_ARCHIVED_PROJECTS';

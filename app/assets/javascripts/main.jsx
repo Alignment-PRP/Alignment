@@ -8,7 +8,8 @@ import Logout from './utility/Logout';
 
 //Project
 import Projects from './projects/Projects';
-import Project from './projects/project/Project';
+import ProjectRequirementView from './projects/project/ProjectRequirementView';
+import ProjectView from './projects/project/ProjectView';
 
 //Requirements
 import Requirements from './requirements/Requirements';
@@ -65,7 +66,8 @@ class App extends React.Component {
                             </Route>
 
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
-                            <Route path={"/project/:id"} component={Project}/>
+                            <Route path={"/project/:id/requirements"} component={ProjectRequirementView}/>
+                            <Route path={"/project/:id/info"} component={ProjectView}/>
 
                             <Route path={"allrequirements"} component={Requirements}/>
                             <Route path={"/api/requirement/new"} component={Requirements}/> {/* for rerouting purposes*/}
