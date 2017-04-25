@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * Created by andrfo on 16.02.2017.
@@ -27,16 +26,24 @@ public class LoginController extends Controller{
     public Result logout(){
         session("connected", ""); //just to be sure. Not completely sure how session works yet.
         session().clear();
-        return ok(views.html.login.render());
+        return ok("Logged out");
     }
 
+    public Result loginCheck() {
+        String userID = session("connected");
 
+        if(userID != null) {
+            return ok("YEY");
+        } else {
+            return unauthorized("Not valid session.");
+        }
+    }
 
     public Result authenticate(){
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        final JsonNode values = request().body().asJson();
 
-        String receivedUsername = values.get("uname")[0];
-        String reveivedPassword = values.get("psw")[0];
+        String receivedUsername = values.get("username").asText();
+        String reveivedPassword = values.get("password").asText();
 
         JsonNode userData = userController.makeJsonNode(receivedUsername);
         if(userData.findValuesAsText("USERNAME").isEmpty()){
@@ -53,7 +60,8 @@ public class LoginController extends Controller{
             session("connected", user.USERNAME);
             session("timestamp", LocalDateTime.now().toString());
 
-            return ok(views.html.dashboard.render());
+            System.out.println("Heiiaaa");
+            return ok("Success!");
         }
         return errorHandling("invalid USERNAME or pass");
     }

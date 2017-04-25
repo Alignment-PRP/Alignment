@@ -19,6 +19,7 @@ import NewRequirement from './requirements/NewRequirement';
 import Admin from './admin/Admin';
 
 //Stuff
+import { logout } from './redux/actions/authActions';
 import {changeSideMenuMode} from './redux/actions/sideMenuActions';
 import NotFound from './layout/NotFound';
 import NotAuth from './layout/NotAuth';
@@ -58,7 +59,6 @@ class App extends React.Component {
                     <ConnectedRouter history={browserHistory}>
                         <Route path={"/"} component={Root}>
                             <IndexRoute component={Home}/>
-                            <Route path={"/api/login"} component={Home}/> {/* for rerouting purposes*/}
                             <Route path={"projects"} component={Projects}>
                                 <Route path={"private"} onEnter={() => this._forceUpdate("/projects/private")}/>
                                 <Route path={"archive"} onEnter={() => this._forceUpdate("/projects/archive")}/>
@@ -75,7 +75,7 @@ class App extends React.Component {
                             <Route path={"newrequirement"} component={NewRequirement}/>
                             <Route path={"add-requirement"} component={Requirements}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
-                            <Route path={"logout"} component={Logout}/>
+                            <Route path={"logout"} onEnter={() => store.dispatch(logout())}/>
                             <Route path={"admin"} component={Admin} onEnter={() => {}}>
                                 <Route path={"users"} onEnter={() => this._forceUpdate("/admin/users")}/>
                                 <Route path={"classes"} onEnter={() => this._forceUpdate("/admin/classes")}/>
