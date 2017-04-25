@@ -161,7 +161,7 @@ public enum Statement {
             "ON uc.NAME = ha.NAME " +
             "INNER JOIN UserHasClass AS uhc " +
             "ON uhc.NAME = uc.NAME " +
-            "INNER JOIN UserHasAccess AS uha" +
+            "INNER JOIN UserHasAccess AS uha " +
             "ON uha.PID = p.ID " +
             "WHERE uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? OR uha.USERNAME = ? " +
             "GROUP BY p.ID"),
