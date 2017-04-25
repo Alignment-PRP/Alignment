@@ -6,7 +6,8 @@ import {
     POST_UPDATE_REQUIREMENT,
     DELETE_REQUIREMENT,
     GET_ALL_CATEGORY_NAMES,
-    GET_ALL_REQUIREMENTS
+    GET_ALL_REQUIREMENTS,
+    GET_REQ_STRUCTURE
 } from './../types';
 
 export function getAllRequirements() {
@@ -104,9 +105,7 @@ function deleteRequirementAsync(){
 }
 
 export function postUpdateRequirement(requirement){
-
     return dispatch => {
-        console.log(requirement);
         axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
             .then(function (response) {
                 dispatch(getAllRequirements());
@@ -121,6 +120,26 @@ export function postUpdateRequirement(requirement){
 function postUpdateRequirementAsync(){
     return{
         type: POST_UPDATE_REQUIREMENT
+    }
+}
+
+export function getReqStructure() {
+    return dispatch => {
+        axios.get(URLS.REQUIREMENT_GET_STUCTURE)
+            .then( response => {
+                const data = [];
+                response.data.types.map((structureType) => {
+                    data.push(structureType);
+                    return data
+                });
+                dispatch(getReqStructureAsync(data))
+            });
+    }
+}
+function getReqStructureAsync(data) {
+    return {
+        type: GET_REQ_STRUCTURE,
+        payload: data
     }
 }
 

@@ -4,13 +4,15 @@ import {
     UPDATE_REQUIREMENT,
     DELETE_REQUIREMENT,
     GET_ALL_CATEGORY_NAMES,
-    GET_ALL_REQUIREMENTS
+    GET_ALL_REQUIREMENTS,
+    GET_REQ_STRUCTURE
 } from './../types';
 
 const requirementReducer = (state = {
     requirements: null,
     requirement: [],
-    categoryNames: []
+    categoryNames: [],
+    structure: []
 }, action) => {
     switch (action.type) {
         case GET_ALL_REQUIREMENTS:
@@ -27,6 +29,11 @@ const requirementReducer = (state = {
             return {
                 ...state,
                 categoryNames: action.payload
+            };
+        case GET_REQ_STRUCTURE:
+            return {
+                ...state,
+                structure: action.payload
             };
         case ADD_REQUIREMENT:
         case POST_UPDATE_REQUIREMENT:
