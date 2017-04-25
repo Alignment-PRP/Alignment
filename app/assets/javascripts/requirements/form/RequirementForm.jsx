@@ -24,8 +24,7 @@ class RequirementForm extends React.Component {
        return structure.map(structure => {
            return (
                <div>
-                   <label htmlFor={Object.keys(structure)}> {Object.keys(structure)} </label><br/>
-                   <Field type="text" component={renderTextField} name={Object.keys(structure)} /><br/>
+                   <Field type="text" component={renderTextField} name={structure} label={structure} /><br/>
                </div>
            )
        });

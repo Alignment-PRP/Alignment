@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement } from '../redux/actions/requirementActions';
+import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement, getReqStructure } from '../redux/actions/requirementActions';
 import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
@@ -27,6 +27,7 @@ class Requirements extends React.Component {
         this.props.getAllRequirements();
         this.props.getAllCategoryNames();
         this.props.getUsersWithClass();
+        this.props.getReqStructure();
         this.props.changeSideMenuMode("HIDE");
     }
 
@@ -36,29 +37,6 @@ class Requirements extends React.Component {
             updateRequirement, deleteRequirement,
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction
         } = this.props;
-
-        const reqStructure = [
-
-
-            {
-                source: "something"
-            },
-            {
-                artifact: "something"
-            },
-            {
-                response: "something"
-            },
-            {
-                responsemeasure: "something"
-            },
-            {
-                environment: "something"
-            },
-            {
-                stimulus: "something"
-            }
-        ];
 
         const config = {
             table: 'requirements',
@@ -119,7 +97,7 @@ class Requirements extends React.Component {
                     onRequestClose={this.props.newDialog.bind(null, false)}
                     users={this.props.users}
                     categories={this.props.categories}
-                    structure={reqStructure}
+                    structure={this.props.structure}
                 />
 
                 <DeleteDialog
@@ -144,7 +122,8 @@ const mapStateToProps = (state) => {
         deleteDialogAction: state.dialogReducer.requirementDelete.action,
         popover: state.popoverReducer.popovers['requirements'],
         users: state.userReducer.users,
-        categories: state.requirementReducer.categoryNames
+        categories: state.requirementReducer.categoryNames,
+        structure: state.requirementReducer.structure
     };
 };
 
@@ -168,8 +147,8 @@ const mapDispatchToProps = (dispatch) => {
         getAllRequirements: () => {
             dispatch(getAllRequirements())
         },
-        addRequirement: (requirement) => {
-            dispatch(addRequirement(requirement))
+        getReqStructure: () => {
+            dispatch(getReqStructure())
         },
         updateRequirement: (requirement) => {
             dispatch(updateRequirement(requirement))
