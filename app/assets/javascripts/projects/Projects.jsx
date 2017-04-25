@@ -123,10 +123,11 @@ class Projects extends React.Component {
                 <div>
                     <div className="containerUsers">
                         <div style={{display: 'flex', flexWrap: 'wrap', margin: '8px'}}>
-                            {this._projects(tableMode).map(project => {
+                            {this._projects(tableMode).map((project, index) => {
                                 const color = this.getCardColor(project.name);
+                                console.log(index);
                                 return (
-                                    <Link to={'project/' + project.ID}>
+                                    <Link key={index} to={'project/' + project.ID}>
                                         <Card style={{margin: '8px', backgroundColor: color}}>
                                             <CardTitle
                                                 title={project.name}
