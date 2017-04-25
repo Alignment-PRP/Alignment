@@ -269,7 +269,8 @@ export const renderTextField = ({ input, label, meta: { touched, error, warning 
 export const renderMultiTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
     <TextField hintText={label}
                multiLine={true}
-               style={{width: '256px'}}
+               style={{width: '512px'}}
+               rows={3}
                floatingLabelText={label}
                errorText={touched && error}
                {...input}

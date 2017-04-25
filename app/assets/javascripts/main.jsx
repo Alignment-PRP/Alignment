@@ -8,7 +8,7 @@ import Logout from './utility/Logout';
 
 //Project
 import Projects from './projects/Projects';
-import Project from './projects/Project';
+import Project from './projects/project/Project';
 
 //Requirements
 import Requirements from './requirements/Requirements';
@@ -22,8 +22,6 @@ import Admin from './admin/Admin';
 import {changeSideMenuMode} from './redux/actions/sideMenuActions';
 import NotFound from './layout/NotFound';
 import NotAuth from './layout/NotAuth';
-
-
 
 //Utility
 import {Router, Route, IndexRoute, Redirect, browserHistory} from "react-router";
@@ -67,7 +65,7 @@ class App extends React.Component {
                             </Route>
 
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
-                            <Route path={"/api/project/:id"} component={Project}/>
+                            <Route path={"/project/:id"} component={Project}/>
 
                             <Route path={"allrequirements"} component={Requirements}/>
                             <Route path={"/api/requirement/new"} component={Requirements}/> {/* for rerouting purposes*/}

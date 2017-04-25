@@ -58,36 +58,16 @@ public class RequirementController extends Controller{
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
+        Map<String, Object> requirementMap = new HashMap<>();
         JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
-        return ok(req);
-    }
-
-    @Deprecated //Use the one in projectcontroller
-    public Result InsertProjectRequirement(){
-        String userID = session("connected");
-        if(userID == null){
-            return unauthorized(views.html.login.render());
+        for (JsonNode r:
+                req) {
+            requirementMap.put(r.get("RID").asText(), r);
         }
-
-        //TODO: Add relevant category.
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String projectID = values.get("projectid")[0];
-        String name = values.get("name")[0];
-        String desc = values.get("desc")[0];
-        String ispublic = values.get("ispublic")[0];
-        String source = values.get("source")[0];
-        String stimulus = values.get("stimulus")[0];
-        String artifact = values.get("artifact")[0];
-        String response = values.get("response")[0];
-        String responsemeasure= values.get("responsemeasure")[0];
-        String environment = values.get("environment")[0];
-        //TODO: Check if the user is authorized to edit the project. (If the user is part of the project)
-        //TODO: Check if the project referenced by projectid actually exists
-
-        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT, projectID, ispublic, name, desc, source, stimulus, artifact, response, responsemeasure, environment);
-
-        return ok();
+        return ok(Json.toJson(requirementMap));
     }
+
+
 
     /**
      * Returns a HTML form to insert a requirement. For testing.
@@ -168,4 +148,23 @@ public class RequirementController extends Controller{
         JsonNode req = qh.executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID,name);
         return ok(req);
     }
+
+    public Result getStructureTypes(){
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        Map<String, Object> structuresMap = new HashMap<>();
+        List<String> typeList = new ArrayList<>();
+        JsonNode types = qh.executeQuery(Statement.GET_STRUCTURE_TYPES);
+
+        for (JsonNode n:
+             types) {
+            typeList.add(n.get("type").asText());
+        }
+        structuresMap.put("types", typeList);
+        return ok(Json.toJson(structuresMap));
+    }
 }
+
+
