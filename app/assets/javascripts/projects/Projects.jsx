@@ -26,6 +26,7 @@ import { push } from 'react-router-redux';
 import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
 import { snackBar } from './../redux/actions/snackBarActions';
 import ProjectTable from './ProjectTable';
 import ProjectsSideMenu from './presentational/ProjectsSideMenu';
@@ -41,6 +42,7 @@ import {
     purple200, red200, teal200, yellow200
 } from "material-ui/styles/colors";
 import {Link} from "react-router";
+import Popover from "../core/popover/Popover";
 
 const colors = [
     red200, pink200, purple200, deepPurple200,
@@ -52,6 +54,10 @@ const colors = [
 
 class Projects extends React.Component {
 
+    componentWillMount() {
+        this.props.popoverAdd('projects');
+    }
+
     componentDidMount(){
         this.props.getPublicProjects();
         this.props.getPrivateProjects();
@@ -61,6 +67,12 @@ class Projects extends React.Component {
         this.props.deleteDialog(false);
     }
 
+    /**
+     *
+     * @param mode
+     * @returns {Array.<Project>}
+     * @private
+     */
     _projects(mode) {
         switch (mode) {
             case "private":
@@ -107,7 +119,8 @@ class Projects extends React.Component {
             newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
             postProjectNew,
             deleteProject,
-            push, path
+            push, path,
+            popoverOpen, popoverAnchor, popoverContent
         } = this.props;
         const tableMode = path.replace('/projects/', '');
 
@@ -126,21 +139,28 @@ class Projects extends React.Component {
                             {this._projects(tableMode).map((project, index) => {
                                 const color = this.getCardColor(project.name);
                                 return (
-                                    <Link key={index} to={'project/' + project.ID}>
-                                        <Card style={{margin: '8px', backgroundColor: color}}>
-                                            <CardTitle
-                                                title={project.name}
-                                            />
-                                            <CardText style={{padding: '0 16px 16px 16px'}}>
-                                                <span>{'Laget av: ' + project.creatorID}</span>
-                                                <br/>
-                                                <span>{'Sjef: ' + project.managerID}</span>
-                                            </CardText>
-                                        </Card>
-                                    </Link>
+                                    <Card key={index} style={{margin: '8px', minWidth: '150px', backgroundColor: color}}>
+                                        <CardTitle
+                                            style={{paddingBottom: 0}}
+                                            title={project.name}
+                                            subtitle={'Laget av:' + project.creatorID + '  ' + 'Sjef: ' + project.managerID}
+                                        />
+                                        <CardActions>
+                                            <Link to={'project/' + project.ID}>
+                                                <FlatButton label='Åpne'/>
+                                            </Link>
+                                                <FlatButton label="Info" onTouchTap={(event) => {
+                                                    popoverOpen(true);
+                                                    popoverContent(project.description);
+                                                    popoverAnchor(event.currentTarget);
+                                                }}/>
+                                        </CardActions>
+                                    </Card>
                                 );
                             })}
                         </div>
+
+                        <Popover component="projects"/>
 
                         <ProjectNewDialog
                             title="Nytt Prosjekt"
@@ -208,6 +228,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteDialogChangeAction: (action) => {
             dispatch(dialogChangeAction('projectDelete', action))
+        },
+        popoverOpen: (open) => {
+            dispatch(popoverOpen('projects', open));
+        },
+        popoverAnchor: (anchor) => {
+            dispatch(popoverAnchor('projects', anchor));
+        },
+        popoverContent: (content) => {
+            dispatch(popoverContent('projects', content));
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
         }
     };
 };
