@@ -136,10 +136,10 @@ class Projects extends React.Component {
                 <div>
                     <div className="containerUsers">
                         <div style={{display: 'flex', flexWrap: 'wrap', margin: '8px'}}>
-                            {this._projects(tableMode).map(project => {
+                            {this._projects(tableMode).map((project, index) => {
                                 const color = this.getCardColor(project.name);
                                 return (
-                                    <Card style={{margin: '8px', minWidth: '150px', backgroundColor: color}}>
+                                    <Card key={index} style={{margin: '8px', minWidth: '150px', backgroundColor: color}}>
                                         <CardTitle
                                             style={{paddingBottom: 0}}
                                             title={project.name}
