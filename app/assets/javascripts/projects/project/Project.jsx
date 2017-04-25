@@ -10,8 +10,10 @@ import {
     postRequirementToProject, postRequirementToProjectWithFilter,
     deleteRequirementToProject, deleteRequirementToProjectWithFilter
 } from '../../redux/actions/projectActions';
+import { dialogOpen } from '../../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../../redux/actions/filterActions';
 import { popoverAdd } from './../../redux/actions/popoverActions';
+import ProjectReqUpdateDialog from '../dialog/ProjectReqUpdateDialog';
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
 import DataTable from '../../core/table/DataTable';
@@ -74,8 +76,8 @@ class Project extends React.Component {
         const {
             filter,
             allRequirements_filtered, projectRequirements_filtered,
-            allRequirements, projectRequirements,
-            postRequirementToProject, postRequirementToProjectWithFilter,
+            allRequirements, projectRequirements, projectReqUpdateDialog,
+            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
             deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
         } = this.props;
 
@@ -123,6 +125,9 @@ class Project extends React.Component {
                         }
                     }
                 },
+                {type: 'EDIT_ACTION', action: (requirement) => {
+                    console.log("oppdatere req"); projectReqUpdateDialog(true);
+                },width: '15%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     if (filter && Object.keys(filter).length > 0) {
                         deleteRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
@@ -141,13 +146,20 @@ class Project extends React.Component {
                     </Paper>
                 </div>
                 <div className="add-requirements">
-                    <h2>Legg til Krav</h2>
+                    <h2>Velg Krav</h2>
                     <DataTable config={configLeft} />
                 </div>
                 <div className="project-requirements">
-                    <h2>Prosjekt Krav</h2>
+                    <h2>Kravliste for Prosjekt</h2>
                     <DataTable config={configRight}/>
                 </div>
+
+                <ProjectReqUpdateDialog
+                    title="Tilleggsbeskrivelse av krav"
+                    open={projectReqUpdateDialogIsOpen}
+                    handleSubmit={(value) => {postProjectReqUpdate(value); projectReqUpdateDialog(false)}}
+                    onRequestClose={projectReqUpdateDialog.bind(null, false)}
+                />
 
                 <Popover component="project"/>
             </div>
@@ -167,7 +179,8 @@ const mapStateToProps = (state) => {
         allRequirements_filtered: state.filterReducer.filterRequirementList['allRequirements'],
         projectRequirements_filtered: state.filterReducer.filterRequirementList['projectRequirements'],
         allRequirements: state.requirementReducer.requirements,
-        projectRequirements: state.projectReducer.projectRequirements
+        projectRequirements: state.projectReducer.projectRequirements,
+        projectReqUpdateDialogIsOpen: state.dialogReducer.projectReqUpdate.isOpen
     };
 };
 
@@ -196,6 +209,9 @@ const mapDispatchToProps = (dispatch) => {
         postRequirementToProject: (projectID, requirement) => {
             dispatch(postRequirementToProject(projectID, requirement))
         },
+        postProjectReqUpdate: (projectID, requirement) => {
+            dispatch(postProjectReqUpdate(projectID, requirement))
+        },
         postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
             dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp))
         },
@@ -207,7 +223,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         popoverAdd: (popover) => {
             dispatch(popoverAdd(popover));
-        }
+        },
+        projectReqUpdateDialog: (open) => {
+            dispatch(dialogOpen('projectReqUpdate', open));
+        },
     };
 };
 
