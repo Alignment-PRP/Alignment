@@ -33,7 +33,7 @@ public class ProjectController extends Controller {
     /**
      * Returns all the projects the user has access to.
      * Checks if the UserClass the user is a part of has access, and whether the user is the manager or
-     * creator of the Project.
+     * creator of the ProjectRequirementView.
      * @return Result 200 Ok or 401 Unauthorized
      * If 200 OK, the body contains All the relevant project data of the projects.
      */
@@ -55,7 +55,7 @@ public class ProjectController extends Controller {
 
 
     /**
-     * Inserts a new Project with projet metadata in to the database.
+     * Inserts a new ProjectRequirementView with projet metadata in to the database.
      * Called with a POST from client through the routes file.
      * @return Result 200 Ok or 401 Unauthorized
      */
@@ -78,7 +78,7 @@ public class ProjectController extends Controller {
         String deploymentStyle = values.get("deploymentStyle").asText();
         int ispublic = values.has("isPublic") && values.get("isPublic").asBoolean() ? 1 : 0;
 
-        //Inserts a new Project and returns the ID of the project just inserted
+        //Inserts a new ProjectRequirementView and returns the ID of the project just inserted
         String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, ispublic);
 
         //Inserts ProjectMetaData with the project
@@ -91,7 +91,7 @@ public class ProjectController extends Controller {
 
     /**
      * Inserts into HasAccess Table. This table specifies the releation between
-     * Project and UserClass. Dictates what user classes have access to a project.
+     * ProjectRequirementView and UserClass. Dictates what user classes have access to a project.
      * @return @return Result 200 Ok or 401 Unauthorized
      */
     public Result insertHasAccess(){
@@ -182,7 +182,7 @@ public class ProjectController extends Controller {
      * Removes a project requirement from a project.
      * NB!: This will delete the fields specific to that project requirement.
      * @return Result 200 Ok or 401 Unauthorized
-     * If 200 OK the body contains "Project Requirement deleted"
+     * If 200 OK the body contains "ProjectRequirementView Requirement deleted"
      */
     public Result deleteProjectRequirement(){
         //Check if user is logged in
@@ -214,7 +214,7 @@ public class ProjectController extends Controller {
         qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENT_BY_RID_PID, PID, RID);
 
 
-        return ok("Project Requirement deleted");
+        return ok("ProjectRequirementView Requirement deleted");
     }
 
     /**
@@ -257,7 +257,7 @@ public class ProjectController extends Controller {
 
         qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT, Integer.parseInt(PID), Integer.parseInt(RID), reqNo, reqCode, comment, description);
 
-        return ok("Project Requirement Inserted");
+        return ok("ProjectRequirementView Requirement Inserted");
 
     }
 
@@ -287,7 +287,7 @@ public class ProjectController extends Controller {
         qh.executeUpdate(Statement.DELETE_PROJECT, PID);
 
 
-        return ok("Project and all related data deleted");
+        return ok("ProjectRequirementView and all related data deleted");
     }
     //SAME AS getProjectRequirementForm()
     public Result addReqForm(){
