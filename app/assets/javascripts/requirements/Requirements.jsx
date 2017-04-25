@@ -38,6 +38,8 @@ class Requirements extends React.Component {
         } = this.props;
 
         const reqStructure = [
+
+
             {
                 source: "something"
             },
@@ -141,7 +143,7 @@ const mapStateToProps = (state) => {
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action,
         popover: state.popoverReducer.popovers['requirements'],
-        users: state.userReducer.userClasses,
+        users: state.userReducer.users,
         categories: state.requirementReducer.categoryNames
     };
 };
