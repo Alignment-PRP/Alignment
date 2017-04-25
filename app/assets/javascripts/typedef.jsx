@@ -3,12 +3,23 @@
  * Representation of a project.
  * @global
  * @typedef {Object} Project
- * @property {string} name - ProjectRequirementView name
- * @property {string} securityLevel
- * @property {string} transactionVolume
- * @property {string} userChannel
- * @property {string} deploymentStyle
- * @property {boolean} isPublic
+ * @property {Number} ID - Project ID
+ * @property {String} name - Project name
+ * @property {boolean} isPublic - Public flag
+ * @property {String} creatorID - Creator ID
+ * @property {String} managerID - Manager ID
+ * @property {String} description - Project description.
+ */
+
+/**
+ * Representation of project metadata.
+ * @global
+ * @typedef {Object} ProjectMetaData
+ * @property {Number} PID - Project ID
+ * @property {Number} securityLevel
+ * @property {String} transactionVolume
+ * @property {String} userChannel
+ * @property {String} deploymentStyle
  */
 
 /**
