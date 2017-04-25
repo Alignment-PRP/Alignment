@@ -94,8 +94,8 @@ public enum Statement {
 
     //===========================================PROJECT=========================================================================
     GET_PROJECT_REQUIREMENTS("" +
-            "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, " +
-            "c.description AS cDesc, pr.PID AS PID, pr.reqNo AS prReqNo, pr.reqCode AS prReqCode, pr.comment AS prComment, pr.description AS prDescription " +
+            "SELECT pr.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, " +
+            "c.description AS cDesc, rm.reqNo AS rReqNo, rm.reqCode AS rReqCode, rm.comment AS rComment, rm.description AS rDescription, rm.name AS name, rm.reqResponsible AS reqResponsible " +
             "FROM Requirements AS r " +
             "INNER JOIN RequirementMetaData AS rm " +
             "ON r.ID = rm.RID " +
