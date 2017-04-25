@@ -66,8 +66,14 @@ class App extends React.Component {
                             </Route>
 
                             <Route path={"/api/project/new"} component={Projects}/> {/* for rerouting purposes*/}
-                            <Route path={"/project/:id/requirements"} component={ProjectRequirementView}/>
-                            <Route path={"/project/:id/info"} component={ProjectView}/>
+                            <Route path={"/project/:id"} component={ProjectView} onEnter={() => {}}>
+                                <Route path={"overview"} onEnter={() => this._forceUpdate("/project/:id/overview")}/>
+                                <Route path={"access"} onEnter={() => {}}>
+                                    <Route path={"users"} onEnter={() => this._forceUpdate("/project/:id/access/users")}/>
+                                    <Route path={"classes"} onEnter={() => this._forceUpdate("/project/:id/access/classes")}/>
+                                </Route>
+                                <Route path={"requirements"} onEnter={() => this._forceUpdate("/project/:id/requirements")}/>
+                            </Route>
 
                             <Route path={"allrequirements"} component={Requirements}/>
                             <Route path={"/api/requirement/new"} component={Requirements}/> {/* for rerouting purposes*/}

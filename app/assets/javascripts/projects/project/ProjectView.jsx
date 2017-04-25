@@ -1,24 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
-import { changeSideMenuMode } from "./../redux/actions/sideMenuActions";
+import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-//Importing the methods declared in redux/actions. These methodes handles the global state of the app.
-//Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
-import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
-import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
-import { getAllRequirements } from '../../redux/actions/requirementActions';
-import {
-    postRequirementToProject, postRequirementToProjectWithFilter,
-    deleteRequirementToProject, deleteRequirementToProjectWithFilter
-} from '../../redux/actions/projectActions';
-import { addFilter, addFiltered } from './../../redux/actions/filterActions';
-import { popoverAdd } from './../../redux/actions/popoverActions';
 
 
-
-class Project extends React.Component {
+class ProjectView extends React.Component {
 
     /**
      * This is a lifecycle method that runs after the render function. It is good practis to call
@@ -76,7 +64,7 @@ class Project extends React.Component {
                     initialSelectedIndex={index}
                     value={path}
                 >
-                    <Tab value="/admin" label="Prosjektoversikt" onActive={() => push('/admin')}>
+                    <Tab value="/project/:id/overview" label="Prosjektoversikt" onActive={() => push('/project/:id/overview')}>
                         <div id="admin" style={this.style.tabContent}>
                             <h2>Brukeroversikt</h2>
                             <ul>
@@ -84,14 +72,14 @@ class Project extends React.Component {
                             </ul>
                         </div>
                     </Tab>
-                    <Tab value="/admin/users" label="Tilgang" onActive={push.bind(null, '/admin/users')}>
+                    <Tab value="/project/:id/access" label="Tilgang" onActive={push.bind(null, path)}>
                         <div style={this.style.tabContent}>
-                            <Users/>
+
                         </div>
                     </Tab>
-                    <Tab value="/admin/users" label="Tilgang" onActive={push.bind(null, '/admin/users')}>
+                    <Tab value="/project/:id/requirements" label="Prosjektkrav" onActive={push.bind(null, path)}>
                         <div style={this.style.tabContent}>
-                            <Users/>
+
                         </div>
                     </Tab>
                 </Tabs>
@@ -100,63 +88,22 @@ class Project extends React.Component {
     }
 }
 
-/**
- * This maps the state from the reducer to the props in this component so that you can use the data
- * as if it where this components state.
- * @param state
- * @returns {{allRequirements: (*|Array), projectRequirements: (*|Array)}}
- */
 const mapStateToProps = (state) => {
+    let path = state.router.location ? state.router.location.pathname : "//project/:id";
     return {
-        filter: state.filterReducer.filters['project'],
-        allRequirements_filtered: state.filterReducer.filterRequirementList['allRequirements'],
-        projectRequirements_filtered: state.filterReducer.filterRequirementList['projectRequirements'],
-        allRequirements: state.requirementReducer.requirements,
-        projectRequirements: state.projectReducer.projectRequirements
+        path: path
     };
 };
 
-/**
- * This maps the actions you need from redux/actions to props of this component
- * @param dispatch
- * @returns {{getAllRequirements: (function()), getRequirementsByProjectId: (function(*=)), changeSideMenuMode: (function(*=)), postRequirementToProject: (function(*=)), deleteRequirementToProject: (function(*=))}}
- */
 const mapDispatchToProps = (dispatch) => {
     return {
-        addFilter: (filter) => {
-            dispatch(addFilter(filter));
-        },
-        addFiltered: (comp) => {
-            dispatch(addFiltered(comp));
-        },
-        getAllRequirements: () => {
-            dispatch(getAllRequirements())
-        },
-        getRequirementsByProjectId: (id) => {
-            dispatch(getRequirementsByProjectId(id))
+        push: (url) => {
+            dispatch(push(url));
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
-        },
-        postRequirementToProject: (projectID, requirement) => {
-            dispatch(postRequirementToProject(projectID, requirement))
-        },
-        postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp))
-        },
-        deleteRequirementToProject: (projectID, requirement) => {
-            dispatch(deleteRequirementToProject(projectID, requirement))
-        },
-        deleteRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp))
-        },
-        popoverAdd: (popover) => {
-            dispatch(popoverAdd(popover));
         }
     };
 };
 
-/**
- * This connects this component to Redux so that you can use the Actions and get access to global state.
- */
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectView);
