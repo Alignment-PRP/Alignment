@@ -53,6 +53,7 @@ GET     /api/requirement/category/:id       controllers.RequirementController.ge
 GET     /api/requirements/admin             controllers.AdminController.getReq()
 GET     /api/requirements                   controllers.RequirementController.getGlobalRequirements()
 GET     /api/requirements/usage             controllers.AdminController.getRequirementUsage()
+GET     /api/requirement/structure/types    controllers.RequirementController.getStructureTypes()
 
 POST    /api/category/add                   controllers.AdminController.insertRequirementCategory()
 GET     /api/category/all/names             controllers.RequirementController.getCategories()
