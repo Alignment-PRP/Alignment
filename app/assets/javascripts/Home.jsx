@@ -12,24 +12,15 @@ class Home extends React.Component {
     }
 
     UserData(){
-        let USERNAME = "";
-        let ucDesc = "";
-        let ucName = "";
-
-        if(this.props.userdata != null){
-            this.props.userdata.map((user)=>{
-                USERNAME = user.USERNAME;
-                ucDesc = user.ucDesc;
-                ucName = user.ucName;
-            });
-
+        if (this.props.userdata) {
+            const { USERNAME, ucDesc, ucName } = this.props.userdata;
             return(
                 <div id="user-info">
                     <p><b>Username:</b> {USERNAME} </p>
                     <p><b>Userclass:</b> {ucName} - {ucDesc} </p>
                 </div>
             )
-        }else {
+        } else {
             return (
                 <div id="user-info">
                     <p>Loading userdata</p>

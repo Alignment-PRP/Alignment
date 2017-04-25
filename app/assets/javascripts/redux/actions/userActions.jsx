@@ -26,10 +26,10 @@ export function getUserData() {
     }
 }
 
-function getUserDataAsync(user) {
+function getUserDataAsync(userList) {
     return {
         type: GET_USER_DATA,
-        payload: user
+        payload: userList[0]
     }
 }
 

@@ -33,12 +33,19 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-//Defining URL links
+import { Auth } from './core/auth/Auth';
+import { ADMIN_PAGE } from './core/auth/rights';
+import { getUserData } from './redux/actions/userActions';
+
 /**
  * Starting point for the application.
  * Defines a provider for the redux store and routes with react-router
  */
 class App extends React.Component {
+
+    componentWillMount() {
+        store.dispatch(getUserData())
+    }
 
     _forceUpdate(path) {
         if (store.getState().router.location) {
@@ -76,7 +83,7 @@ class App extends React.Component {
                             <Route path={"add-requirement"} component={Requirements}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} component={Logout}/>
-                            <Route path={"admin"} component={Admin} onEnter={() => {}}>
+                            <Route path={"admin"} component={Auth(ADMIN_PAGE)(Admin)} onEnter={() => {}}>
                                 <Route path={"users"} onEnter={() => this._forceUpdate("/admin/users")}/>
                                 <Route path={"classes"} onEnter={() => this._forceUpdate("/admin/classes")}/>
                                 <Route path={"stats"} onEnter={() => this._forceUpdate("/admin/stats")}/>
