@@ -9,32 +9,14 @@ import { getUserData } from '../redux/actions/userActions';
  * Represents a header.
  */
 class Header extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            completed: 0,
-        };
-    }
 
     componentDidMount(){
         this.props.getUserData();
-        this.timer = setTimeout(() => this.progress(5), 1000);
 
     }
 
     componentWillUnmount() {
         clearTimeout(this.timer);
-    }
-
-    progress(completed) {
-        if (completed > 100) {
-            this.setState({completed: 100});
-        } else {
-            this.setState({completed});
-            const diff = Math.random() * 10;
-            this.timer = setTimeout(() => this.progress(completed + diff), 1000);
-        }
     }
 
     UserData(){
@@ -51,7 +33,7 @@ class Header extends React.Component {
 
             return(
                 <div id="user-info">
-                    <p>Du er logget inn som: </p>
+                    <p>Logget in som: </p>
                     <p>
                         <b>Username:</b> {USERNAME} | <b>Userclass:</b> {ucName} - {ucDesc}
                     </p>
@@ -60,10 +42,7 @@ class Header extends React.Component {
         }else {
             return (
                 <div id="user-info">
-                    <CircularProgress
-                        mode="determinate"
-                        value={this.state.completed}
-                    />
+                    <CircularProgress/>
                 </div>
             )
         }
