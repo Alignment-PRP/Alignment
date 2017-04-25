@@ -156,7 +156,14 @@ public enum Statement {
 
     PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
     GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
-
+    GET_PROJECTS_USER_IS_MANAGER("" +
+            "SELECT p.* " +
+            "FROM Project AS p " +
+            "WHERE p.managerID = ? "),
+    GET_PROJECTS_USER_IS_CREATOR("" +
+            "SELECT p.* " +
+            "FROM Project AS p " +
+            "WHERE p.creatorID = ? "),
     GET_PROJECTS_ACCESSIBLE_BY_USER("" +
             "SELECT p.* " +
             "FROM Project AS p " +
@@ -168,7 +175,7 @@ public enum Statement {
             "ON uhc.NAME = uc.NAME " +
             "LEFT JOIN UserHasAccess AS uha " +
             "ON uha.PID = p.ID " +
-            "WHERE uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? OR uha.USERNAME = ? " +
+            "WHERE uhc.USERNAME = ? OR uha.USERNAME = ? " +
             "GROUP BY p.ID"),
     GET_PUBLIC_PROJECTS("" +
             "SELECT * " +
