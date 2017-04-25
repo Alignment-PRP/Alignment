@@ -86,6 +86,10 @@ public enum Statement {
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID " +
             "GROUP BY rm.RID"),
+    GET_STRUCTURE_TYPES("" +
+            "SELECT type " +
+            "FROM Structure " +
+            "GROUP BY type"),
 
 
     //===========================================PROJECT=========================================================================
