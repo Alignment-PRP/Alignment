@@ -86,18 +86,29 @@ public enum Statement {
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID " +
             "GROUP BY rm.RID"),
+    GET_STRUCTURE_TYPES("" +
+            "SELECT type " +
+            "FROM Structure " +
+            "GROUP BY type"),
 
 
     //===========================================PROJECT=========================================================================
     GET_PROJECT_REQUIREMENTS("" +
-            "SELECT * " +
+            "SELECT pr.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, " +
+            "c.description AS cDesc, rm.reqNo AS rReqNo, rm.reqCode AS rReqCode, rm.comment AS rComment, rm.description AS rDescription, rm.name AS name, rm.reqResponsible AS reqResponsible " +
             "FROM Requirements AS r " +
             "INNER JOIN RequirementMetaData AS rm " +
             "ON r.ID = rm.RID " +
             "INNER JOIN ProjectRequirements AS pr " +
             "ON pr.RID = r.ID " +
+            "INNER JOIN HasSubCategory AS hsc " +
+            "ON r.ID = hsc.RID " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON hsc.SID = sc.ID " +
+            "INNER JOIN Category AS c " +
+            "ON sc.catID = c.ID " +
             "WHERE pr.PID = ?"),
-    INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),//TODO
+    INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),
 
     //TODO:Requirements can be public or not. Need different methods for these.
 

@@ -1,62 +1,127 @@
-import React from 'react';
-import {connect} from "react-redux";
-import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
-import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
-import { changeClassFormMode, classClicked, fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
-import GenericTable from './../../core/table/GenericTable';
-import ClassForm from './ClassForm';
-
 /**
  * Class represents /admin/classes.
  * Parent: {@link Admin}
  * Children: {@link ClassForm}.
  */
+import React from 'react';
+import {connect} from "react-redux";
+import { getUsersWithClass, getUserClasses } from "./../../redux/actions/userActions";
+import { fillClassForm, postClassNew, postClassUpdate, postClassDelete } from "./../../redux/actions/classFormActions";
+import { dialogOpen, dialogChangeAction } from './../../redux/actions/dialogActions';
+import { popoverAdd } from './../../redux/actions/popoverActions';
+import RaisedButton from 'material-ui/RaisedButton';
+import DataTable from '../../core/table/DataTable';
+import ClassFormDialog from './ClassFormDialog';
+import ClassFormDialogDelete from './ClassFormDialogDelete';
+import {IconButton, IconMenu, MenuItem, ToolbarGroup, ToolbarSeparator} from "material-ui";
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Ellipsis from "../../core/popover/Ellipsis";
+import Popover from "../../core/popover/Popover";
+
 class Classes extends React.Component {
+
+    componentWillMount() {
+        this.props.popoverAdd('userClasses');
+    }
 
     /**
      * Called when the component did mount.
      */
     componentDidMount() {
-        this.props.changeClassFormMode("EMPTY");
         this.props.getUserClasses();
     }
 
     render() {
         const {
-            mode, userClasses, uclass,
-            classClicked,
-            changeClassFormMode,
+            userClasses, uClass,
             postClassNew,
             postClassUpdate,
-            postClassDelete
+            postClassDelete,
+            fillForm,
+
+            updateDialogIsOpen, updateDialog,
+            deleteDialogIsOpen, deleteDialog
         } = this.props;
 
-        const tableData = {
+        const config = {
             table: 'userClasses',
-            objects: userClasses,
-            rowMeta: [
-                {label: 'Navn', field: 'NAME', width: '30%'},
-                {label: 'Beskrivelse', wrap: true, field: 'description', width: '70%'}
-            ]
+            data: userClasses,
+            columns: [
+                {label: 'Navn', property: 'NAME', width: '25%'},
+                {label: 'Beskrivelse', property: 'description', width: '61%', wrap: {
+                        lines: 3,
+                        ellipsis: (userClass) => {
+                            const props = {
+                                component: 'userClasses',
+                                object: userClass,
+                                property: 'description'
+                            };
+                            return <Ellipsis {...props} />
+                        }
+                    }
+                },
+                {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
+                {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
+            ],
+            toolbar: {
+                title: 'Brukerklasses',
+                render: () => {
+                    return (
+                        <ToolbarGroup>
+                            <ToolbarSeparator />
+                            <RaisedButton label="Ny Brukerklasse" primary={true} onTouchTap={() => { updateDialog(true); fillForm(null); }} />
+                            <IconMenu
+                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                            >
+                                <MenuItem primaryText="Oppdater" />
+                                <MenuItem primaryText="Settings" />
+                            </IconMenu>
+                        </ToolbarGroup>
+                    );
+                }
+            }
         };
 
         return (
             <div className="containerUsers">
-                <div className="form">
-                    <ClassForm
-                        handleSubmitUpdate={postClassUpdate}
-                        handleSubmitNew={postClassNew}
-                        handleSubmitDelete={postClassDelete}
-                        mode={mode} uclass={uclass}
-                        classes={userClasses}
-                        handleEdit={() => changeClassFormMode("EDIT")}
-                        handleCreate={() => changeClassFormMode("CREATE")}
-                        handleClear={() => changeClassFormMode("EMPTY")}
-                    />
-                </div>
                 <div className="usertable">
-                    <GenericTable onSelection={classClicked} metaData={tableData}/>
+                    <DataTable config={config}/>
                 </div>
+
+                <ClassFormDialog
+                    title={uClass ? 'Endre Brukerklasse' : 'Ny Brukerklasse'}
+                    open={updateDialogIsOpen}
+                    classes={userClasses}
+                    onRequestClose={updateDialog.bind(null, false)}
+                    handleSubmit={
+                        (values, dispatch, props) => {
+                            if (uClass) {
+                                postClassUpdate(values, dispatch, props);
+                            } else {
+                                postClassNew(values, dispatch, props);
+                            }
+                            updateDialog(false);
+                        }
+                    }
+                />
+
+                <ClassFormDialogDelete
+                    title={'Slett Brukerklasse'}
+                    open={deleteDialogIsOpen}
+                    classes={userClasses}
+                    onRequestClose={deleteDialog.bind(null, false)}
+                    handleSubmit={
+                        (values, dispatch, props) => {
+                            postClassDelete(values, dispatch, props);
+                            deleteDialog(false);
+                        }
+                    }
+                />
+
+                <Popover component="userClasses"/>
+
             </div>
         );
     }
@@ -64,20 +129,17 @@ class Classes extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        mode : state.classFormReducer.mode,
-        uclass: state.classFormReducer.uclass,
-        userClasses : state.userReducer.userClasses
+        uClass: state.classFormReducer.uClass,
+        userClasses : state.userReducer.userClasses,
+        updateDialogIsOpen: state.dialogReducer.classUpdate.isOpen,
+        deleteDialogIsOpen: state.dialogReducer.classDelete.isOpen
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        classClicked: (uclass) => {
-            if (uclass != null) {
-                dispatch(changeClassFormMode("SHOW"));
-                dispatch(classClicked(uclass));
-                dispatch(fillClassForm(uclass))
-            }
+        fillForm: (uClass) => {
+            dispatch(fillClassForm(uClass))
         },
         postClassNew: (data) => {
             dispatch(postClassNew(data));
@@ -88,17 +150,20 @@ const mapDispatchToProps = (dispatch) => {
         postClassDelete: (data) => {
             dispatch(postClassDelete(data));
         },
-        changeClassFormMode: (mode) => {
-            dispatch(changeClassFormMode(mode))
-        },
         getUsersWithClass: () => {
             dispatch(getUsersWithClass())
         },
         getUserClasses: () => {
             dispatch(getUserClasses())
         },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
+        updateDialog: (open) => {
+            dispatch(dialogOpen('classUpdate', open));
+        },
+        deleteDialog: (open) => {
+            dispatch(dialogOpen('classDelete', open));
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
         }
     };
 };

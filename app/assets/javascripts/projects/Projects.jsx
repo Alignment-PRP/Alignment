@@ -1,16 +1,3 @@
-import React from 'react';
-import {connect} from "react-redux";
-import { push } from 'react-router-redux';
-import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
-import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
-import { snackBar } from './../redux/actions/snackBarActions';
-import ProjectTable from './ProjectTable';
-import ProjectsSideMenu from './presentational/ProjectsSideMenu';
-import ProjectNewDialog from './dialog/ProjectNewDialog';
-import DeleteDialog from "./../core/dialog/DeleteDialog";
-
-
 /**
  * Class represents /projects.
  * @see ProjectTable
@@ -33,7 +20,43 @@ import DeleteDialog from "./../core/dialog/DeleteDialog";
  * @param {function} snackBar {@link module:redux/actions/projectForm.snackBar}
  * @param {function} changeSideMenuMode {@link module:redux/actions/sideMenu.changeSideMenuMode}
  */
+import React from 'react';
+import {connect} from "react-redux";
+import { push } from 'react-router-redux';
+import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
+import { snackBar } from './../redux/actions/snackBarActions';
+import ProjectTable from './ProjectTable';
+import ProjectsSideMenu from './presentational/ProjectsSideMenu';
+import ProjectNewDialog from './dialog/ProjectNewDialog';
+import DeleteDialog from "./../core/dialog/DeleteDialog";
+import {
+    Card, CardActions, CardHeader, CardText, CardTitle, FlatButton, GridList,
+    GridTile
+} from "material-ui";
+import {
+    amber200, blue200, blueGrey200, brown200, cyan200, deepOrange200, deepPurple200, green200,
+    grey200, indigo200, lightBlue200, lightGreen200, lime200, orange200, pink200,
+    purple200, red200, teal200, yellow200
+} from "material-ui/styles/colors";
+import {Link} from "react-router";
+import Popover from "../core/popover/Popover";
+
+const colors = [
+    red200, pink200, purple200, deepPurple200,
+    indigo200, blue200, lightBlue200, cyan200,
+    teal200, green200, lightGreen200, lime200,
+    yellow200, amber200, orange200, deepOrange200,
+    brown200, blueGrey200, grey200
+];
+
 class Projects extends React.Component {
+
+    componentWillMount() {
+        this.props.popoverAdd('projects');
+    }
 
     componentDidMount(){
         this.props.getPublicProjects();
@@ -44,6 +67,12 @@ class Projects extends React.Component {
         this.props.deleteDialog(false);
     }
 
+    /**
+     *
+     * @param mode
+     * @returns {Array.<Project>}
+     * @private
+     */
     _projects(mode) {
         switch (mode) {
             case "private":
@@ -66,6 +95,20 @@ class Projects extends React.Component {
         }
     }
 
+    hashCode(s) {
+        let hash = 0;
+        for (let i = 0; i < s.length; i++) {
+            const code = s.charCodeAt(i);
+            hash = ((hash<<5)-hash) + code;
+            hash = hash & hash;
+        }
+        return Math.abs(hash);
+    }
+
+    getCardColor(title) {
+        return colors[this.hashCode(title) % colors.length];
+    }
+
     /**
      * Render method
      * @returns {XML}
@@ -76,45 +119,64 @@ class Projects extends React.Component {
             newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
             postProjectNew,
             deleteProject,
-            push, path
+            push, path,
+            popoverOpen, popoverAnchor, popoverContent
         } = this.props;
         const tableMode = path.replace('/projects/', '');
-        return (
-            <div>
-                <div className="containerUsers">
-                    <ProjectsSideMenu
-                        className="projects-sidemenu"
-                        handleUser={() => push('/projects/private')}
-                        handleAll={() => push('/projects')}
-                        handleArchived={() => push('/projects/archive')}
-                        handleNew={newDialog.bind(null, true)}
-                    />
-                    <div className="usertable">
-                        {this._title(tableMode)}
-                        <ProjectTable
-                            projects={this._projects.bind(this, tableMode)()}
-                            deleteProject={
-                                (project) => {
-                                    deleteDialog(true);
-                                    deleteDialogChangeAction(() => {deleteProject(project); deleteDialog(false)})
-                                }
-                            }
-                        />
-                    </div>
-                    <ProjectNewDialog
-                        title="Nytt Prosjekt"
-                        open={newDialogIsOpen}
-                        handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); newDialog(false)}}
-                        onRequestClose={newDialog.bind(null, false)}
-                    />
-                    <DeleteDialog
-                        title="Slett Prosjekt"
-                        desc="Er du sikker på at du vil slette prosjektet?"
-                        open={deleteDialogIsOpen}
-                        action={deleteDialogAction}
-                        onRequestClose={deleteDialog.bind(null, false)}
-                    />
 
+        return (
+            <div style={{display: 'flex'}}>
+                <ProjectsSideMenu
+                    className="projects-sidemenu"
+                    handleUser={() => push('/projects/private')}
+                    handleAll={() => push('/projects')}
+                    handleArchived={() => push('/projects/archive')}
+                    handleNew={newDialog.bind(null, true)}
+                />
+                <div>
+                    <div className="containerUsers">
+                        <div style={{display: 'flex', flexWrap: 'wrap', margin: '8px'}}>
+                            {this._projects(tableMode).map((project, index) => {
+                                const color = this.getCardColor(project.name);
+                                return (
+                                    <Card key={index} style={{margin: '8px', minWidth: '150px', backgroundColor: color}}>
+                                        <CardTitle
+                                            style={{paddingBottom: 0}}
+                                            title={project.name}
+                                            subtitle={'Laget av:' + project.creatorID + '  ' + 'Sjef: ' + project.managerID}
+                                        />
+                                        <CardActions>
+                                            <Link to={'project/' + project.ID}>
+                                                <FlatButton label='Åpne'/>
+                                            </Link>
+                                                <FlatButton label="Info" onTouchTap={(event) => {
+                                                    popoverOpen(true);
+                                                    popoverContent(project.description);
+                                                    popoverAnchor(event.currentTarget);
+                                                }}/>
+                                        </CardActions>
+                                    </Card>
+                                );
+                            })}
+                        </div>
+
+                        <Popover component="projects"/>
+
+                        <ProjectNewDialog
+                            title="Nytt Prosjekt"
+                            open={newDialogIsOpen}
+                            handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); newDialog(false)}}
+                            onRequestClose={newDialog.bind(null, false)}
+                        />
+                        <DeleteDialog
+                            title="Slett Prosjekt"
+                            desc="Er du sikker på at du vil slette prosjektet?"
+                            open={deleteDialogIsOpen}
+                            action={deleteDialogAction}
+                            onRequestClose={deleteDialog.bind(null, false)}
+                        />
+
+                    </div>
                 </div>
             </div>
         );
@@ -166,6 +228,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteDialogChangeAction: (action) => {
             dispatch(dialogChangeAction('projectDelete', action))
+        },
+        popoverOpen: (open) => {
+            dispatch(popoverOpen('projects', open));
+        },
+        popoverAnchor: (anchor) => {
+            dispatch(popoverAnchor('projects', anchor));
+        },
+        popoverContent: (content) => {
+            dispatch(popoverContent('projects', content));
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
         }
     };
 };

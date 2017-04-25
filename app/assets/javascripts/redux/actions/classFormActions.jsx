@@ -1,21 +1,7 @@
 import axios from 'axios';
-import {
-    CHANGE_CLASS_FORM_MODE,
-    CLASS_CLICKED,
-    FILL_CLASS_FORM,
-    POST_CLASS_NEW,
-    POST_CLASS_UPDATE,
-    POST_CLASS_DELETE
-} from './../types';
-import {
-    USERCLASS_POST_NEW,
-    USERCLASS_POST_UPDATE,
-    USERCLASS_POST_DELETE
-} from './../../config';
-import {
-    getUsersWithClass,
-    getUserClasses
-} from './userActions';
+import { FILL_CLASS_FORM, POST_CLASS_NEW, POST_CLASS_UPDATE, POST_CLASS_DELETE } from './../types';
+import { USERCLASS_POST_NEW, USERCLASS_POST_UPDATE, USERCLASS_POST_DELETE } from './../../config';
+import { getUsersWithClass, getUserClasses } from './userActions';
 import { snackBar } from './snackBarActions';
 
 /**
@@ -24,48 +10,25 @@ import { snackBar } from './snackBarActions';
  */
 
 /**
- * @param {string} mode
+ * @param {UserClass} uClass
  * @returns {{type, payload: *}}
  */
-export function changeClassFormMode(mode) {
-    return {
-        type: CHANGE_CLASS_FORM_MODE,
-        payload: mode
-    }
-}
-
-/**
- * @param {UserClass} uclass
- * @returns {{type, payload: *}}
- */
-export function classClicked(uclass) {
-    return {
-        type: CLASS_CLICKED,
-        payload: uclass
-    }
-}
-
-/**
- * @param {UserClass} data
- * @returns {{type, payload: *}}
- */
-export function fillClassForm(data) {
+export function fillClassForm(uClass) {
     return {
         type: FILL_CLASS_FORM,
-        payload: data,
+        payload: uClass,
     }
 }
 
 /**
- * @param {UserClass} data
+ * @param {UserClass} uClass
  * @returns {function(*)}
  */
-export function postClassNew(data){
+export function postClassNew(uClass){
     return dispatch => {
-        axios.post(USERCLASS_POST_NEW, data)
+        axios.post(USERCLASS_POST_NEW, uClass)
             .then(function (response) {
                 dispatch(getUserClasses());
-                dispatch(changeClassFormMode("EMPTY"));
                 dispatch(snackBar(true, "Brukerklasse laget!"));
             })
             .catch(function (error) {
@@ -83,17 +46,16 @@ function postClassNewAsync() {
 }
 
 /**
- * @param {UserClass} data
+ * @param {UserClass} uClass
  * @param {string} data.oldNAME
  * @returns {function(*)}
  */
-export function postClassUpdate(data){
+export function postClassUpdate(uClass){
     return dispatch => {
-        axios.post(USERCLASS_POST_UPDATE, data)
+        axios.post(USERCLASS_POST_UPDATE, uClass)
             .then(function (response) {
                 dispatch(getUserClasses());
                 dispatch(getUsersWithClass());
-                dispatch(changeClassFormMode("EMPTY"));
                 dispatch(snackBar(true, "Brukerklasse oppdatert!"));
             })
             .catch(function (error) {
@@ -111,17 +73,16 @@ function postClassUpdateAsync() {
 }
 
 /**
- * @param {UserClass} data
- * @param {string} data.replacement
+ * @param {UserClass} uClass
+ * @param {string} uClass.replacement
  * @returns {function(*)}
  */
-export function postClassDelete(data){
+export function postClassDelete(uClass){
     return dispatch => {
-        axios.post(USERCLASS_POST_DELETE, data)
+        axios.post(USERCLASS_POST_DELETE, uClass)
             .then(function (response) {
                 dispatch(getUserClasses());
                 dispatch(getUsersWithClass());
-                dispatch(changeClassFormMode("EMPTY"));
                 dispatch(snackBar(true, "Brukerklasse slettet!"));
             })
             .catch(function (error) {
