@@ -155,7 +155,6 @@ class Projects extends React.Component {
                             action={deleteDialogAction}
                             onRequestClose={deleteDialog.bind(null, false)}
                         />
-
                     </div>
                 </div>
             </div>

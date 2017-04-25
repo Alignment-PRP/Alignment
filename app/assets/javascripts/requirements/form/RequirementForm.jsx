@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { renderTextField } from './../../core/render';
 import { Link } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
@@ -42,9 +43,11 @@ class RequirementForm extends React.Component {
     renderCategoryItems(categories){
         return categories.map((category, index) => {
             return (
-                <optgroup key={index} label={category.name}>
-                    {this.renderSubCategoryItems(category.subcategories)}
-                </optgroup>
+                <div key={index} className="form-inner-field">
+                    <optgroup label={category.name}>
+                        {this.renderSubCategoryItems(category.subcategories)}
+                    </optgroup>
+                </div>
             )
         });
     }
@@ -56,48 +59,69 @@ class RequirementForm extends React.Component {
     }
 
     render() {
-        const { handleSubmit, structure, categories, users} = this.props;
+        const { handleSubmit, handleClose, structure, categories, users} = this.props;
         return (
-                <form onSubmit={handleSubmit}>
+            <MuiThemeProvider>
+                <form onSubmit={handleSubmit} autoComplete="off">
                     <div className="form-inner">
                         <div className="form-inner-field">
-                            <label htmlFor="name"> Krav navn </label><br/>
-                            <Field type="text" component={renderTextField} name="name" required/><br/>
+                            <Field
+                                name="name"
+                                label="Krav navn"
+                                component={renderTextField}
+                                required
+                            />
                         </div>
                         <div className="form-inner-field">
-                            <label htmlFor="reqNo"> reqNo </label><br/>
-                            <Field type="text" component={renderTextField} name="reqNo" required/><br/>
+                            <Field
+                                name="reqNo"
+                                label="reqNo"
+                                component={renderTextField}
+                                required
+                            />
                         </div>
                         <div className="form-inner-field">
-                            <label htmlFor="reqCode"> reqCode </label><br/>
-                            <Field type="text" component={renderTextField} name="reqCode" required/><br/>
+                            <Field
+                                name="reqCode"
+                                label="reqCode"
+                                component={renderTextField}
+                                required
+                            />
                         </div>
-                        <br/>
-                        <divt >
-                            <label> reqResponsible </label><br/>
-                            <Field component="select" name="reqResponsible">
+                        <div>
+                            <Field component="select" name="reqResponsible" label="reqResponsible">
                                 {this.renderUsers(users)}
-                            </Field><br/>
-                        </divt>
-                        <br/>
+                            </Field>
+                        </div>
                         <div className="form-inner-field">
-                            <label> Kategori </label><br/>
-                            <Field name="scID" component="select" >
+                            <Field name="scID" component="select" label="Kategori">
                                 {this.renderCategoryItems(categories)}
-                            </Field><br/>
+                            </Field>
                         </div>
                         <div className="form-inner-field">
-                            <label htmlFor="description"> Beskrivelse </label><br/><br/>
-                            <Field type="text" component={renderTextField} name="description" required/><br/>
+                            <Field
+                                name="description"
+                                label="Beskrivelse"
+                                component={renderTextField}
+                                required
+                            />
                         </div>
                         <div className="form-inner-field">
-                            <label htmlFor="comment"> Kommentar </label><br/>
-                            <Field type="text" component={renderTextField} name="comment" /><br/>
+                            <Field
+                                name="comment"
+                                label="Kommentar"
+                                component={renderTextField}
+                                required
+                            />
                         </div>
-                        {this.renderStructureForm(structure)}
-                        <RaisedButton primary={true} type="submit">Legg Til</RaisedButton>
+                            {this.renderStructureForm(structure)}
+                        <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                            <RaisedButton className="form-button" primary={true} type="submit" label="Lagre"/>
+                            <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                        </div>
                     </div>
                 </form>
+            </MuiThemeProvider>
         );
     }
 }

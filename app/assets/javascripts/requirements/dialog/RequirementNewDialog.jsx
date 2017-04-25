@@ -18,6 +18,7 @@ class RequirementNewDialog extends React.Component {
                                  structure={structure}
                                  users={users}
                                  onSubmit={handleSubmit}
+                                 handleClose={onRequestClose}
                                  disabled={false}
                                  handleCreate={()=>{}}
                                  handleClear={()=>{}}/>
