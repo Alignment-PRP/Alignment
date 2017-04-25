@@ -15,16 +15,12 @@ class Header extends React.Component {
 
     }
 
-    componentWillUnmount() {
-        clearTimeout(this.timer);
-    }
-
     UserData(){
         let USERNAME = "";
         let ucDesc = "";
         let ucName = "";
 
-        if(this.props.userdata != null){
+        if(this.props.userdata){
             this.props.userdata.map((user)=>{
                 USERNAME = user.USERNAME;
                 ucDesc = user.ucDesc;
