@@ -195,6 +195,23 @@ export const validateUserForm = values => {
     return errors
 };
 
+export const validateRegisterForm = values => {
+    const errors = {};
+    // const requiredFields = [ 'USERNAME', 'firstName', 'lastName', 'email', 'pass', 'pass_rep' ];
+    // requiredFields.forEach(field => {
+    //     if (!values[ field ]) {
+    //         errors[ field ] = 'Må fylles'
+    //     }
+    // });
+    if (values.pass !== values.pass_rep) {
+        errors.pass_rep = 'Passordene er ulike'
+    }
+    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Ugyldig epost'
+    }
+    return errors
+};
+
 /**
  * Maps UserClasses to MenuItem components.
  * @function
