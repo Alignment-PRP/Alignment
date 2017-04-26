@@ -42,7 +42,7 @@ const reducers = {
     userFormReducer,
     userReducer,
     form: formReducer,
-    router: routerReducer,
+    routing: routerReducer,
 };
 
 /**
@@ -56,7 +56,7 @@ const reducers = {
  * @type {Store<S>}
  */
 const store = createStore(
-    combineReducers(reducers), {}, applyMiddleware(logger(), thunk, routerMiddleware(browserHistory))
+    combineReducers(reducers), {}, applyMiddleware(thunk, routerMiddleware(browserHistory), logger())
 );
 
 export default store;
