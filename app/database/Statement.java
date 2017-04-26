@@ -176,7 +176,7 @@ public enum Statement {
     GET_USER_HAS_ACCESS("" +
             "SELECT count(1) as bool " +
             "FROM Project AS p " +
-            "INNER JOIN HasAccess AS ha " +
+            "LEFT JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
             "WHERE ha.NAME = ? AND p.ID = ?"),
     UPDATE_PROJECT("" +

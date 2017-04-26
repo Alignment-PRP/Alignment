@@ -449,6 +449,21 @@ public class ProjectController extends Controller {
         //Converts the HTTP POST Request body to a map
         final JsonNode values = request().body().asJson();
         String PID = values.get("PID").asText();
+
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+
+        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        boolean isManager = project.get("managerID").asText().equals(userID);
+        boolean isCreator = project.get("creatorID").asText().equals(userID);
+
+        //Checks if the user has access to the project
+        if(hasAccess || isCreator || isManager){
+            return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID));
+        }
+
+
+
+
         String RID = values.get("RID").asText();
         if(qh.executeQuery(Statement.REQUIREMENT_EXISTS, RID).get(0).get("bool").asInt() != 1){
             return unauthorized(RID + " is not a valid requirement ID");
@@ -467,5 +482,45 @@ public class ProjectController extends Controller {
 
         return ok("Project Requirement Inserted");
 
+    }
+
+    public Result updateReq(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+
+        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        boolean isManager = project.get("managerID").asText().equals(userID);
+        boolean isCreator = project.get("creatorID").asText().equals(userID);
+
+        //Checks if the user has access to the project
+        if(hasAccess || isCreator || isManager){
+            return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID));
+        }
+
+        //Converts the HTTP POST Request body to a map
+        final JsonNode values = request().body().asJson();
+        String PID = values.get("PID").asText();
+        String RID = values.get("RID").asText();
+        if(qh.executeQuery(Statement.REQUIREMENT_EXISTS, RID).get(0).get("bool").asInt() != 1){
+            return unauthorized(RID + " is not a valid requirement ID");
+        }
+        if(qh.executeQuery(Statement.PROJECT_EXISTS, PID).get(0).get("bool").asInt() != 1){
+            return unauthorized(PID + " is not a valid project ID");
+        }
+        String reqNo = values.get("reqNo").asText();
+        String reqCode = values.get("reqCode").asText();
+        String comment = values.get("comment").asText();
+        String description = values.get("description").asText();
+
+//        JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, RID).get(0);
+
+        qh.insertStatement(Statement.INSERT_PROJECT_REQUIREMENT, Integer.parseInt(PID), Integer.parseInt(RID), reqNo, reqCode, comment, description);
+
+        return ok("Project Requirement Inserted");
     }
 }
