@@ -141,7 +141,24 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID, userID, userID));
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID));
+    }
+
+    public Result getProjectsUserIsCreator(){
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_CREATOR, userID));
+    }
+
+
+    public Result getProjectsUserIsManager(){
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+        return ok(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_MANAGER, userID));
     }
 
     /**
