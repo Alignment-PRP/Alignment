@@ -1,19 +1,13 @@
-import { LOGGED_IN, LOGIN_FAILED } from './../types';
+import { LOGGED_IN } from './../types';
 
 const authReducer = (state = {
-    loggedIn: null,
-    loginFailed: false
+    loggedIn: null
 }, action) => {
     switch (action.type) {
         case LOGGED_IN:
             return {
                 ...state,
                 loggedIn: action.state
-            };
-        case LOGIN_FAILED:
-            return {
-                ...state,
-                loginFailed: action.state
             };
         default:
             return state;

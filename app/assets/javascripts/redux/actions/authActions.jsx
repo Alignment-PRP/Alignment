@@ -1,11 +1,27 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { LOGGED_IN, LOGIN_FAILED } from './../types';
-import { LOGIN_POST, LOGIN_CHECK, LOGOUT } from './../../config';
+import { LOGGED_IN } from './../types';
+import { LOGIN_POST, LOGIN_CHECK_GET, LOGOUT_GET, REGISTER_POST } from './../../config';
+import { registerOpen, loginFailed, registerFailed } from './loginPageActions';
+import { snackBar } from './snackBarActions';
 
-export function login(username, password) {
+export function register(user) {
     return dispatch => {
-        axios.post(LOGIN_POST, {username: username, password: password})
+        axios.post(REGISTER_POST, user)
+            .then(response => {
+                dispatch(registerOpen(false));
+                dispatch(registerFailed(false));
+                dispatch(snackBar(true, 'Bruker registrert!'));
+            })
+            .catch(error => {
+                dispatch(registerFailed(true))
+            })
+    }
+}
+
+export function login(user) {
+    return dispatch => {
+        axios.post(LOGIN_POST, user)
             .then(response => {
                 dispatch(checkLogin());
                 dispatch(loginFailed(false))
@@ -18,7 +34,7 @@ export function login(username, password) {
 
 export function logout() {
     return dispatch => {
-        axios.get(LOGOUT)
+        axios.get(LOGOUT_GET)
             .then(response => {
                 dispatch(checkLogin());
             })
@@ -30,7 +46,7 @@ export function logout() {
 
 export function checkLogin() {
     return dispatch => {
-        axios.get(LOGIN_CHECK)
+        axios.get(LOGIN_CHECK_GET)
             .then( response => {
                 dispatch(getCheckLoginAsync(true));
             })
@@ -46,13 +62,6 @@ export function checkLogin() {
 function getCheckLoginAsync(state) {
     return {
         type: LOGGED_IN,
-        state: state
-    }
-}
-
-function loginFailed(state) {
-    return {
-        type: LOGIN_FAILED,
         state: state
     }
 }

@@ -8,7 +8,7 @@ import {Paper, RaisedButton} from "material-ui";
 class LoginForm extends React.Component {
 
     render() {
-        const { handleSubmit, pristine, submitting, loginFailed } = this.props;
+        const { handleSubmit, pristine, submitting, loginFailed, handleRegisterButton } = this.props;
 
         return (
             <MuiThemeProvider>
@@ -20,14 +20,14 @@ class LoginForm extends React.Component {
                         <div id="loginFields">
                             <Field
                                 className="loginField"
-                                name="username"
+                                name="USERNAME"
                                 label="Brukernavn"
                                 component={renderTextField}
                                 required
                             />
                             <Field
                                 className="loginField"
-                                name="password"
+                                name="pass"
                                 label="Passord"
                                 component={renderPassField}
                                 required
@@ -45,6 +45,7 @@ class LoginForm extends React.Component {
                                 id="loginNew"
                                 secondary={true}
                                 label="Ny Bruker"
+                                onTouchTap={handleRegisterButton}
                             />
                         </div>
                     </form>
@@ -57,7 +58,7 @@ class LoginForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        loginFailed: state.authReducer.loginFailed
+        loginFailed: state.loginPageReducer.loginFailed
     }
 };
 
