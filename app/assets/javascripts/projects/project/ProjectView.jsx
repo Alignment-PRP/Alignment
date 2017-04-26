@@ -24,7 +24,7 @@ class ProjectView extends React.Component {
                     initialSelectedIndex={index}
                     value={path}
                 >
-                    <Tab value={"/project/" + project.id + " /overview"} label="Prosjektoversikt" onActive={() => push('/project/:id/overview')}>
+                    <Tab value={"/project/overview"} label="Prosjektoversikt" onActive={() => push('/project/:id/overview')}>
                         <div id="admin" >
                             <h2>Brukeroversikt</h2>
                             <ul>
@@ -37,7 +37,7 @@ class ProjectView extends React.Component {
                             initialSelectedIndex={index}
                             value={path}
                         >
-                            <Tab value="/project/:id/overview" label="Prosjektoversikt" onActive={() => push('/project/:id/overview')}>
+                            <Tab value="/project/:id/access/users" label="Brukere" onActive={push.bind(null, path)}>
                                 <div id="admin" >
                                     <h2>Brukeroversikt</h2>
                                     <ul>
@@ -45,7 +45,7 @@ class ProjectView extends React.Component {
                                     </ul>
                                 </div>
                             </Tab>
-                            <Tab value="/project/:id/access" label="Tilgang" onActive={push.bind(null, path)}>
+                            <Tab value="/project/:id/access/classes" label="Brukerklasser" onActive={push.bind(null, path)}>
                                 <div >
 
                                 </div>
