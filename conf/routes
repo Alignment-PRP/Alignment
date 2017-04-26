@@ -9,7 +9,7 @@ GET     /                                   controllers.ApplicationController.in
 #Test stuff
 #GET     /login                              controllers.ApplicationController.login()
 #GET     /api/logout                         controllers.LoginController.logout()
-GET     /api/sign-up                        controllers.SignupController.signUp()
+#GET     /api/sign-up                        controllers.SignupController.signUp()
 GET     /api/projectrequirementsForm        controllers.ProjectController.getProjectRequirementForm()
 GET     /api/project/newrequiremnt          controllers.RequirementController.getNewRequirementView()
 GET     /api/project/addReq                 controllers.ProjectController.addReqForm()
@@ -35,7 +35,7 @@ POST    /api/userclass/delete               controllers.UserClassController.dele
 POST    /api/auth/login                     controllers.LoginController.authenticate()
 GET     /api/auth/logout                    controllers.LoginController.logout()
 GET     /api/auth/check                     controllers.LoginController.loginCheck()
-POST    /api/sign-up                        controllers.SignupController.create()
+POST    /api/auth/register                  controllers.SignupController.register()
 
 GET     /api/projects                       controllers.ProjectController.getPublicProjects()
 GET     /api/projects/accessible            controllers.ProjectController.getProjectsAccessibleByUser()
