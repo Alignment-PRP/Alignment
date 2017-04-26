@@ -9,6 +9,7 @@ import authReducer from './reducers/authReducer';
 import classFormReducer from './reducers/classFormReducer';
 import dialogReducer from './reducers/dialogReducer';
 import filterReducer from './reducers/filterReducer';
+import loginPageReducer from './reducers/loginPageReducer';
 import popoverReducer from './reducers/popoverReducer';
 import projectReducer from './reducers/projectReducer';
 import requirementReducer from './reducers/requirementReducer';
@@ -32,6 +33,7 @@ const reducers = {
     classFormReducer,
     dialogReducer,
     filterReducer,
+    loginPageReducer,
     popoverReducer,
     projectReducer,
     requirementReducer,

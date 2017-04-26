@@ -8,9 +8,9 @@ export const API = URL + "api";
 
 export const AUTH = API + "/auth";
 export const LOGIN_POST = AUTH + "/login";
-export const LOGIN_CHECK = AUTH + "/check";
-export const LOGOUT = AUTH + "/logout";
-export const SIGN_UP_POST = API + "/sign-up";
+export const LOGIN_CHECK_GET = AUTH + "/check";
+export const LOGOUT_GET = AUTH + "/logout";
+export const REGISTER_POST = AUTH + "/register";
 
 export const USER_GET = API + "/user";
 export const USER_POST_NEW = USER_GET + "/new";
