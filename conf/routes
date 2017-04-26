@@ -7,8 +7,8 @@
 GET     /                                   controllers.ApplicationController.init()
 
 #Test stuff
-GET     /login                              controllers.ApplicationController.login()
-GET     /api/logout                         controllers.LoginController.logout()
+#GET     /login                              controllers.ApplicationController.login()
+#GET     /api/logout                         controllers.LoginController.logout()
 GET     /api/sign-up                        controllers.SignupController.signUp()
 GET     /api/projectrequirementsForm        controllers.ProjectController.getProjectRequirementForm()
 GET     /api/project/newrequiremnt          controllers.RequirementController.getNewRequirementView()
@@ -32,7 +32,9 @@ POST    /api/userclass/new                  controllers.UserClassController.newU
 POST    /api/userclass/update               controllers.UserClassController.updateUserClass()
 POST    /api/userclass/delete               controllers.UserClassController.deleteUserClass()
 
-POST    /api/login                          controllers.LoginController.authenticate()
+POST    /api/auth/login                     controllers.LoginController.authenticate()
+GET     /api/auth/logout                    controllers.LoginController.logout()
+GET     /api/auth/check                     controllers.LoginController.loginCheck()
 POST    /api/sign-up                        controllers.SignupController.create()
 
 GET     /api/projects                       controllers.ProjectController.getPublicProjects()
