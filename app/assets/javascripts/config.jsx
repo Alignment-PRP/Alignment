@@ -6,8 +6,10 @@
 export const URL = "http://localhost:9000/";
 export const API = URL + "api";
 
-export const LOGIN_POST = API + "/login";
-export const LOGOUT = API + "/logout";
+export const AUTH = API + "/auth";
+export const LOGIN_POST = AUTH + "/login";
+export const LOGIN_CHECK = AUTH + "/check";
+export const LOGOUT = AUTH + "/logout";
 export const SIGN_UP_POST = API + "/sign-up";
 
 export const USER_GET = API + "/user";

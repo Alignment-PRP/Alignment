@@ -81,3 +81,7 @@ export const POPOVER_ANCHOR = 'POPOVER_ANCHOR';
 export const POPOVER_CONTENT = 'POPOVER_CONTENT';
 export const POPOVER_OPEN = 'POPOVER_OPEN';
 export const POPOVER_ADD = 'POPOVER_ADD';
+
+//Auth
+export const LOGGED_IN = 'LOGGED_IN';
+export const LOGIN_FAILED = 'LOGIN_FAILED';

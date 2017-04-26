@@ -5,6 +5,7 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
+import authReducer from './reducers/authReducer';
 import classFormReducer from './reducers/classFormReducer';
 import dialogReducer from './reducers/dialogReducer';
 import filterReducer from './reducers/filterReducer';
@@ -27,6 +28,7 @@ import userReducer from './reducers/userReducer';
  * @const
  */
 const reducers = {
+    authReducer,
     classFormReducer,
     dialogReducer,
     filterReducer,
