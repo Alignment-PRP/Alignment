@@ -1,9 +1,11 @@
 package controllers;
 
+import database.repository.UserRepository;
 import models.User;
+import play.libs.Json;
+import play.db.Database;
 import play.mvc.Controller;
 import play.mvc.Result;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -14,13 +16,13 @@ import java.time.LocalDateTime;
 public class LoginController extends Controller{
 
     private final Authenticator authenticator;
-    private final UserController userController;
+    private final UserRepository userRepository;
     private int fails = 0;
 
     @Inject
-    public LoginController(Authenticator authenticator, UserController userController) {
+    public LoginController(Authenticator authenticator, Database db) {
         this.authenticator = authenticator;
-        this.userController = userController;
+        this.userRepository = new UserRepository(db);
     }
 
     public Result logout(){
@@ -30,37 +32,24 @@ public class LoginController extends Controller{
     }
 
     public Result loginCheck() {
-        String userID = session("connected");
+        final String userID = session("connected");
 
-        if(userID != null) {
-            return ok("YEY");
-        } else {
-            return unauthorized("Not valid session.");
-        }
+        return userID != null ? ok("YEY") : unauthorized("Not valid session");
     }
 
     public Result authenticate(){
-        final JsonNode values = request().body().asJson();
+        final User user = Json.fromJson(request().body().asJson(), User.class);
 
-        String receivedUsername = values.get("username").asText();
-        String reveivedPassword = values.get("password").asText();
-
-        JsonNode userData = userController.makeJsonNode(receivedUsername);
-        if(userData.findValuesAsText("USERNAME").isEmpty()){
-            //TODO propper Errorhandling!
+        if (user.USERNAME.equals("null")) {
             return errorHandling("invalid USERNAME or pass");
         }
-        //User user = userController.makeUserFromUserName(receivedUsername);
-        User user = userController.makeUserFromJson(userData);
-        System.out.println(user.toString());
-        String authentication = authenticator.authenticate(reveivedPassword, user);
 
-        if(authentication == null){
+        final User dbUser = userRepository.getUser(user);
+
+        if (authenticator.authenticate(user, dbUser)) {
             session().clear();
             session("connected", user.USERNAME);
             session("timestamp", LocalDateTime.now().toString());
-
-            System.out.println("Heiiaaa");
             return ok("Success!");
         }
         return errorHandling("invalid USERNAME or pass");
