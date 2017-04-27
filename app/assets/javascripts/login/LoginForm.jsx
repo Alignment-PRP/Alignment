@@ -13,6 +13,7 @@ class LoginForm extends React.Component {
         return (
             <MuiThemeProvider>
                 <Paper id="loginForm">
+                    <img id="login-logo" src="assets/images/alignment.png"/>
                     <form style={{display: 'flex', flexFlow: 'column'}} onSubmit={handleSubmit}>
                         {loginFailed ?
                             <div id="loginFailed">Feil brukernavn eller passord</div>
