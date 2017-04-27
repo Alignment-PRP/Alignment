@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from './../../core/render';
+import HelpToolTip from './../../core/HelpToolTip';
 
 /**
  * Redux-form for project creation.
@@ -29,6 +30,7 @@ class ProjectForm extends React.Component {
                                 label="Projektnavn"
                                 component={renderTextField}
                             />
+                            <HelpToolTip toolTip="Navngi prosjektet. Tar tall og bokstaver. Det meste funker her." toolTipPosition="bottom-left"/>
                         </div>
                         <div className="form-inner-field">
                             <Field
@@ -37,6 +39,7 @@ class ProjectForm extends React.Component {
                                 warn={warnNumberField}
                                 component={renderTextField}
                             />
+                            <HelpToolTip toolTip="Hvor sikkert systemer skal være. Tall, 1,2,3,4" toolTipPosition="bottom-left"/>
                         </div>
                         <div className="form-inner-field">
                             <Field
@@ -44,6 +47,7 @@ class ProjectForm extends React.Component {
                                 label="Transaksjonsvolum"
                                 component={renderTextField}
                             />
+                            <HelpToolTip toolTip="1-100/dag, 100-1000/dag, 1000-10000/dag" toolTipPosition="bottom-left"/>
                         </div>
                         <div className="form-inner-field">
                             <Field
@@ -51,6 +55,7 @@ class ProjectForm extends React.Component {
                                 label="Brukerkanal"
                                 component={renderTextField}
                             />
+                            <HelpToolTip toolTip="Nettleser, Desktop, App" toolTipPosition="bottom-left"/>
                         </div>
                         <div className="form-inner-field">
                             <Field
@@ -58,6 +63,7 @@ class ProjectForm extends React.Component {
                                 label="Distribusjonsstil"
                                 component={renderTextField}
                             />
+                            <HelpToolTip toolTip="On-premise, privat sky, public sky" toolTipPosition="bottom-left"/>
                         </div>
                         <div className="form-inner-field-checkbox">
                             <Field
@@ -65,6 +71,7 @@ class ProjectForm extends React.Component {
                                 label="Offentlig"
                                 component={renderCheckbox}
                             />
+                            <HelpToolTip toolTip={"Skal prosjektet være synlig for alle brukere?"} toolTipPosition="bottom-center"/>
                         </div>
                     </div>
                     <div style={{display: 'flex', justifyContent: 'flex-start'}}>
