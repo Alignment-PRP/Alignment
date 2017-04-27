@@ -15,32 +15,46 @@ class ProjectReqForm extends React.Component {
                     <div className="form-inner">
                         <div className="form-inner-field">
                             <Field
-                                name="name"
-                                label="something1"
+                                name="PID"
+                                label="Prosjekt ID"
                                 component={renderTextField}
                                 required
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="name2"
-                                label="something2"
+                                name="RID"
+                                label="Krav ID"
                                 component={renderTextField}
                                 required
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="name3"
-                                label="something3"
+                                name="reqNo"
+                                label="Kravnummer"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="reqCode"
+                                label="Kravkode"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="comment"
+                                label="Kommentar"
                                 component={renderTextField}
                                 required
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="name4"
-                                label="something4"
+                                name="Description"
+                                label="Beskrivelse"
                                 component={renderTextField}
                                 required
                             />
