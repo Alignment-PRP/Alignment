@@ -9,6 +9,15 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 class ProjectView extends React.Component {
 
 
+
+    /**
+     * Called when the component did mount.
+     */
+    componentDidMount(){
+        this.props.changeSideMenuMode("HIDE");
+        console.log(this.props.path);
+    }
+
     /**
      * Renders the component. This component returns a JSX tag, and all code need to be inside
      * this tag. JSX looks like html but is really a javascript extension syntax. This get compiled
@@ -19,13 +28,55 @@ class ProjectView extends React.Component {
     render() {
         const { project, index, path, push } = this.props;
         return (
+
+            <div>
+                <Tabs
+                    initialSelectedIndex={index}
+                >
+                    <Tab label="Prosjektoversikt">
+                        <div>
+                            <h2>Brukeroversikt</h2>
+                            <ul>
+                                <li>Oversikt over hvem som eier hvilket prosjekt</li>
+                            </ul>
+                        </div>
+                    </Tab>
+                    <Tab label="Tilgang">
+                        <div>
+                            <Tabs
+                                initialSelectedIndex={index}
+                            >
+                                <Tab label="Brukere" >
+                                    <div>
+                                        <h2>Brukeroversikt</h2>
+                                        <ul>
+                                            <li>Oversikt over hvem som eier hvilket prosjekt</li>
+                                        </ul>
+                                    </div>
+                                </Tab>
+                                <Tab label="Brukerklasser">
+                                    <div >
+
+                                    </div>
+                                </Tab>
+                            </Tabs>
+                        </div>
+                    </Tab>
+                    <Tab label="Prosjektkrav">
+                        <div >
+
+                        </div>
+                    </Tab>
+                </Tabs>
+            </div>
+            /*
             <div>
                 <Tabs
                     initialSelectedIndex={index}
                     value={path}
                 >
                     <Tab value={"/project/overview"} label="Prosjektoversikt" onActive={() => push('/project/:id/overview')}>
-                        <div id="admin" >
+                        <div>
                             <h2>Brukeroversikt</h2>
                             <ul>
                                 <li>Oversikt over hvem som eier hvilket prosjekt</li>
@@ -38,7 +89,7 @@ class ProjectView extends React.Component {
                             value={path}
                         >
                             <Tab value="/project/:id/access/users" label="Brukere" onActive={push.bind(null, path)}>
-                                <div id="admin" >
+                                <div>
                                     <h2>Brukeroversikt</h2>
                                     <ul>
                                         <li>Oversikt over hvem som eier hvilket prosjekt</li>
@@ -59,12 +110,13 @@ class ProjectView extends React.Component {
                     </Tab>
                 </Tabs>
             </div>
+            */
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    let path = state.router.location ? state.router.location.pathname : "//project/:id";
+    let path = state.router.location ? state.router.location.pathname : "/project/:id";
     return {
         path: path
     };
