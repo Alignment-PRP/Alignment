@@ -124,3 +124,23 @@ function postUpdateRequirementAsync(){
     }
 }
 
+export function postProjectReqUpdate(requirement){
+    return dispatch => {
+        console.log(requirement);
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_UPDATE, requirement)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(postUpdateRequirementAsync())
+    }
+}
+
+function postProjectReqUpdateAsync(){
+    return{
+        type: POST_UPDATE_REQUIREMENT
+    }
+}
+
