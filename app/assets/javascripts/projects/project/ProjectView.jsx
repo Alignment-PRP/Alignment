@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
 import {Tabs, Tab} from 'material-ui/Tabs';
-import { ProjectRequirementView } from './ProjectRequirementView';
+import ProjectRequirementView from './ProjectRequirementView';
 
 
 
@@ -28,6 +28,7 @@ class ProjectView extends React.Component {
 
     render() {
         const { project, index, path, push } = this.props;
+        console.log(this.props.params.id)
         return (
 
             <div>
