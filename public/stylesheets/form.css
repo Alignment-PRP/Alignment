@@ -1,0 +1,11 @@
+.formInner {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+.form-field-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-content: space-between;
+}

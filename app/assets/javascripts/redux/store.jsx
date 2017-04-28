@@ -11,6 +11,7 @@ import filterReducer from './reducers/filterReducer';
 import popoverReducer from './reducers/popoverReducer';
 import projectReducer from './reducers/projectReducer';
 import requirementReducer from './reducers/requirementReducer';
+import requirementFormReducer from './reducers/requirementFormReducer';
 import sideMenuReducer from './reducers/sideMenuReducer';
 import snackBarReducer from './reducers/snackBarReducer';
 import statisticsReducer from './reducers/statisticsReducer';
@@ -33,6 +34,7 @@ const reducers = {
     popoverReducer,
     projectReducer,
     requirementReducer,
+    requirementFormReducer,
     sideMenuReducer,
     snackBarReducer,
     statisticsReducer,
