@@ -17,6 +17,7 @@ class ProjectView extends React.Component {
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
         console.log(this.props.path);
+        console.log(this.props.params.id)
     }
 
     /**
@@ -28,7 +29,6 @@ class ProjectView extends React.Component {
 
     render() {
         const { project, index, path, push } = this.props;
-        console.log(this.props.params.id)
         return (
 
             <div>

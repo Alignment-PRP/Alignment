@@ -223,6 +223,13 @@ public enum Statement {
             "INNER JOIN UserClass AS uc " +
             "ON uc.NAME = uhc.NAME "
     ),
+    GET_USERS_THAT_HAVE_ACCESS("" +
+            "SELECT USERNAME " +
+            "FROM Users AS u " +
+            "INNER JOIN UserHasAccess As uha " +
+            "ON u.USERNAME = uha.USERNAME " +
+            "WHERE uha.PID = ?"
+    ),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
     INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)"),
