@@ -76,6 +76,7 @@ class Sidebar extends React.Component {
         this.setState({open: false});
     }
 
+
     //Using <Link to="url"/> to use the defined client-urls in main.jsx
     render() {
         return (
