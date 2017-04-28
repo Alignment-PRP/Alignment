@@ -1,6 +1,7 @@
 import {
     ADD_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
+    POST_PROJECT_REQUIREMENT_UPDATE,
     UPDATE_REQUIREMENT,
     DELETE_REQUIREMENT,
     GET_ALL_CATEGORY_NAMES,
@@ -30,6 +31,7 @@ const requirementReducer = (state = {
             };
         case ADD_REQUIREMENT:
         case POST_UPDATE_REQUIREMENT:
+        case POST_PROJECT_REQUIREMENT_UPDATE:
         case DELETE_REQUIREMENT:
         default:
             return state

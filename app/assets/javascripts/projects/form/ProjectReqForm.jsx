@@ -79,6 +79,6 @@ export default connect(
     mapStateToProps,
     null
 )(reduxForm({
-    form: 'RequirementForm',
+    form: 'ProjectReqForm',
 })(ProjectReqForm));
 

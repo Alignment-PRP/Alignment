@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
 import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
-import { getAllRequirements } from '../../redux/actions/requirementActions';
+import { getAllRequirements, postProjectReqUpdate } from '../../redux/actions/requirementActions';
 import {
     postRequirementToProject, postRequirementToProjectWithFilter,
     deleteRequirementToProject, deleteRequirementToProjectWithFilter
@@ -76,7 +76,7 @@ class Project extends React.Component {
         const {
             filter,
             allRequirements_filtered, projectRequirements_filtered,
-            allRequirements, projectRequirements, projectReqUpdateDialog,
+            allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate,
             projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
             deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
         } = this.props;
@@ -157,7 +157,7 @@ class Project extends React.Component {
                 <ProjectReqUpdateDialog
                     title="Tilleggsbeskrivelse av krav"
                     open={projectReqUpdateDialogIsOpen}
-                    handleSubmit={(value) => {postProjectReqUpdate(value); projectReqUpdateDialog(false)}}
+                    handleSubmit={(data) => {postProjectReqUpdate(data); projectReqUpdateDialog(false)}}
                     onRequestClose={projectReqUpdateDialog.bind(null, false)}
                 />
 
@@ -209,8 +209,8 @@ const mapDispatchToProps = (dispatch) => {
         postRequirementToProject: (projectID, requirement) => {
             dispatch(postRequirementToProject(projectID, requirement))
         },
-        postProjectReqUpdate: (projectID, requirement) => {
-            dispatch(postProjectReqUpdate(projectID, requirement))
+        postProjectReqUpdate: (data) => {
+            dispatch(postProjectReqUpdate(data))
         },
         postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
             dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp))
