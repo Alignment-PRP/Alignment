@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
 import {Tabs, Tab} from 'material-ui/Tabs';
+import { ProjectRequirementView } from './ProjectRequirementView';
 
 
 
@@ -64,7 +65,9 @@ class ProjectView extends React.Component {
                     </Tab>
                     <Tab label="Prosjektkrav">
                         <div >
-
+                            < ProjectRequirementView params={
+                                {id: this.props.params.id}
+                            }/>
                         </div>
                     </Tab>
                 </Tabs>

@@ -20,7 +20,7 @@ import Ellipsis from './../../core/popover/Ellipsis';
 
 
 
-class Project extends React.Component {
+class ProjectRequirementView extends React.Component {
 
     /**
      * This is a lifecycle method that runs after the render function. It is good practis to call
@@ -214,4 +214,4 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * This connects this component to Redux so that you can use the Actions and get access to global state.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectRequirementView);
