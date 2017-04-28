@@ -4,6 +4,7 @@ import {
     ADD_REQUIREMENT,
     UPDATE_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
+    POST_PROJECT_REQUIREMENT_UPDATE,
     DELETE_REQUIREMENT,
     GET_ALL_CATEGORY_NAMES,
     GET_ALL_REQUIREMENTS
@@ -134,13 +135,13 @@ export function postProjectReqUpdate(requirement){
             .catch(function (error) {
                 console.log(error);
             });
-        dispatch(postUpdateRequirementAsync())
+        dispatch(postProjectReqUpdateAsync())
     }
 }
 
 function postProjectReqUpdateAsync(){
     return{
-        type: POST_UPDATE_REQUIREMENT
+        type: POST_PROJECT_REQUIREMENT_UPDATE
     }
 }
 

@@ -11,6 +11,7 @@ import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -456,7 +457,7 @@ public class ProjectController extends Controller {
      * @return Result 200 Ok or 401 Unauthorized
      */
     public Result addReq(){
-        //Check if user is logged in
+        // /Check if user is logged in
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
@@ -478,7 +479,7 @@ public class ProjectController extends Controller {
         boolean isCreator = project.get("creatorID").asText().equals(userID);
 
         //Checks if the user has access to the project
-        if(hasAccess || isCreator || isManager){
+        if(!(hasAccess || isCreator || isManager)){
             return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID));
         }
 
@@ -523,9 +524,13 @@ public class ProjectController extends Controller {
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0).get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        System.out.println(hasAccess);
+        System.out.println(isManager);
+        System.out.println(isCreator);
 
         //Checks if the user has access to the project
         if(!(hasAccess || isCreator || isManager)){
+            System.out.println("whut?");
             return unauthorized("You do not have permission to edit this project.");
         }
 
@@ -542,25 +547,33 @@ public class ProjectController extends Controller {
         JsonNode requirementData = qh.executeQuery(Statement.GET_PROJECT_REQUREMENT, PID, RID).get(0);
         Map<String, String> updateData = new HashMap<>();
 
+        Iterator<Map.Entry<String, JsonNode>> reqFields = requirementData.fields();
+
 
         //Iterates thorugh all the entries in the ProjectData
-        while (requirementData.fields().hasNext()){
+        while (reqFields.hasNext()){//requirementData.fields().hasNext()){
 
             //The current entry
-            Map.Entry<String, JsonNode> entry = requirementData.fields().next();
+            Map.Entry<String, JsonNode> entry = reqFields.next();//requirementData.fields().next();
 
             //If this data has been received by the client, add it to the updateData
             if(values.has(entry.getKey())){
                 updateData.put(entry.getKey(), values.get(entry.getKey()).asText());
+                System.out.println(values.get(entry.getKey()).asText());
             }
             //If not, add the old entry
             else{
                 updateData.put(entry.getKey(), entry.getValue().asText());
+                System.out.println("default");
             }
         }
 
 
 //        JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, RID).get(0);
+        System.out.println(updateData.get("reqNo"));
+        System.out.println(updateData.get("reqCode"));
+        System.out.println(updateData.get("comment"));
+        System.out.println(updateData.get("description"));
 
         qh.insertStatement(Statement.UPDATE_PROJECT_REQUIREMENT, updateData.get("reqNo"), updateData.get("reqCode"), updateData.get("comment"), updateData.get("description"), PID, RID);
 
