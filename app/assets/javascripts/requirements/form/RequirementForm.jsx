@@ -6,7 +6,8 @@ import { Link } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-
+import { changeStepperIndex } from './../../redux/actions/requirementFormActions';
+import {Step, StepLabel, Stepper} from "material-ui/Stepper";
 
 class RequirementForm extends React.Component {
 
@@ -57,55 +58,83 @@ class RequirementForm extends React.Component {
         })
     }
 
+    renderStep(index) {
+        switch(index) {
+            case 0:
+                return this.renderStep0();
+            case 1:
+                return this.renderStep1();
+            default:
+                return null;
+        }
+    }
+
+    renderStep0() {
+        return (
+            <div className="formInner">
+                <div>
+                    <Field
+                        name="name"
+                        label="Krav navn"
+                        component={renderTextField}
+                        required
+                    />
+                </div>
+                <div className="form-field-row">
+                    <Field
+                        name="reqNo"
+                        label="reqNo"
+                        component={renderTextField}
+                        required
+                    />
+                    <Field
+                        name="reqCode"
+                        label="reqCode"
+                        component={renderTextField}
+                        required
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    renderStep1() {
+        return (
+            null
+        );
+    }
+
     render() {
-        const { handleSubmit, handleClose, structure, categories, users} = this.props;
+        const { handleSubmit, handleClose, structure, categories, users, stepperIndex, changeStepperIndex} = this.props;
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit} autoComplete="off">
-                    <div className="form-inner">
-                        <div className="form-inner-field">
-                            <Field
-                                name="name"
-                                label="Krav navn"
-                                component={renderTextField}
-                                required
-                            />
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
-                                name="reqNo"
-                                label="reqNo"
-                                component={renderTextField}
-                                required
-                            />
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
-                                name="reqCode"
-                                label="reqCode"
-                                component={renderTextField}
-                                required
-                            />
-                        </div>
-                        <div>
+                    <Stepper activeStep={stepperIndex}>
+                        <Step>
+                            <StepLabel>Nummer 1</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Nummer 2</StepLabel>
+                        </Step>
+                    </Stepper>
+                    {this.renderStep(stepperIndex)}
+                    <div className="formInner">
+
+                        <div className="form-field-row">
                             <Field component="select" name="reqResponsible" label="reqResponsible">
                                 {this.renderUsers(users)}
                             </Field>
-                        </div>
-                        <div className="form-inner-field">
                             <Field name="scID" component="select" label="Kategori">
                                 {this.renderCategoryItems(categories)}
                             </Field>
                         </div>
-                        <div className="form-inner-field">
+                        <div className="form-field-row">
                             <Field
                                 name="description"
                                 label="Beskrivelse"
                                 component={renderTextField}
                                 required
                             />
-                        </div>
-                        <div className="form-inner-field">
                             <Field
                                 name="comment"
                                 label="Kommentar"
@@ -113,11 +142,12 @@ class RequirementForm extends React.Component {
                                 required
                             />
                         </div>
-                            {this.renderStructureForm(structure)}
-                        <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-                            <RaisedButton className="form-button" primary={true} type="submit" label="Lagre"/>
-                            <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
-                        </div>
+                        {this.renderStructureForm(structure)}
+
+                    </div>
+                    <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre"/>
+                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
                     </div>
                 </form>
             </MuiThemeProvider>
@@ -125,10 +155,23 @@ class RequirementForm extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        stepperIndex: state.requirementFormReducer.stepperIndex
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeStepperIndex: (index) => {
+            dispatch(changeStepperIndex(index));
+        }
+    }
+};
 
 export default connect(
-    null,
-    null
+    mapStateToProps,
+    mapDispatchToProps
 )(reduxForm({
     form: 'RequirementForm',
 })(RequirementForm));

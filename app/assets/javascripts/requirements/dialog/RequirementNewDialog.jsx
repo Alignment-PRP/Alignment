@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import RequirementForm from '../form/RequirementForm';
 
 class RequirementNewDialog extends React.Component {
 
     render() {
-        const { handleSubmit, title, open, onRequestClose, users, categories, structure } = this.props;
+        const { title, open, onRequestClose, users, categories, structure } = this.props;
         return (
             <Dialog title={title}
                     open={open} modal={false}
@@ -28,4 +29,16 @@ class RequirementNewDialog extends React.Component {
 
 }
 
-export default RequirementNewDialog;
+mapStateToProps = (state) => {
+    return {
+
+    }
+};
+
+mapDispatchToProps = (dispatch) => {
+    return {
+
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequirementNewDialog);
