@@ -28,7 +28,6 @@ import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
 import { snackBar } from './../redux/actions/snackBarActions';
-import ProjectTable from './ProjectTable';
 import ProjectsSideMenu from './presentational/ProjectsSideMenu';
 import ProjectNewDialog from './dialog/ProjectNewDialog';
 import DeleteDialog from "./../core/dialog/DeleteDialog";
