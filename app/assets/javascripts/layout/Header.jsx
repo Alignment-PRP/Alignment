@@ -49,7 +49,7 @@ class Header extends React.Component {
             <div id="header">
                 {this.UserData()}
                 <header id="title">
-                    <h1>Alignment - Trondheim Kommune</h1>
+                    <img id="login-logo" src="assets/images/alignment.png"/>
                 </header>
             </div>
         );
