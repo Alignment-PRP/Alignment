@@ -385,6 +385,64 @@ public class ProjectController extends Controller {
     }
 
     /**
+     * Gets the the names of the user classes that have access to the project
+     * @return Result 200 Ok, 401 Unauthorized or 400 BadRequest
+     */
+    public Result getClassesHaveAccess(String ID){
+        int PID = Integer.parseInt(ID);
+
+        //Checks if the user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        //Gets the project data
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+
+        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        boolean isManager = project.get("managerID").asText().equals(userID);
+        boolean isCreator = project.get("creatorID").asText().equals(userID);
+
+        //Checks if the user has permission to edit
+        if(!(hasAccess || isManager || isCreator)){
+            return unauthorized("You do not have permission to view this data");
+        }
+
+        return ok(qh.executeQuery(Statement.GET_CLASSES_THAT_HAVE_ACCESS, PID));
+    }
+
+
+    /**
+     * Gets the usernames of the users that have access to the project
+     * @param ID
+     * @return Result 200 Ok, 401 Unauthorized or 400 BadRequest
+     */
+    public Result getUsersHaveAccess(String ID){
+        int PID = Integer.parseInt(ID);
+
+        //Checks if the user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        //Gets the project data
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+
+        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        boolean isManager = project.get("managerID").asText().equals(userID);
+        boolean isCreator = project.get("creatorID").asText().equals(userID);
+
+        //Checks if the user has permission to edit
+        if(!(hasAccess || isManager || isCreator)){
+            return unauthorized("You do not have permission to view this data");
+        }
+
+        return ok(qh.executeQuery(Statement.GET_USERS_THAT_HAVE_ACCESS, PID));
+    }
+
+    /**
      *
      * @param id: String from the GET Request
      * @return Result 200 Ok or 401 Unauthorized
