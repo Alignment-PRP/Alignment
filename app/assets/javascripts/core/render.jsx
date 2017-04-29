@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
+import {AutoComplete} from "material-ui";
 
 /**
  * Contains functions for rendering and
@@ -315,5 +316,25 @@ export const renderCheckbox = ({ input, label, meta: { touched, error }, ...cust
               checked={input.value ? true : false}
               onCheck={input.onChange}
               {...custom}
+    />
+);
+
+/**
+ * Renders a AutoComplete component from Material-ui.
+ * @param input
+ * @param data
+ * @param label
+ * @param touched
+ * @param error
+ * @param custom
+ */
+export const renderAutoComplete = ({ input, data, label, meta: {touched, error}, ...custom}) => (
+    <AutoComplete
+        hintText={label}
+        floatingLabelText={label}
+        errorText={touched && error}
+        dataSource={data}
+        openOnFocus={true}
+        filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
     />
 );
