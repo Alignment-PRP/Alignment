@@ -147,41 +147,68 @@ public enum Statement {
             "DELETE FROM Project WHERE ID = ? "),
     DELETE_PROJECT_METADATA("" +
             "DELETE FROM ProjectMetaData WHERE PID = ? "),
-    DELETE_HAS_ACCESS("DELETE FROM HasAccess WHERE PID = ? "),
+    DELETE_HAS_ACCESS_PROJECT("DELETE FROM HasAccess WHERE PID = ? "),
+    DELETE_HAS_ACCESS_SINGLE("DELETE FROM HasAccess WHERE NAME = ? AND PID = ?"),
+    DELETE_USER_HAS_ACCESS("DELETE FROM UserHasAccess WHERE USERNAME = ? AND PID = ?"),
     DELETE_PROJECT_REQUIREMENTS_BY_PID("DELETE FROM ProjectRequirements WHERE PID = ? "),
+
+    GET_PROJECT_META_DATA("SELECT * FROM ProjectMetaData WHERE PID = ?"),
 
     PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
     GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
-    GET_PROJECTS_ACCESSIBLE_BY_USER("" +
-            "SELECT pmd.*, p.* " +
+    GET_PROJECTS_USER_IS_MANAGER("" +
+            "SELECT p.* " +
             "FROM Project AS p " +
-            "INNER JOIN ProjectMetaData AS pmd " +
-            "ON pmd.PID = p.ID " +
-            "INNER JOIN HasAccess AS ha " +
+            "WHERE p.managerID = ? "),
+    GET_PROJECTS_USER_IS_CREATOR("" +
+            "SELECT p.* " +
+            "FROM Project AS p " +
+            "WHERE p.creatorID = ? "),
+    GET_PROJECTS_ACCESSIBLE_BY_USER("" +
+            "SELECT p.* " +
+            "FROM Project AS p " +
+            "LEFT JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
-            "INNER JOIN UserClass AS uc " +
+            "LEFT JOIN UserClass AS uc " +
             "ON uc.NAME = ha.NAME " +
-            "INNER JOIN UserHasClass AS uhc " +
+            "LEFT JOIN UserHasClass AS uhc " +
             "ON uhc.NAME = uc.NAME " +
-            "WHERE uhc.USERNAME = ? OR p.managerID = ? OR p.creatorID = ? " +
+            "LEFT JOIN UserHasAccess AS uha " +
+            "ON uha.PID = p.ID " +
+            "WHERE uhc.USERNAME = ? OR uha.USERNAME = ? " +
             "GROUP BY p.ID"),
     GET_PUBLIC_PROJECTS("" +
             "SELECT * " +
             "FROM Project AS p " +
-            "INNER JOIN ProjectMetaData AS pmd " +
-            "ON pmd.PID = p.ID " +
             "WHERE p.isPublic = 1 "),
-    GET_PROJECT_NAME_EXISTS("SELECT count(1) as bool FROM project WHERE name=?"),
     GET_USER_HAS_ACCESS("" +
             "SELECT count(1) as bool " +
             "FROM Project AS p " +
             "INNER JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
             "WHERE ha.NAME = ? AND p.ID = ?"),
+    UPDATE_PROJECT("" +
+            "UPDATE Project " +
+            "SET " +
+            "managerID = ?, " +
+            "name = ?, " +
+            "description = ?, " +
+            "isPublic = ?, " +
+            "WHERE ID = ?"),
 
-    INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, isPublic) VALUES(?,?,?,?)"),
+    UPDATE_PROJECT_META_DATA("" +
+            "UPDATE ProjectMetaData " +
+            "SET " +
+            "securityLevel = ?, " +
+            "transactionVolume = ?, " +
+            "userChannel = ?, " +
+            "deploymentStyle = ?, " +
+            "WHERE PID = ?"),
+
+    INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, description, isPublic) VALUES(?,?,?,?,?)"),
     INSERT_PROJECT_META_DATA("INSERT INTO ProjectMetaData (PID, securityLevel, transactionVolume, userChannel, deploymentStyle) VALUES(?,?,?,?,?)"),
     INSERT_HAS_ACCESS("INSERT INTO HasAccess (NAME, PID) VALUES(?,?)"),
+    INSERT_USER_HAS_ACCESS("INSERT INTO UserHasAccess (USERNAME, PID) VALUES(?,?)"),
     DELETE_PROJECT_REQUIREMENT_BY_RID_PID("" +
             "DELETE FROM ProjectRequirements " +
             "WHERE PID = ? AND RID = ?"),
