@@ -109,14 +109,7 @@ class RequirementForm extends React.Component {
         return (
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit} autoComplete="off">
-                    <Stepper activeStep={stepperIndex}>
-                        <Step>
-                            <StepLabel>Nummer 1</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Nummer 2</StepLabel>
-                        </Step>
-                    </Stepper>
+
                     {this.renderStep(stepperIndex)}
                     <div className="formInner">
 
