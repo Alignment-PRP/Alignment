@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeStepperIndex, updateRequiredValues, updateOptionalValues, clearValues } from './../../redux/actions/requirementFormActions';
+import { addRequirement } from './../../redux/actions/requirementActions';
 import Dialog from 'material-ui/Dialog';
 import RequirementFormStepper from "../form/RequirementFormStepper";
 import RequirementRequiredForm from "../form/RequirementRequiredForm";
@@ -16,9 +17,9 @@ class RequirementNewDialog extends React.Component {
 
     renderForm() {
         const {
-            stepperIndex, categories, users, structure,
+            stepperIndex, categories, users, structureTypes,
             changeStepperIndex, updateRequiredValues, updateOptionalValues,
-            onRequestClose
+            onRequestClose, sendRequirement, requiredValues, clearValues
         } = this.props;
         switch (stepperIndex) {
             case 0:
@@ -38,9 +39,12 @@ class RequirementNewDialog extends React.Component {
             case 1:
                 return (
                     <RequirementOptionalForm
-                        structure={structure}
+                        structureTypes={structureTypes}
                         onSubmit={(values)  => {
                             updateOptionalValues(values);
+                            sendRequirement(requiredValues, values);
+                            clearValues();
+                            onRequestClose();
                         }}
                         back={() => {
                             changeStepperIndex(stepperIndex - 1);
@@ -57,8 +61,7 @@ class RequirementNewDialog extends React.Component {
 
     render() {
         const {
-            title, open, onRequestClose, users, categories, structure,
-            stepperIndex, changeStepperIndex, updateRequiredValues, updateOptionalValues
+            title, open, onRequestClose, stepperIndex
         } = this.props;
         return (
             <Dialog title={title}
@@ -79,7 +82,9 @@ class RequirementNewDialog extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        stepperIndex: state.requirementFormReducer.stepperIndex
+        stepperIndex: state.requirementFormReducer.stepperIndex,
+        requiredValues: state.requirementFormReducer.requiredValues,
+        optionalValues: state.requirementFormReducer.optionalValues
     }
 };
 
@@ -94,6 +99,12 @@ const mapDispatchToProps = (dispatch) => {
         updateOptionalValues: (values) => {
             dispatch(updateOptionalValues(values));
         },
+        sendRequirement: (required, optional) => {
+            dispatch(addRequirement({...required, structure: {...optional}}));
+        },
+        clearValues: () => {
+            dispatch(clearValues());
+        }
 
     }
 };

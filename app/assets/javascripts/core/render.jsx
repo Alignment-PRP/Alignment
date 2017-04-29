@@ -317,8 +317,6 @@ export const renderAutoComplete = ({ input: { onChange, value }, data, dataConfi
                 onChange(value);
             }
         }}
-        hintText='Søk'
-        openOnFocus={true}
         filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
         listStyle={{maxHeight: '256px', overflow: 'auto'}}
     />

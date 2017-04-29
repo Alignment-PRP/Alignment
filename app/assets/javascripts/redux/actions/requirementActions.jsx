@@ -7,8 +7,11 @@ import {
     DELETE_REQUIREMENT,
     GET_ALL_CATEGORY_NAMES,
     GET_ALL_REQUIREMENTS,
-    GET_REQ_STRUCTURE
+    GET_REQ_STRUCTURE,
+    REQUIREMENT_RECEIVED
 } from './../types';
+import {snackBar} from "./snackBarActions";
+import {clearValues} from "./requirementFormActions";
 
 export function getAllRequirements() {
     return dispatch => {
@@ -50,12 +53,15 @@ function getAllCategoryNamesAsync(data) {
 }
 
 export function addRequirement(requirement) {
+    console.log(requirement);
     return dispatch => {
         axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
-            .then(function (response) {
-                console.log(response);
+            .then(response => {
+                dispatch(addRequirementReceivedAsync());
+                dispatch(snackBar(true, 'Krav lagt til!'));
+                dispatch(getAllRequirements());
             })
-            .catch(function (error) {
+            .catch(error => {
                 console.log(error);
             });
         dispatch(addRequirementAsync())
@@ -65,6 +71,12 @@ export function addRequirement(requirement) {
 function addRequirementAsync(){
     return {
         type: ADD_REQUIREMENT
+    }
+}
+
+function addRequirementReceivedAsync() {
+    return {
+        type: REQUIREMENT_RECEIVED
     }
 }
 

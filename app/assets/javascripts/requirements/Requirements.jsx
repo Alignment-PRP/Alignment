@@ -97,7 +97,7 @@ class Requirements extends React.Component {
                     onRequestClose={this.props.newDialog.bind(null, false)}
                     users={this.props.users}
                     categories={this.props.categories}
-                    structure={this.props.structure}
+                    structureTypes={this.props.structure}
                 />
 
                 <DeleteDialog

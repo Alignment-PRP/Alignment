@@ -69,6 +69,8 @@ class RequirementRequiredForm extends React.Component {
                            name="reqResponsible"
                            floatingLabelText="reqResponsible"
                            data={users.map(u => u.USERNAME)}
+                           hintText='Søk'
+                           openOnFocus
                            required
                     />
                     <Field component={renderSelectField}

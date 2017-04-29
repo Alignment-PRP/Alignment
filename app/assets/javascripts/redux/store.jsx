@@ -17,6 +17,7 @@ import requirementFormReducer from './reducers/requirementFormReducer';
 import sideMenuReducer from './reducers/sideMenuReducer';
 import snackBarReducer from './reducers/snackBarReducer';
 import statisticsReducer from './reducers/statisticsReducer';
+import structureReducer from './reducers/structureReducer';
 import tableReducer from './reducers/tableReducer';
 import userFormReducer from './reducers/userFormReducer';
 import userReducer from './reducers/userReducer';
@@ -42,6 +43,7 @@ const reducers = {
     sideMenuReducer,
     snackBarReducer,
     statisticsReducer,
+    structureReducer,
     tableReducer,
     userFormReducer,
     userReducer,
