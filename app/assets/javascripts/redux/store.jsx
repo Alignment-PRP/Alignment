@@ -5,9 +5,11 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
+import authReducer from './reducers/authReducer';
 import classFormReducer from './reducers/classFormReducer';
 import dialogReducer from './reducers/dialogReducer';
 import filterReducer from './reducers/filterReducer';
+import loginPageReducer from './reducers/loginPageReducer';
 import popoverReducer from './reducers/popoverReducer';
 import projectReducer from './reducers/projectReducer';
 import requirementReducer from './reducers/requirementReducer';
@@ -27,9 +29,11 @@ import userReducer from './reducers/userReducer';
  * @const
  */
 const reducers = {
+    authReducer,
     classFormReducer,
     dialogReducer,
     filterReducer,
+    loginPageReducer,
     popoverReducer,
     projectReducer,
     requirementReducer,
@@ -40,7 +44,7 @@ const reducers = {
     userFormReducer,
     userReducer,
     form: formReducer,
-    router: routerReducer,
+    routing: routerReducer,
 };
 
 /**
@@ -54,7 +58,7 @@ const reducers = {
  * @type {Store<S>}
  */
 const store = createStore(
-    combineReducers(reducers), {}, applyMiddleware(logger(), thunk, routerMiddleware(browserHistory))
+    combineReducers(reducers), {}, applyMiddleware(thunk, routerMiddleware(browserHistory), logger())
 );
 
 export default store;
