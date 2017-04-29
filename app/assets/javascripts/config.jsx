@@ -69,3 +69,6 @@ export const CATEGORY_GET_BY_NAME = CATEGORY_BYNAME + "/";
 
 export const SUBCATEGORY = API + "/subcategory";
 export const SUBCATEGORY_POST_ADD = SUBCATEGORY + "/add";
+
+export const STRUCTURE = API + '/structures';
+export const STRUCTURE_GET_ALL = STRUCTURE + '/all';
