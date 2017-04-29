@@ -1,21 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import { renderTextField, renderSelectField, renderMultiTextField } from './../../core/render';
-import {FlatButton, RaisedButton} from "material-ui";
+import { renderTextField, renderSelectField, renderMultiTextField, renderAutoComplete } from './../../core/render';
+import {AutoComplete, Divider, FlatButton, MenuItem, RaisedButton, Subheader} from "material-ui";
+
+
 
 class RequirementRequiredForm extends React.Component {
 
+    /**
+     *
+     * @param {Array.<Category>} categories
+     * @returns {Array}
+     */
     renderCategoryItems(categories) {
-        return (
-            null
-        );
-    }
-
-    renderUsers(users) {
-        return (
-            null
-        );
+        const output = [];
+        categories.forEach((category, index) => {
+            if (index > 0) output.push(<Divider key={output.length}/>);
+            output.push(<Subheader key={output.length}>{category.name}</Subheader>);
+            category.subcategories.forEach(sub => {
+                output.push(<MenuItem key={output.length} value={sub.subcategoryID} primaryText={sub.subcategoryName}/>)
+            })
+        });
+        return output;
     }
 
     render() {
@@ -47,12 +54,11 @@ class RequirementRequiredForm extends React.Component {
                 </div>
                 <div className="form-field-row">
                     <Field
-                        component={renderSelectField}
+                        component={renderAutoComplete}
                         name="reqResponsible"
                         label="reqResponsible"
-                    >
-                        {this.renderUsers(users)}
-                    </Field>
+                        data={users.map(u => u.USERNAME)}
+                    />
                     <Field
                         component={renderSelectField}
                         name="scID"
