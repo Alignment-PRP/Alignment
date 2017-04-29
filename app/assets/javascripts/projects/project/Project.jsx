@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
 import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
-import { getAllRequirements, postProjectReqUpdate } from '../../redux/actions/requirementActions';
+import { getAllRequirements, postProjectReqUpdate, updateRequirementMetadata } from '../../redux/actions/requirementActions';
 import {
     postRequirementToProject, postRequirementToProjectWithFilter,
     deleteRequirementToProject, deleteRequirementToProjectWithFilter
@@ -76,7 +76,7 @@ class Project extends React.Component {
         const {
             filter,
             allRequirements_filtered, projectRequirements_filtered,
-            allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate,
+            allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata,
             projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
             deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
         } = this.props;
@@ -126,7 +126,8 @@ class Project extends React.Component {
                     }
                 },
                 {type: 'EDIT_ACTION', action: (requirement) => {
-                    console.log("oppdatere req"); projectReqUpdateDialog(true);
+                    projectReqUpdateDialog(true);
+                    updateRequirementMetadata(requirement);
                 },width: '15%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     if (filter && Object.keys(filter).length > 0) {
@@ -198,28 +199,31 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(addFiltered(comp));
         },
         getAllRequirements: () => {
-            dispatch(getAllRequirements())
+            dispatch(getAllRequirements());
         },
         getRequirementsByProjectId: (id) => {
-            dispatch(getRequirementsByProjectId(id))
+            dispatch(getRequirementsByProjectId(id));
         },
         changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
+            dispatch(changeSideMenuMode(mode));
         },
         postRequirementToProject: (projectID, requirement) => {
-            dispatch(postRequirementToProject(projectID, requirement))
+            dispatch(postRequirementToProject(projectID, requirement));
+        },
+        updateRequirementMetadata: (requirement) => {
+            dispatch(updateRequirementMetadata(requirement))
         },
         postProjectReqUpdate: (data) => {
-            dispatch(postProjectReqUpdate(data))
+            dispatch(postProjectReqUpdate(data));
         },
         postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp))
+            dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp));
         },
         deleteRequirementToProject: (projectID, requirement) => {
-            dispatch(deleteRequirementToProject(projectID, requirement))
+            dispatch(deleteRequirementToProject(projectID, requirement));
         },
         deleteRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp))
+            dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp));
         },
         popoverAdd: (popover) => {
             dispatch(popoverAdd(popover));
