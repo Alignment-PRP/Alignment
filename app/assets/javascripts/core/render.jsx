@@ -94,10 +94,10 @@ import {AutoComplete} from "material-ui";
  * @returns {string}
  */
 export const warnNumberField = value => {
-     if (value && !/^\d+$/.test(value)) {
-         return "Må være et tall."
-     }
-     return null;
+    if (value && !/^\d+$/.test(value)) {
+        return "Må være et tall."
+    }
+    return null;
 };
 
 /**
@@ -190,6 +190,17 @@ export const validateUserForm = values => {
             }
         }
     });
+    if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Ugyldig epost'
+    }
+    return errors
+};
+
+export const validateRegisterForm = values => {
+    const errors = {};
+    if (values.pass !== values.pass_rep) {
+        errors.pass_rep = 'Passordene er ulike'
+    }
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Ugyldig epost'
     }

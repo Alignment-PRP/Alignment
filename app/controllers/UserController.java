@@ -77,6 +77,7 @@ public class UserController extends Controller {
         return ok(result);
     }
 
+    @Deprecated
     public JsonNode makeJsonNode(String username){
         //CHANGED
         JsonNode userData = qh.executeQuery(Statement.GET_USER_WITH_PASS_BY_USERNAME,username);
@@ -85,30 +86,25 @@ public class UserController extends Controller {
     }
 
     public User makeUserFromJson(JsonNode userData){
-        return Json.fromJson(userData.get(0), User.class);
+        return Json.fromJson(userData, User.class);
     }
 
     public Result createUserJson() {
         final JsonNode values = request().body().asJson();
-
-        String USERNAME = values.get("USERNAME").textValue();
-        String firstName = values.get("firstName").textValue();
-        String lastName = values.get("lastName").textValue();
-        String email = values.get("email").textValue();
+        final User user = makeUserFromJson(values);
         String ucName = values.get("ucName").textValue();
-        String rawPass = values.get("pass").textValue();
-        String pass = BCrypt.hashpw(rawPass, BCrypt.gensalt(10));
+        String pass = BCrypt.hashpw(user.pass, BCrypt.gensalt(10));
 
-        if (usernameExists(USERNAME)) {
+        if (usernameExists(user.USERNAME)) {
             return internalServerError("Brukernavn er brukt!");
         }
-        createUser(firstName, lastName, email, USERNAME, pass);
-        qh.insertStatement(Statement.INSERT_USER_CLASS, USERNAME, ucName);
+        createUser(user, pass);
+        qh.insertStatement(Statement.INSERT_USER_CLASS, user.USERNAME, ucName);
         return ok("User created");
     }
 
-    public void createUser(String firstname, String lastname, String email, String username, String password){
-        qh.insertStatement(Statement.INSERT_USER,firstname, lastname, email, username, password);
+    public void createUser(final User user, final String password){
+        qh.insertStatement(Statement.INSERT_USER, user.firstName, user.lastName, user.email, user.USERNAME, password);
     }
 
     public boolean usernameExists(String username){
