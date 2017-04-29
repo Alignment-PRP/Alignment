@@ -36,37 +36,13 @@ public class ApplicationController extends Controller {
         return init();
     }
 
-
     /**
      * Called when first entering the site GET /
      * Checks if oyu are logged in, if not redirects to the login page.
      * @return
      */
     public Result init(){
-        String userID = session("connected");
-        if(userID != null) {
-            return ok(views.html.dashboard.render());
-        } else {
-            return unauthorized(views.html.login.render());
-        }
+        return ok(views.html.dashboard.render());
     }
-    /**
-     * Checks if logged in.
-     * If so, give home page. If not, give login page.
-     * @return Result
-     */
-    @Deprecated
-    private Result loggedIn(){
 
-        //Checks if the session has been tampered with and the like.
-        //Gets the userid
-        String userID = session("connected");
-        if(userID != null) {
-            return ok(views.html.dashboard.render());
-        } else {
-            return unauthorized(views.html.login.render());
-        }
-
-        //else return(views.html.login.render())
-    }
 }

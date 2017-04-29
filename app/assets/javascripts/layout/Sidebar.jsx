@@ -5,7 +5,7 @@ import FontIcon from 'material-ui/FontIcon';
 import {Link} from 'react-router';
 
 import {connect} from "react-redux";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { changeSideMenuMode } from "./../redux/actions/sideMenuActions";
 
 /**
  * Represents the sidebar menu.
@@ -79,14 +79,15 @@ class Sidebar extends React.Component {
 
     //Using <Link to="url"/> to use the defined client-urls in main.jsx
     render() {
+        const { changeSideMenuMode } = this.props;
         return (
             <div style={this.style.sidebar} id="sidebar" onMouseEnter={this.open} onMouseLeave={this.close}>
                 <Menu autoWidth={false} width={290}>
-                    <MenuItem primaryText="Hjem" onClick={() => this.props.changeSideMenuMode("MENU")} containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
-                    <MenuItem primaryText="Prosjekter"containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
-                    <MenuItem primaryText="Krav"containerElement={<Link to="/allrequirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
-                    <MenuItem primaryText="Admin"containerElement={<Link to="/admin" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
-                    <MenuItem primaryText="Logg ut"containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
+                    <MenuItem primaryText="Hjem" onClick={() => changeSideMenuMode("MENU")} containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
+                    <MenuItem primaryText="Prosjekter" containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
+                    <MenuItem primaryText="Krav" containerElement={<Link to="requirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                    <MenuItem primaryText="Admin" containerElement={<Link to="/admin" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
+                    <MenuItem primaryText="Logg ut" containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                 </Menu>
             </div>
         );
@@ -102,7 +103,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
+            dispatch(changeSideMenuMode(mode));
         }
     };
 };

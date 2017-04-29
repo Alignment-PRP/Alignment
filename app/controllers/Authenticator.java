@@ -12,19 +12,14 @@ import java.util.concurrent.Callable;
  */
 public class Authenticator extends Controller {
 
-
     /**
      * Checks username/pass combination to the database.
-     * @param password
-     * @return Returns null (success) or an error message.
+     * @param user
+     * @param dbUser
+     * @return
      */
-    public String authenticate(String password, User user){
-        if(BCrypt.checkpw(password, user.pass)){
-            return null;
-        }
-        else{
-            return "pass does not match";
-        }
+    public boolean authenticate(User user, User dbUser){
+        return BCrypt.checkpw(user.pass, dbUser.pass);
     }
 
     public Result validateSession(Callable<Result> func){
