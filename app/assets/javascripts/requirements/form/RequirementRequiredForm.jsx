@@ -4,7 +4,19 @@ import {Field, reduxForm} from 'redux-form';
 import { renderTextField, renderSelectField, renderMultiTextField, renderAutoComplete } from './../../core/render';
 import {AutoComplete, Divider, FlatButton, MenuItem, RaisedButton, Subheader} from "material-ui";
 
-
+const validate = (values, props) => {
+    const errors = {};
+    const requiredField = ['scID'];
+    requiredField.forEach(field => {
+        if (!values[field]) {
+            errors[field] = 'Må fylles';
+        }
+    });
+    if (props.users.filter(user => user.USERNAME === values.reqResponsible).length === 0) {
+        errors['reqResponsible'] = 'Bruker eksisterer ikke'
+    }
+    return errors;
+};
 
 class RequirementRequiredForm extends React.Component {
 
@@ -53,16 +65,15 @@ class RequirementRequiredForm extends React.Component {
                     />
                 </div>
                 <div className="form-field-row">
-                    <Field
-                        component={renderAutoComplete}
-                        name="reqResponsible"
-                        label="reqResponsible"
-                        data={users.map(u => u.USERNAME)}
+                    <Field component={renderAutoComplete}
+                           name="reqResponsible"
+                           floatingLabelText="reqResponsible"
+                           data={users.map(u => u.USERNAME)}
+                           required
                     />
-                    <Field
-                        component={renderSelectField}
-                        name="scID"
-                        label="Kategori"
+                    <Field component={renderSelectField}
+                           name="scID"
+                           floatingLabelText="Kategori"
                     >
                         {this.renderCategoryItems(categories)}
                     </Field>
@@ -119,5 +130,6 @@ export default connect(
     null
 )(reduxForm({
     form: 'RequirementRequiredForm',
-    enableReinitialize: true
+    enableReinitialize: true,
+    validate
 })(RequirementRequiredForm));
