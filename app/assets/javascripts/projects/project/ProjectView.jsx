@@ -4,6 +4,9 @@ import { push } from 'react-router-redux';
 import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
 import {Tabs, Tab} from 'material-ui/Tabs';
 import ProjectRequirementView from './ProjectRequirementView';
+import ProjectUserAccess from './ProjectUserAccess';
+import ProjectClassAccess from './ProjectClassAccess';
+import ProjectInfo from './ProjectInfo';
 
 
 
@@ -37,10 +40,11 @@ class ProjectView extends React.Component {
                 >
                     <Tab label="Prosjektoversikt">
                         <div>
-                            <h2>Brukeroversikt</h2>
-                            <ul>
-                                <li>Oversikt over hvem som eier hvilket prosjekt</li>
-                            </ul>
+                            < ProjectInfo
+                                params={
+                                    {id: this.props.params.id}
+                                }
+                            />
                         </div>
                     </Tab>
                     <Tab label="Tilgang">
@@ -50,15 +54,20 @@ class ProjectView extends React.Component {
                             >
                                 <Tab label="Brukere" >
                                     <div>
-                                        <h2>Brukeroversikt</h2>
-                                        <ul>
-                                            <li>Oversikt over hvem som eier hvilket prosjekt</li>
-                                        </ul>
+                                        < ProjectUserAccess
+                                            params={
+                                                {id: this.props.params.id}
+                                            }
+                                        />
                                     </div>
                                 </Tab>
                                 <Tab label="Brukerklasser">
                                     <div >
-
+                                        < ProjectClassAccess
+                                            params={
+                                                {id: this.props.params.id}
+                                            }
+                                        />
                                     </div>
                                 </Tab>
                             </Tabs>
@@ -66,9 +75,11 @@ class ProjectView extends React.Component {
                     </Tab>
                     <Tab label="Prosjektkrav">
                         <div >
-                            < ProjectRequirementView params={
-                                {id: this.props.params.id}
-                            }/>
+                            < ProjectRequirementView
+                                params={
+                                    {id: this.props.params.id}
+                                }
+                            />
                         </div>
                     </Tab>
                 </Tabs>

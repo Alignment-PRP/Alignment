@@ -102,9 +102,24 @@ function getArchivedProjectsAsync(data) {
     }
 }
 
-export function getProjectById(id) {
+export function getProjectDataById(id) {
     return dispatch => {
-        axios.get(URLS.PROJECT_GET_BY_ID + id)
+        axios.get(URLS.PROJECT_GET_BY_ID + id + "/data")
+            .then( response => {
+                const data = [];
+                response.data.map((object) => {
+                    data.push(object);
+                    return data
+                });
+                dispatch(getProjectByIdAsync(data))
+            });
+
+    }
+}
+
+export function getProjectMetaDataById(id) {
+    return dispatch => {
+        axios.get(URLS.PROJECT_GET_BY_ID + id + "/meta")
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
