@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { renderTextField } from '../../core/render';
+import { renderTextField, renderMultiTextField } from '../../core/render';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -31,31 +31,31 @@ class ProjectReqForm extends React.Component {
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="reqNo"
+                                name="rReqNo"
                                 label="Kravnummer"
                                 component={renderTextField}
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="reqCode"
+                                name="rReqCode"
                                 label="Kravkode"
                                 component={renderTextField}
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="comment"
+                                name="rComment"
                                 label="Kommentar"
-                                component={renderTextField}
+                                component={renderMultiTextField}
                                 required
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="Description"
+                                name="rDescription"
                                 label="Beskrivelse"
-                                component={renderTextField}
+                                component={renderMultiTextField}
                                 required
                             />
                         </div>
@@ -72,6 +72,7 @@ class ProjectReqForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        initialValues: state.requirementReducer.requirementMetadata
     };
 };
 

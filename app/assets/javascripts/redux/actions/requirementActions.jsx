@@ -4,6 +4,7 @@ import {
     ADD_REQUIREMENT,
     UPDATE_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
+    UPDATE_REQUIREMENT_METADATA,
     POST_PROJECT_REQUIREMENT_UPDATE,
     DELETE_REQUIREMENT,
     GET_ALL_CATEGORY_NAMES,
@@ -125,6 +126,27 @@ function postUpdateRequirementAsync(){
     }
 }
 
+export function postUpdateRequirementMetadata(requirement){
+
+    return dispatch => {
+        console.log(requirement);
+        axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        dispatch(postUpdateRequirementAsync())
+    }
+}
+
+function postUpdateRequirementAsync(){
+    return{
+        type: POST_UPDATE_REQUIREMENT
+    }
+}
+
 export function postProjectReqUpdate(requirement){
     return dispatch => {
         console.log(requirement);
@@ -142,6 +164,23 @@ export function postProjectReqUpdate(requirement){
 function postProjectReqUpdateAsync(){
     return{
         type: POST_PROJECT_REQUIREMENT_UPDATE
+    }
+}
+
+export function updateRequirementMetadata(requirement) {
+
+    const requirementMetadata = {
+        PID: requirement.PID,
+        RID: requirement.RID,
+        rComment: requirement.rComment,
+        rDescription: requirement.rDescription,
+        rReqCode: requirement.rReqCode,
+        rReqNo: requirement.rReqNo
+    }
+
+    return {
+        type: UPDATE_REQUIREMENT_METADATA,
+        payload: requirementMetadata
     }
 }
 

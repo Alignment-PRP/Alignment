@@ -3,6 +3,7 @@ import {
     POST_UPDATE_REQUIREMENT,
     POST_PROJECT_REQUIREMENT_UPDATE,
     UPDATE_REQUIREMENT,
+    UPDATE_REQUIREMENT_METADATA,
     DELETE_REQUIREMENT,
     GET_ALL_CATEGORY_NAMES,
     GET_ALL_REQUIREMENTS
@@ -11,6 +12,7 @@ import {
 const requirementReducer = (state = {
     requirements: null,
     requirement: [],
+    requirementMetadata: null,
     categoryNames: []
 }, action) => {
     switch (action.type) {
@@ -23,6 +25,11 @@ const requirementReducer = (state = {
             return {
                 ...state,
                 requirement: action.payload
+            };
+        case UPDATE_REQUIREMENT_METADATA:
+            return {
+                ...state,
+                requirementMetadata: action.payload
             };
         case GET_ALL_CATEGORY_NAMES:
             return {
