@@ -165,6 +165,30 @@ public class RequirementController extends Controller{
         structuresMap.put("types", typeList);
         return ok(Json.toJson(structuresMap));
     }
+
+    public Result getStructures(){
+        JsonNode structures = qh.executeQuery(Statement.GET_STRUCTURES);
+        //List<Map<String, List>> structureList = new ArrayList<>();
+        Map<String, List> types = new HashMap<>();
+        for(int i = 0; i < structures.size(); i++){
+            JsonNode content = structures.get(i);
+            String type = content.get("type").asText();
+            Map<String, String> instanceContent = new HashMap<>();
+            instanceContent.put("ID", content.get("ID").asText());
+            instanceContent.put("content", content.get("content").asText());
+            if(! types.containsKey(type)){
+                List<Map> instances = new ArrayList<>();
+                instances.add(instanceContent);
+                types.put(type, instances);
+            }
+            else{
+                List<Map> instances = types.get(type);
+                instances.add(instanceContent);
+            }
+        }
+        return ok(Json.toJson(types));
+    }
+
 }
 
 

@@ -90,6 +90,7 @@ public enum Statement {
             "SELECT type " +
             "FROM Structure " +
             "GROUP BY type"),
+    GET_STRUCTURES("SELECT * FROM Structure"),
 
 
     //===========================================PROJECT=========================================================================
