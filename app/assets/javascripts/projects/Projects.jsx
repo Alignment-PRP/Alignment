@@ -1,3 +1,35 @@
+import React from 'react';
+import {connect} from "react-redux";
+import { push } from 'react-router-redux';
+import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
+import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
+import { snackBar } from './../redux/actions/snackBarActions';
+import ProjectTable from './ProjectTable';
+import ProjectsSideMenu from './presentational/ProjectsSideMenu';
+import ProjectNewDialog from './dialog/ProjectNewDialog';
+import DeleteDialog from "./../core/dialog/DeleteDialog";
+import {
+    Card, CardActions, CardHeader, CardText, CardTitle, FlatButton, GridList,
+    GridTile
+} from "material-ui";
+import {
+    amber200, blue200, blueGrey200, brown200, cyan200, deepOrange200, deepPurple200, green200,
+    grey200, indigo200, lightBlue200, lightGreen200, lime200, orange200, pink200,
+    purple200, red200, teal200, yellow200
+} from "material-ui/styles/colors";
+import {Link} from "react-router";
+import Popover from "../core/popover/Popover";
+
+const colors = [
+    red200, pink200, purple200, deepPurple200,
+    indigo200, blue200, lightBlue200, cyan200,
+    teal200, green200, lightGreen200, lime200,
+    yellow200, amber200, orange200, deepOrange200,
+    brown200, blueGrey200, grey200
+];
+
 /**
  * Class represents /projects.
  * @see ProjectTable
@@ -20,37 +52,11 @@
  * @param {function} snackBar {@link module:redux/actions/projectForm.snackBar}
  * @param {function} changeSideMenuMode {@link module:redux/actions/sideMenu.changeSideMenuMode}
  */
-import React from 'react';
-import {connect} from "react-redux";
-import { push } from 'react-router-redux';
-import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
-import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
-import { snackBar } from './../redux/actions/snackBarActions';
-import ProjectTable from './ProjectTable';
-import ProjectsSideMenu from './presentational/ProjectsSideMenu';
-import ProjectNewDialog from './dialog/ProjectNewDialog';
-import DeleteDialog from "./../core/dialog/DeleteDialog";
-import {
-    Card, CardActions, CardHeader, CardText, CardTitle, FlatButton, GridList,
-    GridTile
-} from "material-ui";
-import {
-    amber200, blue200, blueGrey200, brown200, cyan200, deepOrange200, deepPurple200, green200,
-    grey200, indigo200, lightBlue200, lightGreen200, lime200, orange200, pink200,
-    purple200, red200, teal200, yellow200
-} from "material-ui/styles/colors";
-import {Link} from "react-router";
-
-const colors = [
-    red200, pink200, purple200, deepPurple200,
-    indigo200, blue200, lightBlue200, cyan200,
-    teal200, green200, lightGreen200, lime200,
-    yellow200, amber200, orange200, deepOrange200,
-    brown200, blueGrey200, grey200
-];
-
 class Projects extends React.Component {
+
+    componentWillMount() {
+        this.props.popoverAdd('projects');
+    }
 
     componentDidMount(){
         this.props.getPublicProjects();
@@ -61,6 +67,12 @@ class Projects extends React.Component {
         this.props.deleteDialog(false);
     }
 
+    /**
+     *
+     * @param mode
+     * @returns {Array.<Project>}
+     * @private
+     */
     _projects(mode) {
         switch (mode) {
             case "private":
@@ -107,7 +119,8 @@ class Projects extends React.Component {
             newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
             postProjectNew,
             deleteProject,
-            push, path
+            push, path,
+            popoverOpen, popoverAnchor, popoverContent
         } = this.props;
         const tableMode = path.replace('/projects/', '');
 
@@ -115,9 +128,9 @@ class Projects extends React.Component {
             <div style={{display: 'flex'}}>
                 <ProjectsSideMenu
                     className="projects-sidemenu"
-                    handleUser={() => push('/projects/private')}
-                    handleAll={() => push('/projects')}
-                    handleArchived={() => push('/projects/archive')}
+                    handleUser={push.bind(null, '/projects/private')}
+                    handleAll={push.bind(null, '/projects')}
+                    handleArchived={push.bind(null, '/projects/archive')}
                     handleNew={newDialog.bind(null, true)}
                 />
                 <div>
@@ -126,21 +139,28 @@ class Projects extends React.Component {
                             {this._projects(tableMode).map((project, index) => {
                                 const color = this.getCardColor(project.name);
                                 return (
-                                    <Link key={index} to={'project/' + project.ID}>
-                                        <Card style={{margin: '8px', backgroundColor: color}}>
-                                            <CardTitle
-                                                title={project.name}
-                                            />
-                                            <CardText style={{padding: '0 16px 16px 16px'}}>
-                                                <span>{'Laget av: ' + project.creatorID}</span>
-                                                <br/>
-                                                <span>{'Sjef: ' + project.managerID}</span>
-                                            </CardText>
-                                        </Card>
-                                    </Link>
+                                    <Card key={index} style={{margin: '8px', minWidth: '150px', backgroundColor: color}}>
+                                        <CardTitle
+                                            style={{paddingBottom: 0}}
+                                            title={project.name}
+                                            subtitle={'Laget av:' + project.creatorID + '  ' + 'Sjef: ' + project.managerID}
+                                        />
+                                        <CardActions>
+                                            <Link to={'project/' + project.ID}>
+                                                <FlatButton label='Åpne'/>
+                                            </Link>
+                                            <FlatButton label="Info" onTouchTap={(event) => {
+                                                popoverOpen(true);
+                                                popoverContent(project.description);
+                                                popoverAnchor(event.currentTarget);
+                                            }}/>
+                                        </CardActions>
+                                    </Card>
                                 );
                             })}
                         </div>
+
+                        <Popover component="projects"/>
 
                         <ProjectNewDialog
                             title="Nytt Prosjekt"
@@ -162,10 +182,9 @@ class Projects extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    let path = state.router.location ? state.router.location.pathname : '/projects';
+const mapStateToProps = (state, props) => {
     return {
-        path: path,
+        path: props.location.pathname,
         publicProjects: state.projectReducer.publicProjects,
         privateProjects: state.projectReducer.privateProjects,
         archivedProjects: state.projectReducer.archivedProjects,
@@ -207,6 +226,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteDialogChangeAction: (action) => {
             dispatch(dialogChangeAction('projectDelete', action))
+        },
+        popoverOpen: (open) => {
+            dispatch(popoverOpen('projects', open));
+        },
+        popoverAnchor: (anchor) => {
+            dispatch(popoverAnchor('projects', anchor));
+        },
+        popoverContent: (content) => {
+            dispatch(popoverContent('projects', content));
+        },
+        popoverAdd: (popover) => {
+            dispatch(popoverAdd(popover));
         }
     };
 };
