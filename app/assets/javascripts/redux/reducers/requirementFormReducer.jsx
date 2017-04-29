@@ -1,4 +1,4 @@
-import { STEPPER_INDEX } from './../types';
+import { STEPPER_INDEX, UPDATE_REQUIRED_VALUES, UPDATE_OPTIONAL_VALUES, CLEAR_VALUES } from './../types';
 
 const requirementFormReducer = (state = {
     stepperIndex: 0,
