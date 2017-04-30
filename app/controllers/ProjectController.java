@@ -74,7 +74,13 @@ public class ProjectController extends Controller {
 
         //Gets the values from the map
         String name = values.get("name").asText();
-        String description = values.get("description").asText();
+        String description;
+        try{
+            description = values.get("description").asText();
+        }
+        catch (NullPointerException e){
+            description = "-";
+        }
         int securityLevel = values.get("securityLevel").asInt();
         String transactionVolume = values.get("transactionVolume").asText();
         String userChannel = values.get("userChannel").asText();
