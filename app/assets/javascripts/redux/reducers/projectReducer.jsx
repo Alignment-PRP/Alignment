@@ -1,7 +1,8 @@
 import {GET_PUBLIC_PROJECTS,
         GET_PRIVATE_PROJECTS,
         GET_ARCHIVED_PROJECTS,
-        GET_PROJECT_BY_ID,
+        GET_PROJECT_DATA_BY_ID,
+        GET_PROJECT_META_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
         DELETE_REQUIREMENT_TO_PROJECT,
@@ -38,10 +39,15 @@ const projectReducer = (state = {
                 ...state,
                 archivedProjects: action.payload
             };
-        case GET_PROJECT_BY_ID:
+        case GET_PROJECT_DATA_BY_ID:
             return {
                 ...state,
-                project: action.payload
+                projectData: action.payload
+            };
+        case GET_PROJECT_META_BY_ID:
+            return {
+                ...state,
+                projectMeta: action.payload
             };
         case GET_REQUIREMENTS_BY_PROJECT_ID:
             return {

@@ -29,7 +29,7 @@ class ProjectRequirementView extends React.Component {
      */
     componentDidMount() {
         //react-routes make us able to get the id of the URL with: this.props.params.id
-        this.props.getRequirementsByProjectId(this.props.params.id);
+        this.props.getRequirementsByProjectId(this.props.id);
         this.props.getAllRequirements();
     }
 

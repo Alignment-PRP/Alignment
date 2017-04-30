@@ -3,7 +3,8 @@ import * as URLS from './../../config';
 import {GET_PUBLIC_PROJECTS,
         GET_PRIVATE_PROJECTS,
         GET_ARCHIVED_PROJECTS,
-        GET_PROJECT_BY_ID,
+        GET_PROJECT_DATA_BY_ID,
+        GET_PROJECT_META_BY_ID,
         GET_REQUIREMENTS_BY_PROJECT_ID,
         POST_REQUIREMENT_TO_PROJECT,
         DELETE_REQUIREMENT_TO_PROJECT,
@@ -104,14 +105,14 @@ function getArchivedProjectsAsync(data) {
 
 export function getProjectDataById(id) {
     return dispatch => {
-        axios.get(URLS.PROJECT_GET_BY_ID + id + "/data")
+        axios.get(URLS.PROJECT_GET_DATA_BY_ID + id + "/data")
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
                     data.push(object);
                     return data
                 });
-                dispatch(getProjectByIdAsync(data))
+                dispatch(getProjectDataByIdAsync(data))
             });
 
     }
@@ -119,22 +120,29 @@ export function getProjectDataById(id) {
 
 export function getProjectMetaDataById(id) {
     return dispatch => {
-        axios.get(URLS.PROJECT_GET_BY_ID + id + "/meta")
+        axios.get(URLS.PROJECT_GET_META_BY_ID + id + "/meta")
             .then( response => {
                 const data = [];
                 response.data.map((object) => {
                     data.push(object);
                     return data
                 });
-                dispatch(getProjectByIdAsync(data))
+                dispatch(getProjectMetaByIdAsync(data))
             });
 
     }
 }
 
-function getProjectByIdAsync(data) {
+function getProjectMetaByIdAsync(data) {
     return {
-        type: GET_PROJECT_BY_ID,
+        type: GET_PROJECT_META_BY_ID,
+        payload: data
+    }
+}
+
+function getProjectDataByIdAsync(data) {
+    return {
+        type: GET_PROJECT_DATA_BY_ID,
         payload: data
     }
 }

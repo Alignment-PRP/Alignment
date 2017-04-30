@@ -19,8 +19,6 @@ class ProjectView extends React.Component {
      */
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
-        console.log(this.props.path);
-        console.log(this.props.params.id)
     }
 
     /**
@@ -41,9 +39,7 @@ class ProjectView extends React.Component {
                     <Tab label="Prosjektoversikt">
                         <div>
                             < ProjectInfo
-                                params={
-                                    {id: this.props.params.id}
-                                }
+                                id={this.props.params.id}
                             />
                         </div>
                     </Tab>
@@ -55,18 +51,14 @@ class ProjectView extends React.Component {
                                 <Tab label="Brukere" >
                                     <div>
                                         < ProjectUserAccess
-                                            params={
-                                                {id: this.props.params.id}
-                                            }
+                                            id={this.props.params.id}
                                         />
                                     </div>
                                 </Tab>
                                 <Tab label="Brukerklasser">
                                     <div >
                                         < ProjectClassAccess
-                                            params={
-                                                {id: this.props.params.id}
-                                            }
+                                            id={this.props.params.id}
                                         />
                                     </div>
                                 </Tab>
@@ -76,9 +68,7 @@ class ProjectView extends React.Component {
                     <Tab label="Prosjektkrav">
                         <div >
                             < ProjectRequirementView
-                                params={
-                                    {id: this.props.params.id}
-                                }
+                                id={this.props.params.id}
                             />
                         </div>
                     </Tab>
