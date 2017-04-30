@@ -31,30 +31,30 @@ class ProjectReqForm extends React.Component {
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="rReqNo"
+                                name="reqNo"
                                 label="Kravnummer"
                                 component={renderTextField}
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="rReqCode"
+                                name="reqCode"
                                 label="Kravkode"
                                 component={renderTextField}
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="rComment"
-                                label="Kommentar"
+                                name="description"
+                                label="Beskrivelse"
                                 component={renderMultiTextField}
                                 required
                             />
                         </div>
                         <div className="form-inner-field">
                             <Field
-                                name="rDescription"
-                                label="Beskrivelse"
+                                name="comment"
+                                label="Kommentar"
                                 component={renderMultiTextField}
                                 required
                             />

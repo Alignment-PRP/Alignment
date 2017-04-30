@@ -172,10 +172,10 @@ export function updateRequirementMetadata(requirement) {
     const requirementMetadata = {
         PID: requirement.PID,
         RID: requirement.RID,
-        rComment: requirement.rComment,
-        rDescription: requirement.rDescription,
-        rReqCode: requirement.rReqCode,
-        rReqNo: requirement.rReqNo
+        comment: requirement.comment,
+        description: requirement.description,
+        reqCode: requirement.reqCode,
+        reqNo: requirement.reqNo
     }
 
     return {

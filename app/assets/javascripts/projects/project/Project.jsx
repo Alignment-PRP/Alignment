@@ -75,7 +75,7 @@ class Project extends React.Component {
 
         const {
             filter,
-            allRequirements_filtered, projectRequirements_filtered,
+            allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId,
             allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata,
             projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
             deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
@@ -158,7 +158,12 @@ class Project extends React.Component {
                 <ProjectReqUpdateDialog
                     title="Tilleggsbeskrivelse av krav"
                     open={projectReqUpdateDialogIsOpen}
-                    handleSubmit={(data) => {postProjectReqUpdate(data); projectReqUpdateDialog(false)}}
+                    handleSubmit={(data) => {
+                        postProjectReqUpdate(data);
+                        projectReqUpdateDialog(false);
+                        //TODO: This should update ProjectRequirement List.
+                        getRequirementsByProjectId(params.id);
+                    }}
                     onRequestClose={projectReqUpdateDialog.bind(null, false)}
                 />
 
