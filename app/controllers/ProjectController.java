@@ -169,13 +169,13 @@ public class ProjectController extends Controller {
      */
     public Result getProjectByProjectID(String id){
         //Check if user is logged in
-        String projectid = id;
+        int projectid = Integer.parseInt(id);
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
-        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID,projectid));
+        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID, projectid));
     }
 
     /**

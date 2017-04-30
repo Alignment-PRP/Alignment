@@ -64,7 +64,6 @@ GET     /api/requirement/structure/types    controllers.RequirementController.ge
 
 POST    /api/category/add                   controllers.AdminController.insertRequirementCategory()
 GET     /api/category/all/names             controllers.RequirementController.getCategories()
-GET     /api/category/byname/:name          controllers.RequirementController.getRequirementsByCategoryName(name: String)
 
 POST    /api/subcategory/add                controllers.AdminController.addSubcategory()
 
