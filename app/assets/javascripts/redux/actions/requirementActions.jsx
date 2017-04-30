@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as URLS from './../../config';
 import {
-    ADD_REQUIREMENT,
+    REQUIREMENT_SENT,
     UPDATE_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
     DELETE_REQUIREMENT,
@@ -11,7 +11,6 @@ import {
     REQUIREMENT_RECEIVED
 } from './../types';
 import {snackBar} from "./snackBarActions";
-import {clearValues} from "./requirementFormActions";
 
 export function getAllRequirements() {
     return dispatch => {
@@ -70,7 +69,7 @@ export function addRequirement(requirement) {
 
 function addRequirementAsync(){
     return {
-        type: ADD_REQUIREMENT
+        type: REQUIREMENT_SENT
     }
 }
 
@@ -134,24 +133,3 @@ function postUpdateRequirementAsync(){
         type: POST_UPDATE_REQUIREMENT
     }
 }
-
-export function getReqStructure() {
-    return dispatch => {
-        axios.get(URLS.REQUIREMENT_GET_STUCTURE)
-            .then( response => {
-                const data = [];
-                response.data.types.map((structureType) => {
-                    data.push(structureType);
-                    return data
-                });
-                dispatch(getReqStructureAsync(data))
-            });
-    }
-}
-function getReqStructureAsync(data) {
-    return {
-        type: GET_REQ_STRUCTURE,
-        payload: data
-    }
-}
-

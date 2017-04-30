@@ -8,23 +8,21 @@ import {amber500, lightGreen500} from "material-ui/styles/colors";
 
 class RequirementOptionalForm extends React.Component {
 
-    componentWillMount() {
-        this.props.getStructures();
-    }
-
     /**
      *
-     * @param {Array} structure
-     * @returns {Array}
+     * @param {Array.<String>}structureTypes
+     * @param {Array.<Structure>}structuresData
+     * @returns {Array.<XML>}
      */
-    renderStructure(structureTypes, structuresData) {
+    renderStructure(structureTypes, structures) {
         const comps = structureTypes.map((type, index) => {
             return <Field key={index}
                           component={renderAutoComplete}
                           name={type}
-                          data={structuresData ? structuresData[type].map(structure => structure.content) : []}
+                          data={structures[type].map(struc => struc.content)}
                           floatingLabelText={type}
                           hintText={type}
+                          openOnFocus
             />;
         });
         const output = [];
@@ -85,7 +83,7 @@ class RequirementOptionalForm extends React.Component {
         return (
             <form onSubmit={handleSubmit}>
                 {structures ? null : <LinearProgress mode="indeterminate"/>}
-                {this.renderStructure(structureTypes, structures)}
+                {structureTypes ? this.renderStructure(structureTypes, structures) : null}
                 <div style={{display: 'flex', height: '48px', justifyContent: 'flex-start', alignItems: 'center', marginTop: '24px'}}>
                     <FlatButton
                         secondary={true}
@@ -117,23 +115,14 @@ class RequirementOptionalForm extends React.Component {
 const mapStateToProps = (state) => {
     return {
         initialValues: state.requirementFormReducer.optionalValues,
-        structures: state.structureReducer.structures,
         sent: state.requirementFormReducer.sent,
         received: state.requirementFormReducer.received
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getStructures: () => {
-            dispatch(getStructures());
-        }
-    }
-};
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(reduxForm({
     form: 'RequirementOptionalForm',
     enableReinitialize: true

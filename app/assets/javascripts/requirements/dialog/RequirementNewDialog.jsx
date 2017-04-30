@@ -17,7 +17,7 @@ class RequirementNewDialog extends React.Component {
 
     renderForm() {
         const {
-            stepperIndex, categories, users, structureTypes,
+            stepperIndex, categories, users, structures, structureTypes,
             changeStepperIndex, updateRequiredValues, updateOptionalValues,
             onRequestClose, sendRequirement, requiredValues, clearValues
         } = this.props;
@@ -39,10 +39,24 @@ class RequirementNewDialog extends React.Component {
             case 1:
                 return (
                     <RequirementOptionalForm
+                        structures={structures}
                         structureTypes={structureTypes}
                         onSubmit={(values)  => {
                             updateOptionalValues(values);
-                            sendRequirement(requiredValues, values);
+
+                            const optional = Object.keys(values).map(type => {
+                                console.log(structures[type]);
+                                for (let i = 0; i < structures[type].length; i++ ) {
+                                    const struc = structures[type][i];
+                                    if (struc.content.toLowerCase() === values[type].toLowerCase()) {
+                                        return {type: type, id: struc.ID};
+                                    }
+                                }
+
+                                return {type: type, content: values[type]};
+                            });
+
+                            sendRequirement(requiredValues, optional);
                             clearValues();
                             onRequestClose();
                         }}
@@ -84,7 +98,7 @@ const mapStateToProps = (state) => {
     return {
         stepperIndex: state.requirementFormReducer.stepperIndex,
         requiredValues: state.requirementFormReducer.requiredValues,
-        optionalValues: state.requirementFormReducer.optionalValues
+        optionalValues: state.requirementFormReducer.optionalValues,
     }
 };
 
@@ -100,7 +114,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateOptionalValues(values));
         },
         sendRequirement: (required, optional) => {
-            dispatch(addRequirement({...required, structure: {...optional}}));
+            dispatch(addRequirement({...required, structure: [...optional]}));
         },
         clearValues: () => {
             dispatch(clearValues());
