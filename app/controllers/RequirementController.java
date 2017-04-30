@@ -154,16 +154,14 @@ public class RequirementController extends Controller{
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        Map<String, Object> structuresMap = new HashMap<>();
-        List<String> typeList = new ArrayList<>();
-        JsonNode types = qh.executeQuery(Statement.GET_STRUCTURE_TYPES);
 
-        for (JsonNode n:
-             types) {
-            typeList.add(n.get("type").asText());
+        final JsonNode types = qh.executeQuery(Statement.GET_STRUCTURE_TYPES);
+        final List<String> typeList = new ArrayList<>();
+
+        for (JsonNode node : types) {
+            typeList.add(node.get("type").asText());
         }
-        structuresMap.put("types", typeList);
-        return ok(Json.toJson(structuresMap));
+        return ok(Json.toJson(typeList));
     }
 
     public Result getStructures(){

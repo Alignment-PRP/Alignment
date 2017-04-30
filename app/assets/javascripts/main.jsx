@@ -13,7 +13,6 @@ import Project from './projects/project/Project';
 //Requirements
 import Requirements from './requirements/Requirements';
 import UpdateRequirement from './requirements/UpdateRequirement';
-import NewRequirement from './requirements/NewRequirement';
 
 //Admin
 import Admin from './admin/Admin';
@@ -59,7 +58,6 @@ class App extends React.Component {
 
                             <Route path={"requirements"} component={Requirements}/>
 
-                            <Route path={"newrequirement"} component={NewRequirement}/>
                             <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} onEnter={() => store.dispatch(logout())}/>
                             <Route path={"admin"} component={Admin} onEnter={() => {}}>

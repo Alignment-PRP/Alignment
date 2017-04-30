@@ -1,5 +1,5 @@
 import { STEPPER_INDEX, UPDATE_REQUIRED_VALUES, UPDATE_OPTIONAL_VALUES, CLEAR_VALUES,
-    REQUIREMENT_RECEIVED, ADD_REQUIREMENT
+    REQUIREMENT_RECEIVED, REQUIREMENT_SENT
 } from './../types';
 
 const requirementFormReducer = (state = {
@@ -34,7 +34,7 @@ const requirementFormReducer = (state = {
                 received: false,
                 stepperIndex: 0
             };
-        case ADD_REQUIREMENT:
+        case REQUIREMENT_SENT:
             return {
                 ...state,
                 sent: true
