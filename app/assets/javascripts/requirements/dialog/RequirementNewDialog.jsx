@@ -49,7 +49,7 @@ class RequirementNewDialog extends React.Component {
                                 for (let i = 0; i < structures[type].length; i++ ) {
                                     const struc = structures[type][i];
                                     if (struc.content.toLowerCase() === values[type].toLowerCase()) {
-                                        return {type: type, id: struc.ID};
+                                        return {id: struc.ID};
                                     }
                                 }
 
