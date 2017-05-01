@@ -143,10 +143,12 @@ public class AdminController extends Controller {
 
             }
         }
-        return ok("added requirement");
-
+        return ok(getGlobalRequirementById(ID));
     }
 
+    private JsonNode getGlobalRequirementById(int id) {
+        return qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, id).get(0);
+    }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
         //TODO

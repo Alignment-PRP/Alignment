@@ -60,14 +60,11 @@ public class RequirementController extends Controller{
         //Returns and 200 OK with a JsonNode as Body.
         Map<String, Object> requirementMap = new HashMap<>();
         JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
-        for (JsonNode r:
-                req) {
+        for (JsonNode r : req) {
             requirementMap.put(r.get("RID").asText(), r);
         }
         return ok(Json.toJson(requirementMap));
     }
-
-
 
     /**
      * Returns a HTML form to insert a requirement. For testing.
