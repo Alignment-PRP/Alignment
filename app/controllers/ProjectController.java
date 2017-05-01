@@ -486,7 +486,7 @@ public class ProjectController extends Controller {
 
         //Checks if the user has access to the project
         if(!(hasAccess || isCreator || isManager)){
-            return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID));
+            return unauthorized("Unauthorized action");
         }
 
 
