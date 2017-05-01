@@ -1,36 +1,37 @@
 import {
-    ADD_REQUIREMENT,
-    POST_UPDATE_REQUIREMENT,
-    UPDATE_REQUIREMENT,
-    DELETE_REQUIREMENT,
-    GET_ALL_CATEGORY_NAMES,
-    GET_ALL_REQUIREMENTS
+    FORM_UPDATE_REQUIREMENT,
+    FORM_UPDATE_REQUIREMENT_METADATA,
+    GET_CATEGORY_NAMES,
+    GET_REQUIREMENTS
 } from './../types';
 
 const requirementReducer = (state = {
     requirements: null,
     requirement: [],
+    requirementMetadata: null,
     categoryNames: []
 }, action) => {
     switch (action.type) {
-        case GET_ALL_REQUIREMENTS:
+        case GET_REQUIREMENTS.RECEIVED:
             return {
                 ...state,
-                requirements: action.payload,
+                requirements: action.response.data,
             };
-        case UPDATE_REQUIREMENT:
+        case FORM_UPDATE_REQUIREMENT:
             return {
                 ...state,
                 requirement: action.payload
             };
-        case GET_ALL_CATEGORY_NAMES:
+        case FORM_UPDATE_REQUIREMENT_METADATA:
             return {
                 ...state,
-                categoryNames: action.payload
+                requirementMetadata: action.payload
             };
-        case ADD_REQUIREMENT:
-        case POST_UPDATE_REQUIREMENT:
-        case DELETE_REQUIREMENT:
+        case GET_CATEGORY_NAMES.RECEIVED:
+            return {
+                ...state,
+                categoryNames: action.response.data
+            };
         default:
             return state
     }
