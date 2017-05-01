@@ -1,30 +1,32 @@
 import axios from 'axios';
+import { SENT, RECEIVED, ERROR } from './../utility';
 import * as URLS from './../../config';
-import {
-    REQUIREMENT_SENT,
-    UPDATE_REQUIREMENT,
-    POST_UPDATE_REQUIREMENT,
-    DELETE_REQUIREMENT,
-    GET_ALL_CATEGORY_NAMES,
-    GET_ALL_REQUIREMENTS,
-    GET_REQ_STRUCTURE,
-    REQUIREMENT_RECEIVED
-} from './../types';
 import {snackBar} from "./snackBarActions";
+import {
+    ADD_REQUIREMENT,
+    POST_UPDATE_REQUIREMENT,
+
+    FORM_UPDATE_REQUIREMENT,
+    FORM_UPDATE_REQUIREMENT_METADATA,
+    GET_CATEGORY_NAMES,
+    GET_REQUIREMENTS,
+    POST_ADD_REQUIREMENT,
+    POST_DELETE_REQUIREMENT,
+    POST_UPDATE_PROJECT_REQUIREMENT,
+    POST_UPDATE_PROJECT_REQUIREMENT_METADATA
+} from './../types';
+import { getRequirementsByProjectIdWithFilter } from './projectActions';
 
 export function getAllRequirements() {
     return dispatch => {
         axios.get(URLS.REQUIREMENTS_GET)
             .then( response => {
-                dispatch(getAllRequirementsAsync(response.data))
+                dispatch(RECEIVED(GET_REQUIREMENTS, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_REQUIREMENTS, error));
             });
-    }
-}
-
-function getAllRequirementsAsync(data) {
-    return {
-        type: GET_ALL_REQUIREMENTS,
-        payload: data
+        dispatch(SENT(GET_REQUIREMENTS));
     }
 }
 
@@ -32,56 +34,33 @@ export function getAllCategoryNames() {
     return dispatch => {
         axios.get(URLS.CATEGORY_GET_ALL_NAMES)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getAllCategoryNamesAsync(data))
+                dispatch(RECEIVED(GET_CATEGORY_NAMES, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_CATEGORY_NAMES, error));
             });
-
+        dispatch(SENT(GET_CATEGORY_NAMES));
     }
 
-}
-
-function getAllCategoryNamesAsync(data) {
-    return {
-        type: GET_ALL_CATEGORY_NAMES,
-        payload: data
-    }
 }
 
 export function addRequirement(requirement) {
     console.log(requirement);
     return dispatch => {
         axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
-            .then(response => {
-                dispatch(addRequirementReceivedAsync());
-                dispatch(snackBar(true, 'Krav lagt til!'));
-                dispatch(getAllRequirements());
+            .then(function (response) {
+                dispatch(RECEIVED(POST_ADD_REQUIREMENT, response));
             })
-            .catch(error => {
-                console.log(error);
+            .catch(function (error) {
+                dispatch(ERROR(POST_ADD_REQUIREMENT, error));
             });
-        dispatch(addRequirementAsync())
-    }
-}
-
-function addRequirementAsync(){
-    return {
-        type: REQUIREMENT_SENT
-    }
-}
-
-function addRequirementReceivedAsync() {
-    return {
-        type: REQUIREMENT_RECEIVED
+        dispatch(SENT(POST_ADD_REQUIREMENT));
     }
 }
 
 export function updateRequirement(requirement) {
     return {
-        type: UPDATE_REQUIREMENT,
+        type: FORM_UPDATE_REQUIREMENT,
         payload: requirement
     }
 }
@@ -97,39 +76,75 @@ export function deleteRequirement(requirement){
         axios.post(URLS.REQUIREMENT_POST_DELETE, post)
             .then(function (response) {
                 dispatch(getAllRequirements());
+                dispatch(RECEIVED(POST_DELETE_REQUIREMENT, response));
             })
             .catch(function (error) {
-                if (error.response.status === 401) {
-                    //TODO
-                } else {
-                    console.log(error);
-                }
+                dispatch(ERROR(POST_DELETE_REQUIREMENT, error));
             });
-        dispatch(deleteRequirementAsync())
-    }
-}
-
-function deleteRequirementAsync(){
-    return{
-        type: DELETE_REQUIREMENT
+        dispatch(SENT(POST_DELETE_REQUIREMENT))
     }
 }
 
 export function postUpdateRequirement(requirement){
+
+    return dispatch => {
+        console.log(requirement);
+        axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+                dispatch(RECEIVED(POST_UPDATE_REQUIREMENT, response))
+            })
+            .catch(function (error) {
+                dispatch(ERROR(POST_UPDATE_REQUIREMENT, error));
+            });
+        dispatch(SENT(POST_UPDATE_REQUIREMENT));
+    }
+}
+
+
+export function postUpdateRequirementMetadata(requirement){
     return dispatch => {
         axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
             .then(function (response) {
                 dispatch(getAllRequirements());
+                dispatch(RECEIVED(POST_UPDATE_PROJECT_REQUIREMENT_METADATA, response));
             })
             .catch(function (error) {
-                console.log(error);
+                dispatch(ERROR(POST_UPDATE_PROJECT_REQUIREMENT_METADATA, error));
             });
-        dispatch(postUpdateRequirementAsync())
+        dispatch(SENT(POST_UPDATE_PROJECT_REQUIREMENT_METADATA));
     }
 }
 
-function postUpdateRequirementAsync(){
-    return{
-        type: POST_UPDATE_REQUIREMENT
+export function postProjectReqUpdate(requirement){
+    return dispatch => {
+        console.log(requirement);
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_UPDATE, requirement)
+            .then(function (response) {
+                dispatch(getAllRequirements());
+                dispatch(RECEIVED(POST_UPDATE_PROJECT_REQUIREMENT, response));
+                dispatch(getRequirementsByProjectIdWithFilter(requirement.PID, 'project', 'projectRequirements'));
+            })
+            .catch(function (error) {
+                dispatch(ERROR(POST_UPDATE_PROJECT_REQUIREMENT, error));
+            });
+        dispatch(SENT(POST_UPDATE_PROJECT_REQUIREMENT));
+    }
+}
+
+export function updateRequirementMetadata(requirement) {
+
+    const requirementMetadata = {
+        PID: requirement.PID,
+        RID: requirement.RID,
+        comment: requirement.comment,
+        description: requirement.description,
+        reqCode: requirement.reqCode,
+        reqNo: requirement.reqNo
+    }
+
+    return {
+        type: FORM_UPDATE_REQUIREMENT_METADATA,
+        payload: requirementMetadata
     }
 }

@@ -103,3 +103,12 @@
  * @property {String} subcategoryName
  * @property {Number} subcategoryID
  */
+
+/**
+ * Redux action type
+ * @global
+ * @typedef {Object} ActionType
+ * @property {String} SENT
+ * @property {String} RECEIVED
+ * @property {String} ERROR
+ */
