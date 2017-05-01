@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { SENT, RECEIVED, ERROR } from './../utility';
 import * as URLS from './../../config';
+import {snackBar} from "./snackBarActions";
 import {
     ADD_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
@@ -15,8 +16,6 @@ import {
     POST_UPDATE_PROJECT_REQUIREMENT_METADATA
 } from './../types';
 import { getRequirementsByProjectIdWithFilter } from './projectActions';
-
-
 
 export function getAllRequirements() {
     return dispatch => {
@@ -46,6 +45,7 @@ export function getAllCategoryNames() {
 }
 
 export function addRequirement(requirement) {
+    console.log(requirement);
     return dispatch => {
         axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
             .then(function (response) {
@@ -101,10 +101,9 @@ export function postUpdateRequirement(requirement){
     }
 }
 
-export function postUpdateRequirementMetadata(requirement){
 
+export function postUpdateRequirementMetadata(requirement){
     return dispatch => {
-        console.log(requirement);
         axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
             .then(function (response) {
                 dispatch(getAllRequirements());
@@ -149,4 +148,3 @@ export function updateRequirementMetadata(requirement) {
         payload: requirementMetadata
     }
 }
-

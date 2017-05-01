@@ -52,10 +52,13 @@ export const REQUIREMENT_POST_DELETE = REQUIREMENT + "/delete";
 export const REQUIREMENT_CATEGORY = REQUIREMENT + "/category";
 export const REQUIREMENT_POST_CATEGORY_ADD = REQUIREMENT_CATEGORY + "/add";
 export const REQUIREMENT_GET_CATEGORY_BY_ID = REQUIREMENT_CATEGORY + "/";
+export const REQUIREMENT_GET_STUCTURE =   REQUIREMENT + "/structure/types";
+
 
 export const REQUIREMENTS_GET = REQUIREMENT + "s";
 export const REQUIREMENTS_GET_ADMIN = REQUIREMENTS_GET + "/admin";
 export const REQUIREMENTS_GET_STATISTICS = REQUIREMENTS_GET + "/usage";
+
 
 export const CATEGORY = API + "/category";
 export const CATEGORY_POST_ADD = CATEGORY + "/add";
@@ -66,3 +69,6 @@ export const CATEGORY_GET_BY_NAME = CATEGORY_BYNAME + "/";
 
 export const SUBCATEGORY = API + "/subcategory";
 export const SUBCATEGORY_POST_ADD = SUBCATEGORY + "/add";
+
+export const STRUCTURE = API + '/structures';
+export const STRUCTURE_GET_ALL = STRUCTURE + '/all';

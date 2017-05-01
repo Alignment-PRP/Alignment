@@ -132,29 +132,23 @@ public class AdminController extends Controller {
         qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, ID, subCatID);
 
         //Inserts all the structures
-        for (String structureType: structures){
-            String content;
-            try{
-                content = values.get(structureType).asText();
+        for (JsonNode structure: values.get("structure")){
+
+            if(structure.has("id")){
+                insertHasStructure(ID, structure.get("id").asInt());
             }
-            catch (NullPointerException e){
-                continue;
-            }
-            int structureID;
-            try{
-                structureID = Integer.parseInt(content);
-                insertHasStructure(ID, structureID);
-            }
-            catch (NumberFormatException e){
-                String SID = insertStructureWithReturnID(structureType, content);
+            else if(structure.has("content")){
+                String SID = insertStructureWithReturnID(structure.get("type").asText(), structure.get("content").asText());
                 insertHasStructure(ID, Integer.parseInt(SID));
+
             }
-
         }
-        return ok("added requirement");
-
+        return ok(getGlobalRequirementById(ID));
     }
 
+    private JsonNode getGlobalRequirementById(int id) {
+        return qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, id).get(0);
+    }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
         //TODO
