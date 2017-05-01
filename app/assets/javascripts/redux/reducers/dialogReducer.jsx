@@ -16,6 +16,7 @@ const dialogReducer = (state = {
     projectNew: {...init},
     projectReqUpdate: {...init},
     requirementDelete: {...init},
+    requirementNew: {...init},
     userNew: {...init},
     userUpdate: {...init},
     userDelete: {...init},

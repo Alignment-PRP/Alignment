@@ -90,6 +90,21 @@
  */
 
 /**
+ * @global
+ * @typedef {Object} Category
+ * @property {String} name
+ * @property {Number} id
+ * @property {Array.<SubCategory>} subcategories
+ */
+
+/**
+ * @global
+ * @typedef {Object} SubCategory
+ * @property {String} subcategoryName
+ * @property {Number} subcategoryID
+ */
+
+/**
  * Redux action type
  * @global
  * @typedef {Object} ActionType
