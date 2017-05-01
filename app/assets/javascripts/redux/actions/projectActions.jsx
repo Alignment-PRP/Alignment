@@ -1,15 +1,19 @@
 import axios from 'axios';
 import * as URLS from './../../config';
-import {GET_PUBLIC_PROJECTS,
-        GET_PRIVATE_PROJECTS,
-        GET_ARCHIVED_PROJECTS,
-        GET_PROJECT_BY_ID,
-        GET_REQUIREMENTS_BY_PROJECT_ID,
-        POST_REQUIREMENT_TO_PROJECT,
-        DELETE_REQUIREMENT_TO_PROJECT,
-        DELETE_PROJECT,
-        POST_PROJECT_NEW,
-        CHANGE_PROJECTS_TABLE_MODE
+import { SENT, RECEIVED, ERROR } from './../utility';
+import {
+    GET_PROJECTS_PUBLIC,
+    GET_PROJECTS_ACCESSIBLE,
+    GET_PROJECTS_IS_CREATOR,
+    GET_PROJECTS_IS_MANAGER,
+    POST_NEW_PROJECT,
+    POST_DELETE_PROJECT,
+
+    GET_PROJECT_BY_ID,
+    GET_REQUIREMENTS_BY_PROJECT_ID,
+    POST_REQUIREMENT_TO_PROJECT,
+    DELETE_REQUIREMENT_TO_PROJECT,
+    CHANGE_PROJECTS_TABLE_MODE
 } from './../types';
 import {
     snackBar
@@ -32,94 +36,85 @@ import { updateFilterRequirementList } from './filterActions';
  * @module redux/actions/project
  */
 
-export function getPublicProjects() {
+export function getProjectsPublic() {
     return dispatch => {
-        axios.get(URLS.PROJECTS)
+        axios.get(URLS.PROJECTS_GET_PUBLIC)
             .then( response => {
-                dispatch(getPublicProjectsAsync(response.data))
+                dispatch(RECEIVED(GET_PROJECTS_PUBLIC, response))
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_PROJECTS_PUBLIC, error))
             });
-
+        dispatch(SENT(GET_PROJECTS_PUBLIC))
     }
 
 }
 
-function getPublicProjectsAsync(data) {
-    return {
-        type: GET_PUBLIC_PROJECTS,
-        payload: data
-    }
-}
-
-export function getPrivateProjects() {
+export function getProjectsAccessible() {
     return dispatch => {
-        axios.get(URLS.PROJECTS_GET_USER)
-            .then( response => {
-                dispatch(getPrivateProjectsAsync(response.data))
+        axios.get(URLS.PROJECTS_GET_ACCESSIBLE)
+            .then(response => {
+                dispatch(RECEIVED(GET_PROJECTS_ACCESSIBLE, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_PROJECTS_ACCESSIBLE, error));
             });
-
-    }
-
-}
-
-function getPrivateProjectsAsync(data) {
-    return {
-        type: GET_PRIVATE_PROJECTS,
-        payload: data
+        dispatch(SENT(GET_PROJECTS_ACCESSIBLE))
     }
 }
 
-
-export function getArchivedProjects() {
+export function getProjectsIsCreator() {
     return dispatch => {
-        axios.get(URLS.PROJECTS_GET_USER)
-            .then( response => {
-                dispatch(getArchivedProjectsAsync(response.data))
+        axios.get(URLS.PROJECTS_GET_IS_CREATOR)
+            .then(response => {
+                dispatch(RECEIVED(GET_PROJECTS_IS_CREATOR, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_PROJECTS_IS_CREATOR, error));
             });
-
-    }
-
-}
-
-function getArchivedProjectsAsync(data) {
-    return {
-        type: GET_ARCHIVED_PROJECTS,
-        payload: data
+        dispatch(SENT(GET_PROJECTS_IS_CREATOR))
     }
 }
+
+export function getProjectsIsManager() {
+    return dispatch => {
+        axios.get(URLS.PROJECTS_GET_IS_MANAGER)
+            .then(response => {
+                dispatch(RECEIVED(GET_PROJECTS_IS_MANAGER, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_PROJECTS_IS_MANAGER, error));
+            });
+        dispatch(SENT(GET_PROJECTS_IS_MANAGER))
+    }
+}
+
 
 export function getProjectById(id) {
     return dispatch => {
-        axios.get(URLS.PROJECT_GET_BY_ID + id)
+        axios.get(URLS.PROJECT_GET_BY_ID.replace(':id', id))
             .then( response => {
-                dispatch(getProjectByIdAsync(response.data))
+                dispatch(RECEIVED(GET_PROJECT_BY_ID, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_PROJECT_BY_ID, error));
             });
-
-    }
-}
-
-function getProjectByIdAsync(data) {
-    return {
-        type: GET_PROJECT_BY_ID,
-        payload: data
+        dispatch(SENT(GET_PROJECT_BY_ID));
     }
 }
 
 export function getRequirementsByProjectId(id) {
     return dispatch => {
-        axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID + id)
+        axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID.replace(':id', id))
             .then( response => {
-                dispatch(getRequirementsByProjectIdAsync(response.data))
+                dispatch(RECEIVED(GET_REQUIREMENTS_BY_PROJECT_ID, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_REQUIREMENTS_BY_PROJECT_ID, error));
             });
-
+        dispatch(SENT(GET_REQUIREMENTS_BY_PROJECT_ID));
     }
 
-}
-
-function getRequirementsByProjectIdAsync(data) {
-    return {
-        type: GET_REQUIREMENTS_BY_PROJECT_ID,
-        payload: data
-    }
 }
 
 export function postRequirementToProject(projectID, requirement){
@@ -165,9 +160,9 @@ export function postRequirementToProjectWithFilter(projectID, requirement, filte
 
 export function getRequirementsByProjectIdWithFilter(id, filter, comp) {
     return dispatch => {
-        axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID + id)
+        axios.get(URLS.PROJECT_REQUIREMENTS_GET_BY_ID.replace(':id', id))
             .then((response) => {
-                dispatch(getRequirementsByProjectIdAsync(response.data));
+                dispatch(RECEIVED(GET_REQUIREMENTS_BY_PROJECT_ID, response));
                 dispatch(updateFilterRequirementList(filter, comp, response.data))
             });
 
@@ -223,23 +218,16 @@ export function postProjectNew(data){
     return dispatch => {
         axios.post(URLS.PROJECT_POST_NEW, data)
             .then(function (response) {
-                dispatch(getPublicProjects());
+                dispatch(RECEIVED(POST_NEW_PROJECT, response));
                 dispatch(snackBar(true, "Prosjekt laget!"));
             })
             .catch(function (error) {
+                dispatch(ERROR(POST_NEW_PROJECT, error));
                 dispatch(snackBar(true, "Noe gikk galt.."));
-                console.log(error);
             });
-        dispatch(postProjectNewAsync())
+        dispatch(SENT(POST_NEW_PROJECT));
     }
 }
-
-function postProjectNewAsync() {
-    return {
-        type: POST_PROJECT_NEW,
-    }
-}
-
 
 /**
  * @param {string} mode
@@ -262,9 +250,6 @@ export function deleteProject(project){
     return dispatch => {
         axios.post(URLS.PROJECT_DELETE_BY_ID, post)
             .then(function (response) {
-                dispatch(getPublicProjects());
-                dispatch(getPrivateProjects());
-                dispatch(getArchivedProjects());
                 dispatch(snackBar(true, "Prosjekt slettet!"));
             })
             .catch(function (error) {
