@@ -1,12 +1,8 @@
 import {
-    ADD_REQUIREMENT,
-    POST_UPDATE_REQUIREMENT,
-    POST_PROJECT_REQUIREMENT_UPDATE,
-    UPDATE_REQUIREMENT,
-    UPDATE_REQUIREMENT_METADATA,
-    DELETE_REQUIREMENT,
-    GET_ALL_CATEGORY_NAMES,
-    GET_ALL_REQUIREMENTS
+    FORM_UPDATE_REQUIREMENT,
+    FORM_UPDATE_REQUIREMENT_METADATA,
+    GET_CATEGORY_NAMES,
+    GET_REQUIREMENTS
 } from './../types';
 
 const requirementReducer = (state = {
@@ -16,30 +12,26 @@ const requirementReducer = (state = {
     categoryNames: []
 }, action) => {
     switch (action.type) {
-        case GET_ALL_REQUIREMENTS:
+        case GET_REQUIREMENTS.RECEIVED:
             return {
                 ...state,
-                requirements: action.payload,
+                requirements: action.response.data,
             };
-        case UPDATE_REQUIREMENT:
+        case FORM_UPDATE_REQUIREMENT:
             return {
                 ...state,
                 requirement: action.payload
             };
-        case UPDATE_REQUIREMENT_METADATA:
+        case FORM_UPDATE_REQUIREMENT_METADATA:
             return {
                 ...state,
                 requirementMetadata: action.payload
             };
-        case GET_ALL_CATEGORY_NAMES:
+        case GET_CATEGORY_NAMES.RECEIVED:
             return {
                 ...state,
-                categoryNames: action.payload
+                categoryNames: action.response.data
             };
-        case ADD_REQUIREMENT:
-        case POST_UPDATE_REQUIREMENT:
-        case POST_PROJECT_REQUIREMENT_UPDATE:
-        case DELETE_REQUIREMENT:
         default:
             return state
     }
