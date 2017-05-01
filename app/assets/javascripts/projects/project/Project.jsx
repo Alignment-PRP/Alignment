@@ -5,7 +5,9 @@ import {connect} from 'react-redux'
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
 import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
-import { getAllRequirements, postProjectReqUpdate, updateRequirementMetadata } from '../../redux/actions/requirementActions';
+import {
+    getAllRequirements, postProjectReqUpdate, updateRequirementMetadata
+} from '../../redux/actions/requirementActions';
 import {
     postRequirementToProject, postRequirementToProjectWithFilter,
     deleteRequirementToProject, deleteRequirementToProjectWithFilter
