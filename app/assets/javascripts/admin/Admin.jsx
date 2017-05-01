@@ -34,7 +34,7 @@ class Admin extends React.Component {
                         <div id="admin">
                             <h2>Brukeroversikt</h2>
                             <ul>
-                                <li>Oversikt over hvem som eier hvilket prosjekt</li>
+                                <li>F.eks: Oversikt over hvem som eier hvilket prosjekt</li>
                             </ul>
                         </div>
                     </Tab>

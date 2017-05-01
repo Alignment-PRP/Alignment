@@ -46,6 +46,7 @@ POST    /api/project/update                 controllers.ProjectController.update
 POST    /api/project/hasAccess/remove       controllers.ProjectController.removeHasAccess()
 POST    /api/project/hasAccess/add          controllers.ProjectController.insertHasAccess()
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
+POST    /api/project/requirement/update     controllers.ProjectController.updateReq()
 GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id: String)
 GET     /api/project/:id/data               controllers.ProjectController.getProjectByProjectID(id: String)
 GET     /api/project/:id/meta               controllers.ProjectController.getProjectMetaData(id: String)

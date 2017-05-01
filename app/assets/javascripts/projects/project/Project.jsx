@@ -5,13 +5,17 @@ import {connect} from 'react-redux'
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
 import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
-import { getAllRequirements } from '../../redux/actions/requirementActions';
+import {
+    getAllRequirements, postProjectReqUpdate, updateRequirementMetadata
+} from '../../redux/actions/requirementActions';
 import {
     postRequirementToProject, postRequirementToProjectWithFilter,
     deleteRequirementToProject, deleteRequirementToProjectWithFilter
 } from '../../redux/actions/projectActions';
+import { dialogOpen } from '../../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../../redux/actions/filterActions';
 import { popoverAdd } from './../../redux/actions/popoverActions';
+import ProjectReqUpdateDialog from '../dialog/ProjectReqUpdateDialog';
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
 import DataTable from '../../core/table/DataTable';
@@ -73,9 +77,9 @@ class Project extends React.Component {
 
         const {
             filter,
-            allRequirements_filtered, projectRequirements_filtered,
-            allRequirements, projectRequirements,
-            postRequirementToProject, postRequirementToProjectWithFilter,
+            allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId,
+            allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata,
+            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
             deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
         } = this.props;
 
@@ -123,6 +127,10 @@ class Project extends React.Component {
                         }
                     }
                 },
+                {type: 'EDIT_ACTION', action: (requirement) => {
+                    projectReqUpdateDialog(true);
+                    updateRequirementMetadata(requirement);
+                },width: '15%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     if (filter && Object.keys(filter).length > 0) {
                         deleteRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
@@ -141,13 +149,25 @@ class Project extends React.Component {
                     </Paper>
                 </div>
                 <div className="add-requirements">
-                    <h2>Legg til Krav</h2>
+                    <h2>Velg Krav</h2>
                     <DataTable config={configLeft} />
                 </div>
                 <div className="project-requirements">
-                    <h2>Prosjekt Krav</h2>
+                    <h2>Kravliste for Prosjekt</h2>
                     <DataTable config={configRight}/>
                 </div>
+
+                <ProjectReqUpdateDialog
+                    title="Tilleggsbeskrivelse av krav"
+                    open={projectReqUpdateDialogIsOpen}
+                    handleSubmit={(data) => {
+                        postProjectReqUpdate(data);
+                        projectReqUpdateDialog(false);
+                        //TODO: This should update ProjectRequirement List.
+                        getRequirementsByProjectId(params.id);
+                    }}
+                    onRequestClose={projectReqUpdateDialog.bind(null, false)}
+                />
 
                 <Popover component="project"/>
             </div>
@@ -167,7 +187,8 @@ const mapStateToProps = (state) => {
         allRequirements_filtered: state.filterReducer.filterRequirementList['allRequirements'],
         projectRequirements_filtered: state.filterReducer.filterRequirementList['projectRequirements'],
         allRequirements: state.requirementReducer.requirements,
-        projectRequirements: state.projectReducer.projectRequirements
+        projectRequirements: state.projectReducer.projectRequirements,
+        projectReqUpdateDialogIsOpen: state.dialogReducer.projectReqUpdate.isOpen
     };
 };
 
@@ -185,29 +206,38 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(addFiltered(comp));
         },
         getAllRequirements: () => {
-            dispatch(getAllRequirements())
+            dispatch(getAllRequirements());
         },
         getRequirementsByProjectId: (id) => {
-            dispatch(getRequirementsByProjectId(id))
+            dispatch(getRequirementsByProjectId(id));
         },
         changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
+            dispatch(changeSideMenuMode(mode));
         },
         postRequirementToProject: (projectID, requirement) => {
-            dispatch(postRequirementToProject(projectID, requirement))
+            dispatch(postRequirementToProject(projectID, requirement));
+        },
+        updateRequirementMetadata: (requirement) => {
+            dispatch(updateRequirementMetadata(requirement))
+        },
+        postProjectReqUpdate: (data) => {
+            dispatch(postProjectReqUpdate(data));
         },
         postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp))
+            dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp));
         },
         deleteRequirementToProject: (projectID, requirement) => {
-            dispatch(deleteRequirementToProject(projectID, requirement))
+            dispatch(deleteRequirementToProject(projectID, requirement));
         },
         deleteRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp))
+            dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp));
         },
         popoverAdd: (popover) => {
             dispatch(popoverAdd(popover));
-        }
+        },
+        projectReqUpdateDialog: (open) => {
+            dispatch(dialogOpen('projectReqUpdate', open));
+        },
     };
 };
 

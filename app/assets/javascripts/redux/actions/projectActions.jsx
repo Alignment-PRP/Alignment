@@ -36,12 +36,7 @@ export function getPublicProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getPublicProjectsAsync(data))
+                dispatch(getPublicProjectsAsync(response.data))
             });
 
     }
@@ -59,12 +54,7 @@ export function getPrivateProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS_GET_USER)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getPrivateProjectsAsync(data))
+                dispatch(getPrivateProjectsAsync(response.data))
             });
 
     }
@@ -83,12 +73,7 @@ export function getArchivedProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS_GET_USER)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getArchivedProjectsAsync(data))
+                dispatch(getArchivedProjectsAsync(response.data))
             });
 
     }
@@ -106,12 +91,7 @@ export function getProjectById(id) {
     return dispatch => {
         axios.get(URLS.PROJECT_GET_BY_ID + id)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getProjectByIdAsync(data))
+                dispatch(getProjectByIdAsync(response.data))
             });
 
     }
