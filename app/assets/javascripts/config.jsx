@@ -29,12 +29,16 @@ export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
-export const PROJECT_GET_BY_ID = PROJECT + "/";
+export const PROJECT_GET_BY_ID = PROJECT + "/:id";
 export const PROJECT_DELETE_BY_ID = PROJECT + "/delete";
 
-export const PROJECTS = API + "/projects";
-export const PROJECTS_GET = PROJECTS;
-export const PROJECTS_GET_USER = PROJECTS_GET + "/user";
+const PROJECTS = API + "/projects";
+export const PROJECTS_GET_PUBLIC = PROJECTS;
+export const PROJECTS_GET_ACCESSIBLE = PROJECTS + '/accessible';
+export const PROJECTS_GET_IS_CREATOR = PROJECTS+ '/iscreator';
+export const PROJECTS_GET_IS_MANAGER = PROJECTS+ '/ismanager';
+
+export const PROJECTS_GET_USER = PROJECTS + "/user";
 
 export const PROJECT_REQUIREMENT = PROJECT + "/requirement";
 export const PROJECT_REQUIREMENT_POST_NEW = PROJECT_REQUIREMENT + "/new";
@@ -43,7 +47,7 @@ export const PROJECT_REQUIREMENT_POST_DELETE = PROJECT_REQUIREMENT + "/delete";
 export const PROJECT_REQUIREMENT_POST_UPDATE = PROJECT_REQUIREMENT + "/update";
 
 export const PROJECT_REQUIREMENTS = PROJECT_REQUIREMENT + "s";
-export const PROJECT_REQUIREMENTS_GET_BY_ID = PROJECT_REQUIREMENTS + "/";
+export const PROJECT_REQUIREMENTS_GET_BY_ID = PROJECT_REQUIREMENTS + "/:id";
 
 export const REQUIREMENT = API + "/requirement";
 export const REQUIREMENT_POST_ADD = REQUIREMENT + "/add";
