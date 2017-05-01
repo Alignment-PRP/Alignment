@@ -4,7 +4,8 @@ import {
     FORM_UPDATE_REQUIREMENT_METADATA,
     GET_CATEGORY_NAMES,
     GET_REQUIREMENTS,
-    POST_ADD_REQUIREMENT
+    POST_ADD_REQUIREMENT,
+    POST_DELETE_REQUIREMENT
 } from './../types';
 
 const requirementReducer = (state = {
@@ -21,6 +22,15 @@ const requirementReducer = (state = {
                 requirements: {
                     ...state.requirements,
                     [req.ID]: req
+                }
+            };
+        case POST_DELETE_REQUIREMENT.RECEIVED:
+            const requirements = Object.assign({}, state.requirements);
+            delete requirements[action.response.data];
+            return {
+                ...state,
+                requirements: {
+                    ...requirements
                 }
             };
         case GET_REQUIREMENTS.RECEIVED:
