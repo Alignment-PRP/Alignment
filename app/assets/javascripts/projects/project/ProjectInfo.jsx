@@ -31,27 +31,18 @@ class ProjectInfo extends React.Component {
         let securityLevel = "";
         let deploymentStyle = "";
         let userChannel = "";
-        let PID = "";
         let transactionVolume = "";
         if(this.props.projectMeta) {
             this.props.projectMeta.map((project) => {
                 securityLevel = project.securityLevel;
                 deploymentStyle = project.deploymentStyle;
                 userChannel = project.userChannel;
-                PID = project.PID;
                 transactionVolume = project.transactionVolume;
             });
             return (
                 <div>
                     <Divider />
                     <List>
-                        <ListItem
-                            primaryText="Prosjekt-ID: "
-                            secondaryText={
-                            <p>
-                                {PID}
-                            </p>
-                        }/>
                         <ListItem
                             primaryText="Sikkerhetsnivå: "
                             secondaryText={
