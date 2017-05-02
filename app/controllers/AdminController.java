@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.Statement;
-import play.api.libs.json.Json;
+import play.libs.Json;
 import play.db.Database;
 
 import database.QueryHandler;
@@ -145,7 +145,44 @@ public class AdminController extends Controller {
     }
 
     private JsonNode getGlobalRequirementById(int id) {
-        return qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, id).get(0);
+        Map<String, Object> requirementMap = new HashMap<>();
+        JsonNode requirement = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, id);
+        JsonNode requirementsStructure = qh.executeQuery(Statement.GET_REQUIREMENT_STRUCTURES);
+        for (JsonNode r:
+                requirement) {
+
+            Map<String, Object> requirementSingle = new HashMap<>();
+            Iterator<Map.Entry<String, JsonNode>> fields = r.fields();
+
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+
+                requirementSingle.put(n.getKey(), n.getValue());
+            }
+            List<Map<String, Object>> structs = new ArrayList<>();
+
+
+            requirementSingle.put("structures", structs);
+
+            requirementMap.put(r.get("RID").asText(), requirementSingle);
+        }
+        for (JsonNode struct :
+                requirementsStructure) {
+            String RID = struct.get("RID").asText();
+            Map r = (HashMap<String, Object>)requirementMap.get(RID);
+            List<Map<String, Object>> str = (List<Map<String, Object>>)r.get("structures");
+
+            Iterator<Map.Entry<String, JsonNode>> fields = struct.fields();
+            Map<String, Object> s = new HashMap<>();
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+                s.put(n.getKey(), n.getValue());
+            }
+            str.add(s);
+
+        }
+
+        return Json.toJson(requirementMap);
     }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
@@ -165,7 +202,7 @@ public class AdminController extends Controller {
     //==================================== GET REQUIREMENT ===================================================
 
     /**
-     * A method to get all the global requirements
+     * A method to get all the global requirements with the accompanying Structures
      * @return 200 OK or 401 Unauthorized
      * If 200 OK, the body contains all global requirements with metadata and category
      * TODO: Get structure as well?
@@ -191,7 +228,7 @@ public class AdminController extends Controller {
 
                 requirementSingle.put(n.getKey(), n.getValue());
             }
-            Map<String, Object> structs = new HashMap<>();
+            List<Map<String, Object>> structs = new ArrayList<>();
 
 
             requirementSingle.put("structures", structs);
@@ -202,16 +239,19 @@ public class AdminController extends Controller {
                 requirementsStructures) {
             String RID = struct.get("RID").asText();
             Map r = (HashMap<String, Object>)requirementMap.get(RID);
-            Map str = (HashMap<String, Object>)r.get("structures");
+            List<Map<String, Object>> str = (List<Map<String, Object>>)r.get("structures");
 
             Iterator<Map.Entry<String, JsonNode>> fields = struct.fields();
+            Map<String, Object> s = new HashMap<>();
             while(fields.hasNext()){
                 Map.Entry<String, JsonNode> n = fields.next();
-                str.put(n.getKey(), n.getValue());
+                s.put(n.getKey(), n.getValue());
             }
+            str.add(s);
 
         }
-        return ok(requirements);
+
+        return ok(Json.toJson(requirementMap));
     }
 
     //==================================== UPDATE REQUIREMENT ================================================
@@ -304,7 +344,7 @@ public class AdminController extends Controller {
 
 
 
-        return ok("updated requirement");
+        return ok(getGlobalRequirementById(ID));
 
 
     }
