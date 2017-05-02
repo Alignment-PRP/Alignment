@@ -14,7 +14,9 @@ const updateField = (state, dialog, field, data) => {
 const dialogReducer = (state = {
     projectDelete: {...init},
     projectNew: {...init},
+    projectReqUpdate: {...init},
     requirementDelete: {...init},
+    requirementNew: {...init},
     userNew: {...init},
     userUpdate: {...init},
     userDelete: {...init},

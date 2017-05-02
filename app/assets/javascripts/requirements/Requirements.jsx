@@ -1,11 +1,14 @@
 import React from 'react';
-import {connect} from "react-redux";
-import { updateRequirement, deleteRequirement, getAllCategoryNames } from "../redux/actions/requirementActions";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
+import {connect} from 'react-redux';
+import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement } from '../redux/actions/requirementActions';
+import { getStructures, getStructureTypes } from './../redux/actions/structureActions';
+import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import { popoverAdd } from './../redux/actions/popoverActions';
+import { getUsersWithClass } from './../redux/actions/userActions';
+import RequirementNewDialog from './dialog/RequirementNewDialog';
 import Paper from 'material-ui/Paper';
 import DataTable from '../core/table/DataTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
@@ -19,11 +22,16 @@ class Requirements extends React.Component {
         this.props.addFilter('requirements');
         this.props.addFiltered('requirements');
         this.props.popoverAdd('requirements');
+
+
+        this.props.getAllRequirements();
+        this.props.getAllCategoryNames();
+        this.props.getUsersWithClass();
+        this.props.getStructureTypes();
+        this.props.getStructures();
     }
 
     componentDidMount() {
-        this.props.getAllRequirements();
-        this.props.getAllCategoryNames();
         this.props.changeSideMenuMode("HIDE");
     }
 
@@ -31,7 +39,8 @@ class Requirements extends React.Component {
         const {
             filterRequirementList, requirements, filter,
             updateRequirement, deleteRequirement,
-            deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction
+            deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
+            structures, structureTypes, categories, users, newRequirementDialogIsOpen
         } = this.props;
 
         const config = {
@@ -85,6 +94,18 @@ class Requirements extends React.Component {
                 </div>
 
                 <Popover component="requirements"/>
+
+                <RequirementNewDialog
+                    title="Nytt Krav"
+                    open={newRequirementDialogIsOpen}
+                    handleSubmit={(values) => {addRequirement(values); this.props.newDialog(false)}}
+                    onRequestClose={this.props.newDialog.bind(null, false)}
+                    users={users}
+                    categories={categories}
+                    structures={structures}
+                    structureTypes={structureTypes}
+                />
+
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -102,44 +123,34 @@ const mapStateToProps = (state) => {
         filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
         requirements: state.requirementReducer.requirements,
         filter: state.filterReducer.filters['requirements'],
+        newRequirementDialogIsOpen: state.dialogReducer.requirementNew.isOpen,
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action,
-        popover: state.popoverReducer.popovers['requirements']
+        popover: state.popoverReducer.popovers['requirements'],
+        users: state.userReducer.users,
+        categories: state.requirementReducer.categoryNames,
+        structures: state.structureReducer.structures,
+        structureTypes: state.structureReducer.types
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addFilter: (filter) => {
-            dispatch(addFilter(filter));
-        },
-        addFiltered: (comp) => {
-            dispatch(addFiltered(comp));
-        },
-        deleteDialogOpen: (open) => {
-            dispatch(dialogOpen('requirementDelete', open));
-        },
-        deleteDialogChangeAction: (action) => {
-            dispatch(dialogChangeAction('requirementDelete', action));
-        },
-        getAllRequirements: () => {
-            dispatch(getAllRequirements())
-        },
-        updateRequirement: (requirement) => {
-            dispatch(updateRequirement(requirement))
-        },
-        deleteRequirement: (requirement) => {
-            dispatch(deleteRequirement(requirement))
-        },
-        getAllCategoryNames: () => {
-            dispatch(getAllCategoryNames())
-        },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
-        },
-        popoverAdd: (popover) => {
-            dispatch(popoverAdd(popover));
-        }
+        addFilter: (filter) => dispatch(addFilter(filter)),
+        addFiltered: (comp) => dispatch(addFiltered(comp)),
+        newDialog: (open) => dispatch(dialogOpen('requirementNew', open)),
+        deleteDialogOpen: (open) => dispatch(dialogOpen('requirementDelete', open)),
+        deleteDialogChangeAction: (action) => dispatch(dialogChangeAction('requirementDelete', action)),
+        getAllRequirements: () => dispatch(getAllRequirements()),
+        updateRequirement: (requirement) => dispatch(updateRequirement(requirement)),
+        deleteRequirement: (requirement) => dispatch(deleteRequirement(requirement)),
+        getAllCategoryNames: () => dispatch(getAllCategoryNames()),
+        changeSideMenuMode: (mode) => dispatch(changeSideMenuMode(mode)),
+        popoverAdd: (popover) => dispatch(popoverAdd(popover)),
+        getUsersWithClass: () => dispatch(getUsersWithClass()),
+        getStructures: () => dispatch(getStructures()),
+        getStructureTypes: () => dispatch(getStructureTypes()),
+
     };
 };
 

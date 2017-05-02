@@ -120,10 +120,9 @@ class ProjectView extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    let path = state.router.location ? state.router.location.pathname : "/project/:id";
+const mapStateToProps = (state, props) => {
     return {
-        path: path
+        path: props.location.pathname
     };
 };
 

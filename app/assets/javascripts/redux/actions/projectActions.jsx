@@ -37,12 +37,7 @@ export function getPublicProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getPublicProjectsAsync(data))
+                dispatch(getPublicProjectsAsync(response.data))
             });
 
     }
@@ -60,12 +55,7 @@ export function getPrivateProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS_GET_USER)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getPrivateProjectsAsync(data))
+                dispatch(getPrivateProjectsAsync(response.data))
             });
 
     }
@@ -84,12 +74,7 @@ export function getArchivedProjects() {
     return dispatch => {
         axios.get(URLS.PROJECTS_GET_USER)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getArchivedProjectsAsync(data))
+                dispatch(getArchivedProjectsAsync(response.data))
             });
 
     }
@@ -107,12 +92,7 @@ export function getProjectDataById(id) {
     return dispatch => {
         axios.get(URLS.PROJECT_GET_DATA_BY_ID + id + "/data")
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getProjectDataByIdAsync(data))
+                dispatch(getProjectDataByIdAsync(response.data));
             });
 
     }
@@ -122,12 +102,7 @@ export function getProjectMetaDataById(id) {
     return dispatch => {
         axios.get(URLS.PROJECT_GET_META_BY_ID + id + "/meta")
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getProjectMetaByIdAsync(data))
+                dispatch(getProjectMetaByIdAsync(response.data))
             });
 
     }
