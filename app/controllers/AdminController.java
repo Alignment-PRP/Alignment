@@ -144,44 +144,39 @@ public class AdminController extends Controller {
         return ok(getGlobalRequirementById(ID));
     }
 
+    public Result getRequirementById(String ID){
+        return ok(getGlobalRequirementById(Integer.parseInt(ID)));
+    }
+
     private JsonNode getGlobalRequirementById(int id) {
+
+
         Map<String, Object> requirementMap = new HashMap<>();
-        JsonNode requirement = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, id);
-        JsonNode requirementsStructure = qh.executeQuery(Statement.GET_REQUIREMENT_STRUCTURES);
-        for (JsonNode r:
-                requirement) {
+        JsonNode requirement = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, id).get(0);
+        JsonNode requirementStructure = qh.executeQuery(Statement.GET_REQUIREMENT_STRUCTURES, id);
 
-            Map<String, Object> requirementSingle = new HashMap<>();
-            Iterator<Map.Entry<String, JsonNode>> fields = r.fields();
+        Iterator<Map.Entry<String, JsonNode>> fields = requirement.fields();
 
-            while(fields.hasNext()){
-                Map.Entry<String, JsonNode> n = fields.next();
+        System.out.println("HEI!");
+        while(fields.hasNext()){
+            Map.Entry<String, JsonNode> n = fields.next();
 
-                requirementSingle.put(n.getKey(), n.getValue());
-            }
-            List<Map<String, Object>> structs = new ArrayList<>();
-
-
-            requirementSingle.put("structures", structs);
-
-            requirementMap.put(r.get("RID").asText(), requirementSingle);
+            requirementMap.put(n.getKey(), n.getValue());
         }
-        for (JsonNode struct :
-                requirementsStructure) {
-            String RID = struct.get("RID").asText();
-            Map r = (HashMap<String, Object>)requirementMap.get(RID);
-            List<Map<String, Object>> str = (List<Map<String, Object>>)r.get("structures");
 
-            Iterator<Map.Entry<String, JsonNode>> fields = struct.fields();
+
+        List<Map<String, Object>> structs = new ArrayList<>();
+        for (JsonNode str :
+                requirementStructure) {
+            Iterator<Map.Entry<String, JsonNode>> structFields = str.fields();
             Map<String, Object> s = new HashMap<>();
-            while(fields.hasNext()){
-                Map.Entry<String, JsonNode> n = fields.next();
+            while(structFields.hasNext()){
+                Map.Entry<String, JsonNode> n = structFields.next();
                 s.put(n.getKey(), n.getValue());
             }
-            str.add(s);
-
+            structs.add(s);
         }
-
+        requirementMap.put("structures", structs);
         return Json.toJson(requirementMap);
     }
 
