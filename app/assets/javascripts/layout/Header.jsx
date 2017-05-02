@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -15,17 +16,12 @@ class Header extends React.Component {
 
     }
 
-    UserData(){
-        let USERNAME = "";
-        let ucDesc = "";
-        let ucName = "";
+    UserData() {
 
         if(this.props.userdata){
-            this.props.userdata.map((user)=>{
-                USERNAME = user.USERNAME;
-                ucDesc = user.ucDesc;
-                ucName = user.ucName;
-            });
+            const USERNAME = this.props.userdata.USERNAME;
+            const ucDesc = this.props.userdata.ucDesc;
+            const ucName = this.props.userdata.ucName;
 
             return(
                 <div id="user-info">
@@ -35,7 +31,7 @@ class Header extends React.Component {
                     </p>
                 </div>
             )
-        }else {
+        } else {
             return (
                 <div id="user-info">
                     <CircularProgress/>

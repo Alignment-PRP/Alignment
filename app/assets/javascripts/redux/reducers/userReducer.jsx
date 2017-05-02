@@ -11,10 +11,10 @@ const userReducer = (state = {
     userClasses: [],
 }, action) => {
     switch (action.type) {
-        case GET_USER_DATA:
+        case GET_USER_DATA.RECEIVED:
             return {
                 ...state,
-                userdata: action.payload
+                userdata: action.response.data
             };
         case GET_USERS:
             return {

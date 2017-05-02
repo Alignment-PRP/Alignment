@@ -62,7 +62,7 @@ public class UserController extends Controller {
     public Result getConnectedUser(){
         //TODO replace this with references to new DB's "userClass" table. (session username should be ok?)
         String username = session("connected");
-        JsonNode result = qh.executeQuery(Statement.GET_USER_BY_USERNAME, username);
+        JsonNode result = qh.executeQuery(Statement.GET_USER_BY_USERNAME, username).get(0);
         return ok(result);
     }
 
