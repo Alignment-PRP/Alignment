@@ -60,14 +60,11 @@ public class RequirementController extends Controller{
         //Returns and 200 OK with a JsonNode as Body.
         Map<String, Object> requirementMap = new HashMap<>();
         JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
-        for (JsonNode r:
-                req) {
+        for (JsonNode r : req) {
             requirementMap.put(r.get("RID").asText(), r);
         }
         return ok(Json.toJson(requirementMap));
     }
-
-
 
     /**
      * Returns a HTML form to insert a requirement. For testing.
@@ -132,17 +129,39 @@ public class RequirementController extends Controller{
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        Map<String, Object> structuresMap = new HashMap<>();
-        List<String> typeList = new ArrayList<>();
-        JsonNode types = qh.executeQuery(Statement.GET_STRUCTURE_TYPES);
 
-        for (JsonNode n:
-             types) {
-            typeList.add(n.get("type").asText());
+        final JsonNode types = qh.executeQuery(Statement.GET_STRUCTURE_TYPES);
+        final List<String> typeList = new ArrayList<>();
+
+        for (JsonNode node : types) {
+            typeList.add(node.get("type").asText());
         }
-        structuresMap.put("types", typeList);
-        return ok(Json.toJson(structuresMap));
+        return ok(Json.toJson(typeList));
     }
+
+    public Result getStructures(){
+        JsonNode structures = qh.executeQuery(Statement.GET_STRUCTURES);
+        //List<Map<String, List>> structureList = new ArrayList<>();
+        Map<String, List> types = new HashMap<>();
+        for(int i = 0; i < structures.size(); i++){
+            JsonNode content = structures.get(i);
+            String type = content.get("type").asText();
+            Map<String, String> instanceContent = new HashMap<>();
+            instanceContent.put("ID", content.get("ID").asText());
+            instanceContent.put("content", content.get("content").asText());
+            if(! types.containsKey(type)){
+                List<Map> instances = new ArrayList<>();
+                instances.add(instanceContent);
+                types.put(type, instances);
+            }
+            else{
+                List<Map> instances = types.get(type);
+                instances.add(instanceContent);
+            }
+        }
+        return ok(Json.toJson(types));
+    }
+
 }
 
 

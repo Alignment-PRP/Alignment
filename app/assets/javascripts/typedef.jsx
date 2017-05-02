@@ -88,3 +88,27 @@
  * @property {Number} lines - Determines the maximum number of lines before overflow is hidden.|
  * @property {Function} ellipsis - Renderer for ellipsis. Passes the data object.
  */
+
+/**
+ * @global
+ * @typedef {Object} Category
+ * @property {String} name
+ * @property {Number} id
+ * @property {Array.<SubCategory>} subcategories
+ */
+
+/**
+ * @global
+ * @typedef {Object} SubCategory
+ * @property {String} subcategoryName
+ * @property {Number} subcategoryID
+ */
+
+/**
+ * Redux action type
+ * @global
+ * @typedef {Object} ActionType
+ * @property {String} SENT
+ * @property {String} RECEIVED
+ * @property {String} ERROR
+ */

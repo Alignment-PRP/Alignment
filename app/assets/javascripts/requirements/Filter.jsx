@@ -8,6 +8,7 @@ import Checkbox from 'material-ui/Checkbox';
 import SubHeader from 'material-ui/Subheader';
 import { getAllCategoryNames } from '../redux/actions/requirementActions';
 import { updateFilter, updateFilterRequirementList, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../redux/actions/filterActions';
+import { dialogOpen } from './../redux/actions/dialogActions';
 import CategoryCheckBoxes from './../core/filter/checkboxes/CategoryCheckBoxes';
 
 class Filter extends React.Component {
@@ -60,9 +61,7 @@ class Filter extends React.Component {
                 <List>
                     <SubHeader>Krav Meny</SubHeader>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Link to="newrequirement">
-                            <RaisedButton primary={true} label="Nytt Krav" />
-                        </Link>
+                            <RaisedButton onClick={this.props.newDialog.bind(null, true)} primary={true} label="Nytt Krav" />
                     </div>
                 </List>
             </div>
@@ -101,6 +100,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getAllCategoryNames: () => {
             dispatch(getAllCategoryNames())
+        },
+        newDialog: (open) => {
+            dispatch(dialogOpen('requirementNew', open));
         }
     }
 };

@@ -61,15 +61,6 @@ class Filter extends React.Component {
                     <ListItem primaryText="Stimulus" leftCheckbox={<Checkbox/>}/>
                     <ListItem primaryText="Artifact" leftCheckbox={<Checkbox/>}/>
                 </List>
-                <Divider/>
-                <List>
-                    <SubHeader>Krav Meny</SubHeader>
-                    <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Link to="newrequirement">
-                            <RaisedButton primary={true} label="Nytt Krav" />
-                        </Link>
-                    </div>
-                </List>
             </div>
         )
     }
