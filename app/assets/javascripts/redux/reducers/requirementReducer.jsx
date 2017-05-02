@@ -16,10 +16,9 @@ const requirementReducer = (state = {
 }, action) => {
     switch (action.type) {
         case POST_UPDATE_REQUIREMENT.RECEIVED:
-            const req = action.response.data;
+            const req1 = action.response.data;
             return {
                 ...state,
-
             };
         case POST_ADD_REQUIREMENT.RECEIVED:
             const req = action.response.data;
