@@ -39,7 +39,7 @@ public enum Statement {
             "name = ? " +
             "WHERE RID = ?"),
     GET_REQUIREMENT_STRUCTURES("" +
-            "SELECT * " +
+            "SELECT r.ID AS RID, s.ID AS SID, s.type AS type, s.content AS content  " +
             "FROM Structure AS s " +
             "INNER JOIN HasStructure AS hs " +
             "ON hs.SID = s.ID " +
