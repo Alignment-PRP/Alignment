@@ -38,6 +38,14 @@ public enum Statement {
             "reqNo = ?, " +
             "name = ? " +
             "WHERE RID = ?"),
+    GET_REQUIREMENT_STRUCTURES("" +
+            "SELECT r.ID AS RID, s.ID AS SID, s.type AS type, s.content AS content  " +
+            "FROM Structure AS s " +
+            "INNER JOIN HasStructure AS hs " +
+            "ON hs.SID = s.ID " +
+            "INNER JOIN Requirements AS r " +
+            "ON r.ID = hs.RID " +
+            "WHERE r.ID = ? "),
     INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?)"),
     INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
@@ -54,6 +62,14 @@ public enum Statement {
             "ON hsc.SID = sc.ID " +
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID "),
+
+    GET_REQUIREMENTS_STRUCTURES("" +
+            "SELECT r.ID AS RID, s.ID AS SID, s.type AS type, s.content AS content " +
+            "FROM Requirements AS r " +
+            "INNER JOIN HasStructure AS hs " +
+            "ON hs.RID = r.ID " +
+            "INNER JOIN Structure AS s " +
+            "ON s.ID = hs.SID "),
 
     GET_GLOBAL_REQUIREMENT_BY_ID("" +
             "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc " +

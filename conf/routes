@@ -58,10 +58,10 @@ POST    /api/requirement/delete             controllers.AdminController.deleteRe
 POST    /api/requirement/update             controllers.AdminController.updateRequirement()
 POST    /api/requirement/category/add       controllers.AdminController.insertRequirementCategory()
 GET     /api/requirement/category/:id       controllers.RequirementController.getRequirementsByCategoryID(id: String)
-GET     /api/requirements/admin             controllers.AdminController.getReq()
 GET     /api/requirements                   controllers.RequirementController.getGlobalRequirements()
 GET     /api/requirements/usage             controllers.AdminController.getRequirementUsage()
 GET     /api/requirement/structure/types    controllers.RequirementController.getStructureTypes()
+GET     /api/requirement/:id                controllers.AdminController.getRequirementById(id: String)
 
 GET     /api/structures/all                  controllers.RequirementController.getStructures()
 

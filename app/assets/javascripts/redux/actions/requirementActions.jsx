@@ -90,7 +90,6 @@ export function postUpdateRequirement(requirement){
         console.log(requirement);
         axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
             .then(function (response) {
-                dispatch(getAllRequirements());
                 dispatch(RECEIVED(POST_UPDATE_REQUIREMENT, response))
             })
             .catch(function (error) {

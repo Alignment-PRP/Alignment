@@ -60,7 +60,6 @@ export const REQUIREMENT_GET_STUCTURE =   REQUIREMENT + "/structure/types";
 
 
 export const REQUIREMENTS_GET = REQUIREMENT + "s";
-export const REQUIREMENTS_GET_ADMIN = REQUIREMENTS_GET + "/admin";
 export const REQUIREMENTS_GET_STATISTICS = REQUIREMENTS_GET + "/usage";
 
 
