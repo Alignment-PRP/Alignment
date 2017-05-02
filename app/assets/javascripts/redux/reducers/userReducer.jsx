@@ -8,28 +8,28 @@ import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from 
 const userReducer = (state = {
     userdata: null,
     users: null,
-    userClasses: [],
+    userClasses: null,
 }, action) => {
     switch (action.type) {
-        case GET_USER_DATA:
+        case GET_USER_DATA.RECEIVED:
             return {
                 ...state,
-                userdata: action.payload
+                userdata: action.response.data
             };
-        case GET_USERS:
+        case GET_USERS.RECEIVED:
             return {
                 ...state,
-                users: action.payload
+                users: action.response.data
             };
-        case GET_USERS_WITH_CLASS:
+        case GET_USERS_WITH_CLASS.RECEIVED:
             return {
                 ...state,
-                users: action.payload
+                users: action.response.data
             };
-        case GET_USERCLASSES:
+        case GET_USERCLASSES.RECEIVED:
             return {
                 ...state,
-                userClasses: action.payload
+                userClasses: action.response.data
             };
         default:
             return state

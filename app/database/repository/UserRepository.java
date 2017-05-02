@@ -28,6 +28,7 @@ public class UserRepository {
 
     public void insertUser(final User user) {
         qh.insertStatement(Statement.INSERT_USER, user.firstName, user.lastName, user.email, user.USERNAME, hash(user.pass));
+        qh.insertStatement(Statement.INSERT_USER_CLASS, user.USERNAME, "User");
     }
 
     public User getUser(final User user) {

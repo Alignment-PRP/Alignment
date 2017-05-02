@@ -6,6 +6,7 @@ import {
     GET_REQUIREMENTS,
     POST_ADD_REQUIREMENT,
     POST_UPDATE_REQUIREMENT
+    POST_DELETE_REQUIREMENT
 } from './../types';
 
 const requirementReducer = (state = {
@@ -16,14 +17,6 @@ const requirementReducer = (state = {
 }, action) => {
     switch (action.type) {
         case POST_UPDATE_REQUIREMENT.RECEIVED:
-            const req1 = action.response.data;
-            return {
-                ...state,
-                requirements: {
-                    ...state.requirements,
-                    [req1.ID]: req1
-                }
-            };
         case POST_ADD_REQUIREMENT.RECEIVED:
             const req = action.response.data;
             return {
@@ -31,6 +24,15 @@ const requirementReducer = (state = {
                 requirements: {
                     ...state.requirements,
                     [req.ID]: req
+                }
+            };
+        case POST_DELETE_REQUIREMENT.RECEIVED:
+            const requirements = Object.assign({}, state.requirements);
+            delete requirements[action.response.data];
+            return {
+                ...state,
+                requirements: {
+                    ...requirements
                 }
             };
         case GET_REQUIREMENTS.RECEIVED:
