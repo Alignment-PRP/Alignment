@@ -572,12 +572,10 @@ public class ProjectController extends Controller {
             //If this data has been received by the client, add it to the updateData
             if(values.has(entry.getKey())){
                 updateData.put(entry.getKey(), values.get(entry.getKey()).asText());
-                System.out.println(values.get(entry.getKey()).asText());
             }
             //If not, add the old entry
             else{
                 updateData.put(entry.getKey(), entry.getValue().asText());
-                System.out.println("default");
             }
         }
 

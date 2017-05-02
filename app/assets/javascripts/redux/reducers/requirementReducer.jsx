@@ -5,6 +5,7 @@ import {
     GET_CATEGORY_NAMES,
     GET_REQUIREMENTS,
     POST_ADD_REQUIREMENT,
+    POST_UPDATE_REQUIREMENT
     POST_DELETE_REQUIREMENT
 } from './../types';
 
@@ -15,6 +16,7 @@ const requirementReducer = (state = {
     categoryNames: []
 }, action) => {
     switch (action.type) {
+        case POST_UPDATE_REQUIREMENT.RECEIVED:
         case POST_ADD_REQUIREMENT.RECEIVED:
             const req = action.response.data;
             return {

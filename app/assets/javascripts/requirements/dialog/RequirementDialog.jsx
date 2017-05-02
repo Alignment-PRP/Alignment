@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeStepperIndex, updateRequiredValues, updateOptionalValues, clearValues } from './../../redux/actions/requirementFormActions';
-import { addRequirement } from './../../redux/actions/requirementActions';
 import Dialog from 'material-ui/Dialog';
 import RequirementFormStepper from "../form/RequirementFormStepper";
 import RequirementRequiredForm from "../form/RequirementRequiredForm";
 import RequirementOptionalForm from "../form/RequirementOptionalForm";
 
-class RequirementNewDialog extends React.Component {
+class RequirementDialog extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +18,8 @@ class RequirementNewDialog extends React.Component {
         const {
             stepperIndex, categories, users, structures, structureTypes,
             changeStepperIndex, updateRequiredValues, updateOptionalValues,
-            onRequestClose, sendRequirement, requiredValues, clearValues
+            onRequestClose, sendRequirement, requiredValues, clearValues,
+            sendAction
         } = this.props;
         switch (stepperIndex) {
             case 0:
@@ -31,9 +31,7 @@ class RequirementNewDialog extends React.Component {
                             changeStepperIndex(stepperIndex + 1);
                             updateRequiredValues(values);
                         }}
-                        handleClose={() => {
-                            onRequestClose();
-                        }}
+                        handleClose={onRequestClose}
                     />
                 );
             case 1:
@@ -56,16 +54,13 @@ class RequirementNewDialog extends React.Component {
                                 return {type: type, content: values[type]};
                             });
 
-                            sendRequirement(requiredValues, optional);
-                            clearValues();
-                            onRequestClose();
+                            sendAction({...requiredValues, structure: [...optional]});
                         }}
-                        back={() => {
+                        back={(values) => {
+                            updateOptionalValues(values);
                             changeStepperIndex(stepperIndex - 1);
                         }}
-                        handleClose={() => {
-                            onRequestClose();
-                        }}
+                        handleClose={onRequestClose}
                     />
                 );
             default:
@@ -104,23 +99,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeStepperIndex: (index) => {
-            dispatch(changeStepperIndex(index));
-        },
-        updateRequiredValues: (values) => {
-            dispatch(updateRequiredValues(values));
-        },
-        updateOptionalValues: (values) => {
-            dispatch(updateOptionalValues(values));
-        },
-        sendRequirement: (required, optional) => {
-            dispatch(addRequirement({...required, structure: [...optional]}));
-        },
-        clearValues: () => {
-            dispatch(clearValues());
-        }
-
+        changeStepperIndex: (index) => dispatch(changeStepperIndex(index)),
+        updateRequiredValues: (values) => dispatch(updateRequiredValues(values)),
+        updateOptionalValues: (values) => dispatch(updateOptionalValues(values))
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RequirementNewDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(RequirementDialog);
