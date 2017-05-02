@@ -75,7 +75,6 @@ export function deleteRequirement(requirement){
     return dispatch => {
         axios.post(URLS.REQUIREMENT_POST_DELETE, post)
             .then(function (response) {
-                dispatch(getAllRequirements());
                 dispatch(RECEIVED(POST_DELETE_REQUIREMENT, response));
             })
             .catch(function (error) {
