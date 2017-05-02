@@ -69,12 +69,12 @@ const projectReducer = (state = {
                 ...state,
                 projectsIsManager: action.response.data
             };
-        case GET_PROJECT_BY_ID:
+        case GET_PROJECT_BY_ID.RECEIVED:
             return {
                 ...state,
                 project: action.response.data
             };
-        case GET_REQUIREMENTS_BY_PROJECT_ID:
+        case GET_REQUIREMENTS_BY_PROJECT_ID.RECEIVED:
             return {
                 ...state,
                 projectRequirements: action.response.data
