@@ -157,7 +157,6 @@ public class AdminController extends Controller {
 
         Iterator<Map.Entry<String, JsonNode>> fields = requirement.fields();
 
-        System.out.println("HEI!");
         while(fields.hasNext()){
             Map.Entry<String, JsonNode> n = fields.next();
 

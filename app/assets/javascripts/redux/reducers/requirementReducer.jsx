@@ -19,6 +19,10 @@ const requirementReducer = (state = {
             const req1 = action.response.data;
             return {
                 ...state,
+                requirements: {
+                    ...state.requirements,
+                    [req1.ID]: req1
+                }
             };
         case POST_ADD_REQUIREMENT.RECEIVED:
             const req = action.response.data;
