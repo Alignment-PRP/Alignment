@@ -31,9 +31,7 @@ class RequirementEditDialog extends React.Component {
                             changeStepperIndex(stepperIndex + 1);
                             updateRequiredValues(values);
                         }}
-                        handleClose={() => {
-                            onRequestClose();
-                        }}
+                        handleClose={onRequestClose}
                     />
                 );
             case 1:
@@ -57,15 +55,12 @@ class RequirementEditDialog extends React.Component {
                             });
 
                             postUpdateRequirement(requiredValues, optional);
-                            clearValues();
-                            onRequestClose();
                         }}
-                        back={() => {
+                        back={(values) => {
+                            updateOptionalValues(values);
                             changeStepperIndex(stepperIndex - 1);
                         }}
-                        handleClose={() => {
-                            onRequestClose();
-                        }}
+                        handleClose={onRequestClose}
                     />
                 );
             default:
