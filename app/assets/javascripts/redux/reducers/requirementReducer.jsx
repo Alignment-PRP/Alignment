@@ -4,7 +4,8 @@ import {
     FORM_UPDATE_REQUIREMENT_METADATA,
     GET_CATEGORY_NAMES,
     GET_REQUIREMENTS,
-    POST_ADD_REQUIREMENT
+    POST_ADD_REQUIREMENT,
+    POST_UPDATE_REQUIREMENT
 } from './../types';
 
 const requirementReducer = (state = {
@@ -14,6 +15,12 @@ const requirementReducer = (state = {
     categoryNames: []
 }, action) => {
     switch (action.type) {
+        case POST_UPDATE_REQUIREMENT.RECEIVED:
+            const req = action.response.data;
+            return {
+                ...state,
+
+            };
         case POST_ADD_REQUIREMENT.RECEIVED:
             const req = action.response.data;
             return {

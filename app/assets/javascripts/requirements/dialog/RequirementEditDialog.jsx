@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeStepperIndex, updateRequiredValues, updateOptionalValues, clearValues } from './../../redux/actions/requirementFormActions';
-import { addRequirement } from './../../redux/actions/requirementActions';
+import { postUpdateRequirement } from './../../redux/actions/requirementActions';
 import Dialog from 'material-ui/Dialog';
 import RequirementFormStepper from "../form/RequirementFormStepper";
 import RequirementRequiredForm from "../form/RequirementRequiredForm";
@@ -19,7 +19,7 @@ class RequirementEditDialog extends React.Component {
         const {
             stepperIndex, categories, users, structures, structureTypes,
             changeStepperIndex, updateRequiredValues, updateOptionalValues,
-            onRequestClose, sendRequirement, requiredValues, clearValues
+            onRequestClose, postUpdateRequirement, requiredValues, clearValues
         } = this.props;
         switch (stepperIndex) {
             case 0:
@@ -56,7 +56,7 @@ class RequirementEditDialog extends React.Component {
                                 return {type: type, content: values[type]};
                             });
 
-                            sendRequirement(requiredValues, optional);
+                            postUpdateRequirement(requiredValues, optional);
                             clearValues();
                             onRequestClose();
                         }}
@@ -113,8 +113,8 @@ const mapDispatchToProps = (dispatch) => {
         updateOptionalValues: (values) => {
             dispatch(updateOptionalValues(values));
         },
-        sendRequirement: (required, optional) => {
-            dispatch(addRequirement({...required, structure: [...optional]}));
+        postUpdateRequirement: (required, optional) => {
+            dispatch(postUpdateRequirement({...required, structure: [...optional]}));
         },
         clearValues: () => {
             dispatch(clearValues());
