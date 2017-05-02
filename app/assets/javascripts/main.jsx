@@ -51,7 +51,7 @@ class App extends React.Component {
                             <IndexRoute component={Home}/>
                             <Route path={"projects"} component={Projects}>
                                 <Route path={"private"}/>
-                                <Route path={"archive"}/>
+                                <Route path={"accessible"}/>
                             </Route>
 
                             <Route path={"/project/:id"} component={Project}/>

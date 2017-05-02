@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SENT, RECEIVED, ERROR } from './../utility';
 import * as URLS from './../../config';
 import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from './../types';
 
@@ -10,79 +11,52 @@ import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from 
 
 /**
  * Fetches userdata for the connected user.
- * @returns {json} Data for the connected user.
  */
 export function getUserData() {
     return dispatch => {
         axios.get(URLS.USER_GET)
             .then(response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getUserDataAsync(data))
+                dispatch(RECEIVED(GET_USER_DATA, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_USER_DATA, error));
             });
-    }
-}
-
-function getUserDataAsync(user) {
-    return {
-        type: GET_USER_DATA,
-        payload: user
+        dispatch(SENT(GET_USER_DATA));
     }
 }
 
 /**
  * Fetches all userdata.
- * @returns {json} List with all users.
  */
 export function getUsers() {
     return dispatch => {
         axios.get(URLS.USERS_GET)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getUsersAsync(data))
+                dispatch(RECEIVED(GET_USERS, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_USERS, error));
             });
+        dispatch(SENT(GET_USERS));
     }
 
-}
-
-function getUsersAsync(users) {
-    return {
-        type: GET_USERS,
-        payload: users
-    }
 }
 
 /**
  * Fetches all userdata with related userclass.
- * @returns {json} List with all userdata with userclass.
  */
 export function getUsersWithClass() {
     return dispatch => {
         axios.get(URLS.USERS_GET_WITH_CLASS)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getUsersWithClassAsync(data))
+                dispatch(RECEIVED(GET_USERS_WITH_CLASS, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_USERS_WITH_CLASS, error));
             });
+        dispatch(SENT(GET_USERS_WITH_CLASS));
     }
 
-}
-
-function getUsersWithClassAsync(users) {
-    return {
-        type: GET_USERS_WITH_CLASS,
-        payload: users
-    }
 }
 
 /**
@@ -93,20 +67,12 @@ export function getUserClasses() {
     return dispatch => {
         axios.get(URLS.USER_GET_USERCLASSES)
             .then( response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getUserClassesAsync(data))
+                dispatch(RECEIVED(GET_USERCLASSES, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_USERCLASSES, error));
             });
+        dispatch(SENT(GET_USERCLASSES));
     }
 
-}
-
-function getUserClassesAsync(userClasses) {
-    return {
-        type: GET_USERCLASSES,
-        payload: userClasses
-    }
 }
