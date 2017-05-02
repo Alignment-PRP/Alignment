@@ -1,25 +1,3 @@
-/**
- * Class represents /projects.
- * @see ProjectTable
- * @see ProjectForm
- * @see Project
- *
- * @param {Array.<Project>} publicProjects
- * @param {Array.<Project>} privateProjects
- * @param {Array.<Project>} archivedProjects
- * @param {string} tableMode
- * @param {boolean} formMode
- * @param {Snack} snack
- *
- * @param {function} postProjectNew {@link module:redux/actions/project.postProjectNew}
- * @param {function} getPublicProjects {@link module:redux/actions/project.getPublicProjects}
- * @param {function} getPrivateProjects {@link module:redux/actions/project.getPrivateProjects}
- * @param {function} getArchivedProjects {@link module:redux/actions/project.getArchivedProjects}
- * @param {function} changeProjectFormMode {@link module:redux/actions/project.changeProjectFormMode}
- * @param {function} changeProjectTableMode {@link module:redux/actions/projectForm.changeProjectTableMode}
- * @param {function} snackBar {@link module:redux/actions/projectForm.snackBar}
- * @param {function} changeSideMenuMode {@link module:redux/actions/sideMenu.changeSideMenuMode}
- */
 import React from 'react';
 import {connect} from "react-redux";
 import { push } from 'react-router-redux';
@@ -52,6 +30,28 @@ const colors = [
     brown200, blueGrey200, grey200
 ];
 
+/**
+ * Class represents /projects.
+ * @see ProjectTable
+ * @see ProjectForm
+ * @see Project
+ *
+ * @param {Array.<Project>} publicProjects
+ * @param {Array.<Project>} privateProjects
+ * @param {Array.<Project>} archivedProjects
+ * @param {string} tableMode
+ * @param {boolean} formMode
+ * @param {Snack} snack
+ *
+ * @param {function} postProjectNew {@link module:redux/actions/project.postProjectNew}
+ * @param {function} getPublicProjects {@link module:redux/actions/project.getPublicProjects}
+ * @param {function} getPrivateProjects {@link module:redux/actions/project.getPrivateProjects}
+ * @param {function} getArchivedProjects {@link module:redux/actions/project.getArchivedProjects}
+ * @param {function} changeProjectFormMode {@link module:redux/actions/project.changeProjectFormMode}
+ * @param {function} changeProjectTableMode {@link module:redux/actions/projectForm.changeProjectTableMode}
+ * @param {function} snackBar {@link module:redux/actions/projectForm.snackBar}
+ * @param {function} changeSideMenuMode {@link module:redux/actions/sideMenu.changeSideMenuMode}
+ */
 class Projects extends React.Component {
 
     componentWillMount() {
@@ -128,9 +128,9 @@ class Projects extends React.Component {
             <div style={{display: 'flex'}}>
                 <ProjectsSideMenu
                     className="projects-sidemenu"
-                    handleUser={() => push('/projects/private')}
-                    handleAll={() => push('/projects')}
-                    handleArchived={() => push('/projects/archive')}
+                    handleUser={push.bind(null, '/projects/private')}
+                    handleAll={push.bind(null, '/projects')}
+                    handleArchived={push.bind(null, '/projects/archive')}
                     handleNew={newDialog.bind(null, true)}
                 />
                 <div>
@@ -149,11 +149,11 @@ class Projects extends React.Component {
                                             <Link to={'project/' + project.ID}>
                                                 <FlatButton label='Åpne'/>
                                             </Link>
-                                                <FlatButton label="Info" onTouchTap={(event) => {
-                                                    popoverOpen(true);
-                                                    popoverContent(project.description);
-                                                    popoverAnchor(event.currentTarget);
-                                                }}/>
+                                            <FlatButton label="Info" onTouchTap={(event) => {
+                                                popoverOpen(true);
+                                                popoverContent(project.description);
+                                                popoverAnchor(event.currentTarget);
+                                            }}/>
                                         </CardActions>
                                     </Card>
                                 );
@@ -175,7 +175,6 @@ class Projects extends React.Component {
                             action={deleteDialogAction}
                             onRequestClose={deleteDialog.bind(null, false)}
                         />
-
                     </div>
                 </div>
             </div>
@@ -183,10 +182,9 @@ class Projects extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    let path = state.router.location ? state.router.location.pathname : '/projects';
+const mapStateToProps = (state, props) => {
     return {
-        path: path,
+        path: props.location.pathname,
         publicProjects: state.projectReducer.publicProjects,
         privateProjects: state.projectReducer.privateProjects,
         archivedProjects: state.projectReducer.archivedProjects,
