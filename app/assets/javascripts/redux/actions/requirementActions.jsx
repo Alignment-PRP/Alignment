@@ -85,9 +85,7 @@ export function deleteRequirement(requirement){
 }
 
 export function postUpdateRequirement(requirement){
-
     return dispatch => {
-        console.log(requirement);
         axios.post(URLS.REQUIREMENT_POST_UPDATE, requirement)
             .then(function (response) {
                 dispatch(RECEIVED(POST_UPDATE_REQUIREMENT, response))
