@@ -5,15 +5,19 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
+import authReducer from './reducers/authReducer';
 import classFormReducer from './reducers/classFormReducer';
 import dialogReducer from './reducers/dialogReducer';
 import filterReducer from './reducers/filterReducer';
+import loginPageReducer from './reducers/loginPageReducer';
 import popoverReducer from './reducers/popoverReducer';
 import projectReducer from './reducers/projectReducer';
 import requirementReducer from './reducers/requirementReducer';
+import requirementFormReducer from './reducers/requirementFormReducer';
 import sideMenuReducer from './reducers/sideMenuReducer';
 import snackBarReducer from './reducers/snackBarReducer';
 import statisticsReducer from './reducers/statisticsReducer';
+import structureReducer from './reducers/structureReducer';
 import tableReducer from './reducers/tableReducer';
 import userFormReducer from './reducers/userFormReducer';
 import userReducer from './reducers/userReducer';
@@ -27,20 +31,24 @@ import userReducer from './reducers/userReducer';
  * @const
  */
 const reducers = {
+    authReducer,
     classFormReducer,
     dialogReducer,
     filterReducer,
+    loginPageReducer,
     popoverReducer,
     projectReducer,
     requirementReducer,
+    requirementFormReducer,
     sideMenuReducer,
     snackBarReducer,
     statisticsReducer,
+    structureReducer,
     tableReducer,
     userFormReducer,
     userReducer,
     form: formReducer,
-    router: routerReducer,
+    routing: routerReducer,
 };
 
 /**
@@ -54,7 +62,7 @@ const reducers = {
  * @type {Store<S>}
  */
 const store = createStore(
-    combineReducers(reducers), {}, applyMiddleware(logger(), thunk, routerMiddleware(browserHistory))
+    combineReducers(reducers), {}, applyMiddleware(thunk, routerMiddleware(browserHistory), logger())
 );
 
 export default store;

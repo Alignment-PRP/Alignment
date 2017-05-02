@@ -90,6 +90,7 @@ public enum Statement {
             "SELECT type " +
             "FROM Structure " +
             "GROUP BY type"),
+    GET_STRUCTURES("SELECT * FROM Structure"),
 
 
     //===========================================PROJECT=========================================================================
@@ -108,7 +109,19 @@ public enum Statement {
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID " +
             "WHERE pr.PID = ?"),
+    GET_PROJECT_REQUREMENT("" +
+            "SELECT * " +
+            "FROM ProjectRequirements " +
+            "WHERE PID = ? AND RID = ?"),
     INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),
+    UPDATE_PROJECT_REQUIREMENT("" +
+            "UPDATE ProjectRequirements " +
+            "SET " +
+            "reqNo = ?, " +
+            "reqCode = ?, " +
+            "comment = ?, " +
+            "description = ? " +
+            "WHERE PID = ? AND RID = ?"),
 
     //TODO:Requirements can be public or not. Need different methods for these.
 
@@ -184,9 +197,11 @@ public enum Statement {
     GET_USER_HAS_ACCESS("" +
             "SELECT count(1) as bool " +
             "FROM Project AS p " +
-            "INNER JOIN HasAccess AS ha " +
+            "LEFT JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
-            "WHERE ha.NAME = ? AND p.ID = ?"),
+            "LEFT JOIN UserHasAccess AS uha " +
+            "ON uha.PID = p.ID " +
+            "WHERE (ha.NAME = ? OR uha.USERNAME = ?) AND p.ID = ?"),
     UPDATE_PROJECT("" +
             "UPDATE Project " +
             "SET " +

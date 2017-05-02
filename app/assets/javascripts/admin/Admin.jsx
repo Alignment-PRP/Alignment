@@ -16,27 +16,10 @@ import Statistics from './statistics/Statistics';
 class Admin extends React.Component {
 
     /**
-     * Binds '/admin', '/admin/users' and '/admin/classes' to different tabs.
-     * @param {Object} props
-     * @param {number} props.index
-     * @param {function(*)} props.changeTab - {@link module:redux/actions/adminTab.changeTab}
-     */
-    constructor(props) {
-        super(props);
-
-        this.style = {
-            tabContent: {
-
-            }
-        }
-    }
-
-    /**
      * Called when the component did mount.
      */
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
-        console.log(this.props.path);
     }
 
     render() {
@@ -47,26 +30,26 @@ class Admin extends React.Component {
                     initialSelectedIndex={index}
                     value={path}
                 >
-                    <Tab value="/admin" label="Brukeroversikt" onActive={() => push('/admin')}>
-                        <div id="admin" style={this.style.tabContent}>
+                    <Tab value="/admin" label="Brukeroversikt" onActive={push.bind(null, '/admin')}>
+                        <div id="admin">
                             <h2>Brukeroversikt</h2>
                             <ul>
-                                <li>Oversikt over hvem som eier hvilket prosjekt</li>
+                                <li>F.eks: Oversikt over hvem som eier hvilket prosjekt</li>
                             </ul>
                         </div>
                     </Tab>
                     <Tab value="/admin/users" label="Brukere" onActive={push.bind(null, '/admin/users')}>
-                        <div style={this.style.tabContent}>
+                        <div>
                             <Users/>
                         </div>
                     </Tab>
                     <Tab value="/admin/classes" label="Brukerklasser" onActive={push.bind(null, '/admin/classes')}>
-                        <div style={this.style.tabContent}>
+                        <div>
                             <Classes/>
                         </div>
                     </Tab>
                     <Tab value="/admin/stats" label="Statistikk" onActive={push.bind(null, '/admin/stats')}>
-                        <div id="admin" style={this.style.tabContent}>
+                        <div id="admin">
                             <Statistics/>
                         </div>
                     </Tab>
@@ -76,10 +59,9 @@ class Admin extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    let path = state.router.location ? state.router.location.pathname : "/admin";
+const mapStateToProps = (state, props) => {
     return {
-        path: path
+        path: props.location.pathname
     };
 };
 
