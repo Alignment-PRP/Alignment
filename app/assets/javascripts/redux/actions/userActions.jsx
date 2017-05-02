@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SENT, RECEIVED, ERROR } from './../utility';
 import * as URLS from './../../config';
 import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from './../types';
 
@@ -10,19 +11,18 @@ import { GET_USER_DATA, GET_USERS, GET_USERS_WITH_CLASS, GET_USERCLASSES } from 
 
 /**
  * Fetches userdata for the connected user.
- * @returns {json} Data for the connected user.
+ * @returns Data for the connected user.
  */
 export function getUserData() {
     return dispatch => {
         axios.get(URLS.USER_GET)
             .then(response => {
-                const data = [];
-                response.data.map((object) => {
-                    data.push(object);
-                    return data
-                });
-                dispatch(getUserDataAsync(data))
+                dispatch(RECEIVED(GET_USER_DATA, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_USER_DATA, error));
             });
+        dispatch(SENT(GET_USER_DATA));
     }
 }
 

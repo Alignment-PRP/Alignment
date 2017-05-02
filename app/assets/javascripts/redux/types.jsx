@@ -66,7 +66,7 @@ export const CHANGE_SIDE_MENU_MODE = 'CHANGE_SIDE_MENU_MODE';
 export const SNACKBAR = 'SNACKBAR';
 
 //User
-export const GET_USER_DATA = 'GET_USER_DATA';
+export const GET_USER_DATA = type('GET_USER_DATA');
 export const GET_USERS = 'GET_USERS';
 export const GET_USERS_WITH_CLASS = 'GET_USERS_WITH_CLASS';
 export const GET_USERCLASSES = 'GET_USERCLASSES';
