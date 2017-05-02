@@ -42,8 +42,9 @@ class RequirementDialog extends React.Component {
                         onSubmit={(values)  => {
                             updateOptionalValues(values);
 
-                            const optional = Object.keys(values).map(type => {
-                                console.log(structures[type]);
+                            const optional = Object.keys(values).filter(type => {
+                                return values[type].trim().length > 0;
+                            }).map(type => {
                                 for (let i = 0; i < structures[type].length; i++ ) {
                                     const struc = structures[type][i];
                                     if (struc.content.toLowerCase() === values[type].toLowerCase()) {
