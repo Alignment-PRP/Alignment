@@ -67,9 +67,9 @@ export const SNACKBAR = 'SNACKBAR';
 
 //User
 export const GET_USER_DATA = type('GET_USER_DATA');
-export const GET_USERS = 'GET_USERS';
-export const GET_USERS_WITH_CLASS = 'GET_USERS_WITH_CLASS';
-export const GET_USERCLASSES = 'GET_USERCLASSES';
+export const GET_USERS = type('GET_USERS');
+export const GET_USERS_WITH_CLASS = type('GET_USERS_WITH_CLASS');
+export const GET_USERCLASSES = type('GET_USERCLASSES');
 
 //UserForm
 export const FILL_FORM = 'FILL_FORM';
