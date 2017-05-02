@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { postUpdateRequirement } from "../redux/actions/requirementActions";
 import { getUsersWithClass } from "../redux/actions/userActions";

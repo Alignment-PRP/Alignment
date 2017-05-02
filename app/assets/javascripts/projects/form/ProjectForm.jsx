@@ -81,15 +81,12 @@ class ProjectForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        initialValues: {
-            isPublic: true
-        },
+        initialValues: state.projectReducer.initEditProjectForm
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
     };
 };
 
