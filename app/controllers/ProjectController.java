@@ -280,9 +280,10 @@ public class ProjectController extends Controller {
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean isPublic = project.get("isPublic").asInt() == 1;
 
         //Checks if the user has access to the project
-        if(hasAccess || isCreator || isManager){
+        if(hasAccess || isCreator || isManager || isPublic){
             return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID));
         }
         return unauthorized("You do not have access to this project's meta data.");
