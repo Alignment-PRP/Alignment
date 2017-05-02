@@ -11,9 +11,7 @@ import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Andreas on 05.03.2017.
@@ -179,7 +177,40 @@ public class AdminController extends Controller {
             return unauthorized(views.html.login.render());
         }
         //TODO: validate user is admin (ADMIN DOESN'T EXIST YET)
+        Map<String, Object> requirementMap = new HashMap<>();
         JsonNode requirements = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
+        JsonNode requirementsStructures = qh.executeQuery(Statement.GET_REQUIREMENTS_STRUCTURES);
+        for (JsonNode r:
+                requirements) {
+
+            Map<String, Object> requirementSingle = new HashMap<>();
+            Iterator<Map.Entry<String, JsonNode>> fields = r.fields();
+
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+
+                requirementSingle.put(n.getKey(), n.getValue());
+            }
+            Map<String, Object> structs = new HashMap<>();
+
+
+            requirementSingle.put("structures", structs);
+
+            requirementMap.put(r.get("RID").asText(), requirementSingle);
+        }
+        for (JsonNode struct :
+                requirementsStructures) {
+            String RID = struct.get("RID").asText();
+            Map r = (HashMap<String, Object>)requirementMap.get(RID);
+            Map str = (HashMap<String, Object>)r.get("structures");
+
+            Iterator<Map.Entry<String, JsonNode>> fields = struct.fields();
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+                str.put(n.getKey(), n.getValue());
+            }
+
+        }
         return ok(requirements);
     }
 
@@ -252,25 +283,27 @@ public class AdminController extends Controller {
         qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, ID);
 
         //Inserts all the structures
-        for (String structureType: structures){
-            String content;
-            try{
-                content = values.get(structureType).asText();
-            }
-            catch (NullPointerException e){
-                continue;
-            }
-            int structureID;
-            try{
-                structureID = Integer.parseInt(content);
-                insertHasStructure(ID, structureID);
-            }
-            catch (NumberFormatException e){
-                String SID = insertStructureWithReturnID(structureType, content);
-                insertHasStructure(ID, Integer.parseInt(SID));
-            }
+        for (JsonNode structure: values.get("structure")){
 
+            if(structure.has("id")){
+                insertHasStructure(ID, structure.get("id").asInt());
+            }
+            else if(structure.has("content")){
+                String SID = insertStructureWithReturnID(structure.get("type").asText(), structure.get("content").asText());
+                insertHasStructure(ID, Integer.parseInt(SID));
+
+            }
         }
+
+        req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, ID).get(0);
+
+
+
+
+
+
+
+
         return ok("updated requirement");
 
 
