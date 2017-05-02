@@ -15,22 +15,6 @@ class ProjectReqForm extends React.Component {
                     <div className="form-inner">
                         <div className="form-inner-field">
                             <Field
-                                name="PID"
-                                label="Prosjekt ID"
-                                component={renderTextField}
-                                required
-                            />
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
-                                name="RID"
-                                label="Krav ID"
-                                component={renderTextField}
-                                required
-                            />
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
                                 name="reqNo"
                                 label="Kravnummer"
                                 component={renderTextField}
