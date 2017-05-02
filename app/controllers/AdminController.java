@@ -348,7 +348,7 @@ public class AdminController extends Controller {
             return unauthorized(views.html.login.render());
         }
         final JsonNode values = request().body().asJson();
-        Integer RID = values.get("RID").asInt();
+        int RID = values.get("RID").asInt();
 
         JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
         String className = userClass.get(0).get("NAME").asText();
@@ -364,8 +364,7 @@ public class AdminController extends Controller {
         qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENTS_BY_RID, RID);//TODO: This is unfortunate.
         qh.executeUpdate(Statement.DELETE_GLOBAL_REQUIREMENT, RID);
 
-
-        return ok("Global Requirement and all related data deleted");
+        return ok(Integer.toString(RID));
     }
 
     /*public Result deleteProjects(){
