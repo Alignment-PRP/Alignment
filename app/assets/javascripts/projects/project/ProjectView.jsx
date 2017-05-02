@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
-import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
+import { changeSideMenuMode } from './../../redux/actions/sideMenuActions';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import { dialogOpen } from '../../redux/actions/dialogActions';
+import ProjectEditDialog from '../dialog/ProjectEditDialog';
 import ProjectRequirementView from './ProjectRequirementView';
 import ProjectUserAccess from './ProjectUserAccess';
 import ProjectClassAccess from './ProjectClassAccess';
@@ -29,7 +31,7 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push } = this.props;
+        const { project, index, path, push, editProjectDialogIsOpen } = this.props;
         return (
 
             <div>
@@ -73,6 +75,12 @@ class ProjectView extends React.Component {
                         </div>
                     </Tab>
                 </Tabs>
+                <ProjectEditDialog
+                    title={"Rediger Prosjekt"}
+                    open={editProjectDialogIsOpen}
+                    onRequestClose={this.props.editDialog.bind(null, false)}
+                    //handleSubmit={}
+                />
             </div>
             /*
             <div>
@@ -122,7 +130,8 @@ class ProjectView extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        path: props.location.pathname
+        path: props.location.pathname,
+        editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen
     };
 };
 
@@ -133,6 +142,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeSideMenuMode: (mode) => {
             dispatch(changeSideMenuMode(mode))
+        },
+        editDialog: (open) => {
+            dispatch(dialogOpen('projectEdit', open))
         }
     };
 };

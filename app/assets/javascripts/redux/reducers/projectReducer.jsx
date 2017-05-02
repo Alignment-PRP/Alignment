@@ -8,7 +8,8 @@ import {GET_PUBLIC_PROJECTS,
         DELETE_REQUIREMENT_TO_PROJECT,
         DELETE_PROJECT,
         POST_PROJECT_NEW,
-        CHANGE_PROJECTS_TABLE_MODE
+        CHANGE_PROJECTS_TABLE_MODE,
+        INIT_EDIT_PROJECT_FORM
 } from './../types';
 //Here is where the global state of the projectReducer actually get stored and changed. The projectReducer get passed actions.types into a switch function.
 //When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from redux actions.
@@ -19,6 +20,9 @@ const projectReducer = (state = {
     publicProjects: [],
     privateProjects: [],
     archivedProjects: [],
+    projectData: null,
+    projectMeta: null,
+    initEditProjectForm: null,
     tableMode: "PUBLIC",
     project: [],
     projectRequirements: null
@@ -58,6 +62,11 @@ const projectReducer = (state = {
             return {
                 ...state,
                 tableMode: action.payload
+            };
+        case INIT_EDIT_PROJECT_FORM:
+            return {
+                ...state,
+                initEditProjectForm: action.payload
             };
         case POST_REQUIREMENT_TO_PROJECT:
         case DELETE_REQUIREMENT_TO_PROJECT:

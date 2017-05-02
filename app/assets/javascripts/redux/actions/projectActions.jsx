@@ -10,7 +10,8 @@ import {GET_PUBLIC_PROJECTS,
         DELETE_REQUIREMENT_TO_PROJECT,
         DELETE_PROJECT,
         POST_PROJECT_NEW,
-        CHANGE_PROJECTS_TABLE_MODE
+        CHANGE_PROJECTS_TABLE_MODE,
+        INIT_EDIT_PROJECT_FORM
 } from './../types';
 import {
     snackBar
@@ -297,4 +298,24 @@ function deleteProjectAsync(){
     return{
         type: DELETE_PROJECT
     }
+}
+
+export function initEditProjectForm(projectData, projectMeta){
+    console.log(projectData);
+    console.log(projectMeta);
+
+    const data = {
+        description: projectData.description,
+        PID: projectMeta.PID,
+        deploymentStyle: projectMeta.deploymentStyle,
+        transactionVolume: projectMeta.transactionVolume,
+        userChannel: projectMeta.userChannel
+    }
+
+    return {
+        type: INIT_EDIT_PROJECT_FORM,
+        payload: data
+    }
+
+
 }

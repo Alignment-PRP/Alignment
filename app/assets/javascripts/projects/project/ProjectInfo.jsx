@@ -1,17 +1,18 @@
-import React from 'react';
-import { connect } from "react-redux";
-import { getProjectMetaDataById, getProjectDataById } from "../../redux/actions/projectActions";
-import CircularProgress from 'material-ui/CircularProgress';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-
 /**
  * Class represents /admin/users.
  * Parent: {@link Admin}
  * Children: {@link UserForm}
  */
+import React from 'react';
+import { connect } from "react-redux";
+import { getProjectMetaDataById, getProjectDataById, initEditProjectForm } from "../../redux/actions/projectActions";
+import { dialogOpen } from '../../redux/actions/dialogActions';
+import CircularProgress from 'material-ui/CircularProgress';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
+import {RaisedButton} from "material-ui";
+
 class ProjectInfo extends React.Component {
 
     componentDidMount() {
@@ -119,7 +120,10 @@ class ProjectInfo extends React.Component {
 
                     </CardText>
                     <CardActions>
-                        <FlatButton label="Rediger" />
+                        <RaisedButton primary={true} onClick={() => {
+                            this.props.editDialog.bind(null, true);
+                            this.props.initEditProjectForm(this.props.projectData, this.props.projectMeta);
+                        }} label="Rediger" />
                     </CardActions>
                 </Card>
             )
@@ -134,8 +138,6 @@ class ProjectInfo extends React.Component {
 
 
     render() {
-
-
         return (
             <div>
                 {this.pData()}
@@ -158,6 +160,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         getProjectDataById: (id) => {
             dispatch(getProjectDataById(id));
+        },
+        editDialog: (open) => {
+            dispatch(dialogOpen('projectEdit', open))
+        },
+        initEditProjectForm: (projectData, projectMeta) => {
+            dispatch(initEditProjectForm(projectData, projectMeta))
         }
     };
 };
