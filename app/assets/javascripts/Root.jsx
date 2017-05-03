@@ -19,10 +19,10 @@ class Root extends React.Component {
     }
 
     render() {
-        const { loggedIn } = this.props;
+        const { authorized } = this.props;
 
-        if (loggedIn !== null) {
-            if (loggedIn) {
+        if (authorized.sent && (authorized.received || authorized.error)) {
+            if (authorized.received) {
                 return (
                     <div>
                         <Sidebar/>
@@ -51,7 +51,7 @@ class Root extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        loggedIn: state.authReducer.loggedIn
+        authorized: state.authReducer.authorized
     }
 };
 

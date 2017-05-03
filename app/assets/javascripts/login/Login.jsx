@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { login, register } from './../redux/actions/authActions';
+import { login, register, authClear, loginClear, registerClear } from './../redux/actions/authActions';
 import { registerOpen } from './../redux/actions/loginPageActions';
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -8,8 +8,12 @@ import Snack from './../core/Snack';
 
 class Login extends React.Component {
 
+    componentWillMount() {
+        //this.props.authClear();
+    }
+
     render() {
-        const { login, registerIsOpen, registerOpen, register } = this.props;
+        const { login, registerIsOpen, registerOpen, register, loginClear, registerClear } = this.props;
 
         return (
             <div className="loginCon">
@@ -17,16 +21,22 @@ class Login extends React.Component {
                     {registerIsOpen ?
                         <RegisterForm
                             onSubmit={(values) => {
-                                register(values)
+                                register(values);
                             }}
-                            handleBackButton={registerOpen.bind(null, false)}
+                            handleBackButton={() => {
+                                loginClear();
+                                registerOpen(false);
+                            }}
                         />
                         :
                         <LoginForm
                             onSubmit={(values) => {
                                 login(values)
                             }}
-                            handleRegisterButton={registerOpen.bind(null, true)}
+                            handleRegisterButton={() => {
+                                registerClear();
+                                registerOpen(true);
+                            }}
                         />
                     }
 
@@ -53,15 +63,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (user) => {
-            dispatch(login(user));
-        },
-        registerOpen: (boolean) => {
-            dispatch(registerOpen(boolean));
-        },
-        register: (user) => {
-            dispatch(register(user));
-        }
+        login: (user) => dispatch(login(user)),
+        registerOpen: (boolean) => dispatch(registerOpen(boolean)),
+        register: (user) => dispatch(register(user)),
+        authClear: () => dispatch(authClear()),
+        loginClear: () => dispatch(loginClear()),
+        registerClear: () => dispatch(registerClear()),
     }
 };
 
