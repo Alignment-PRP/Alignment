@@ -11,12 +11,12 @@ import {Paper, RaisedButton} from "material-ui";
 class RegisterForm extends React.Component {
 
     render() {
-        const { handleSubmit, pristine, submitting, handleBackButton, registerFailed } = this.props;
+        const { handleSubmit, pristine, submitting, handleBackButton, register } = this.props;
         return (
             <MuiThemeProvider>
                 <Paper id="loginForm">
                     <h2>Ny Bruker</h2>
-                    {registerFailed ?
+                    {register.error ?
                         <div id="loginFailed">Brukernavnet eksisterer</div>
                         : null}
                     <form onSubmit={handleSubmit}>
@@ -72,7 +72,7 @@ class RegisterForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        registerFailed: state.loginPageReducer.registerFailed
+        register: state.authReducer.register
     }
 };
 
