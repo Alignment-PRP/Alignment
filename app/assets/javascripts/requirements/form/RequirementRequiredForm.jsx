@@ -122,8 +122,10 @@ class RequirementRequiredForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    const initialValues = state.requirementFormReducer.requiredValues;
+    initialValues.reqResponsible = state.userReducer.userdata.USERNAME;
     return {
-        initialValues: state.requirementFormReducer.requiredValues
+        initialValues: initialValues
     }
 };
 

@@ -163,7 +163,6 @@ class ProjectRequirementView extends React.Component {
                     handleSubmit={(data) => {
                         postProjectReqUpdate(data);
                         projectReqUpdateDialog(false);
-                        //TODO: This should update ProjectRequirement List.
                         getRequirementsByProjectId(params.id);
                     }}
                     onRequestClose={projectReqUpdateDialog.bind(null, false)}

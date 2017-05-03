@@ -66,7 +66,7 @@ public class ProjectController extends Controller {
         //Check if user is logged in
         String username = session("connected");
         if(username == null){
-            return unauthorized(views.html.login.render());
+            return unauthorized("unauthorized");
         }
 
         //Gets the http body of the POST and converts it to a map
@@ -93,7 +93,9 @@ public class ProjectController extends Controller {
         //Inserts ProjectMetaData with the project
         qh.insertStatement(Statement.INSERT_PROJECT_META_DATA, Integer.parseInt(ID), securityLevel, transactionVolume, userChannel, deploymentStyle);
         //TODO: Add project metadata and userclasses that have access.
-        return ok(views.html.dashboard.render());
+
+
+        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID, ID).get(0));
 
     }
 
@@ -126,6 +128,11 @@ public class ProjectController extends Controller {
         return ok("Project and all related data deleted");
     }
 
+    private JsonNode mapProjectsToMap(final JsonNode json) {
+        final Map<String, Object> projectMap = new HashMap<>();
+        json.forEach(node -> projectMap.put(node.get("ID").asText(), node));
+        return Json.toJson(projectMap);
+    }
 
     /**
      * Gets all Projects with the isPublic bit set to 1.
@@ -133,7 +140,7 @@ public class ProjectController extends Controller {
      * @return Response 200 OK
      */
     public Result getPublicProjects(){
-        return ok(qh.executeQuery(Statement.GET_PUBLIC_PROJECTS));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PUBLIC_PROJECTS)));
     }
 
     /**
@@ -148,7 +155,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID)));
     }
 
     public Result getProjectsUserIsCreator(){
@@ -156,7 +163,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_CREATOR, userID));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_CREATOR, userID)));
     }
 
 
@@ -165,7 +172,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_MANAGER, userID));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_MANAGER, userID)));
     }
 
     /**
@@ -182,7 +189,7 @@ public class ProjectController extends Controller {
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
-        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID, projectid));
+        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID, projectid).get(0));
     }
 
     /**
@@ -295,7 +302,7 @@ public class ProjectController extends Controller {
 
         //Checks if the user has access to the project
         if(hasAccess || isCreator || isManager || isPublic){
-            return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID));
+            return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID).get(0));
         }
         return unauthorized("You do not have access to this project's meta data.");
 
@@ -624,12 +631,10 @@ public class ProjectController extends Controller {
             //If this data has been received by the client, add it to the updateData
             if(values.has(entry.getKey())){
                 updateData.put(entry.getKey(), values.get(entry.getKey()).asText());
-                System.out.println(values.get(entry.getKey()).asText());
             }
             //If not, add the old entry
             else{
                 updateData.put(entry.getKey(), entry.getValue().asText());
-                System.out.println("default");
             }
         }
 

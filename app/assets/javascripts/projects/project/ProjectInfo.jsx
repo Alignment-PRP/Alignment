@@ -29,17 +29,8 @@ class ProjectInfo extends React.Component {
             lineheight: 50,
             display: 'inline-block',
         };
-        let securityLevel = "";
-        let deploymentStyle = "";
-        let userChannel = "";
-        let transactionVolume = "";
         if(this.props.projectMeta) {
-            this.props.projectMeta.map((project) => {
-                securityLevel = project.securityLevel;
-                deploymentStyle = project.deploymentStyle;
-                userChannel = project.userChannel;
-                transactionVolume = project.transactionVolume;
-            });
+            const { securityLevel, deploymentStyle, userChannel, transactionVolume } = this.props.projectMeta;
             return (
                 <div>
                     <Divider />
@@ -86,26 +77,8 @@ class ProjectInfo extends React.Component {
     }
 
     pData() {
-        let name = "";
-        let managerID = "";
-        let creatorID = "";
-        let isPublic = "";
-        let description = "";
-
         if(this.props.projectData){
-            this.props.projectData.map((project)=>{
-                name = project.name;
-                managerID = project.managerID;
-                creatorID = project.creatorID;
-                description = project.description;
-                if(project.isPublic == "1"){
-                    isPublic = "Offentlig";
-                }
-                else{
-                    isPublic = "Privat";
-                }
-            });
-
+            const { name, managerID, creatorID, description, isPublic } = this.props.projectData;
             return(
                 <Card>
                     <CardHeader
@@ -113,7 +86,7 @@ class ProjectInfo extends React.Component {
                         subtitle={"Opprettet av: " + creatorID}
                         avatar="https://cdn2.iconfinder.com/data/icons/users-6/100/USER7-512.png"
                     />
-                    <CardTitle title={name} subtitle={isPublic} />
+                    <CardTitle title={name} subtitle={isPublic === '1' ? 'Offentlig' : 'Privat'} />
                     <CardText>
                         {description}<br/><br/>
                         {this.pMeta()}

@@ -15,7 +15,7 @@ class ProjectsSideMenu extends React.Component {
 
     render() {
         const {
-            handleUser, handleAll, handleArchived, handleNew, className
+            handlePrivate, handlePublic, handleAccessible, handleNew, className
         } = this.props;
         return (
             <div className={className}>
@@ -25,9 +25,9 @@ class ProjectsSideMenu extends React.Component {
                     </List>
                     <Divider/>
                     <List>
-                        <ListItem primaryText="Mine Prosjekter" onClick={handleUser}/>
-                        <ListItem primaryText="Alle Prosjekter" onClick={handleAll}/>
-                        <ListItem primaryText="Arkiverte Prosjekter" onClick={handleArchived}/>
+                        <ListItem primaryText="Mine Prosjekter" onClick={handlePrivate}/>
+                        <ListItem primaryText="Åpne Prosjekter" onClick={handlePublic}/>
+                        <ListItem primaryText="Tilgjengelige Prosjekter" onClick={handleAccessible}/>
                     </List>
                     <Divider/>
                     <List style={{display: 'flex', justifyContent: 'center'}}>
