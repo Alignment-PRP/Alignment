@@ -11,6 +11,7 @@ import {
     GET_PROJECTS_IS_CREATOR,
     GET_PROJECTS_IS_MANAGER,
     POST_NEW_PROJECT,
+    POST_UPDATE_PROJECT,
     POST_DELETE_PROJECT,
 
     GET_PROJECT_BY_ID,
@@ -245,6 +246,19 @@ export function postProjectNew(data){
     }
 }
 
+export function postProjectUpdate(project) {
+    return dispatch => {
+        axios.post(URLS.PROJECT_POST_UPDATE, project)
+            .then(response => {
+                dispatch(RECEIVED(POST_UPDATE_PROJECT, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(POST_UPDATE_PROJECT, error));
+            });
+        dispatch(SENT(POST_UPDATE_PROJECT));
+    }
+}
+
 /**
  * @param {string} mode
  * @returns {{type, payload: *}}
@@ -287,12 +301,10 @@ export function initEditProjectForm(projectData, projectMeta){
     console.log(projectMeta);
 
     const data = {
-        description: projectData.description,
-        PID: projectMeta.PID,
-        deploymentStyle: projectMeta.deploymentStyle,
-        transactionVolume: projectMeta.transactionVolume,
-        userChannel: projectMeta.userChannel
-    }
+        ...projectData,
+        ...projectMeta,
+        isPublic: projectData.isPublic === '1'
+    };
 
     return {
         type: INIT_EDIT_PROJECT_FORM,

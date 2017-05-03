@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
 import { changeSideMenuMode } from './../../redux/actions/sideMenuActions';
+import { postProjectUpdate } from './../../redux/actions/projectActions';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import { dialogOpen } from '../../redux/actions/dialogActions';
 import ProjectEditDialog from '../dialog/ProjectEditDialog';
@@ -13,8 +14,6 @@ import ProjectInfo from './ProjectInfo';
 
 
 class ProjectView extends React.Component {
-
-
 
     /**
      * Called when the component did mount.
@@ -31,7 +30,7 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push, editProjectDialogIsOpen } = this.props;
+        const { project, index, path, push, editProjectDialogIsOpen, postProjectUpdate } = this.props;
         return (
 
             <div>
@@ -79,7 +78,7 @@ class ProjectView extends React.Component {
                     title={"Rediger Prosjekt"}
                     open={editProjectDialogIsOpen}
                     onRequestClose={this.props.editDialog.bind(null, false)}
-                    //handleSubmit={}
+                    handleSubmit={postProjectUpdate}
                 />
             </div>
             /*
@@ -145,7 +144,8 @@ const mapDispatchToProps = (dispatch) => {
         },
         editDialog: (open) => {
             dispatch(dialogOpen('projectEdit', open))
-        }
+        },
+        postProjectUpdate: (project) => dispatch(postProjectUpdate(project))
     };
 };
 
