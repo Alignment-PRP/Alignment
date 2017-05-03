@@ -10,10 +10,7 @@ import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Kim Erling on 02.03.2017.
@@ -52,17 +49,49 @@ public class RequirementController extends Controller{
      * If 200 OK, The body contains the Relevant requirements and accompanying MetaData and Structure.
      */
     public Result getGlobalRequirements(){
-        //Checks if the user is logged in
+        //Check if user is logged in
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        //Returns and 200 OK with a JsonNode as Body.
+        //TODO: validate user is admin (ADMIN DOESN'T EXIST YET)
         Map<String, Object> requirementMap = new HashMap<>();
-        JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
-        for (JsonNode r : req) {
-            requirementMap.put(r.get("RID").asText(), r);
+        JsonNode requirements = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
+        JsonNode requirementsStructures = qh.executeQuery(Statement.GET_REQUIREMENTS_STRUCTURES);
+        for (JsonNode r:
+                requirements) {
+
+            Map<String, Object> requirementSingle = new HashMap<>();
+            Iterator<Map.Entry<String, JsonNode>> fields = r.fields();
+
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+
+                requirementSingle.put(n.getKey(), n.getValue());
+            }
+            List<Map<String, Object>> structs = new ArrayList<>();
+
+
+            requirementSingle.put("structures", structs);
+
+            requirementMap.put(r.get("RID").asText(), requirementSingle);
         }
+        for (JsonNode struct :
+                requirementsStructures) {
+            String RID = struct.get("RID").asText();
+            Map r = (HashMap<String, Object>)requirementMap.get(RID);
+            List<Map<String, Object>> str = (List<Map<String, Object>>)r.get("structures");
+
+            Iterator<Map.Entry<String, JsonNode>> fields = struct.fields();
+            Map<String, Object> s = new HashMap<>();
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+                s.put(n.getKey(), n.getValue());
+            }
+            str.add(s);
+
+        }
+
         return ok(Json.toJson(requirementMap));
     }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement } from '../redux/actions/requirementActions';
+import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement, postUpdateRequirement } from '../redux/actions/requirementActions';
+import { updateRequiredValues, updateOptionalValues, clearValues, changeStepperIndex } from '../redux/actions/requirementFormActions';
 import { getStructures, getStructureTypes } from './../redux/actions/structureActions';
 import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
@@ -8,7 +9,7 @@ import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import { popoverAdd } from './../redux/actions/popoverActions';
 import { getUsersWithClass } from './../redux/actions/userActions';
-import RequirementNewDialog from './dialog/RequirementNewDialog';
+import RequirementDialog from './dialog/RequirementDialog';
 import Paper from 'material-ui/Paper';
 import DataTable from '../core/table/DataTable';
 import DeleteDialog from './../core/dialog/DeleteDialog';
@@ -37,10 +38,11 @@ class Requirements extends React.Component {
 
     render() {
         const {
-            filterRequirementList, requirements, filter,
-            updateRequirement, deleteRequirement,
+            filterRequirementList, requirements, filter, clearValues, changeStepperIndex,
+            updateRequiredValues, updateOptionalValues, deleteRequirement,
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
-            structures, structureTypes, categories, users, newRequirementDialogIsOpen
+            structures, structureTypes, categories, users, newRequirementDialogIsOpen,
+            editRequirementDialogIsOpen, editDialog, postUpdateRequirement, addRequirement
         } = this.props;
 
         const config = {
@@ -74,7 +76,15 @@ class Requirements extends React.Component {
                 },
                 {label: 'Kategori', property: 'cName', width: '12%'},
                 {label: 'UnderKategori', property: 'scName', width: '12%'},
-                {type: 'EDIT_LINK_ACTION', link: "editrequirement", action: updateRequirement, width: '8%'},
+                {type: 'EDIT_ACTION', action: (requirement) => {
+                    editDialog(true);
+                    updateRequiredValues(requirement);
+                    const structures = {};
+                    requirement.structures.forEach(struc => structures[struc.type] = struc.content);
+                    console.log(requirement.structures);
+                    console.log(structures);
+                    updateOptionalValues(structures);
+                },width: '8%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     deleteDialogOpen(true);
                     deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
@@ -95,11 +105,30 @@ class Requirements extends React.Component {
 
                 <Popover component="requirements"/>
 
-                <RequirementNewDialog
+                <RequirementDialog
                     title="Nytt Krav"
                     open={newRequirementDialogIsOpen}
-                    handleSubmit={(values) => {addRequirement(values); this.props.newDialog(false)}}
-                    onRequestClose={this.props.newDialog.bind(null, false)}
+                    onRequestClose={() => {
+                        changeStepperIndex(0);
+                        clearValues();
+                        this.props.newDialog(false)
+                    }}
+                    sendAction={addRequirement}
+                    users={users}
+                    categories={categories}
+                    structures={structures}
+                    structureTypes={structureTypes}
+                />
+
+                <RequirementDialog
+                    title="Endre Krav"
+                    open={editRequirementDialogIsOpen}
+                    onRequestClose={() => {
+                        changeStepperIndex(0);
+                        clearValues();
+                        this.props.editDialog(false)
+                    }}
+                    sendAction={postUpdateRequirement}
                     users={users}
                     categories={categories}
                     structures={structures}
@@ -124,6 +153,7 @@ const mapStateToProps = (state) => {
         requirements: state.requirementReducer.requirements,
         filter: state.filterReducer.filters['requirements'],
         newRequirementDialogIsOpen: state.dialogReducer.requirementNew.isOpen,
+        editRequirementDialogIsOpen: state.dialogReducer.requirementEdit.isOpen,
         deleteDialogIsOpen: state.dialogReducer.requirementDelete.isOpen,
         deleteDialogAction: state.dialogReducer.requirementDelete.action,
         popover: state.popoverReducer.popovers['requirements'],
@@ -136,12 +166,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        clearValues: () => dispatch(clearValues()),
+        changeStepperIndex: (index) => dispatch(changeStepperIndex(index)),
         addFilter: (filter) => dispatch(addFilter(filter)),
         addFiltered: (comp) => dispatch(addFiltered(comp)),
         newDialog: (open) => dispatch(dialogOpen('requirementNew', open)),
+        editDialog: (open) => dispatch(dialogOpen('requirementEdit', open)),
         deleteDialogOpen: (open) => dispatch(dialogOpen('requirementDelete', open)),
         deleteDialogChangeAction: (action) => dispatch(dialogChangeAction('requirementDelete', action)),
         getAllRequirements: () => dispatch(getAllRequirements()),
+        updateRequiredValues: (requirement) => dispatch(updateRequiredValues(requirement)),
+        updateOptionalValues: (structure) => dispatch(updateOptionalValues(structure)),
         updateRequirement: (requirement) => dispatch(updateRequirement(requirement)),
         deleteRequirement: (requirement) => dispatch(deleteRequirement(requirement)),
         getAllCategoryNames: () => dispatch(getAllCategoryNames()),
@@ -150,6 +185,8 @@ const mapDispatchToProps = (dispatch) => {
         getUsersWithClass: () => dispatch(getUsersWithClass()),
         getStructures: () => dispatch(getStructures()),
         getStructureTypes: () => dispatch(getStructureTypes()),
+        postUpdateRequirement: (requirement) => dispatch(postUpdateRequirement(requirement)),
+        addRequirement: (requirement) => dispatch(addRequirement(requirement))
 
     };
 };
