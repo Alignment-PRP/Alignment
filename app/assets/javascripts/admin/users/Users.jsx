@@ -53,7 +53,7 @@ class Users extends React.Component {
             ],
             toolbar: {
                 title: 'Brukere',
-                search: 'USERNAME|ucName',
+                search: 'USERNAME|firstName|lastName',
                 render: () => {
                     return (
                         <ToolbarGroup>
