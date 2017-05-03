@@ -29,6 +29,7 @@ export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
+export const PROJECT_POST_UPDATE = PROJECT + "/update";
 
 export const PROJECT_GET_BY_ID = PROJECT + "/:id";
 export const PROJECT_GET_DATA_BY_ID = PROJECT_GET_BY_ID + "/data";

@@ -94,7 +94,7 @@ class ProjectInfo extends React.Component {
                     </CardText>
                     <CardActions>
                         <RaisedButton primary={true} onClick={() => {
-                            this.props.editDialog.bind(null, true);
+                            this.props.editDialog(true);
                             this.props.initEditProjectForm(this.props.projectData, this.props.projectMeta);
                         }} label="Rediger" />
                     </CardActions>
