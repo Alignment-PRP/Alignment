@@ -282,6 +282,7 @@ public enum Statement {
             "ON uc.NAME = uhc.NAME "
     ),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
+    UPDATE_USER_WITH_PASS("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=?, pass=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
     INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)"),
 
