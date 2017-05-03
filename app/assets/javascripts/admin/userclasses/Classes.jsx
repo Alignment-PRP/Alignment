@@ -64,7 +64,8 @@ class Classes extends React.Component {
                 {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
             ],
             toolbar: {
-                title: 'Brukerklasses',
+                title: 'Brukerklasser',
+                search: 'NAME',
                 render: () => {
                     return (
                         <ToolbarGroup>

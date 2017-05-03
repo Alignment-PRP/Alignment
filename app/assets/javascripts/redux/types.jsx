@@ -107,6 +107,13 @@ export const CLEAR_VALUES = 'CLEAR_VALUES';
 
 //Auth
 export const LOGGED_IN = 'LOGGED_IN';
+export const POST_REGISTER = type('POST_REGISTER');
+export const POST_LOGIN = type('POST_LOGIN');
+export const GET_LOGOUT = type('GET_LOGOUT');
+export const GET_LOGIN_CHECK = type('GET_LOGIN_CHECK');
+export const AUTH_CLEAR = 'AUTH_CLEAR';
+export const LOGIN_CLEAR = 'LOGIN_CLEAR';
+export const REGISTER_CLEAR = 'REGISTER_CLEAR';
 
 //Login Page
 export const REGISTER_FAILED = 'REGISTER_FAILED';
