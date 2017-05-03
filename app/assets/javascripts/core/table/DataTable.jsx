@@ -126,6 +126,10 @@ class DataTable extends React.Component {
         this.getData = this.getData.bind(this);
     }
 
+    componentWillUnmount() {
+        this.props.tableSearchData(this.props.config.table, null);
+    }
+
     /**
      * Renders the body.
      * @param {Array.<Column>} columns - Array with {@link Column}.
