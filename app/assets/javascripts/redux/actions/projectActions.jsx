@@ -253,7 +253,7 @@ export function postProjectUpdate(project) {
                 dispatch(getProjectDataById(project.ID));
                 dispatch(getProjectMetaDataById(project.ID));
                 dispatch(RECEIVED(POST_UPDATE_PROJECT, response));
-                dispatch(snackBar(true, "Prosjekt ble oppdatert!"));
+                dispatch(snackBar(true, "Prosjektet ble oppdatert!"));
             })
             .catch(error => {
                 dispatch(ERROR(POST_UPDATE_PROJECT, error));
