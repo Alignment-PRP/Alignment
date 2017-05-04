@@ -24,9 +24,6 @@ export function getStructureTypes() {
     return dispatch => {
         axios.get(URLS.REQUIREMENT_GET_STUCTURE)
             .then( response => {
-                console.log("####");
-                console.log(response.data);
-                console.log("####");
                 dispatch(getStructureTypesAsync(response.data))
             });
     }
