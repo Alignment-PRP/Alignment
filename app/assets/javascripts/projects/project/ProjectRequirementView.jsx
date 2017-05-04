@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 
 //Importing the methods declared in redux/actions. These methodes handles the global state of the app.
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
-import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
 import {
     getAllRequirements, postProjectReqUpdate, updateRequirementMetadata
@@ -47,7 +46,6 @@ class ProjectRequirementView extends React.Component {
         this.props.addFiltered('allRequirements');
         this.props.addFiltered('projectRequirements');
         this.props.popoverAdd('project');
-        this.props.changeSideMenuMode("HIDE")
     }
 
     intersectRequirements(allreq, proreq) {
@@ -209,9 +207,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         getRequirementsByProjectId: (id) => {
             dispatch(getRequirementsByProjectId(id));
-        },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode));
         },
         postRequirementToProject: (projectID, requirement) => {
             dispatch(postRequirementToProject(projectID, requirement));
