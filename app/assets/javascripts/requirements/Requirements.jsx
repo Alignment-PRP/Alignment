@@ -76,8 +76,6 @@ class Requirements extends React.Component {
                     updateRequiredValues(requirement);
                     const structures = {};
                     requirement.structures.forEach(struc => structures[struc.type] = struc.content);
-                    console.log(requirement.structures);
-                    console.log(structures);
                     updateOptionalValues(structures);
                 },width: '8%'},
                 {type: 'DELETE_ACTION', action: (requirement) => {

@@ -14,7 +14,7 @@ import CategoryCheckBoxes from './../core/filter/checkboxes/CategoryCheckBoxes';
 class Filter extends React.Component {
 
     componentDidMount(){
-        this.props.getAllCategoryNames()
+        this.props.getAllCategoryNames();
     }
 
     _updateFilter(event, isChecked) {
@@ -40,8 +40,12 @@ class Filter extends React.Component {
         this.props.updateFilterRequirementList(this.props.requirements);
     }
 
+    renderStructureCheckboxes(structures) {
+            return structures ? structures.map((structure, index) => {return <ListItem key={index} primaryText={structure} leftCheckbox={<Checkbox/>}/>}) : null
+    }
+
     render() {
-        const { categories, filter, title } = this.props;
+        const { structureTypes, categories, filter, title } = this.props;
         return (
             <div style={{minWidth: '250px', height: '100%'}}>
                 <h2>{title}</h2>
@@ -53,9 +57,7 @@ class Filter extends React.Component {
                 {/*Temporary placeholder before structure gets in place*/}
                 <List>
                     <SubHeader>Struktur</SubHeader>
-                    <ListItem primaryText="Source" leftCheckbox={<Checkbox/>}/>
-                    <ListItem primaryText="Stimulus" leftCheckbox={<Checkbox/>}/>
-                    <ListItem primaryText="Artifact" leftCheckbox={<Checkbox/>}/>
+                    {this.renderStructureCheckboxes(structureTypes)}
                 </List>
                 <Divider/>
                 <List>
@@ -74,7 +76,9 @@ const mapStateToProps = (state) => {
         requirements: state.requirementReducer.requirements,
         filter: state.filterReducer.filters['requirements'],
         filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
-        categories: state.requirementReducer.categoryNames
+        categories: state.requirementReducer.categoryNames,
+        structures: state.structureReducer.structures,
+        structureTypes: state.structureReducer.types
     };
 };
 
