@@ -1,12 +1,17 @@
 import axios from 'axios';
 import * as URLS from './../../config';
+
 import { SENT, RECEIVED, ERROR } from './../utility';
 import {
+    INIT_EDIT_PROJECT_FORM,
+    GET_PROJECT_DATA_BY_ID,
+    GET_PROJECT_META_BY_ID,
     GET_PROJECTS_PUBLIC,
     GET_PROJECTS_ACCESSIBLE,
     GET_PROJECTS_IS_CREATOR,
     GET_PROJECTS_IS_MANAGER,
     POST_NEW_PROJECT,
+    POST_UPDATE_PROJECT,
     POST_DELETE_PROJECT,
 
     GET_PROJECT_BY_ID,
@@ -89,17 +94,29 @@ export function getProjectsIsManager() {
     }
 }
 
-
-export function getProjectById(id) {
+export function getProjectDataById(id) {
     return dispatch => {
-        axios.get(URLS.PROJECT_GET_BY_ID.replace(':id', id))
+        axios.get(URLS.PROJECT_GET_DATA_BY_ID.replace(':id', id))
             .then( response => {
-                dispatch(RECEIVED(GET_PROJECT_BY_ID, response));
+                dispatch(RECEIVED(GET_PROJECT_DATA_BY_ID, response));
             })
             .catch(error => {
-                dispatch(ERROR(GET_PROJECT_BY_ID, error));
+                dispatch(ERROR(GET_PROJECT_DATA_BY_ID, error));
             });
-        dispatch(SENT(GET_PROJECT_BY_ID));
+        dispatch(SENT(GET_PROJECT_DATA_BY_ID));
+    }
+}
+
+export function getProjectMetaDataById(id) {
+    return dispatch => {
+        axios.get(URLS.PROJECT_GET_META_BY_ID.replace(':id', id))
+            .then( response => {
+                dispatch(RECEIVED(GET_PROJECT_META_BY_ID, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_PROJECT_META_BY_ID, error));
+            });
+        dispatch(SENT(GET_PROJECT_META_BY_ID));
     }
 }
 
@@ -229,6 +246,23 @@ export function postProjectNew(data){
     }
 }
 
+export function postProjectUpdate(project) {
+    return dispatch => {
+        axios.post(URLS.PROJECT_POST_UPDATE, project)
+            .then(response => {
+                dispatch(getProjectDataById(project.ID));
+                dispatch(getProjectMetaDataById(project.ID));
+                dispatch(RECEIVED(POST_UPDATE_PROJECT, response));
+                dispatch(snackBar(true, "Prosjektet ble oppdatert!"));
+            })
+            .catch(error => {
+                dispatch(ERROR(POST_UPDATE_PROJECT, error));
+                dispatch(snackBar(true, "Noe gikk galt.."));
+            });
+        dispatch(SENT(POST_UPDATE_PROJECT));
+    }
+}
+
 /**
  * @param {string} mode
  * @returns {{type, payload: *}}
@@ -264,4 +298,20 @@ function deleteProjectAsync(){
     return{
         type: DELETE_PROJECT
     }
+}
+
+export function initEditProjectForm(projectData, projectMeta){
+
+    const data = {
+        ...projectData,
+        ...projectMeta,
+        isPublic: projectData.isPublic === '1'
+    };
+
+    return {
+        type: INIT_EDIT_PROJECT_FORM,
+        payload: data
+    }
+
+
 }

@@ -8,7 +8,8 @@ import Logout from './utility/Logout';
 
 //Project
 import Projects from './projects/Projects';
-import Project from './projects/project/Project';
+import ProjectRequirementView from './projects/project/ProjectRequirementView';
+import ProjectView from './projects/project/ProjectView';
 
 //Requirements
 import Requirements from './requirements/Requirements';
@@ -54,7 +55,14 @@ class App extends React.Component {
                                 <Route path={"accessible"}/>
                             </Route>
 
-                            <Route path={"/project/:id"} component={Project}/>
+                            <Route path={"/project/:id"} component={ProjectView} onEnter={() => {}}>
+                                <Route path={"overview"} />
+                                <Route path={"access"} >
+                                    <Route path={"users"} />
+                                    <Route path={"classes"} />
+                                </Route>
+                                <Route path={"requirements"} />
+                            </Route>
 
                             <Route path={"requirements"} component={Requirements}/>
 

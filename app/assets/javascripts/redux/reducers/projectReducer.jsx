@@ -1,15 +1,16 @@
 import {
+    POST_NEW_PROJECT,
     GET_PROJECTS_PUBLIC,
     GET_PROJECTS_ACCESSIBLE,
-    GET_PROJECTS_IS_CREATOR,
     GET_PROJECTS_IS_MANAGER,
-    POST_NEW_PROJECT,
-    POST_DELETE_PROJECT,
+    GET_PROJECTS_IS_CREATOR,
+    GET_PROJECT_DATA_BY_ID,
+    GET_PROJECT_META_BY_ID,
     GET_PROJECT_BY_ID,
     GET_REQUIREMENTS_BY_PROJECT_ID,
-    POST_REQUIREMENT_TO_PROJECT,
-    DELETE_REQUIREMENT_TO_PROJECT,
-    CHANGE_PROJECTS_TABLE_MODE
+    CHANGE_PROJECTS_TABLE_MODE,
+    INIT_EDIT_PROJECT_FORM,
+
 } from './../types';
 //Here is where the global state of the projectReducer actually get stored and changed. The projectReducer get passed actions.types into a switch function.
 //When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from redux actions.
@@ -17,6 +18,9 @@ import {
 //all reducers get gathered into one big reducer in store.jsx
 
 const projectReducer = (state = {
+    projectData: null,
+    projectMeta: null,
+    initEditProjectForm: null,
     projectsPublic: null,
     projectsAccessible: null,
     projectsIsCreator: null,
@@ -69,6 +73,17 @@ const projectReducer = (state = {
                 ...state,
                 projectsIsManager: action.response.data
             };
+
+        case GET_PROJECT_DATA_BY_ID.RECEIVED:
+            return {
+                ...state,
+                projectData: action.response.data
+            };
+        case GET_PROJECT_META_BY_ID.RECEIVED:
+            return {
+                ...state,
+                projectMeta: action.response.data
+            };
         case GET_PROJECT_BY_ID.RECEIVED:
             return {
                 ...state,
@@ -83,6 +98,11 @@ const projectReducer = (state = {
             return {
                 ...state,
                 tableMode: action.payload
+            };
+        case INIT_EDIT_PROJECT_FORM:
+            return {
+                ...state,
+                initEditProjectForm: action.payload
             };
         default:
             return state;

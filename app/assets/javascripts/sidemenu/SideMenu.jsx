@@ -13,8 +13,7 @@ class SideMenu extends React.Component {
         //CSS for hiding sidemenu
         this.state = {
             hide: {
-                visibility: 'hidden',
-                marginLeft: '60px',
+                display: 'none',
                 width: '0px',
                 flex: '0',
             }
@@ -23,15 +22,15 @@ class SideMenu extends React.Component {
 
     renderWithDivID(divID){
         let divTag = null;
-        if(this.props.mode == "HIDE"){
+        if(this.props.mode === "HIDE"){
             divTag =( <div style={this.state.hide} id={divID}>
                     {this.renderMenu()}
                     </div> )
-        }else{
+        } else {
             divTag =(<div id={divID}>
                     {this.renderMenu()}
                     </div> )
-            }
+        }
         return divTag
     }
 

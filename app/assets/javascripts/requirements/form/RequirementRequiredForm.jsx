@@ -94,7 +94,7 @@ class RequirementRequiredForm extends React.Component {
                         required
                     />
                 </div>
-                <div style={{display: 'flex', height: '48px', justifyContent: 'flex-start', alignItems: 'center', marginTop: '24px'}}>
+                <div className="form-button-row">
                     <FlatButton
                         secondary={true}
                         label="Tilbake"
