@@ -5,6 +5,7 @@ import { changeSideMenuMode } from './../../redux/actions/sideMenuActions';
 import { postProjectUpdate } from './../../redux/actions/projectActions';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import { dialogOpen } from '../../redux/actions/dialogActions';
+import { getUsersWithClass } from '../../redux/actions/userActions';
 import ProjectEditDialog from '../dialog/ProjectEditDialog';
 import ProjectRequirementView from './ProjectRequirementView';
 import ProjectUserAccess from './ProjectUserAccess';
@@ -20,6 +21,9 @@ class ProjectView extends React.Component {
      */
     componentDidMount(){
         this.props.changeSideMenuMode("HIDE");
+        this.props.getUsersWithClass();
+
+
     }
 
     /**
@@ -30,7 +34,7 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push, editProjectDialogIsOpen, postProjectUpdate } = this.props;
+        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate, users } = this.props;
         return (
 
             <div>
@@ -77,8 +81,9 @@ class ProjectView extends React.Component {
                 <ProjectEditDialog
                     title={"Rediger Prosjekt"}
                     open={editProjectDialogIsOpen}
-                    onRequestClose={this.props.editDialog.bind(null, false)}
-                    handleSubmit={postProjectUpdate}
+                    onRequestClose={editDialog.bind(null, false)}
+                    handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
+                    users={users}
                 />
             </div>
             /*
@@ -130,22 +135,18 @@ class ProjectView extends React.Component {
 const mapStateToProps = (state, props) => {
     return {
         path: props.location.pathname,
-        editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen
+        editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen,
+        users: state.userReducer.users
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        push: (url) => {
-            dispatch(push(url));
-        },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
-        },
-        editDialog: (open) => {
-            dispatch(dialogOpen('projectEdit', open))
-        },
-        postProjectUpdate: (project) => dispatch(postProjectUpdate(project))
+        push: (url) => dispatch(push(url)),
+        changeSideMenuMode: (mode) => dispatch(changeSideMenuMode(mode)),
+        editDialog: (open) => dispatch(dialogOpen('projectEdit', open)),
+        postProjectUpdate: (project) => dispatch(postProjectUpdate(project)),
+        getUsersWithClass: () => dispatch(getUsersWithClass())
     };
 };
 

@@ -250,10 +250,14 @@ export function postProjectUpdate(project) {
     return dispatch => {
         axios.post(URLS.PROJECT_POST_UPDATE, project)
             .then(response => {
+                dispatch(getProjectDataById(project.ID));
+                dispatch(getProjectMetaDataById(project.ID));
                 dispatch(RECEIVED(POST_UPDATE_PROJECT, response));
+                dispatch(snackBar(true, "Prosjektet ble oppdatert!"));
             })
             .catch(error => {
                 dispatch(ERROR(POST_UPDATE_PROJECT, error));
+                dispatch(snackBar(true, "Noe gikk galt.."));
             });
         dispatch(SENT(POST_UPDATE_PROJECT));
     }
@@ -297,8 +301,6 @@ function deleteProjectAsync(){
 }
 
 export function initEditProjectForm(projectData, projectMeta){
-    console.log(projectData);
-    console.log(projectMeta);
 
     const data = {
         ...projectData,

@@ -1,10 +1,3 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import {connect} from "react-redux";
-import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from './../../core/render';
-
 /**
  * Redux-form for project creation.
  * @see Projects
@@ -12,11 +5,28 @@ import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as
  * @see module:admin/render.renderTextField
  * @see module:admin/render.renderCheckbox
  */
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
+import {connect} from "react-redux";
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {renderTextField, renderMultiTextField, renderSelectField, renderCheckbox, warnNumberField, renderAutoComplete, validateProjectForm as validate} from './../../core/render';
+import {Divider, MenuItem, Subheader} from "material-ui";
+
 class ProjectForm extends React.Component {
+
+    renderManagerIDItems(managers){
+        const output = [];
+        managers.forEach((manager, index) => {
+            if (index > 0) output.push(<Divider key={output.length}/>);
+            output.push(<MenuItem key={output.length} value={manager.USERNAME} primaryText={manager.USERNAME}/>)
+            });
+        return output;
+    }
 
     render() {
         const {
-            handleSubmit, handleClose,
+            handleSubmit, handleClose, users,
             pristine, reset, submitting
         } = this.props;
         return(
@@ -28,6 +38,21 @@ class ProjectForm extends React.Component {
                                 name="name"
                                 label="Projektnavn"
                                 component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-inner-field">
+                            <Field component={renderSelectField}
+                                   name="managerID"
+                                   floatingLabelText="Leder"
+                            >
+                                {this.renderManagerIDItems(users)}
+                            </Field>
+                        </div>
+                        <div className="form-inner-field">
+                            <Field
+                                name="description"
+                                label="Beskrivelse"
+                                component={renderMultiTextField}
                             />
                         </div>
                         <div className="form-inner-field">
@@ -80,8 +105,10 @@ class ProjectForm extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    const initialValues = state.projectReducer.initEditProjectForm;
+    initialValues.proManager = state.userReducer.userdata.USERNAME;
     return {
-        initialValues: state.projectReducer.initEditProjectForm
+        initialValues: initialValues
     };
 };
 
