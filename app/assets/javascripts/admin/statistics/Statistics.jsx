@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { changeSideMenuMode } from "./../../redux/actions/sideMenuActions";
 import { getRequirementUsageStatistics } from "../../redux/actions/statisticsActions";
 import DataTable from '../../core/table/DataTable';
 
@@ -14,7 +13,6 @@ class Statistics extends React.Component {
      * Called when the component did mount.
      */
     componentDidMount() {
-        this.props.changeSideMenuMode("HIDE");
         this.props.getRequirementUsageStatistics();
     }
 
@@ -52,12 +50,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRequirementUsageStatistics: () => {
-            dispatch(getRequirementUsageStatistics());
-        },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
-        }
+        getRequirementUsageStatistics: () => dispatch(getRequirementUsageStatistics())
     };
 };
 

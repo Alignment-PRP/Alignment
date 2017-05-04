@@ -16,24 +16,23 @@ class ClassForm extends React.Component {
             <MuiThemeProvider>
                 <form onSubmit={handleSubmit}>
                     <div className="form-inner-class">
-                        <div className="form-inner-field">
+                        <div className="form-field-row">
                             <Field
                                 name="NAME"
                                 label="Klassenavn"
                                 component={renderTextField}
                             />
                         </div>
-                        <div className="form-inner-field">
+                        <div className="form-field-row">
                             <Field
                                 name="description"
                                 label="Beskrivelse"
                                 rows={4}
-                                maxRows={4}
                                 component={renderMultiTextField}
                             />
                         </div>
                     </div>
-                    <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                    <div className="form-button-row">
                         <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
                         <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
                         <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>

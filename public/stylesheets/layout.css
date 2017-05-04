@@ -1,7 +1,8 @@
-body {
-    line-height: 1;
-    margin: 0px;
-    padding: 0px;
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -18,26 +19,12 @@ body {
 }
 
 #main_content {
-    position: fixed;
-    left: 70px;
+    display: block;
+    position: relative;
+    margin-left: 70px;
     top: 0;
-    width: 100%;
-    height: 100%;
-}
-
-#sidemenu {
-    padding: 5px;
-    flex: 1;
-    background-color: #fff;
-    height: 100%
-}
-
-#sidemenu #menu {
-    padding: 10px;
-}
-
-#sidemenu #filter {
-    padding: 10px;
+    width: auto;
+    height: auto;
 }
 
 #pagecontainer {

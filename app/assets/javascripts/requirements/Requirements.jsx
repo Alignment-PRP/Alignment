@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement, postUpdateRequirement } from '../redux/actions/requirementActions';
 import { updateRequiredValues, updateOptionalValues, clearValues, changeStepperIndex } from '../redux/actions/requirementFormActions';
 import { getStructures, getStructureTypes } from './../redux/actions/structureActions';
-import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
@@ -30,10 +29,6 @@ class Requirements extends React.Component {
         this.props.getUsersWithClass();
         this.props.getStructureTypes();
         this.props.getStructures();
-    }
-
-    componentDidMount() {
-        this.props.changeSideMenuMode("HIDE");
     }
 
     render() {
@@ -89,7 +84,12 @@ class Requirements extends React.Component {
                     deleteDialogOpen(true);
                     deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
                 }, width: '8%'}
-            ]
+            ],
+            toolbar: {
+                title: 'Krav',
+                search: 'name',
+                render: () => {}
+            }
         };
 
         return (
@@ -180,7 +180,6 @@ const mapDispatchToProps = (dispatch) => {
         updateRequirement: (requirement) => dispatch(updateRequirement(requirement)),
         deleteRequirement: (requirement) => dispatch(deleteRequirement(requirement)),
         getAllCategoryNames: () => dispatch(getAllCategoryNames()),
-        changeSideMenuMode: (mode) => dispatch(changeSideMenuMode(mode)),
         popoverAdd: (popover) => dispatch(popoverAdd(popover)),
         getUsersWithClass: () => dispatch(getUsersWithClass()),
         getStructures: () => dispatch(getStructures()),

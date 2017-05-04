@@ -3,12 +3,10 @@ import {connect} from "react-redux";
 import { push } from 'react-router-redux';
 import {
     getProjectsPublic, getProjectsAccessible, getProjectsIsCreator, getProjectsIsManager,
-    postProjectNew, deleteProject, changeProjectsTableMode
+    postProjectNew, deleteProject
 } from "../redux/actions/projectActions";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
 import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
-import { snackBar } from './../redux/actions/snackBarActions';
 import ProjectsSideMenu from './presentational/ProjectsSideMenu';
 import ProjectNewDialog from './dialog/ProjectNewDialog';
 import DeleteDialog from "./../core/dialog/DeleteDialog";
@@ -73,7 +71,6 @@ class Projects extends React.Component {
         this.props.getProjectsIsCreator();
         this.props.getProjectsIsManager();
 
-        this.props.changeSideMenuMode("HIDE");
         this.props.newDialog(false);
         this.props.deleteDialog(false);
     }
@@ -227,7 +224,6 @@ const mapDispatchToProps = (dispatch) => {
         getProjectsAccessible: () => dispatch(getProjectsAccessible()),
         getProjectsIsCreator: () => dispatch(getProjectsIsCreator()),
         getProjectsIsManager: () => dispatch(getProjectsIsManager()),
-        changeSideMenuMode: (mode) => dispatch(changeSideMenuMode(mode)),
         postProjectNew: (data) => dispatch(postProjectNew(data)),
         deleteProject: (project) => dispatch(deleteProject(project)),
         newDialog: (open) => dispatch(dialogOpen('projectNew', open)),
