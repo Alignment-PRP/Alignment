@@ -21,8 +21,6 @@ class ProjectForm extends React.Component {
             if (index > 0) output.push(<Divider key={output.length}/>);
             output.push(<MenuItem key={output.length} value={manager.USERNAME} primaryText={manager.USERNAME}/>)
             });
-
-        console.log(output);
         return output;
     }
 
