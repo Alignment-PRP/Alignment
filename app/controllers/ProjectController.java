@@ -1,6 +1,12 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jamasoftware.services.restclient.JamaConfig;
+import com.jamasoftware.services.restclient.exception.RestClientException;
+import com.jamasoftware.services.restclient.jamadomain.core.JamaInstance;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaItem;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaItemType;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaProject;
 import database.QueryHandler;
 import database.Statement;
 
@@ -10,9 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by andrfo on 24.02.2017.
@@ -400,6 +404,22 @@ public class ProjectController extends Controller {
         }
 
         return badRequest("No userClass or userName was received.");
+    }
+
+    public Result jamaTest(){
+        try {
+
+            JamaInstance jamaInstance = new JamaInstance(new JamaConfig(true));
+            JamaProject project = jamaInstance.getProject(45);
+            List<JamaItem> jamaItems = project.getItems();
+            System.out.println("Listing all Project Item names and IDs:");
+            for (JamaItem jamaItem : jamaItems) {
+                System.out.println(jamaItem.getName() + " with API ID " + jamaItem.getId());
+            }
+        } catch(RestClientException e) {
+            e.printStackTrace();
+        }
+        return ok();
     }
 
     /**
