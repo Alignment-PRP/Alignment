@@ -27,21 +27,6 @@ html, body {
     height: auto;
 }
 
-#sidemenu {
-    padding: 5px;
-    flex: 1;
-    background-color: #fff;
-    height: 100%
-}
-
-#sidemenu #menu {
-    padding: 10px;
-}
-
-#sidemenu #filter {
-    padding: 10px;
-}
-
 #pagecontainer {
     flex: 4;
     background-color: #fff;
