@@ -3,8 +3,7 @@
  * @module config
  */
 
-export const URL = "http://localhost:9000/";
-export const API = URL + "api";
+export const API = "/api";
 
 export const AUTH = API + "/auth";
 export const LOGIN_POST = AUTH + "/login";
@@ -19,7 +18,6 @@ export const USER_POST_DELETE = USER_GET + "/delete";
 export const USERS_GET = USER_GET + "s";
 export const USERS_GET_WITH_CLASS = USERS_GET + "_c";
 export const USER_GET_BY_ID = USERS_GET + "/";
-export const USER_GET_BY_ID_MIN = USER_GET_BY_ID.replace(URL, "");
 export const USER_GET_USERCLASSES = USER_GET + "/userClasses";
 
 export const USERCLASS = API + "/userclass";
