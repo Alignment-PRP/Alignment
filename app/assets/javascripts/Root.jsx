@@ -26,13 +26,16 @@ class Root extends React.Component {
                 return (
                     <div>
                         <Sidebar/>
-                        <Header/>
-                        <div className="container">
-                            <SideMenu/>
-                            <div id="pagecontainer">
-                                {this.props.children}
+                        <div id="main_content">
+
+                            <Header/>
+                            <div className="container">
+                                <SideMenu/>
+                                <div id="pagecontainer">
+                                    {this.props.children}
+                                </div>
+                                <Snack/>
                             </div>
-                            <Snack/>
                         </div>
                     </div>
                 );

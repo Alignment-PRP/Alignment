@@ -31,7 +31,7 @@ class Admin extends React.Component {
                     value={path}
                 >
                     <Tab value="/admin" label="Brukeroversikt" onActive={push.bind(null, '/admin')}>
-                        <div id="admin">
+                        <div style={{padding: '10px'}}>
                             <h2>Brukeroversikt</h2>
                             <ul>
                                 <li>F.eks: Oversikt over hvem som eier hvilket prosjekt</li>
