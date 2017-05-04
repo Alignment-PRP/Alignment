@@ -84,7 +84,12 @@ class Requirements extends React.Component {
                     deleteDialogOpen(true);
                     deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
                 }, width: '8%'}
-            ]
+            ],
+            toolbar: {
+                title: 'Krav',
+                search: 'name',
+                render: () => {}
+            }
         };
 
         return (
