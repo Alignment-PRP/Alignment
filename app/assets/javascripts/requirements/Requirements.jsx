@@ -93,7 +93,7 @@ class Requirements extends React.Component {
         };
 
         return (
-            <div className="containerUsers">
+            <div className="container">
                 <div style={{display: 'flex'}}>
                     <Paper>
                         <Filter/>

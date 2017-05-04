@@ -18,17 +18,9 @@ class ProjectInfo extends React.Component {
     componentDidMount() {
         this.props.getProjectMetaDataById(this.props.id);
         this.props.getProjectDataById(this.props.id);
-
     }
 
-    pMeta() {
-        const style = {
-            height: 150,
-            width: 200,
-            margin: 20,
-            lineheight: 50,
-            display: 'inline-block',
-        };
+    renderProjectMeta() {
         if(this.props.projectMeta) {
             const { securityLevel, deploymentStyle, userChannel, transactionVolume } = this.props.projectMeta;
             return (
@@ -76,7 +68,7 @@ class ProjectInfo extends React.Component {
         }
     }
 
-    pData() {
+    renderProjectData() {
         if(this.props.projectData){
             const { name, managerID, creatorID, description, isPublic } = this.props.projectData;
             return(
@@ -89,7 +81,7 @@ class ProjectInfo extends React.Component {
                     <CardTitle title={name} subtitle={isPublic === '1' ? 'Offentlig' : 'Privat'} />
                     <CardText>
                         {description}<br/><br/>
-                        {this.pMeta()}
+                        {this.renderProjectMeta()}
 
                     </CardText>
                     <CardActions>
@@ -100,7 +92,7 @@ class ProjectInfo extends React.Component {
                     </CardActions>
                 </Card>
             )
-        }else {
+        } else {
             return (
                 <div >
                     <CircularProgress/>
@@ -113,7 +105,7 @@ class ProjectInfo extends React.Component {
     render() {
         return (
             <div>
-                {this.pData()}
+                {this.renderProjectData()}
             </div>
         );
     }

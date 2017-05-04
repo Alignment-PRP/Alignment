@@ -16,40 +16,46 @@ class UserForm extends React.Component {
             <MuiThemeProvider>
                 <div className="form-inner">
                     <form onSubmit={handleSubmit}>
-                        <Field
-                            name="USERNAME"
-                            label="Brukernavn"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="email"
-                            label="Epost"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="firstName"
-                            label="Fornavn"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="lastName"
-                            label="Etternavn"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="pass"
-                            label="Passord"
-                            component={renderPassField}
-                        />
-                        <Field
-                            name="ucName"
-                            label="Brukerklasse"
-                            component={renderSelectField}
-                        >
-                            {menuItemsClasses(classes)}
-                        </Field>
-                        <br/>
-                        <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                        <div className="form-field-row">
+                            <Field
+                                name="USERNAME"
+                                label="Brukernavn"
+                                component={renderTextField}
+                            />
+                            <Field
+                                name="email"
+                                label="Epost"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-field-row">
+                            <Field
+                                name="firstName"
+                                label="Fornavn"
+                                component={renderTextField}
+                            />
+                            <Field
+                                name="lastName"
+                                label="Etternavn"
+                                component={renderTextField}
+                            />
+                        </div>
+                        <div className="form-field-row">
+                            <Field
+                                name="pass"
+                                label="Passord"
+                                component={renderPassField}
+                            />
+                            <Field
+                                name="ucName"
+                                label="Brukerklasse"
+                                component={renderSelectField}
+                                style={{marginTop: '24px'}}
+                            >
+                                {menuItemsClasses(classes)}
+                            </Field>
+                        </div>
+                        <div className="form-button-row">
                             <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
                             <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
                             <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>

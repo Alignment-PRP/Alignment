@@ -129,17 +129,12 @@ class Projects extends React.Component {
         const tableMode = path.replace('/projects/', '');
         if (this._projects(tableMode)) {
             return (
-                <div style={{display: 'flex', flexWrap: 'wrap', margin: '8px'}}>
+                <div className="project-cards">
                     {this._projects(tableMode).map((project, index) => {
-                        const color = this.getCardColor(project.name);
                         return (
-                            <Card key={index} style={{
-                                margin: '8px',
-                                minWidth: '150px',
-                                backgroundColor: color
-                            }}>
+                            <Card key={index} className="project-card" style={{backgroundColor: this.getCardColor(project.name)}}>
                                 <CardTitle
-                                    style={{paddingBottom: 0}}
+                                    className="project-card-title"
                                     title={project.name}
                                     subtitle={'Laget av:' + project.creatorID + '  ' + 'Sjef: ' + project.managerID}
                                 />
@@ -176,7 +171,7 @@ class Projects extends React.Component {
         } = this.props;
 
         return (
-            <div style={{display: 'flex'}}>
+            <div className="container">
                 <ProjectsSideMenu
                     className="projects-sidemenu"
                     handlePrivate={push.bind(null, '/projects/private')}
@@ -185,7 +180,7 @@ class Projects extends React.Component {
                     handleNew={newDialog.bind(null, true)}
                 />
                 <div>
-                    <div className="containerUsers">
+                    <div className="container">
 
                         {this.renderProjects()}
 
