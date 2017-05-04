@@ -46,7 +46,6 @@ class UpdateRequirement extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        mode: state.sideMenuReducer.mode,
         categories: state.requirementReducer.categoryNames,
         users: state.userReducer.users ? state.userReducer.users : []
     };
