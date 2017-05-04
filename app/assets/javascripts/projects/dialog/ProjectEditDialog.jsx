@@ -7,7 +7,7 @@ class ProjectEditDialog extends React.Component {
     render() {
         const { handleSubmit, title, open, onRequestClose, users } = this.props;
         return (
-            <Dialog title={title} open={open} modal={false} onRequestClose={onRequestClose} >
+            <Dialog title={title} open={open} modal={false} onRequestClose={onRequestClose} autoScrollBodyContent={true}>
                 <ProjectForm onSubmit={handleSubmit} disabled={false} handleClose={onRequestClose} users={users}/>
             </Dialog>
         );
