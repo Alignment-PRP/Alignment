@@ -30,6 +30,8 @@ import store from './redux/store';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {syncHistoryWithStore, push} from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import {getMuiTheme} from "material-ui/styles";
+import theme from './core/theme';
 
 injectTapEventPlugin();
 
@@ -44,7 +46,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
                 <Provider store={store}>
                     <Router history={history}>
                         <Route path={"/"} component={Root}>
