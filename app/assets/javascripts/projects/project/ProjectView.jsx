@@ -4,7 +4,6 @@ import { push } from 'react-router-redux';
 import { postProjectUpdate } from './../../redux/actions/projectActions';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import { dialogOpen } from '../../redux/actions/dialogActions';
-import { getUsersWithClass } from '../../redux/actions/userActions';
 import ProjectEditDialog from '../dialog/ProjectEditDialog';
 import ProjectRequirementView from './ProjectRequirementView';
 import ProjectUserAccess from './ProjectUserAccess';
@@ -16,13 +15,6 @@ import ProjectInfo from './ProjectInfo';
 class ProjectView extends React.Component {
 
     /**
-     * Called when the component did mount.
-     */
-    componentDidMount(){
-        this.props.getUsersWithClass();
-    }
-
-    /**
      * Renders the component. This component returns a JSX tag, and all code need to be inside
      * this tag. JSX looks like html but is really a javascript extension syntax. This get compiled
      * into javascript and then into html. CodeAcademy.com Rect.js part 1 explains this in module 1.
@@ -30,7 +22,7 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate, users } = this.props;
+        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate } = this.props;
         return (
 
             <div>
@@ -79,7 +71,6 @@ class ProjectView extends React.Component {
                     open={editProjectDialogIsOpen}
                     onRequestClose={editDialog.bind(null, false)}
                     handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
-                    users={users}
                 />
             </div>
             /*
@@ -131,8 +122,7 @@ class ProjectView extends React.Component {
 const mapStateToProps = (state, props) => {
     return {
         path: props.location.pathname,
-        editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen,
-        users: state.userReducer.users
+        editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen
     };
 };
 
@@ -140,8 +130,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         push: (url) => dispatch(push(url)),
         editDialog: (open) => dispatch(dialogOpen('projectEdit', open)),
-        postProjectUpdate: (project) => dispatch(postProjectUpdate(project)),
-        getUsersWithClass: () => dispatch(getUsersWithClass())
+        postProjectUpdate: (project) => dispatch(postProjectUpdate(project))
     };
 };
 
