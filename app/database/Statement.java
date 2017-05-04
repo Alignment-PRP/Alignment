@@ -224,7 +224,7 @@ public enum Statement {
             "managerID = ?, " +
             "name = ?, " +
             "description = ?, " +
-            "isPublic = ?, " +
+            "isPublic = ? " +
             "WHERE ID = ?"),
 
     UPDATE_PROJECT_META_DATA("" +
@@ -233,7 +233,7 @@ public enum Statement {
             "securityLevel = ?, " +
             "transactionVolume = ?, " +
             "userChannel = ?, " +
-            "deploymentStyle = ?, " +
+            "deploymentStyle = ? " +
             "WHERE PID = ?"),
 
     INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, description, isPublic) VALUES(?,?,?,?,?)"),
