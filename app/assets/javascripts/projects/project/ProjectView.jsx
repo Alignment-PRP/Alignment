@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
-import { changeSideMenuMode } from './../../redux/actions/sideMenuActions';
 import { postProjectUpdate } from './../../redux/actions/projectActions';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import { dialogOpen } from '../../redux/actions/dialogActions';
@@ -20,10 +19,7 @@ class ProjectView extends React.Component {
      * Called when the component did mount.
      */
     componentDidMount(){
-        this.props.changeSideMenuMode("HIDE");
         this.props.getUsersWithClass();
-
-
     }
 
     /**
@@ -143,7 +139,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         push: (url) => dispatch(push(url)),
-        changeSideMenuMode: (mode) => dispatch(changeSideMenuMode(mode)),
         editDialog: (open) => dispatch(dialogOpen('projectEdit', open)),
         postProjectUpdate: (project) => dispatch(postProjectUpdate(project)),
         getUsersWithClass: () => dispatch(getUsersWithClass())

@@ -20,7 +20,6 @@ import Admin from './admin/Admin';
 
 //Stuff
 import { logout } from './redux/actions/authActions';
-import {changeSideMenuMode} from './redux/actions/sideMenuActions';
 import NotFound from './layout/NotFound';
 import NotAuth from './layout/NotAuth';
 
@@ -75,8 +74,8 @@ class App extends React.Component {
                             </Route>
 
                             /*Errors*/
-                            <Route path='/403' component={NotAuth} onEnter={() => {store.dispatch(changeSideMenuMode("HIDE"))}}/>
-                            <Route path='/404' component={NotFound} onEnter={() => {store.dispatch(changeSideMenuMode("HIDE"))}}/>
+                            <Route path='/403' component={NotAuth} onEnter={() => {}}/>
+                            <Route path='/404' component={NotFound} onEnter={() => {}}/>
                             <Redirect from='*' to='/404' />
                         </Route>
                     </Router>

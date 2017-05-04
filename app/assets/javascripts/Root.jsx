@@ -8,7 +8,6 @@ import { checkLogin } from './redux/actions/authActions';
 import CircularProgress from 'material-ui/CircularProgress';
 import Header from './layout/Header';
 import Sidebar from './layout/Sidebar';
-import SideMenu from './sidemenu/SideMenu';
 import Snack from './core/Snack';
 import Login from "./login/Login";
 
@@ -30,7 +29,6 @@ class Root extends React.Component {
 
                             <Header/>
                             <div className="container">
-                                <SideMenu/>
                                 <div id="pagecontainer">
                                     {this.props.children}
                                 </div>
