@@ -34,7 +34,7 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push, editProjectDialogIsOpen, postProjectUpdate, users } = this.props;
+        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate, users } = this.props;
         return (
 
             <div>
@@ -81,8 +81,8 @@ class ProjectView extends React.Component {
                 <ProjectEditDialog
                     title={"Rediger Prosjekt"}
                     open={editProjectDialogIsOpen}
-                    onRequestClose={this.props.editDialog.bind(null, false)}
-                    handleSubmit={postProjectUpdate}
+                    onRequestClose={editDialog.bind(null, false)}
+                    handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
                     users={users}
                 />
             </div>
