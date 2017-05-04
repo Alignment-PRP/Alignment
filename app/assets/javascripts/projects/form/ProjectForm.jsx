@@ -10,17 +10,24 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { getUsersWithClass } from '../../redux/actions/userActions';
 import {renderTextField, renderMultiTextField, renderSelectField, renderCheckbox, warnNumberField, renderAutoComplete, validateProjectForm as validate} from './../../core/render';
 import {Divider, MenuItem, Subheader} from "material-ui";
 
 class ProjectForm extends React.Component {
 
+    componentDidMount(){
+        this.props.getUsersWithClass();
+    }
+
     renderManagerIDItems(managers){
         const output = [];
-        managers.forEach((manager, index) => {
-            if (index > 0) output.push(<Divider key={output.length}/>);
-            output.push(<MenuItem key={output.length} value={manager.USERNAME} primaryText={manager.USERNAME}/>)
-            });
+        if (managers) {
+            managers.forEach((manager, index) => {
+                if (index > 0) output.push(<Divider key={output.length}/>);
+                output.push(<MenuItem key={output.length} value={manager.USERNAME} primaryText={manager.USERNAME}/>)
+                });
+        }
         return output;
     }
 
@@ -106,14 +113,18 @@ class ProjectForm extends React.Component {
 
 const mapStateToProps = (state) => {
     const initialValues = state.projectReducer.initEditProjectForm;
-    initialValues.proManager = state.userReducer.userdata.USERNAME;
+    if (initialValues !== null) {
+        initialValues.proManager = state.userReducer.userdata.USERNAME;
+    }
     return {
+        users: state.userReducer.users,
         initialValues: initialValues
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getUsersWithClass: () => dispatch(getUsersWithClass())
     };
 };
 
