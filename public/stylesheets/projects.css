@@ -3,117 +3,19 @@
     min-width: 200px;
     height: 100%;
 }
-
-.singleProject {
-    padding: 15px;
-    flex: 2;
-}
-
 .project-requirements {
     padding: 15px;
     flex: 3;
 }
-
-
-.all-project-list, .all-project-list table, .all-project-list td, .all-project-list th {
-    border-bottom: 1px solid #e9e9ea;
-    border-right: 1px solid #e9e9ea;
-    text-align: left;
+.project-cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 8px;
 }
-.all-project-list table {
-    border-collapse: collapse;
-    width: auto;
-    border-spacing: 0;
+.project-card {
+    margin: 8px;
+    min-width: 150px;
 }
-
-.all-project-list table {
-    width: auto;
-}
-
-.all-project-list th, .all-project-list td {
-    padding:15px;
-}
-tr:hover {
-    background-color: #ffffff;
-}
-
-.new-project {
-    padding: 15px;
-}
-
-#kravlisteButton {
-    border: 1px solid #E62C33;
-    color: #E62C33;
-    background-color: #FFF;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    font-weight: 700;
-    letter-spacing: 2.1px;
-    text-transform: uppercase;
-    font-size: 15px;
-    text-align: center;
-    display: block;
-    clear: both
-}
-#kravlisteButton:hover{
-    background-color: #e62c33;
-    color: #fff;
-}
-
-#nyttProsjektButton{
-    border: 1px solid #E62C33;
-    color: #E62C33;
-    background-color: #FFF;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    font-weight: 700;
-    letter-spacing: 2.1px;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 15px;
-    text-align: center;
-    display: block;
-    clear: both
-}
-#nyttProsjektButton:hover{
-    background-color: #e62c33;
-    color: #fff;
-}
-
-#visProsjekterButton{
-    border: 1px solid #E62C33;
-    color: #E62C33;
-    background-color: #FFF;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    font-weight: 700;
-    letter-spacing: 2.1px;
-    text-transform: uppercase;
-    font-size: 15px;
-    text-align: center;
-    display: block;
-    clear: both
-}
-#visProsjekteeButton:hover{
-    background-color: #e62c33;
-    color: #fff;
-}
-#visKravlisteButton{
-    border: 1px solid #E62C33;
-    color: #E62C33;
-    background-color: #FFF;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    font-weight: 700;
-    letter-spacing: 2.1px;
-    text-transform: uppercase;
-    font-size: 15px;
-    text-align: center;
-    display: block;
-    clear: both
-}
-
-#visKravlisteButton:hover{
-    background-color: #e62c33;
-    color: #fff;
+.project-card-title {
+    padding-bottom: 0;
 }

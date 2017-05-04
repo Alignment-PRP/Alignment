@@ -151,29 +151,7 @@ public class RequirementController extends Controller{
 
     }
 
-    /*
-        //Checks if the user is logged in
-        String userID = session("connected");
-        if(userID == null){
-            return unauthorized(views.html.login.render());
-        }
-        //Returns and 200 OK with a JsonNode as Body.
-        JsonNode req = qh.executeQuery(Statement.GET_CATEGORY_NAMES);
-        return ok(req);
-    }*/
 
-
-    @Deprecated //need to use ID to get categories now.
-    public Result getRequirementsByCategoryName(String name){
-        String userID = session("connected");
-        if(userID == null){
-            return unauthorized(views.html.login.render());
-        }
-        //Returns and 200 OK with a JsonNode as Body.
-        //JsonNode req = qh.getRequirementByCategoryName(name);
-        JsonNode req = qh.executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID,name);
-        return ok(req);
-    }
 
     public Result getStructureTypes(){
         String userID = session("connected");

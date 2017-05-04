@@ -24,7 +24,7 @@ import Ellipsis from './../../core/popover/Ellipsis';
 
 
 
-class Project extends React.Component {
+class ProjectRequirementView extends React.Component {
 
     /**
      * This is a lifecycle method that runs after the render function. It is good practis to call
@@ -33,7 +33,7 @@ class Project extends React.Component {
      */
     componentDidMount() {
         //react-routes make us able to get the id of the URL with: this.props.params.id
-        this.props.getRequirementsByProjectId(this.props.params.id);
+        this.props.getRequirementsByProjectId(this.props.id);
         this.props.getAllRequirements();
     }
 
@@ -243,4 +243,4 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * This connects this component to Redux so that you can use the Actions and get access to global state.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectRequirementView);

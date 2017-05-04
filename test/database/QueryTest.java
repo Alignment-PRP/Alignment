@@ -28,9 +28,9 @@ public class QueryTest extends WithApplication {
     );
 
     private static String[] tables = {
-            "CREATE TABLE `Project` (`ID` int(11) NOT NULL AUTO_INCREMENT, `Name` varchar(40) NOT NULL, PRIMARY KEY (`ID`))",
+            "CREATE TABLE `ProjectRequirementView` (`ID` int(11) NOT NULL AUTO_INCREMENT, `Name` varchar(40) NOT NULL, PRIMARY KEY (`ID`))",
             "CREATE TABLE `User` (`ID` int(11) NOT NULL AUTO_INCREMENT,`Username` varchar(30) NOT NULL, `Email` varchar(50) NOT NULL, `pass` binary(60) NOT NULL,PRIMARY KEY (`ID`))",
-            "CREATE TABLE `PartOf` (`ProjectID` int(11) NOT NULL DEFAULT '0',`userid` int(11) NOT NULL DEFAULT '0',PRIMARY KEY (`ProjectID`,`userid`),CONSTRAINT `PartOf_UID_fk` FOREIGN KEY (`userid`) REFERENCES `User` (`ID`),CONSTRAINT `PartOf_PID_fk` FOREIGN KEY (`ProjectID`) REFERENCES `Project` (`ID`))"
+            "CREATE TABLE `PartOf` (`ProjectID` int(11) NOT NULL DEFAULT '0',`userid` int(11) NOT NULL DEFAULT '0',PRIMARY KEY (`ProjectID`,`userid`),CONSTRAINT `PartOf_UID_fk` FOREIGN KEY (`userid`) REFERENCES `User` (`ID`),CONSTRAINT `PartOf_PID_fk` FOREIGN KEY (`ProjectID`) REFERENCES `ProjectRequirementView` (`ID`))"
     };
 
     private static String[][] users = {
@@ -39,8 +39,8 @@ public class QueryTest extends WithApplication {
     };
 
     private static String[][] projects = {
-            {"Super Awsome Project"},
-            {"The Best Project In The World"}
+            {"Super Awsome ProjectRequirementView"},
+            {"The Best ProjectRequirementView In The World"}
     };
 
     private static int[][] partof = {

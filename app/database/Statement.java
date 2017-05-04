@@ -224,7 +224,7 @@ public enum Statement {
             "managerID = ?, " +
             "name = ?, " +
             "description = ?, " +
-            "isPublic = ?, " +
+            "isPublic = ? " +
             "WHERE ID = ?"),
 
     UPDATE_PROJECT_META_DATA("" +
@@ -233,7 +233,7 @@ public enum Statement {
             "securityLevel = ?, " +
             "transactionVolume = ?, " +
             "userChannel = ?, " +
-            "deploymentStyle = ?, " +
+            "deploymentStyle = ? " +
             "WHERE PID = ?"),
 
     INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, description, isPublic) VALUES(?,?,?,?,?)"),
@@ -281,6 +281,19 @@ public enum Statement {
             "INNER JOIN UserClass AS uc " +
             "ON uc.NAME = uhc.NAME "
     ),
+    GET_USERS_THAT_HAVE_ACCESS("" +
+            "SELECT u.USERNAME " +
+            "FROM Users AS u " +
+            "INNER JOIN UserHasAccess As uha " +
+            "ON u.USERNAME = uha.USERNAME " +
+            "WHERE uha.PID = ?"
+    ),
+    GET_CLASSES_THAT_HAVE_ACCESS("" +
+            "SELECT uc.NAME " +
+            "FROM UserClass As uc " +
+            "INNER JOIN HasAccess AS ha " +
+            "ON uc.NAME = ha.NAME " +
+            "WHERE ha.PID = ?"),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
     INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)"),
