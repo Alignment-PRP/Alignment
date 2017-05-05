@@ -17,8 +17,6 @@ class ProjectReqForm extends React.Component {
                             label="Kravnummer"
                             component={renderTextField}
                         />
-                    </div>
-                    <div className="form-inner-field">
                         <Field
                             name="reqCode"
                             label="Kravkode"
@@ -32,8 +30,6 @@ class ProjectReqForm extends React.Component {
                             component={renderMultiTextField}
                             required
                         />
-                    </div>
-                    <div className="form-inner-field">
                         <Field
                             name="comment"
                             label="Kommentar"
