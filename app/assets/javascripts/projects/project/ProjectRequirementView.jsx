@@ -104,7 +104,7 @@ class ProjectRequirementView extends React.Component {
                         } else {
                             postRequirementToProject(id, requirement);
                         }
-                }, width: '15%'}
+                }, width: '24px'}
             ]
         };
 
@@ -128,14 +128,14 @@ class ProjectRequirementView extends React.Component {
                 {type: 'EDIT_ACTION', action: (requirement) => {
                     projectReqUpdateDialog(true);
                     updateRequirementMetadata(requirement);
-                },width: '15%'},
+                },width: '24px'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     if (filter && Object.keys(filter).length > 0) {
                         deleteRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
                     } else {
                         deleteRequirementToProject(id, requirement);
                     }
-                }, width: '15%'}
+                }, width: '24px'}
             ]
         };
 
