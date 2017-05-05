@@ -30,13 +30,16 @@ class Statistics extends React.Component {
         };
 
         return (
-            <div className="containerStatistics">
-                <h2>Statistikk</h2>
-                <p>
-                    Antall ganger et krav er brukt i forskjellige prosjekter
-                </p>
-                <br/>
-                <DataTable config={config} />
+            <div className="container" style={{justifyContent: 'center'}}>
+                <div className="table">
+                    <div>
+                        <h2>Statistikk</h2>
+                        <p>
+                            Antall ganger et krav er brukt i forskjellige prosjekter
+                        </p>
+                    </div>
+                    <DataTable config={config} />
+                </div>
             </div>
         );
     }
