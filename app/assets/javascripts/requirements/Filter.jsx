@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -63,7 +62,7 @@ class Filter extends React.Component {
                 <List>
                     <SubHeader>Krav Meny</SubHeader>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
-                            <RaisedButton onClick={this.props.newDialog.bind(null, true)} primary={true} label="Nytt Krav" />
+                        <RaisedButton onClick={this.props.newDialog.bind(null, true)} primary={true} label="Nytt Krav" />
                     </div>
                 </List>
             </div>
