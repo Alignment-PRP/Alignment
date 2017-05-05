@@ -21,7 +21,7 @@
     flex-flow: column;
     justify-content: space-around;
 }
-.usertable {
+.table {
     max-width: 1500px;
     min-width: 800px;
     margin: 15px;

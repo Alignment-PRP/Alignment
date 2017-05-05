@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Field, reduxForm } from "redux-form";
 import { renderTextField, renderPassField } from '../core/render';
 import {CircularProgress, FontIcon, Paper, RaisedButton} from "material-ui";
@@ -50,45 +49,43 @@ class LoginForm extends React.Component {
         const { handleSubmit, pristine, submitting, handleRegisterButton } = this.props;
 
         return (
-            <MuiThemeProvider>
-                <Paper id="loginForm">
-                    <img id="login-logo" src="assets/images/alignment.png" style={{marginBottom: '12px'}}/>
-                    <form style={{display: 'flex', flexFlow: 'column'}} onSubmit={handleSubmit}>
-                        {this.renderFeedBack()}
-                        <div id="loginFields">
-                            <Field
-                                className="loginField"
-                                name="USERNAME"
-                                label="Brukernavn"
-                                component={renderTextField}
-                                required
-                            />
-                            <Field
-                                className="loginField"
-                                name="pass"
-                                label="Passord"
-                                component={renderPassField}
-                                required
-                            />
-                        </div>
-                        <div id="loginButtons">
-                            <RaisedButton
-                                id="loginSubmit"
-                                primary={true}
-                                type="submit"
-                                label="Login"
-                                disabled={pristine || submitting}
-                            />
-                            <RaisedButton
-                                id="loginNew"
-                                secondary={true}
-                                label="Ny Bruker"
-                                onTouchTap={handleRegisterButton}
-                            />
-                        </div>
-                    </form>
-                </Paper>
-            </MuiThemeProvider>
+            <Paper id="loginForm">
+                <img id="login-logo" src="assets/images/alignment.png" style={{marginBottom: '12px'}}/>
+                <form style={{display: 'flex', flexFlow: 'column'}} onSubmit={handleSubmit}>
+                    {this.renderFeedBack()}
+                    <div id="loginFields">
+                        <Field
+                            className="loginField"
+                            name="USERNAME"
+                            label="Brukernavn"
+                            component={renderTextField}
+                            required
+                        />
+                        <Field
+                            className="loginField"
+                            name="pass"
+                            label="Passord"
+                            component={renderPassField}
+                            required
+                        />
+                    </div>
+                    <div id="loginButtons">
+                        <RaisedButton
+                            id="loginSubmit"
+                            primary={true}
+                            type="submit"
+                            label="Login"
+                            disabled={pristine || submitting}
+                        />
+                        <RaisedButton
+                            id="loginNew"
+                            secondary={true}
+                            label="Ny Bruker"
+                            onTouchTap={handleRegisterButton}
+                        />
+                    </div>
+                </form>
+            </Paper>
         );
     }
 
