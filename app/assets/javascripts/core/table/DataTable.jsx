@@ -188,7 +188,7 @@ class DataTable extends React.Component {
                             <span>Rader per side:</span>
                             <DropDownMenu
                                 value={nRows}
-                                onChange={(event, key, value) => {tableRows(table, value)}}
+                                onChange={(event, key, value) => {tablePage(table, 1); tableRows(table, value)}}
                                 underlineStyle={{}}
                             >
                                 <MenuItem value={10} primaryText="10"/>
