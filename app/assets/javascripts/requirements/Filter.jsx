@@ -8,12 +8,15 @@ import SubHeader from 'material-ui/Subheader';
 import { getAllCategoryNames } from '../redux/actions/requirementActions';
 import { updateFilter, updateFilterRequirementList, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../redux/actions/filterActions';
 import { dialogOpen } from './../redux/actions/dialogActions';
+import { getStructureTypes } from "../redux/actions/structureActions";
 import CategoryCheckBoxes from './../core/filter/checkboxes/CategoryCheckBoxes';
+import StructureCheckBoxes from './../core/filter/checkboxes/StructureCheckBoxes';
 
 class Filter extends React.Component {
 
     componentDidMount(){
         this.props.getAllCategoryNames();
+        this.props.getStructureTypes();
     }
 
     _updateFilter(event, isChecked) {
@@ -39,8 +42,10 @@ class Filter extends React.Component {
         this.props.updateFilterRequirementList(this.props.requirements);
     }
 
-    renderStructureCheckboxes(structures) {
-            return structures ? structures.map((structure, index) => {return <ListItem key={index} primaryText={structure} leftCheckbox={<Checkbox/>}/>}) : null
+    renderStructureCheckboxes(structureTypes, filter){
+        if (structureTypes){
+            return <StructureCheckBoxes filter={filter} structures={structureTypes} onCheck={this._updateFilter.bind(this)}/>
+        }
     }
 
     render() {
@@ -53,10 +58,9 @@ class Filter extends React.Component {
                     <CategoryCheckBoxes filter={filter} categories={categories} onCheck={this._updateFilter.bind(this)} onCheckSub={this._sub.bind(this)}/>
                 </List>
                 <Divider/>
-                {/*Temporary placeholder before structure gets in place*/}
                 <List>
                     <SubHeader>Struktur</SubHeader>
-                    {this.renderStructureCheckboxes(structureTypes)}
+                    {this.renderStructureCheckboxes(structureTypes, filter)}
                 </List>
                 <Divider/>
                 <List>
@@ -76,37 +80,21 @@ const mapStateToProps = (state) => {
         filter: state.filterReducer.filters['requirements'],
         filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
         categories: state.requirementReducer.categoryNames,
-        structures: state.structureReducer.structures,
         structureTypes: state.structureReducer.types
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateFilter: (newFilter) => {
-            dispatch(updateFilter(newFilter))
-        },
-        addToFilter: (category) => {
-            dispatch(addToFilter('requirements', category));
-        },
-        removeFromFilter: (category) => {
-            dispatch(removeFromFilter('requirements', category));
-        },
-        addToSubFilter: (sub, parent) => {
-            dispatch(addToSubFilter('requirements', sub, parent));
-        },
-        removeFromSubFilter: (sub, parent) => {
-            dispatch(removeFromSubFilter('requirements', sub, parent));
-        },
-        updateFilterRequirementList: (unFiltered) => {
-            dispatch(updateFilterRequirementList('requirements', 'requirements', unFiltered))
-        },
-        getAllCategoryNames: () => {
-            dispatch(getAllCategoryNames())
-        },
-        newDialog: (open) => {
-            dispatch(dialogOpen('requirementNew', open));
-        }
+        updateFilter: (newFilter) => dispatch(updateFilter(newFilter)),
+        addToFilter: (category) => dispatch(addToFilter('requirements', category)),
+        removeFromFilter: (category) => dispatch(removeFromFilter('requirements', category)),
+        addToSubFilter: (sub, parent) => dispatch(addToSubFilter('requirements', sub, parent)),
+        removeFromSubFilter: (sub, parent) => dispatch(removeFromSubFilter('requirements', sub, parent)),
+        updateFilterRequirementList: (unFiltered) => dispatch(updateFilterRequirementList('requirements', 'requirements', unFiltered)),
+        getAllCategoryNames: () => dispatch(getAllCategoryNames()),
+        newDialog: (open) => dispatch(dialogOpen('requirementNew', open)),
+        getStructureTypes: () => dispatch(getStructureTypes())
     }
 };
 
