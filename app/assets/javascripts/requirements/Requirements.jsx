@@ -77,11 +77,11 @@ class Requirements extends React.Component {
                     const structures = {};
                     requirement.structures.forEach(struc => structures[struc.type] = struc.content);
                     updateOptionalValues(structures);
-                },width: '8%'},
+                },width: '24px'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     deleteDialogOpen(true);
                     deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
-                }, width: '8%'}
+                }, width: '24px'}
             ],
             toolbar: {
                 title: 'Krav',
@@ -97,7 +97,7 @@ class Requirements extends React.Component {
                         <Filter/>
                     </Paper>
                 </div>
-                <div className="usertable">
+                <div className="table">
                     <DataTable config={config}/>
                 </div>
 
