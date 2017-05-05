@@ -83,7 +83,7 @@ class Sidebar extends React.Component {
                 <Menu autoWidth={false} width={290}>
                     <MenuItem primaryText="Hjem" containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                     <MenuItem primaryText="Prosjekter" containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
-                    <MenuItem primaryText="Krav" containerElement={<Link to="requirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                    <MenuItem primaryText="Krav" containerElement={<Link to="/requirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
                     <MenuItem primaryText="Admin" containerElement={<Link to="/admin" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
                     <MenuItem primaryText="Logg ut" containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                 </Menu>
