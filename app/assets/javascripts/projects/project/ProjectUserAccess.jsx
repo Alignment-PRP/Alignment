@@ -51,7 +51,7 @@ class ProjectUserAccess extends React.Component {
 
         return (
             <div className="container">
-                <div className="usertable">
+                <div className="table">
                     <DataTable config={config}/>
                 </div>
             </div>

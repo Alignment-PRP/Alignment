@@ -78,7 +78,7 @@ class ProjectRequirementView extends React.Component {
             allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId,
             allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata,
             projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
-            deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
+            deleteRequirementToProject, deleteRequirementToProjectWithFilter, id
         } = this.props;
 
         const configLeft = {
@@ -100,11 +100,11 @@ class ProjectRequirementView extends React.Component {
                 },
                 {type: 'ADD_ACTION', action: (requirement) => {
                         if (filter && Object.keys(filter).length > 0) {
-                            postRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
+                            postRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
                         } else {
-                            postRequirementToProject(params.id, requirement);
+                            postRequirementToProject(id, requirement);
                         }
-                }, width: '15%'}
+                }, width: '24px'}
             ]
         };
 
@@ -128,14 +128,14 @@ class ProjectRequirementView extends React.Component {
                 {type: 'EDIT_ACTION', action: (requirement) => {
                     projectReqUpdateDialog(true);
                     updateRequirementMetadata(requirement);
-                },width: '15%'},
+                },width: '24px'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     if (filter && Object.keys(filter).length > 0) {
-                        deleteRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
+                        deleteRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
                     } else {
-                        deleteRequirementToProject(params.id, requirement);
+                        deleteRequirementToProject(id, requirement);
                     }
-                }, width: '15%'}
+                }, width: '24px'}
             ]
         };
 
@@ -161,7 +161,7 @@ class ProjectRequirementView extends React.Component {
                     handleSubmit={(data) => {
                         postProjectReqUpdate(data);
                         projectReqUpdateDialog(false);
-                        getRequirementsByProjectId(params.id);
+                        getRequirementsByProjectId(id);
                     }}
                     onRequestClose={projectReqUpdateDialog.bind(null, false)}
                 />

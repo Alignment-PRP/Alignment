@@ -2,6 +2,7 @@ import React from 'react';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import {Link} from 'react-router';
 
 import {connect} from "react-redux";
@@ -25,7 +26,7 @@ class Sidebar extends React.Component {
                 left: '-220px',
                 transform: 'translate(0,0)',
                 transition: '0.3s',
-                backgroundColor: '#00afcc',
+                backgroundColor: this.props.muiTheme.palette.primary1Color,
                 textColor: '#e8e8e8',
                 display: 'block',
                 position: 'fixed',
@@ -59,7 +60,6 @@ class Sidebar extends React.Component {
     open() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(220px, 0)';
-        sidebar.backgroundColor = '#00afcc';
         this.style.sidebar = sidebar;
         this.setState({open: true});
     }
@@ -70,7 +70,6 @@ class Sidebar extends React.Component {
     close() {
         let sidebar = JSON.parse(JSON.stringify(this.style.sidebar));
         sidebar.transform = 'translate(0, 0)';
-        sidebar.backgroundColor = '#00afcc';
         this.style.sidebar = sidebar;
         this.setState({open: false});
     }
@@ -84,7 +83,7 @@ class Sidebar extends React.Component {
                 <Menu autoWidth={false} width={290}>
                     <MenuItem primaryText="Hjem" containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                     <MenuItem primaryText="Prosjekter" containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
-                    <MenuItem primaryText="Krav" containerElement={<Link to="requirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
+                    <MenuItem primaryText="Krav" containerElement={<Link to="/requirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
                     <MenuItem primaryText="Admin" containerElement={<Link to="/admin" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
                     <MenuItem primaryText="Logg ut" containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                 </Menu>
@@ -105,4 +104,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(muiThemeable()(Sidebar));
