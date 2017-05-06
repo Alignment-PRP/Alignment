@@ -10,6 +10,15 @@ import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaProject
 import database.QueryHandler;
 import database.Statement;
 
+import java.util.Base64; // Java 8
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.io.IOException;
+
 import play.db.Database;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -408,17 +417,33 @@ public class ProjectController extends Controller {
 
     public Result jamaTest(){
         try {
+            String baseURL = " ***REMOVED***/rest/v1/";
 
-            JamaInstance jamaInstance = new JamaInstance(new JamaConfig(true));
-            JamaProject project = jamaInstance.getProject(45);
-            List<JamaItem> jamaItems = project.getItems();
-            System.out.println("Listing all Project Item names and IDs:");
-            for (JamaItem jamaItem : jamaItems) {
-                System.out.println(jamaItem.getName() + " with API ID " + jamaItem.getId());
-            }
-        } catch(RestClientException e) {
+            // Username and password should be stored according
+            // to your organization's security policies
+            String username = "***REMOVED***";
+            String password = "***REMOVED***";
+            String auth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+            String resource = "projects";
+
+            URL url = new URL(baseURL + resource);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Authorization", "Basic " + auth);
+
+            InputStream content = connection.getInputStream();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(content));
+            System.out.println(in.readLine());
+        }
+        catch (MalformedURLException e){
             e.printStackTrace();
         }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+
         return ok();
     }
 
