@@ -19,6 +19,7 @@ class RequirementFormUpdate extends React.Component {
                         }
                     </label>
                     <HelpToolTip toolTip={"Dette er \"" + Object.keys(structure) + "\"  strukturen til kravet, se dokumentasjon for nærmere detaljer."}/>
+
                     <br/>
                     <Field type="text" component={renderTextField} name={Object.keys(structure)} required/>
                 </div>
@@ -59,10 +60,12 @@ class RequirementFormUpdate extends React.Component {
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="ID"> Krav-ID </label>
-                        <HelpToolTip toolTip="Dette er den unike, autogenererte identifikatoren for dette kravet. Kan ikke endres."/>
                         <br/>
                         <Field type="text" component={renderTextField} name="ID" readOnly/><br/>
                     </div>
+
+                    <HelpToolTip toolTip="Tooltip string"/>
+
                     <div>
                         <label htmlFor="name" > Kravnavn </label>
                         <HelpToolTip toolTip="Dette er navnet på kravet. Eks: Strukturkrav 1 - Dokumentasjon"/>
