@@ -52,7 +52,7 @@ class RequirementRequiredForm extends React.Component {
                         />
                         <HelpToolTip toolTip="Navnet på dette kravet."/>
                     </div>
-                <div style={{width: '256px'}}/>
+                <div style={{width: '302px'}}/>
                 </div>
                 <div className="form-field-row">
                     <div className="tool-tip-container">
