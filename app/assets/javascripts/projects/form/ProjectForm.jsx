@@ -1,11 +1,3 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import {connect} from "react-redux";
-import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {renderTextField, renderCheckbox, warnNumberField, validateProjectForm as validate} from './../../core/render';
-import HelpToolTip from './../../core/HelpToolTip';
-
 /**
  * Redux-form for project creation.
  * @see Projects
@@ -13,90 +5,117 @@ import HelpToolTip from './../../core/HelpToolTip';
  * @see module:admin/render.renderTextField
  * @see module:admin/render.renderCheckbox
  */
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
+import {connect} from "react-redux";
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { getUsersWithClass } from '../../redux/actions/userActions';
+import {renderTextField, renderMultiTextField, renderSelectField, renderCheckbox, warnNumberField, renderAutoComplete, validateProjectForm as validate} from './../../core/render';
+import {Divider, MenuItem, Subheader} from "material-ui";
+
 class ProjectForm extends React.Component {
+
+    componentDidMount(){
+        this.props.getUsersWithClass();
+    }
+
+    renderManagerIDItems(managers){
+        const output = [];
+        if (managers) {
+            managers.forEach((manager, index) => {
+                if (index > 0) output.push(<Divider key={output.length}/>);
+                output.push(<MenuItem key={output.length} value={manager.USERNAME} primaryText={manager.USERNAME}/>)
+                });
+        }
+        return output;
+    }
 
     render() {
         const {
-            handleSubmit, handleClose,
+            handleSubmit, handleClose, users,
             pristine, reset, submitting
         } = this.props;
         return(
-            <MuiThemeProvider>
-                <form onSubmit={handleSubmit} autoComplete="off">
-                    <div className="form-inner">
-                        <div className="form-inner-field">
-                            <Field
-                                name="name"
-                                label="Projektnavn"
-                                component={renderTextField}
-                            />
-                            <HelpToolTip toolTip="Navngi prosjektet. Tar tall og bokstaver. Det meste funker her." toolTipPosition="bottom-left"/>
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
-                                name="securityLevel"
-                                label="Sikkerhetsnivå"
-                                warn={warnNumberField}
-                                component={renderTextField}
-                            />
-                            <HelpToolTip toolTip="Hvor sikkert systemer skal være. Tall, 1,2,3,4" toolTipPosition="bottom-left"/>
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
-                                name="transactionVolume"
-                                label="Transaksjonsvolum"
-                                component={renderTextField}
-                            />
-                            <HelpToolTip toolTip="1-100/dag, 100-1000/dag, 1000-10000/dag" toolTipPosition="bottom-left"/>
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
-                                name="userChannel"
-                                label="Brukerkanal"
-                                component={renderTextField}
-                            />
-                            <HelpToolTip toolTip="Nettleser, Desktop, App" toolTipPosition="bottom-left"/>
-                        </div>
-                        <div className="form-inner-field">
-                            <Field
-                                name="deploymentStyle"
-                                label="Distribusjonsstil"
-                                component={renderTextField}
-                            />
-                            <HelpToolTip toolTip="On-premise, privat sky, public sky" toolTipPosition="bottom-left"/>
-                        </div>
-                        <div className="form-inner-field-checkbox">
-                            <Field
-                                name="isPublic"
-                                label="Offentlig"
-                                component={renderCheckbox}
-                            />
-                            <HelpToolTip toolTip={"Skal prosjektet være synlig for alle brukere?"} toolTipPosition="bottom-center"/>
-                        </div>
+            <form onSubmit={handleSubmit} autoComplete="off">
+                <div className="form-inner">
+                    <div className="form-field-row">
+                        <Field
+                            name="name"
+                            label="Projektnavn"
+                            component={renderTextField}
+                        />
+                        <Field component={renderSelectField}
+                               name="managerID"
+                               floatingLabelText="Leder"
+                        >
+                            {this.renderManagerIDItems(users)}
+                        </Field>
                     </div>
-                    <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
-                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
-                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <div className="form-field-row">
+                        <Field
+                            name="description"
+                            label="Beskrivelse"
+                            component={renderMultiTextField}
+                        />
+                        <Field
+                            name="securityLevel"
+                            label="Sikkerhetsnivå"
+                            warn={warnNumberField}
+                            component={renderTextField}
+                        />
                     </div>
-                </form>
-            </MuiThemeProvider>
+                    <div className="form-field-row">
+                        <Field
+                            name="transactionVolume"
+                            label="Transaksjonsvolum"
+                            component={renderTextField}
+                        />
+                        <Field
+                            name="userChannel"
+                            label="Brukerkanal"
+                            component={renderTextField}
+                        />
+                    </div>
+                    <div className="form-field-row">
+                        <Field
+                            name="deploymentStyle"
+                            label="Distribusjonsstil"
+                            component={renderTextField}
+                        />
+                        <Field
+                            name="isPublic"
+                            label="Offentlig"
+                            component={renderCheckbox}
+                            style={{maxWidth: '256px', marginTop: '36px'}}
+                        />
+                    </div>
+                </div>
+                <div className="form-button-row">
+                    <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
+                    <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
+                    <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                </div>
+            </form>
         );
     }
 
 }
 
 const mapStateToProps = (state) => {
+    const initialValues = state.projectReducer.initEditProjectForm;
+    if (initialValues !== null) {
+        initialValues.proManager = state.userReducer.userdata.USERNAME;
+    }
     return {
-        initialValues: {
-            isPublic: true
-        },
+        users: state.userReducer.users,
+        initialValues: initialValues
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        getUsersWithClass: () => dispatch(getUsersWithClass())
     };
 };
 

@@ -66,7 +66,7 @@ public class ProjectController extends Controller {
         //Check if user is logged in
         String username = session("connected");
         if(username == null){
-            return unauthorized(views.html.login.render());
+            return unauthorized("unauthorized");
         }
 
         //Gets the http body of the POST and converts it to a map
@@ -93,7 +93,9 @@ public class ProjectController extends Controller {
         //Inserts ProjectMetaData with the project
         qh.insertStatement(Statement.INSERT_PROJECT_META_DATA, Integer.parseInt(ID), securityLevel, transactionVolume, userChannel, deploymentStyle);
         //TODO: Add project metadata and userclasses that have access.
-        return ok(views.html.dashboard.render());
+
+
+        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID, ID).get(0));
 
     }
 
@@ -126,6 +128,11 @@ public class ProjectController extends Controller {
         return ok("Project and all related data deleted");
     }
 
+    private JsonNode mapProjectsToMap(final JsonNode json) {
+        final Map<String, Object> projectMap = new HashMap<>();
+        json.forEach(node -> projectMap.put(node.get("ID").asText(), node));
+        return Json.toJson(projectMap);
+    }
 
     /**
      * Gets all Projects with the isPublic bit set to 1.
@@ -133,7 +140,7 @@ public class ProjectController extends Controller {
      * @return Response 200 OK
      */
     public Result getPublicProjects(){
-        return ok(qh.executeQuery(Statement.GET_PUBLIC_PROJECTS));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PUBLIC_PROJECTS)));
     }
 
     /**
@@ -148,7 +155,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID)));
     }
 
     public Result getProjectsUserIsCreator(){
@@ -156,7 +163,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_CREATOR, userID));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_CREATOR, userID)));
     }
 
 
@@ -165,7 +172,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        return ok(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_MANAGER, userID));
+        return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PROJECTS_USER_IS_MANAGER, userID)));
     }
 
     /**
@@ -176,13 +183,13 @@ public class ProjectController extends Controller {
      */
     public Result getProjectByProjectID(String id){
         //Check if user is logged in
-        String projectid = id;
+        int projectid = Integer.parseInt(id);
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
         //Returns and 200 OK with a JsonNode as Body.
-        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID,projectid));
+        return ok(qh.executeQuery(Statement.GET_PROJECT_BY_ID, projectid).get(0));
     }
 
     /**
@@ -206,15 +213,16 @@ public class ProjectController extends Controller {
 
         //Gets the current projectData values
         JsonNode projectData = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
-        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
-        String className = userClass.get(0).get("NAME").asText();
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID).get(0);
+        String className = userClass.get("NAME").asText();
 
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0).asBoolean(); //TODO: can those that have access edit?
-        boolean isManager = projectData.get("mangerID").asText().equals(userID);
+        boolean isManager = projectData.get("managerID").asText().equals(userID);
         boolean isCreator = projectData.get("creatorID").asText().equals(userID);
+        boolean isAdmin = className.equals("Admin");
 
         //Checks if the user has permission to edit
-        if(!(hasAccess || isManager || isCreator)){
+        if(!(hasAccess || isManager || isCreator || isAdmin)){
             return unauthorized("You do not have permission to edit this project");
         }
 
@@ -224,10 +232,11 @@ public class ProjectController extends Controller {
         Map<String, String> updateData = new HashMap<>();
 
         //Iterates thorugh all the entries in the ProjectData
-        while (projectData.fields().hasNext()){
+        Iterator<Map.Entry<String, JsonNode>> DataFields = projectData.fields();
+        while (DataFields.hasNext()){
 
             //The current entry
-            Map.Entry<String, JsonNode> entry = projectData.fields().next();
+            Map.Entry<String, JsonNode> entry = DataFields.next();
 
             //If this data has been received by the client, add it to the updateData
             if(values.has(entry.getKey())){
@@ -240,10 +249,11 @@ public class ProjectController extends Controller {
         }
 
         //Iterates thorugh all the entries in the ProjectMetaData
-        while (projectMetaData.fields().hasNext()){
+        Iterator<Map.Entry<String, JsonNode>> MetaFields = projectMetaData.fields();
+        while (MetaFields.hasNext()){
 
             //The current entry
-            Map.Entry<String, JsonNode> entry = projectMetaData.fields().next();
+            Map.Entry<String, JsonNode> entry = MetaFields.next();
 
             //If this data has been received by the client, add it to the updateData
             if(values.has(entry.getKey())){
@@ -256,14 +266,24 @@ public class ProjectController extends Controller {
             }
         }
 
+        System.out.println(Json.toJson(updateData));
+
+        int isPublic;
+        if(updateData.get("isPublic").equals("true")){
+            isPublic = 1;
+        }
+        else{
+            isPublic = 0;
+        }
+
 
         //Updates the ProjectData
-        qh.executeUpdate(Statement.UPDATE_PROJECT, updateData.get("managerID"), updateData.get("name"), updateData.get("description"), Integer.parseInt(updateData.get("ispublic")), PID);
+        qh.executeUpdate(Statement.UPDATE_PROJECT, updateData.get("managerID"), updateData.get("name"), updateData.get("description"),isPublic , PID);
 
         //Updates the ProjectMetaData
         qh.executeUpdate(Statement.UPDATE_PROJECT_META_DATA, Integer.parseInt(updateData.get("securityLevel")), updateData.get("transactionVolume"), updateData.get("userChannel"), updateData.get("deploymentStyle"), PID);
         //TODO: Add project metadata and userclasses that have access.
-        return ok(views.html.dashboard.render());
+        return ok(Json.toJson(updateData));
 
     }
 
@@ -291,10 +311,11 @@ public class ProjectController extends Controller {
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0).get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean isPublic = project.get("isPublic").asInt() == 1;
 
         //Checks if the user has access to the project
-        if(hasAccess || isCreator || isManager){
-            return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID));
+        if(hasAccess || isCreator || isManager || isPublic){
+            return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID).get(0));
         }
         return unauthorized("You do not have access to this project's meta data.");
 
@@ -396,6 +417,64 @@ public class ProjectController extends Controller {
     }
 
     /**
+     * Gets the the names of the user classes that have access to the project
+     * @return Result 200 Ok, 401 Unauthorized or 400 BadRequest
+     */
+    public Result getClassesHaveAccess(String ID){
+        int PID = Integer.parseInt(ID);
+
+        //Checks if the user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        //Gets the project data
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+
+        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        boolean isManager = project.get("managerID").asText().equals(userID);
+        boolean isCreator = project.get("creatorID").asText().equals(userID);
+
+        //Checks if the user has permission to edit
+        if(!(hasAccess || isManager || isCreator)){
+            return unauthorized("You do not have permission to view this data");
+        }
+
+        return ok(qh.executeQuery(Statement.GET_CLASSES_THAT_HAVE_ACCESS, PID));
+    }
+
+
+    /**
+     * Gets the usernames of the users that have access to the project
+     * @param ID
+     * @return Result 200 Ok, 401 Unauthorized or 400 BadRequest
+     */
+    public Result getUsersHaveAccess(String ID){
+        int PID = Integer.parseInt(ID);
+
+        //Checks if the user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        //Gets the project data
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+
+        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        boolean isManager = project.get("managerID").asText().equals(userID);
+        boolean isCreator = project.get("creatorID").asText().equals(userID);
+
+        //Checks if the user has permission to edit
+        if(!(hasAccess || isManager || isCreator)){
+            return unauthorized("You do not have permission to view this data");
+        }
+
+        return ok(qh.executeQuery(Statement.GET_USERS_THAT_HAVE_ACCESS, PID));
+    }
+
+    /**
      *
      * @param id: String from the GET Request
      * @return Result 200 Ok or 401 Unauthorized
@@ -417,7 +496,7 @@ public class ProjectController extends Controller {
         Map<String, Object> requirementMap = new HashMap<>();
         JsonNode projectRequirements = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENTS, projectID);
         for (JsonNode pr:
-             projectRequirements) {
+                projectRequirements) {
             requirementMap.put(pr.get("RID").asText(), pr);
         }
         return ok(Json.toJson(requirementMap));
@@ -530,9 +609,6 @@ public class ProjectController extends Controller {
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0).get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
-        System.out.println(hasAccess);
-        System.out.println(isManager);
-        System.out.println(isCreator);
 
         //Checks if the user has access to the project
         if(!(hasAccess || isCreator || isManager)){
@@ -565,21 +641,12 @@ public class ProjectController extends Controller {
             //If this data has been received by the client, add it to the updateData
             if(values.has(entry.getKey())){
                 updateData.put(entry.getKey(), values.get(entry.getKey()).asText());
-                System.out.println(values.get(entry.getKey()).asText());
             }
             //If not, add the old entry
             else{
                 updateData.put(entry.getKey(), entry.getValue().asText());
-                System.out.println("default");
             }
         }
-
-
-//        JsonNode globalReq = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, RID).get(0);
-        System.out.println(updateData.get("reqNo"));
-        System.out.println(updateData.get("reqCode"));
-        System.out.println(updateData.get("comment"));
-        System.out.println(updateData.get("description"));
 
         qh.insertStatement(Statement.UPDATE_PROJECT_REQUIREMENT, updateData.get("reqNo"), updateData.get("reqCode"), updateData.get("comment"), updateData.get("description"), PID, RID);
 

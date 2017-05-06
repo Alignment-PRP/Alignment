@@ -38,6 +38,14 @@ public enum Statement {
             "reqNo = ?, " +
             "name = ? " +
             "WHERE RID = ?"),
+    GET_REQUIREMENT_STRUCTURES("" +
+            "SELECT r.ID AS RID, s.ID AS SID, s.type AS type, s.content AS content  " +
+            "FROM Structure AS s " +
+            "INNER JOIN HasStructure AS hs " +
+            "ON hs.SID = s.ID " +
+            "INNER JOIN Requirements AS r " +
+            "ON r.ID = hs.RID " +
+            "WHERE r.ID = ? "),
     INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?)"),
     INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
@@ -54,6 +62,14 @@ public enum Statement {
             "ON hsc.SID = sc.ID " +
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID "),
+
+    GET_REQUIREMENTS_STRUCTURES("" +
+            "SELECT r.ID AS RID, s.ID AS SID, s.type AS type, s.content AS content " +
+            "FROM Requirements AS r " +
+            "INNER JOIN HasStructure AS hs " +
+            "ON hs.RID = r.ID " +
+            "INNER JOIN Structure AS s " +
+            "ON s.ID = hs.SID "),
 
     GET_GLOBAL_REQUIREMENT_BY_ID("" +
             "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc " +
@@ -208,7 +224,7 @@ public enum Statement {
             "managerID = ?, " +
             "name = ?, " +
             "description = ?, " +
-            "isPublic = ?, " +
+            "isPublic = ? " +
             "WHERE ID = ?"),
 
     UPDATE_PROJECT_META_DATA("" +
@@ -217,7 +233,7 @@ public enum Statement {
             "securityLevel = ?, " +
             "transactionVolume = ?, " +
             "userChannel = ?, " +
-            "deploymentStyle = ?, " +
+            "deploymentStyle = ? " +
             "WHERE PID = ?"),
 
     INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, description, isPublic) VALUES(?,?,?,?,?)"),
@@ -265,7 +281,21 @@ public enum Statement {
             "INNER JOIN UserClass AS uc " +
             "ON uc.NAME = uhc.NAME "
     ),
+    GET_USERS_THAT_HAVE_ACCESS("" +
+            "SELECT u.USERNAME " +
+            "FROM Users AS u " +
+            "INNER JOIN UserHasAccess As uha " +
+            "ON u.USERNAME = uha.USERNAME " +
+            "WHERE uha.PID = ?"
+    ),
+    GET_CLASSES_THAT_HAVE_ACCESS("" +
+            "SELECT uc.NAME " +
+            "FROM UserClass As uc " +
+            "INNER JOIN HasAccess AS ha " +
+            "ON uc.NAME = ha.NAME " +
+            "WHERE ha.PID = ?"),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
+    UPDATE_USER_WITH_PASS("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=?, pass=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
     INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)"),
 

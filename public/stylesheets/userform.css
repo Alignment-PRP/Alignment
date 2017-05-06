@@ -2,7 +2,7 @@
     min-width: 296px;
     max-width: 296px;
 }
-.form-inner {
+.form-inner123 {
     padding: 20px;
     display: flex;
     flex-flow: row wrap;
@@ -21,7 +21,7 @@
     flex-flow: column;
     justify-content: space-around;
 }
-.usertable {
+.table {
     max-width: 1500px;
     min-width: 800px;
     margin: 15px;
@@ -29,8 +29,4 @@
 .form-button {
     margin-right: 5px;
     margin-top: 5px;
-}
-.containerUsers {
-    display: flex;
-    justify-content: flex-start;
 }

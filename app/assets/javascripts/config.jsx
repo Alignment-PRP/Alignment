@@ -3,8 +3,7 @@
  * @module config
  */
 
-export const URL = "http://localhost:9000/";
-export const API = URL + "api";
+export const API = "/api";
 
 export const AUTH = API + "/auth";
 export const LOGIN_POST = AUTH + "/login";
@@ -19,7 +18,6 @@ export const USER_POST_DELETE = USER_GET + "/delete";
 export const USERS_GET = USER_GET + "s";
 export const USERS_GET_WITH_CLASS = USERS_GET + "_c";
 export const USER_GET_BY_ID = USERS_GET + "/";
-export const USER_GET_BY_ID_MIN = USER_GET_BY_ID.replace(URL, "");
 export const USER_GET_USERCLASSES = USER_GET + "/userClasses";
 
 export const USERCLASS = API + "/userclass";
@@ -29,12 +27,21 @@ export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
-export const PROJECT_GET_BY_ID = PROJECT + "/";
+export const PROJECT_POST_UPDATE = PROJECT + "/update";
+
+export const PROJECT_GET_BY_ID = PROJECT + "/:id";
+export const PROJECT_GET_DATA_BY_ID = PROJECT_GET_BY_ID + "/data";
+export const PROJECT_GET_META_BY_ID = PROJECT_GET_BY_ID + "/meta";
+
 export const PROJECT_DELETE_BY_ID = PROJECT + "/delete";
 
-export const PROJECTS = API + "/projects";
-export const PROJECTS_GET = PROJECTS;
-export const PROJECTS_GET_USER = PROJECTS_GET + "/user";
+const PROJECTS = API + "/projects";
+export const PROJECTS_GET_PUBLIC = PROJECTS;
+export const PROJECTS_GET_ACCESSIBLE = PROJECTS + '/accessible';
+export const PROJECTS_GET_IS_CREATOR = PROJECTS+ '/iscreator';
+export const PROJECTS_GET_IS_MANAGER = PROJECTS+ '/ismanager';
+
+export const PROJECTS_GET_USER = PROJECTS + "/user";
 
 export const PROJECT_REQUIREMENT = PROJECT + "/requirement";
 export const PROJECT_REQUIREMENT_POST_NEW = PROJECT_REQUIREMENT + "/new";
@@ -43,7 +50,7 @@ export const PROJECT_REQUIREMENT_POST_DELETE = PROJECT_REQUIREMENT + "/delete";
 export const PROJECT_REQUIREMENT_POST_UPDATE = PROJECT_REQUIREMENT + "/update";
 
 export const PROJECT_REQUIREMENTS = PROJECT_REQUIREMENT + "s";
-export const PROJECT_REQUIREMENTS_GET_BY_ID = PROJECT_REQUIREMENTS + "/";
+export const PROJECT_REQUIREMENTS_GET_BY_ID = PROJECT_REQUIREMENTS + "/:id";
 
 export const REQUIREMENT = API + "/requirement";
 export const REQUIREMENT_POST_ADD = REQUIREMENT + "/add";
@@ -56,7 +63,6 @@ export const REQUIREMENT_GET_STUCTURE =   REQUIREMENT + "/structure/types";
 
 
 export const REQUIREMENTS_GET = REQUIREMENT + "s";
-export const REQUIREMENTS_GET_ADMIN = REQUIREMENTS_GET + "/admin";
 export const REQUIREMENTS_GET_STATISTICS = REQUIREMENTS_GET + "/usage";
 
 

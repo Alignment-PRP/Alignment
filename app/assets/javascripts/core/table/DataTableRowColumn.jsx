@@ -5,9 +5,9 @@ import {FontIcon, IconButton, TableRowColumn} from "material-ui";
 
 const LinkTo = ({icp, style, link, icon}) => {
     return (
-        <TableRowColumn {...icp} style={style}>
+        <TableRowColumn {...icp} style={{...style, padding: '1px 12px 1px 12px'}}>
             <Link to={link}>
-                <IconButton>
+                <IconButton style={{padding: 0, width: '24px', height: '24px'}}>
                     <FontIcon className="material-icons">{icon}</FontIcon>
                 </IconButton>
             </Link>
@@ -17,8 +17,8 @@ const LinkTo = ({icp, style, link, icon}) => {
 
 const Action = ({icp, style, onClick, icon}) => {
     return (
-        <TableRowColumn {...icp} style={style}>
-            <IconButton onClick={onClick}>
+        <TableRowColumn {...icp} style={{...style, padding: '1px 12px 1px 12px'}}>
+            <IconButton onClick={onClick} style={{padding: 0, width: '24px', height: '24px'}}>
                 <FontIcon className="material-icons">{icon}</FontIcon>
             </IconButton>
         </TableRowColumn>
