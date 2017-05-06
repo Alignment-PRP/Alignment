@@ -60,11 +60,12 @@ class Classes extends React.Component {
                         }
                     }
                 },
-                {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
-                {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
+                {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '24px'},
+                {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '24px'}
             ],
             toolbar: {
-                title: 'Brukerklasses',
+                title: 'Brukerklasser',
+                search: 'NAME',
                 render: () => {
                     return (
                         <ToolbarGroup>
@@ -85,8 +86,8 @@ class Classes extends React.Component {
         };
 
         return (
-            <div className="containerUsers">
-                <div className="usertable">
+            <div className="container" style={{justifyContent: 'center'}}>
+                <div className="table">
                     <DataTable config={config}/>
                 </div>
 

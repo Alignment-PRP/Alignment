@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { push } from 'react-router-redux';
-import { changeSideMenuMode } from "./../redux/actions/sideMenuActions";
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Users from './users/Users';
 import Classes from './userclasses/Classes';
@@ -15,13 +14,6 @@ import Statistics from './statistics/Statistics';
  */
 class Admin extends React.Component {
 
-    /**
-     * Called when the component did mount.
-     */
-    componentDidMount(){
-        this.props.changeSideMenuMode("HIDE");
-    }
-
     render() {
         const { index, path, push } = this.props;
         return (
@@ -31,7 +23,7 @@ class Admin extends React.Component {
                     value={path}
                 >
                     <Tab value="/admin" label="Brukeroversikt" onActive={push.bind(null, '/admin')}>
-                        <div id="admin">
+                        <div style={{padding: '10px'}}>
                             <h2>Brukeroversikt</h2>
                             <ul>
                                 <li>F.eks: Oversikt over hvem som eier hvilket prosjekt</li>
@@ -67,12 +59,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        push: (url) => {
-            dispatch(push(url));
-        },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode))
-        }
+        push: (url) => dispatch(push(url))
     };
 };
 

@@ -1,25 +1,18 @@
-import { LOGIN_PAGE_CHANGE_COMPONENT, LOGIN_FAILED, REGISTER_FAILED } from './../types';
+import { LOGIN_PAGE_CHANGE_COMPONENT, LOGIN_FAILED, REGISTER_FAILED, POST_REGISTER } from './../types';
 
 const loginPageReducer = (state = {
-    register: false,
-    loginFailed: false,
-    registerFailed: false
+    register: false
 }, action) => {
     switch (action.type) {
+        case POST_REGISTER.RECEIVED:
+            return {
+                ...state,
+                register: false
+            };
         case LOGIN_PAGE_CHANGE_COMPONENT:
             return {
                 ...state,
                 register: action.register
-            };
-        case LOGIN_FAILED:
-            return {
-                ...state,
-                loginFailed: action.state
-            };
-        case REGISTER_FAILED:
-            return {
-                ...state,
-                registerFailed: action.state
             };
         default:
             return state;

@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 
 //Importing the methods declared in redux/actions. These methodes handles the global state of the app.
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
-import { changeSideMenuMode } from "../../redux/actions/sideMenuActions";
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
 import {
     getAllRequirements, postProjectReqUpdate, updateRequirementMetadata
@@ -24,7 +23,7 @@ import Ellipsis from './../../core/popover/Ellipsis';
 
 
 
-class Project extends React.Component {
+class ProjectRequirementView extends React.Component {
 
     /**
      * This is a lifecycle method that runs after the render function. It is good practis to call
@@ -33,7 +32,7 @@ class Project extends React.Component {
      */
     componentDidMount() {
         //react-routes make us able to get the id of the URL with: this.props.params.id
-        this.props.getRequirementsByProjectId(this.props.params.id);
+        this.props.getRequirementsByProjectId(this.props.id);
         this.props.getAllRequirements();
     }
 
@@ -47,7 +46,6 @@ class Project extends React.Component {
         this.props.addFiltered('allRequirements');
         this.props.addFiltered('projectRequirements');
         this.props.popoverAdd('project');
-        this.props.changeSideMenuMode("HIDE")
     }
 
     intersectRequirements(allreq, proreq) {
@@ -80,7 +78,7 @@ class Project extends React.Component {
             allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId,
             allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata,
             projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
-            deleteRequirementToProject, deleteRequirementToProjectWithFilter, params
+            deleteRequirementToProject, deleteRequirementToProjectWithFilter, id
         } = this.props;
 
         const configLeft = {
@@ -102,11 +100,11 @@ class Project extends React.Component {
                 },
                 {type: 'ADD_ACTION', action: (requirement) => {
                         if (filter && Object.keys(filter).length > 0) {
-                            postRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
+                            postRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
                         } else {
-                            postRequirementToProject(params.id, requirement);
+                            postRequirementToProject(id, requirement);
                         }
-                }, width: '15%'}
+                }, width: '24px'}
             ]
         };
 
@@ -130,14 +128,14 @@ class Project extends React.Component {
                 {type: 'EDIT_ACTION', action: (requirement) => {
                     projectReqUpdateDialog(true);
                     updateRequirementMetadata(requirement);
-                },width: '15%'},
+                },width: '24px'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     if (filter && Object.keys(filter).length > 0) {
-                        deleteRequirementToProjectWithFilter(params.id, requirement, 'project', 'projectRequirements');
+                        deleteRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
                     } else {
-                        deleteRequirementToProject(params.id, requirement);
+                        deleteRequirementToProject(id, requirement);
                     }
-                }, width: '15%'}
+                }, width: '24px'}
             ]
         };
 
@@ -163,8 +161,7 @@ class Project extends React.Component {
                     handleSubmit={(data) => {
                         postProjectReqUpdate(data);
                         projectReqUpdateDialog(false);
-                        //TODO: This should update ProjectRequirement List.
-                        getRequirementsByProjectId(params.id);
+                        getRequirementsByProjectId(id);
                     }}
                     onRequestClose={projectReqUpdateDialog.bind(null, false)}
                 />
@@ -211,9 +208,6 @@ const mapDispatchToProps = (dispatch) => {
         getRequirementsByProjectId: (id) => {
             dispatch(getRequirementsByProjectId(id));
         },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode));
-        },
         postRequirementToProject: (projectID, requirement) => {
             dispatch(postRequirementToProject(projectID, requirement));
         },
@@ -244,4 +238,4 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * This connects this component to Redux so that you can use the Actions and get access to global state.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectRequirementView);

@@ -8,7 +8,6 @@ import { checkLogin } from './redux/actions/authActions';
 import CircularProgress from 'material-ui/CircularProgress';
 import Header from './layout/Header';
 import Sidebar from './layout/Sidebar';
-import SideMenu from './sidemenu/SideMenu';
 import Snack from './core/Snack';
 import Login from "./login/Login";
 
@@ -19,20 +18,22 @@ class Root extends React.Component {
     }
 
     render() {
-        const { loggedIn } = this.props;
+        const { authorized } = this.props;
 
-        if (loggedIn !== null) {
-            if (loggedIn) {
+        if (authorized.sent && (authorized.received || authorized.error)) {
+            if (authorized.received) {
                 return (
                     <div>
                         <Sidebar/>
-                        <Header/>
-                        <div className="container">
-                            <SideMenu/>
-                            <div id="pagecontainer">
-                                {this.props.children}
+                        <div id="main_content">
+
+                            <Header/>
+                            <div className="container">
+                                <div id="pagecontainer">
+                                    {this.props.children}
+                                </div>
+                                <Snack/>
                             </div>
-                            <Snack/>
                         </div>
                     </div>
                 );
@@ -51,7 +52,7 @@ class Root extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        loggedIn: state.authReducer.loggedIn
+        authorized: state.authReducer.authorized
     }
 };
 
