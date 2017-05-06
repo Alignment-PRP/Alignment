@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
 import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
 import {
-    getAllRequirements, postProjectReqUpdate, updateRequirementMetadata
+    getAllRequirements, postProjectReqUpdate, updateRequirement, updateRequirementMetadata
 } from '../../redux/actions/requirementActions';
 import {
     postRequirementToProject, postRequirementToProjectWithFilter,
@@ -15,6 +15,8 @@ import { dialogOpen } from '../../redux/actions/dialogActions';
 import { addFilter, addFiltered } from './../../redux/actions/filterActions';
 import { popoverAdd } from './../../redux/actions/popoverActions';
 import ProjectReqUpdateDialog from '../dialog/ProjectReqUpdateDialog';
+import ProReqInfoDialog from "../dialog/ProReqInfoDialog";
+import ReqInfoDialog from "../dialog/ReqInfoDialog";
 import Filter from './Filter';
 import Paper from 'material-ui/Paper';
 import DataTable from '../../core/table/DataTable';
@@ -75,10 +77,10 @@ class ProjectRequirementView extends React.Component {
 
         const {
             filter,
-            allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId,
-            allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata,
-            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter,
-            deleteRequirementToProject, deleteRequirementToProjectWithFilter, id
+            allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId, proReqInfoDialogIsOpen, reqInfoDialogIsOpen,
+            allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata, proReqInfoDialog,
+            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter, reqInfoDialog,
+            deleteRequirementToProject, deleteRequirementToProjectWithFilter, id, updateRequirement, reqInfo
         } = this.props;
 
         const configLeft = {
@@ -98,6 +100,10 @@ class ProjectRequirementView extends React.Component {
                         }
                     }
                 },
+                {type: 'EDIT_ACTION', action: (requirement) => {
+                    reqInfoDialog(true);
+                    updateRequirement(requirement);
+                },width: '24px'},
                 {type: 'ADD_ACTION', action: (requirement) => {
                         if (filter && Object.keys(filter).length > 0) {
                             postRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
@@ -166,6 +172,19 @@ class ProjectRequirementView extends React.Component {
                     onRequestClose={projectReqUpdateDialog.bind(null, false)}
                 />
 
+                <ProReqInfoDialog
+                    title="Krav"
+                    open={proReqInfoDialogIsOpen}
+                    onRequestClose={proReqInfoDialog.bind(null, false)}
+                />
+
+                <ReqInfoDialog
+                    title="Krav"
+                    open={reqInfoDialogIsOpen}
+                    onRequestClose={reqInfoDialog.bind(null, false)}
+                    reqInfo={reqInfo}
+                />
+
                 <Popover component="project"/>
             </div>
         )
@@ -183,9 +202,12 @@ const mapStateToProps = (state) => {
         filter: state.filterReducer.filters['project'],
         allRequirements_filtered: state.filterReducer.filterRequirementList['allRequirements'],
         projectRequirements_filtered: state.filterReducer.filterRequirementList['projectRequirements'],
+        reqInfo: state.requirementReducer.requirement,
         allRequirements: state.requirementReducer.requirements,
         projectRequirements: state.projectReducer.projectRequirements,
-        projectReqUpdateDialogIsOpen: state.dialogReducer.projectReqUpdate.isOpen
+        projectReqUpdateDialogIsOpen: state.dialogReducer.projectReqUpdate.isOpen,
+        reqInfoDialogIsOpen: state.dialogReducer.reqInfoDialog.isOpen,
+        proReqInfoDialogIsOpen: state.dialogReducer.proReqInfoDialog.isOpen,
     };
 };
 
@@ -232,6 +254,15 @@ const mapDispatchToProps = (dispatch) => {
         projectReqUpdateDialog: (open) => {
             dispatch(dialogOpen('projectReqUpdate', open));
         },
+        reqInfoDialog: (open) => {
+            dispatch(dialogOpen('reqInfoDialog', open));
+        },
+        proReqInfoDialog: (open) => {
+            dispatch(dialogOpen('proReqInfoDialog', open));
+        },
+        updateRequirement: (requirement) => {
+            dispatch(updateRequirement(requirement));
+        }
     };
 };
 
