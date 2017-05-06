@@ -4,6 +4,7 @@ import {Field, reduxForm, formValueSelector} from 'redux-form';
 import { renderTextField, renderAutoComplete } from './../../core/render';
 import {CircularProgress, FlatButton, FontIcon, LinearProgress, RaisedButton} from "material-ui";
 import {amber500, lightGreen500, red500} from "material-ui/styles/colors";
+import HelpToolTip from './../../core/HelpToolTip';
 
 class RequirementOptionalForm extends React.Component {
 
@@ -15,14 +16,17 @@ class RequirementOptionalForm extends React.Component {
      */
     renderStructure(structureTypes, structures) {
         const comps = structureTypes.map((type, index) => {
-            return <Field key={index}
-                          component={renderAutoComplete}
-                          name={type}
-                          data={structures[type].map(struc => struc.content)}
-                          floatingLabelText={type}
-                          hintText={type}
-                          openOnFocus
-            />;
+            return (<div className="tool-tip-container">
+                        <Field key={index}
+                                  component={renderAutoComplete}
+                                  name={type}
+                                  data={structures[type].map(struc => struc.content)}
+                                  floatingLabelText={type}
+                                  hintText={type}
+                                  openOnFocus
+                        />
+                    <HelpToolTip toolTip={"Dette er " + type + " strukturen."}/>
+                </div>);
         });
         const output = [];
 
