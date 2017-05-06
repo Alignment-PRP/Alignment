@@ -11,7 +11,7 @@ class ProjectReqForm extends React.Component {
         return (
             <form onSubmit={handleSubmit} autoComplete="off">
                 <div className="form-inner">
-                    <div className="form-inner-row">
+                    <div className="form-field-row">
                         <Field
                             name="reqNo"
                             label="Kravnummer"
@@ -23,7 +23,7 @@ class ProjectReqForm extends React.Component {
                             component={renderTextField}
                         />
                     </div>
-                    <div className="form-inner-row">
+                    <div className="form-field-row">
                         <Field
                             name="description"
                             label="Beskrivelse"
@@ -38,7 +38,7 @@ class ProjectReqForm extends React.Component {
                         />
                     </div>
                 </div>
-                <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+                <div className="form-button-row">
                     <RaisedButton className="form-button" primary={true} type="submit" label="Lagre"/>
                     <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
                 </div>
