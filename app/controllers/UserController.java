@@ -29,18 +29,26 @@ public class UserController extends Controller {
     public Result updateUser() {
         final JsonNode values = request().body().asJson();
 
-        String oldUSERNAME = values.get("oldUSERNAME").textValue();
+        //String oldUSERNAME = values.get("oldUSERNAME").textValue();
+        String oldUSERNAME = session("connected");
         String USERNAME = values.get("USERNAME").textValue();
         String firstName = values.get("firstName").textValue();
         String lastName = values.get("lastName").textValue();
         String email = values.get("email").textValue();
         String ucName = values.get("ucName").textValue();
-
+        //String pass =  values.get("pass").textValue();
         if (usernameExists(USERNAME) && !oldUSERNAME.equals(USERNAME)) {
             return internalServerError("Brukernavn er brukt!");
         }
+        boolean b1 = false;
+        if(values.has("pass")) {
+            String pass = BCrypt.hashpw(values.get("pass").asText(), BCrypt.gensalt(10));
+            b1 = qh.executeUpdate(Statement.UPDATE_USER_WITH_PASS, USERNAME, firstName, lastName, email, pass, oldUSERNAME);
+        }
+        else{
+            b1 = qh.executeUpdate(Statement.UPDATE_USER, USERNAME, firstName, lastName, email, oldUSERNAME);
+        }
 
-        final boolean b1 = qh.executeUpdate(Statement.UPDATE_USER, USERNAME, firstName, lastName, email, oldUSERNAME);
         final boolean b2 = qh.executeUpdate(Statement.UPDATE_USER_CLASS, USERNAME, ucName, oldUSERNAME);
 
         return b1 && b2 ? ok() : internalServerError();
