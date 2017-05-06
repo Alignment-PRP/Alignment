@@ -16,7 +16,6 @@ const styles = {
     standardIcon: {
         iconHoverColor: "#BF360C",
         color: '#616161',
-
         width: 20,
         height: 20,
     },
@@ -35,7 +34,12 @@ const styles = {
 
 /**
  * Tooltip.
- * Contains @Tooltip
+ * Contains @HelpToolTip
+ * styles in form.css in public/stylesheets/form.css.
+ * Surround element to be given tooltip with tool-tip-container, and there should be no problems.
+ * Adjust indivudually to each component as neccessary.
+ *
+ * Add tooltip text by <HelpToolTip toolTip="text for the tooltip"/>
  */
 class HelpToolTip extends React.Component {
 
@@ -44,7 +48,7 @@ class HelpToolTip extends React.Component {
             <IconButton
                 //hoverColor={greenA200}
                 //color={blue500}
-                iconStyle={this.props.IconStyles || styles.standardIcon}
+                iconStyle={{...this.props.IconStyles, ...styles.standardIcon}}
                 disableTouchRipple="true"
                 style={{...this.props.Style, ...styles.small}}
                 tooltip={this.props.toolTip || "Default tooltip"}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { renderTextField, renderMultiTextField } from '../../core/render';
 import RaisedButton from 'material-ui/RaisedButton';
+import HelpToolTip from './../../core/HelpToolTip';
 
 class ProjectReqForm extends React.Component {
 
@@ -12,30 +13,42 @@ class ProjectReqForm extends React.Component {
             <form onSubmit={handleSubmit} autoComplete="off">
                 <div className="form-inner">
                     <div className="form-field-row">
-                        <Field
-                            name="reqNo"
-                            label="Kravnummer"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="reqCode"
-                            label="Kravkode"
-                            component={renderTextField}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="reqNo"
+                                label="Kravnummer"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="Kravnummere, eks 001"/>
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="reqCode"
+                                label="Kravkode"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="Kravkoden, eks NFR001"/>
+                        </div>
                     </div>
                     <div className="form-field-row">
-                        <Field
-                            name="description"
-                            label="Beskrivelse"
-                            component={renderMultiTextField}
-                            required
-                        />
-                        <Field
-                            name="comment"
-                            label="Kommentar"
-                            component={renderMultiTextField}
-                            required
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="description"
+                                label="Beskrivelse"
+                                component={renderMultiTextField}
+                                required
+                            />
+                            <HelpToolTip toolTip="Beskrivelsen av kravet"/>
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="comment"
+                                label="Kommentar"
+                                component={renderMultiTextField}
+                                required
+                            />
+                            <HelpToolTip toolTip="Kommentar på dette kravet."/>
+                        </div>
                     </div>
                 </div>
                 <div className="form-button-row">
