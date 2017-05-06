@@ -1,8 +1,10 @@
 import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import ActionHelpOutline from 'material-ui/svg-icons/action/help-outline';
+import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 
 //<HelpToolTip toolTip="Tooltip string"/>
+//<div classname="tool-tip-container">
 
 
 const styles = {
@@ -19,7 +21,7 @@ const styles = {
         height: 20,
     },
     small: {
-        iconColor: '#616161',
+        marginTop: 30,
     },
     tooltip: {
         opacity: 90,
@@ -40,22 +42,15 @@ class HelpToolTip extends React.Component {
     render() {
         return (
             <IconButton
-                iconStyle={this.props.Styles || styles.standardIcon}
+                //hoverColor={greenA200}
+                //color={blue500}
+                iconStyle={this.props.IconStyles || styles.standardIcon}
                 disableTouchRipple="true"
-                style={styles.small}
+                style={{...this.props.Style, ...styles.small}}
                 tooltip={this.props.toolTip || "Default tooltip"}
-                tooltipPosition={this.props.toolTipPosition || 'bottom-right'}
+                tooltipPosition={this.props.toolTipPosition || 'bottom-left'}
             > <ActionHelpOutline />
             </IconButton>
-                   /* <IconButton
-                        iconStyle={styles.standardIcon}
-                        style={styles.standard}
-                        iconClassName="material-icons"
-                        tooltip={this.props.toolTip || "Default tooltip"}
-                        tooltipPosition={this.props.toolTipPosition || 'bottom-right'}
-                    >
-                        <ActionHelpOutline />
-                    </IconButton>*/
         );
     }
 }
