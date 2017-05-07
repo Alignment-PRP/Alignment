@@ -16,3 +16,9 @@
     align-items: center;
     margin-top: 24px;
 }
+.tool-tip-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+

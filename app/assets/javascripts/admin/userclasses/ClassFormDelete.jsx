@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import {renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../../core/render';
+import HelpToolTip from './../../core/HelpToolTip';
 
 /**
  * Redux-form for user creation and updating.
@@ -15,14 +16,17 @@ class ClassForm extends React.Component {
             <form onSubmit={handleSubmit}>
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                     <div className="form-inner-field">
-                        <Field
-                            name="replacement"
-                            label="Erstatter"
-                            disabled={false}
-                            component={renderSelectField}
-                        >
-                            {menuItemsClasses(classes.filter(e => e.NAME !== this.props.initialValues.NAME))}
-                        </Field>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="replacement"
+                                label="Erstatter"
+                                disabled={false}
+                                component={renderSelectField}
+                                >
+                                {menuItemsClasses(classes.filter(e => e.NAME !== this.props.initialValues.NAME))}
+                            </Field>
+                            <HelpToolTip toolTip="Velg ny brukerklasse for brukere som blir påvirket av handlingen." style={{marginTop: 0}}/>
+                        </div>
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'flex-end'}}>
