@@ -18,7 +18,7 @@ const LinkTo = ({icp, style, link, icon}) => {
 const Action = ({icp, style, onClick, icon}) => {
     return (
         <TableRowColumn {...icp} style={{...style, padding: '1px 12px 1px 12px'}}>
-            <IconButton onClick={onClick} style={{padding: 0, width: '24px', height: '24px'}}>
+            <IconButton onClick={onClick}  style={{padding: 0, width: '24px', height: '24px'}} tooltip={icon} tooltipPosition={"left"}>
                 <FontIcon className="material-icons">{icon}</FontIcon>
             </IconButton>
         </TableRowColumn>
@@ -47,12 +47,14 @@ class DataTableRowColumn extends React.Component {
                 return <LinkTo icp={icp} style={defaultStyle} link={link} icon="edit" />;
             case "EDIT_ACTION":
                 return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="edit" />;
+            case "INFO":
+                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="description" />;
             case "EDIT_LINK_ACTION":
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
                         <Link to={link}>
-                            <IconButton onClick={onClick}>
-                                <FontIcon className="material-icons">edit</FontIcon>
+                            <IconButton onClick={onClick} tooltip="Edit requirement">
+                                <FontIcon className="material-icons" >edit</FontIcon>
                             </IconButton>
                         </Link>
                     </TableRowColumn>

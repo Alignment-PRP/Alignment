@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import {renderTextField, renderMultiTextField, validateClassForm as validate} from './../../core/render';
+import HelpToolTip from './../../core/HelpToolTip';
 
 /**
  * Redux-form for user creation and updating.
@@ -15,19 +16,24 @@ class ClassForm extends React.Component {
             <form onSubmit={handleSubmit}>
                 <div className="form-inner-class">
                     <div className="form-field-row">
-                        <Field
-                            name="NAME"
-                            label="Klassenavn"
-                            component={renderTextField}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="NAME"
+                                label="Klassenavn"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="Navnet på den nye brukerklassen."/>
+                        </div>
                     </div>
                     <div className="form-field-row">
-                        <Field
-                            name="description"
-                            label="Beskrivelse"
-                            rows={4}
-                            component={renderMultiTextField}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="description"
+                                label="Beskrivelse"
+                                component={renderMultiTextField}
+                            />
+                            <HelpToolTip toolTip="Beskrivelse av brukerklasse. Rettigheter og bruksområde. osv."/>
+                        </div>
                     </div>
                 </div>
                 <div className="form-button-row">

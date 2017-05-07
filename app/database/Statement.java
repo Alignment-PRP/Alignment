@@ -282,19 +282,20 @@ public enum Statement {
             "ON uc.NAME = uhc.NAME "
     ),
     GET_USERS_THAT_HAVE_ACCESS("" +
-            "SELECT u.USERNAME " +
+            "SELECT u.USERNAME, u.firstName, u.lastName, u.email " +
             "FROM Users AS u " +
             "INNER JOIN UserHasAccess As uha " +
             "ON u.USERNAME = uha.USERNAME " +
             "WHERE uha.PID = ?"
     ),
     GET_CLASSES_THAT_HAVE_ACCESS("" +
-            "SELECT uc.NAME " +
+            "SELECT uc.* " +
             "FROM UserClass As uc " +
             "INNER JOIN HasAccess AS ha " +
             "ON uc.NAME = ha.NAME " +
             "WHERE ha.PID = ?"),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
+    UPDATE_USER_WITH_PASS("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=?, pass=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
     INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)"),
 
