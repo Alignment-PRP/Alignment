@@ -100,9 +100,9 @@ class ProjectRequirementView extends React.Component {
                         }
                     }
                 },
-                {type: 'EDIT_ACTION', action: (requirement) => {
-                    reqInfoDialog(true);
+                {type: 'INFO', action: (requirement) => {
                     updateRequirement(requirement);
+                    reqInfoDialog(true);
                 },width: '24px'},
                 {type: 'ADD_ACTION', action: (requirement) => {
                         if (filter && Object.keys(filter).length > 0) {
@@ -131,6 +131,10 @@ class ProjectRequirementView extends React.Component {
                         }
                     }
                 },
+                {type: 'INFO', action: (requirement) => {
+                    updateRequirement(requirement);
+                    proReqInfoDialog(true);
+                },width: '24px'},
                 {type: 'EDIT_ACTION', action: (requirement) => {
                     projectReqUpdateDialog(true);
                     updateRequirementMetadata(requirement);
@@ -176,6 +180,7 @@ class ProjectRequirementView extends React.Component {
                     title="Krav"
                     open={proReqInfoDialogIsOpen}
                     onRequestClose={proReqInfoDialog.bind(null, false)}
+                    reqInfo={reqInfo}
                 />
 
                 <ReqInfoDialog

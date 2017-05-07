@@ -79,6 +79,7 @@ export function deleteRequirement(requirement){
             })
             .catch(function (error) {
                 dispatch(ERROR(POST_DELETE_REQUIREMENT, error));
+                console.log(error);
             });
         dispatch(SENT(POST_DELETE_REQUIREMENT))
     }
@@ -123,6 +124,7 @@ export function postProjectReqUpdate(requirement){
             })
             .catch(function (error) {
                 dispatch(ERROR(POST_UPDATE_PROJECT_REQUIREMENT, error));
+                console.log(error);
             });
         dispatch(SENT(POST_UPDATE_PROJECT_REQUIREMENT));
     }
