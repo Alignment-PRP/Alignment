@@ -218,6 +218,12 @@ export const menuItemsClasses = (classes) => {
     })
 };
 
+export const menuItemsUsers = (users) => {
+    return users.map((item, index) => {
+        return <MenuItem key={index} value={item.USERNAME} primaryText={item.USERNAME}/>
+    })
+};
+
 export const menuItemsCategories = (classes) => {
     return classes.map((item, index) => {
         return <MenuItem key={index} value={item.scID} primaryText={item.NAME}/>

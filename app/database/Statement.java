@@ -282,14 +282,14 @@ public enum Statement {
             "ON uc.NAME = uhc.NAME "
     ),
     GET_USERS_THAT_HAVE_ACCESS("" +
-            "SELECT u.USERNAME " +
+            "SELECT u.USERNAME, u.firstName, u.lastName, u.email " +
             "FROM Users AS u " +
             "INNER JOIN UserHasAccess As uha " +
             "ON u.USERNAME = uha.USERNAME " +
             "WHERE uha.PID = ?"
     ),
     GET_CLASSES_THAT_HAVE_ACCESS("" +
-            "SELECT uc.NAME " +
+            "SELECT uc.* " +
             "FROM UserClass As uc " +
             "INNER JOIN HasAccess AS ha " +
             "ON uc.NAME = ha.NAME " +

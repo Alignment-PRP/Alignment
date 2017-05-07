@@ -29,6 +29,11 @@ export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
 export const PROJECT_POST_UPDATE = PROJECT + "/update";
 
+export const GET_USERS_THAT_HAVE_ACCESS = PROJECT + "/:id/hasAccess/users";
+export const GET_CLASSES_THAT_HAVE_ACCESS = PROJECT + "/:id/hasAccess/classes";
+export const REMOVE_HAS_ACCESS = PROJECT + "/hasAccess/remove";
+export const INSERT_HAS_ACCESS = PROJECT + "/hasAccess/add";
+
 export const PROJECT_GET_BY_ID = PROJECT + "/:id";
 export const PROJECT_GET_DATA_BY_ID = PROJECT_GET_BY_ID + "/data";
 export const PROJECT_GET_META_BY_ID = PROJECT_GET_BY_ID + "/meta";
