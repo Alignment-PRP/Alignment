@@ -346,24 +346,28 @@ public class ProjectController extends Controller {
 
 
         //Gets the project data to get the manager and creator USERNAME
-        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
-        String managerID = project.get("managerID").asText();
-        String creatorID = project.get("creatorID").asText();
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
+        boolean isManager = project.get("managerID").asText().equals(userID);
+        boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean isAdmin = className.equals("Admin");
 
         //Checks if the connected user is the manager or the creator of the project in question.
-        if((userID != managerID) && (userID != creatorID)){
+        if(!(isCreator || isManager || isAdmin)){
             return unauthorized("Only the creator or the manager of this project can edit what userclasses or users have access");
         }
 
         //Checks if the client sendt a user or a user class
         if(values.has("userClass")){
             //Inserts into the HasAccess table
-            qh.insertStatement(Statement.INSERT_HAS_ACCESS, values.get("userClass"), PID);
+            qh.insertStatement(Statement.INSERT_HAS_ACCESS, values.get("userClass").asText(), PID);
             return ok("The user class \"" + values.get("userClass") + "\" now has access to the project with projectID " + PID);
         }
         else if(values.has("userName")){
             //Inserts into the UserHasAccess table
-            qh.insertStatement(Statement.INSERT_USER_HAS_ACCESS, values.get("userName"), PID);
+            qh.insertStatement(Statement.INSERT_USER_HAS_ACCESS, values.get("userName").asText(), PID);
             return ok("The user \"" + values.get("userName") + "\" now has access to the project with projectID " + PID);
         }
 
@@ -392,24 +396,28 @@ public class ProjectController extends Controller {
 
 
         //Gets the project data to get the manager and creator USERNAME
-        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
+        JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean isAdmin = className.equals("Admin");
 
         //Checks if the connected user is the manager or the creator of the project in question.
-        if(!(isCreator || isManager)){
+        if(!(isCreator || isManager || isAdmin)){
             return unauthorized("Only the creator or the manager of this project can edit what userclasses or users have access");
         }
 
         //Checks if the client sendt a user or a user class
         if(values.has("userClass")){
             //Deletes from HasAccess table
-            qh.insertStatement(Statement.DELETE_HAS_ACCESS_SINGLE, values.get("userClass"), PID);
+            qh.executeUpdate(Statement.DELETE_HAS_ACCESS_SINGLE, values.get("userClass").asText(), PID);
             return ok("The user class \"" + values.get("userClass") + "\" no longer has access to the project with projectID " + PID);
         }
         else if(values.has("userName")){
             //Deletes from UserHasAccess table
-            qh.insertStatement(Statement.DELETE_USER_HAS_ACCESS, values.get("userName"), PID);
+            qh.executeUpdate(Statement.DELETE_USER_HAS_ACCESS, values.get("userName").asText(), PID);
             return ok("The user \"" + values.get("userName") + "\" no longer has access to the project with projectID " + PID);
         }
 
@@ -431,13 +439,17 @@ public class ProjectController extends Controller {
 
         //Gets the project data
         JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
 
-        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        JsonNode hasAccessJ = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0);
+        boolean hasAccess = hasAccessJ.get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean isAdmin = className.equals("Admin");
 
         //Checks if the user has permission to edit
-        if(!(hasAccess || isManager || isCreator)){
+        if(!(hasAccess || isManager || isCreator || isAdmin)){
             return unauthorized("You do not have permission to view this data");
         }
 
@@ -461,13 +473,17 @@ public class ProjectController extends Controller {
 
         //Gets the project data
         JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID).get(0);
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
 
-        boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, userID, PID).get(0).get("bool").asBoolean();
+        JsonNode hasAccessJ = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0);
+        boolean hasAccess = hasAccessJ.get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean isAdmin = className.equals("Admin");
 
         //Checks if the user has permission to edit
-        if(!(hasAccess || isManager || isCreator)){
+        if(!(hasAccess || isManager || isCreator || isAdmin)){
             return unauthorized("You do not have permission to view this data");
         }
 
