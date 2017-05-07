@@ -13,6 +13,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { getUsersWithClass } from '../../redux/actions/userActions';
 import {renderTextField, renderMultiTextField, renderSelectField, renderCheckbox, warnNumberField, renderAutoComplete, validateProjectForm as validate} from './../../core/render';
 import {Divider, MenuItem, Subheader} from "material-ui";
+import HelpToolTip from './../../core/HelpToolTip';
 
 class ProjectForm extends React.Component {
 
@@ -40,55 +41,80 @@ class ProjectForm extends React.Component {
             <form onSubmit={handleSubmit} autoComplete="off">
                 <div className="form-inner">
                     <div className="form-field-row">
-                        <Field
-                            name="name"
-                            label="Projektnavn"
-                            component={renderTextField}
-                        />
-                        <Field component={renderSelectField}
-                               name="managerID"
-                               floatingLabelText="Leder"
-                        >
-                            {this.renderManagerIDItems(users)}
-                        </Field>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="name"
+                                label="Projektnavn"
+                                component={renderTextField}>
+                            </Field>
+                            <HelpToolTip toolTip="Navn på prosjektet."/>
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field component={renderSelectField}
+                                   name="managerID"
+                                   floatingLabelText="Leder"
+                            >
+                                {this.renderManagerIDItems(users)}
+                            </Field>
+                            <HelpToolTip toolTip="Hvem skal styre prosjektet."/>
+                        </div>
                     </div>
                     <div className="form-field-row">
-                        <Field
-                            name="description"
-                            label="Beskrivelse"
-                            component={renderMultiTextField}
-                        />
-                        <Field
-                            name="securityLevel"
-                            label="Sikkerhetsnivå"
-                            warn={warnNumberField}
-                            component={renderTextField}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="description"
+                                label="Beskrivelse"
+                                component={renderMultiTextField}
+                            />
+                            <HelpToolTip toolTip="Beskrivelsen av prosjektet, som er synlig på prosjektmenyen." Style={{marginTop:30}} />
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="securityLevel"
+                                label="Sikkerhetsnivå"
+                                warn={warnNumberField}
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="1,2,3,4"/>
+                        </div>
                     </div>
                     <div className="form-field-row">
-                        <Field
-                            name="transactionVolume"
-                            label="Transaksjonsvolum"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="userChannel"
-                            label="Brukerkanal"
-                            component={renderTextField}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="transactionVolume"
+                                label="Transaksjonsvolum"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="1-100/dag, 100-1000/dag, 1000-10000/dag"/>
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="userChannel"
+                                label="Brukerkanal"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="Nettleser, Desktop, App"/>
+                        </div>
                     </div>
                     <div className="form-field-row">
-                        <Field
-                            name="deploymentStyle"
-                            label="Distribusjonsstil"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="isPublic"
-                            label="Offentlig"
-                            component={renderCheckbox}
-                            style={{maxWidth: '256px', marginTop: '36px'}}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="deploymentStyle"
+                                label="Deploymentstil"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="On-premise, privat sky, publik sky. Ref. Mohsen 2017"/>
+                        </div>
+                        <div className="tool-tip-container" style={{width: '300px'}}>
+                            <Field
+                                name="isPublic"
+                                label="Offentlig"
+                                component={renderCheckbox}
+                                style={{maxWidth: '256px', marginTop: '36px'}}
+                            />
+                            <HelpToolTip toolTip="Hvorvidt prosjektet er offentlig synlig."/>
+                        </div>
+
                     </div>
                 </div>
                 <div className="form-button-row">
