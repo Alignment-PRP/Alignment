@@ -9,7 +9,9 @@ import {
     GET_PROJECT_BY_ID,
     GET_REQUIREMENTS_BY_PROJECT_ID,
     CHANGE_PROJECTS_TABLE_MODE,
+    POST_DELETE_PROJECT,
     INIT_EDIT_PROJECT_FORM,
+    CLEAR_INIT_EDIT_PROJECT_FORM,
     GET_USERS_THAT_HAVE_ACCESS,
     GET_CLASSES_THAT_HAVE_ACCESS,
     REMOVE_HAS_ACCESS,
@@ -121,6 +123,12 @@ const projectReducer = (state = {
                 ...state,
                 initEditProjectForm: action.payload
             };
+        case CLEAR_INIT_EDIT_PROJECT_FORM:
+            return {
+                ...state,
+                initEditProjectForm: action.payload
+            };
+        case POST_DELETE_PROJECT:
         default:
             return state;
     }
