@@ -4,6 +4,7 @@ import * as URLS from './../../config';
 import { SENT, RECEIVED, ERROR } from './../utility';
 import {
     INIT_EDIT_PROJECT_FORM,
+    CLEAR_INIT_EDIT_PROJECT_FORM,
     GET_PROJECT_DATA_BY_ID,
     GET_PROJECT_META_BY_ID,
     GET_PROJECTS_PUBLIC,
@@ -13,7 +14,6 @@ import {
     POST_NEW_PROJECT,
     POST_UPDATE_PROJECT,
     POST_DELETE_PROJECT,
-
     GET_PROJECT_BY_ID,
     GET_REQUIREMENTS_BY_PROJECT_ID,
     POST_REQUIREMENT_TO_PROJECT,
@@ -359,13 +359,17 @@ export function deleteProject(project){
 
     //Create JSON
     const post = {
-        PID: project.PID
+        PID: project.ID
     };
 
     return dispatch => {
         axios.post(URLS.PROJECT_DELETE_BY_ID, post)
             .then(function (response) {
-                dispatch(snackBar(true, "Prosjekt slettet!"));
+                dispatch(snackBar(true, "Prosjeket ble slettet!"));
+                dispatch(getProjectsPublic());
+                dispatch(getProjectsAccessible());
+                dispatch(getProjectsIsCreator());
+                dispatch(getProjectsIsManager());
             })
             .catch(function (error) {
                 dispatch(snackBar(true, "Noe gikk galt.."));
@@ -377,7 +381,7 @@ export function deleteProject(project){
 
 function deleteProjectAsync(){
     return{
-        type: DELETE_PROJECT
+        type: POST_DELETE_PROJECT
     }
 }
 
@@ -395,4 +399,11 @@ export function initEditProjectForm(projectData, projectMeta){
     }
 
 
+}
+
+export function clearInitEditProjectForm(){
+    return {
+        type: CLEAR_INIT_EDIT_PROJECT_FORM,
+        payload: null
+    }
 }
