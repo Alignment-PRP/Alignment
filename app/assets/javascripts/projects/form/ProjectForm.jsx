@@ -145,4 +145,11 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({form: 'ProjectForm', validate, enableReinitialize: true})(ProjectForm));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(reduxForm({
+    form: 'ProjectForm',
+    validate,
+    enableReinitialize: true
+})(ProjectForm));
