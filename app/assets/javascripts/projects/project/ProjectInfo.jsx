@@ -5,7 +5,9 @@
  */
 import React from 'react';
 import { connect } from "react-redux";
-import { getProjectMetaDataById, getProjectDataById, initEditProjectForm } from "../../redux/actions/projectActions";
+import {
+    getProjectMetaDataById, getProjectDataById, initEditProjectForm
+} from "../../redux/actions/projectActions";
 import { dialogOpen } from '../../redux/actions/dialogActions';
 import CircularProgress from 'material-ui/CircularProgress';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
@@ -70,7 +72,7 @@ class ProjectInfo extends React.Component {
 
     renderProjectData() {
         if(this.props.projectData){
-            const { name, managerID, creatorID, description, isPublic } = this.props.projectData;
+            const { name, managerID, creatorID, description, isPublic, deleteDialogIsOpen, deleteDialogAction } = this.props.projectData;
             return(
                 <Card>
                     <CardHeader
@@ -82,14 +84,19 @@ class ProjectInfo extends React.Component {
                     <CardText>
                         {description}<br/><br/>
                         {this.renderProjectMeta()}
-
                     </CardText>
-                    <CardActions>
-                        <RaisedButton primary={true} onClick={() => {
+
+                    <div className="form-button-row">
+                        <RaisedButton className="form-button" primary={true} onClick={() => {
                             this.props.editDialog(true);
                             this.props.initEditProjectForm(this.props.projectData, this.props.projectMeta);
-                        }} label="Rediger" />
-                    </CardActions>
+                        }} label="Rediger"/>
+
+                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} onClick={() => {
+                            this.props.deleteDialog(true);
+                        }} label="Slett" />
+                    </div>
+
                 </Card>
             )
         } else {
@@ -114,7 +121,8 @@ class ProjectInfo extends React.Component {
 const mapStateToProps = (state) => {
     return {
         projectData: state.projectReducer.projectData,
-        projectMeta: state.projectReducer.projectMeta
+        projectMeta: state.projectReducer.projectMeta,
+
     };
 };
 
@@ -128,6 +136,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         editDialog: (open) => {
             dispatch(dialogOpen('projectEdit', open))
+        },
+        deleteDialog: (open) => {
+            dispatch(dialogOpen('projectDelete', open))
         },
         initEditProjectForm: (projectData, projectMeta) => {
             dispatch(initEditProjectForm(projectData, projectMeta))

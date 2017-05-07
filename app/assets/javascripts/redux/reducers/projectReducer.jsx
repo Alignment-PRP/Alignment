@@ -9,8 +9,9 @@ import {
     GET_PROJECT_BY_ID,
     GET_REQUIREMENTS_BY_PROJECT_ID,
     CHANGE_PROJECTS_TABLE_MODE,
+    POST_DELETE_PROJECT,
     INIT_EDIT_PROJECT_FORM,
-
+    CLEAR_INIT_EDIT_PROJECT_FORM
 } from './../types';
 //Here is where the global state of the projectReducer actually get stored and changed. The projectReducer get passed actions.types into a switch function.
 //When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from redux actions.
@@ -104,6 +105,12 @@ const projectReducer = (state = {
                 ...state,
                 initEditProjectForm: action.payload
             };
+        case CLEAR_INIT_EDIT_PROJECT_FORM:
+            return {
+                ...state,
+                initEditProjectForm: action.payload
+            };
+        case POST_DELETE_PROJECT:
         default:
             return state;
     }
