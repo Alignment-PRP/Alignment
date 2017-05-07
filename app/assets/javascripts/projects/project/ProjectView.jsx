@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { push } from 'react-router-redux';
-import { postProjectUpdate } from './../../redux/actions/projectActions';
+import { postProjectUpdate, deleteProject } from './../../redux/actions/projectActions';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import { dialogOpen } from '../../redux/actions/dialogActions';
 import ProjectEditDialog from '../dialog/ProjectEditDialog';
@@ -9,6 +9,7 @@ import ProjectRequirementView from './ProjectRequirementView';
 import ProjectUserAccess from './ProjectUserAccess';
 import ProjectClassAccess from './ProjectClassAccess';
 import ProjectInfo from './ProjectInfo';
+import DeleteDialog from "../../core/dialog/DeleteDialog";
 
 
 
@@ -22,7 +23,7 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate } = this.props;
+        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate, deleteDialogIsOpen, deleteDialog, deleteDialogAction } = this.props;
         return (
 
             <div>
@@ -66,12 +67,25 @@ class ProjectView extends React.Component {
                         </div>
                     </Tab>
                 </Tabs>
+
                 <ProjectEditDialog
                     title={"Rediger Prosjekt"}
                     open={editProjectDialogIsOpen}
                     onRequestClose={editDialog.bind(null, false)}
                     handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
                 />
+
+                <DeleteDialog
+                    title="Slett Prosjekt"
+                    desc="Er du sikker på at du vil slette dette prosjektet?"
+                    open={deleteDialogIsOpen}
+                    action={() => {
+                        deleteDialogAction(this.props.projectData);
+                        deleteDialog(false);
+                        push('/projects');}}
+                    onRequestClose={deleteDialog.bind(null, false)}
+                />
+
             </div>
             /*
             <div>
@@ -122,7 +136,9 @@ class ProjectView extends React.Component {
 const mapStateToProps = (state, props) => {
     return {
         path: props.location.pathname,
-        editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen
+        editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen,
+        deleteDialogIsOpen: state.dialogReducer.projectDelete.isOpen,
+        projectData: state.projectReducer.projectData
     };
 };
 
@@ -130,7 +146,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         push: (url) => dispatch(push(url)),
         editDialog: (open) => dispatch(dialogOpen('projectEdit', open)),
-        postProjectUpdate: (project) => dispatch(postProjectUpdate(project))
+        deleteDialog: (open) => dispatch(dialogOpen('projectDelete', open)),
+        postProjectUpdate: (project) => dispatch(postProjectUpdate(project)),
+        deleteDialogAction: (id)=> dispatch(deleteProject(id))
     };
 };
 
