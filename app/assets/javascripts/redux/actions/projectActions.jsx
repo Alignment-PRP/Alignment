@@ -18,7 +18,12 @@ import {
     GET_REQUIREMENTS_BY_PROJECT_ID,
     POST_REQUIREMENT_TO_PROJECT,
     DELETE_REQUIREMENT_TO_PROJECT,
-    CHANGE_PROJECTS_TABLE_MODE
+    CHANGE_PROJECTS_TABLE_MODE,
+
+    GET_USERS_THAT_HAVE_ACCESS,
+    GET_CLASSES_THAT_HAVE_ACCESS,
+    REMOVE_HAS_ACCESS,
+    INSERT_HAS_ACCESS
 } from './../types';
 import {
     snackBar
@@ -91,6 +96,32 @@ export function getProjectsIsManager() {
                 dispatch(ERROR(GET_PROJECTS_IS_MANAGER, error));
             });
         dispatch(SENT(GET_PROJECTS_IS_MANAGER))
+    }
+}
+
+export function getUsersThatHaveAccess(id) {
+    return dispatch => {
+        axios.get(URLS.GET_USERS_THAT_HAVE_ACCESS.replace(':id', id))
+            .then( response => {
+                dispatch(RECEIVED(GET_USERS_THAT_HAVE_ACCESS, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_USERS_THAT_HAVE_ACCESS, error));
+            });
+        dispatch(SENT(GET_USERS_THAT_HAVE_ACCESS));
+    }
+}
+
+export function getClassesThatHaveAccess(id) {
+    return dispatch => {
+        axios.get(URLS.GET_CLASSES_THAT_HAVE_ACCESS.replace(':id', id))
+            .then( response => {
+                dispatch(RECEIVED(GET_CLASSES_THAT_HAVE_ACCESS, response));
+            })
+            .catch(error => {
+                dispatch(ERROR(GET_CLASSES_THAT_HAVE_ACCESS, error));
+            });
+        dispatch(SENT(GET_CLASSES_THAT_HAVE_ACCESS));
     }
 }
 
@@ -185,6 +216,56 @@ export function getRequirementsByProjectIdWithFilter(id, filter, comp) {
 
     }
 
+}
+
+export function removeHasAccess(projectID, data){
+    const post = {
+        ...data,
+        PID: projectID
+    };
+    return dispatch => {
+        axios.post(URLS.REMOVE_HAS_ACCESS, post)
+            .then((response) => {
+                dispatch(RECEIVED(REMOVE_HAS_ACCESS, response));
+                dispatch(getUsersThatHaveAccess(post.PID));
+                dispatch(getClassesThatHaveAccess(post.PID));
+            })
+            .catch((error) => {
+                dispatch(ERROR(REMOVE_HAS_ACCESS, error));
+            });
+        dispatch(SENT(REMOVE_HAS_ACCESS));
+    }
+}
+
+export function insertHasAccess(projectID, data){
+    const post = {
+        ...data,
+        PID: projectID
+    };
+    return dispatch => {
+        axios.post(URLS.INSERT_HAS_ACCESS, post)
+            .then((response) => {
+                dispatch(RECEIVED(INSERT_HAS_ACCESS, response));
+                dispatch(getUsersThatHaveAccess(post.PID));
+                dispatch(getClassesThatHaveAccess(post.PID));
+            })
+            .catch((error) => {
+                dispatch(ERROR(INSERT_HAS_ACCESS, error));
+            });
+        dispatch(SENT(INSERT_HAS_ACCESS));
+    }
+}
+
+function removeHasAccessAsync() {
+    return {
+        type: REMOVE_HAS_ACCESS
+    }
+}
+
+function insertHasAccessAsync() {
+    return {
+        type: INSERT_HAS_ACCESS
+    }
 }
 
 export function deleteRequirementToProject(projectID, requirement){
