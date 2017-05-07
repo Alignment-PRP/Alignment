@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import ProjectReqForm from './../form/ProjectReqForm';
-import {List, ListItem} from "material-ui";
+import {List, ListItem, RaisedButton} from "material-ui";
 
 class ReqInfoDialog extends React.Component {
 
@@ -13,42 +12,33 @@ class ReqInfoDialog extends React.Component {
                     modal={false}
                     onRequestClose={onRequestClose}
                     autoDetectWindowHeight={false}
-                    autoScrollBodyContent={false}
-                    Style={{width: "100%"}}
+                    autoScrollBodyContent={true}
+                    style={{width: "100%"}}
             >
-                <div className="form-inner">
-                    <List>
+                <List>
+                    <div className="form-inner">
                         <div className="form-field-row">
                             <ListItem
-                                primaryText="Kommentar"
-                                secondaryText={reqInfo.comment}
+                                primaryText="reqResponsible"
+                                secondaryText={reqInfo.reqResponsible}
                             />
-                        </div>
-                        <div className="form-field-row">
                             <ListItem
-                                primaryText="Beskrivelse"
-                                secondaryText={reqInfo.description}
+                                primaryText="reqCode"
+                                secondaryText={reqInfo.reqCode}
+                            />
+                            <ListItem
+                                primaryText="reqNo"
+                                secondaryText={reqInfo.reqNo}
                             />
                         </div>
-                        <div className="form-field-row">
-                            <ListItem/>
-                                primaryText="Brukerkanal: "
-                            <ListItem/>
-                                primaryText="Transaskjonsvolum: "
-                        </div>
-                        <div className="form-field-row">
-                            <ListItem/>
-                                primaryText="Brukerkanal: "
-                            <ListItem/>
-                                primaryText="Transaskjonsvolum: "
-                        </div>
-                        <div className="form-field-row">
-                            <ListItem/>
-                                primaryText="Brukerkanal: "
-                            <ListItem/>
-                                primaryText="Transaskjonsvolum: "
-                        </div>
-                    </List>
+                    </div>
+                </List>
+                        <h4>Beskrivelse</h4>
+                        <p>{reqInfo.description}</p>
+                        <h4>Kommentar</h4>
+                        <p>{reqInfo.comment}</p>
+                <div className="form-button-row">
+                    <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Lukk" onClick={onRequestClose}/>
                 </div>
             </Dialog>
         );
