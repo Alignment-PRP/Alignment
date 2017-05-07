@@ -9,10 +9,17 @@ import { type } from './utility';
 
 
 
-//Project
+//Project Data
 export const GET_PROJECT_DATA_BY_ID = type('PROJECT_GET_DATA_BY_ID');
 export const GET_PROJECT_META_BY_ID = type('PROJECT_GET_META_BY_ID');
 
+//Project Access
+export const GET_USERS_THAT_HAVE_ACCESS = type('GET_USERS_THAT_HAVE_ACCESS');
+export const GET_CLASSES_THAT_HAVE_ACCESS = type('GET_CLASSES_THAT_HAVE_ACCESS');
+export const REMOVE_HAS_ACCESS = type('REMOVE_HAS_ACCESS');
+export const INSERT_HAS_ACCESS = type('INSERT_HAS_ACCESS');
+
+//Projects
 export const GET_PROJECTS_PUBLIC = type('GET_PROJECTS_PUBLIC');
 export const GET_PROJECTS_ACCESSIBLE = type('GET_PROJECTS_ACCESSIBLE');
 export const GET_PROJECTS_IS_CREATOR = type('GET_PROJECTS_IS_CREATOR');
