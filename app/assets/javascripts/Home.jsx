@@ -32,8 +32,8 @@ class Home extends React.Component {
                 <h2>Velkommen</h2>
                 <div>
                     <p>
-                        Alignment er en webplatform for effektivisering av prosjektutarbeiding.<br/>
-                        Alignment gjør det lettere å finne relevante kvalitetskrav for IT-prosjekter i Trondheim Kommune.
+                        Alignment er en webplatform for effektivisering av IT-prosjekter i Trondheim Kommune.<br/>
+                        Alignment gjør det lettere å finne og organisere relevante kvalitetskrav som skal brukes i prosjektet.
                     </p>
                     <p>
                         Under <b>Prosjekter</b> kan du opprette et prosjekt og legge til kvalitetskrav. Her kan du også
