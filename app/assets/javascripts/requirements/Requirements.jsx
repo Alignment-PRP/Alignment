@@ -42,7 +42,7 @@ class Requirements extends React.Component {
 
         const config = {
             table: 'requirements',
-            data: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
+            data: filter ? filterRequirementList : requirements,
             columns: [
                 {label: 'Navn', property: 'name', width: '10%'},
                 {label: 'Beskrivelse', property: 'description', width: '30%', wrap: {

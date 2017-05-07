@@ -1,5 +1,8 @@
-import axios from 'axios';
-import * as URLS from './../../config';
+/**
+ * Contains action creators for filtering requirements.
+ * @module redux/actions/filter
+ */
+
 import {
     UPDATE_FILTER_REQUIREMENT_LIST,
     UPDATE_FILTER,
@@ -8,8 +11,7 @@ import {
     ADD_TO_SUB_FILTER,
     REMOVE_FROM_SUB_FILTER,
     ADD_FILTER,
-    ADD_FILTERED,
-    GET_ALL_REQUIREMENTS
+    ADD_FILTERED
 } from './../types';
 
 export function addFilter(filter) {
@@ -26,52 +28,55 @@ export function addFiltered(comp) {
     }
 }
 
-export function updateFilterRequirementList(filter, comp, unFiltered) {
+/**
+ *
+ * @param {String} comp
+ * @param {Object.<Requirement>} unFiltered
+ * @returns {{type, comp: *, unFiltered: *}}
+ */
+export function updateFilterRequirementList(comp, output, unFiltered) {
     return {
         type: UPDATE_FILTER_REQUIREMENT_LIST,
-        filter: filter,
         comp: comp,
+        output: output,
         unFiltered: unFiltered
     }
 }
 
-export function updateFilter(newFilter) {
-    return {
-        type: UPDATE_FILTER,
-        payload: newFilter
-    }
-}
-
-export function addToFilter(filter, category) {
+export function addToFilter(comp, filter, value) {
     return {
         type: ADD_TO_FILTER,
+        comp: comp,
         filter: filter,
-        category: category
+        value: value
     }
 }
 
-export function removeFromFilter(filter, category) {
+export function removeFromFilter(comp, filter, value) {
     return {
         type: REMOVE_FROM_FILTER,
+        comp: comp,
         filter: filter,
-        category: category
+        value: value
     }
 }
 
-export function addToSubFilter(filter, sub, parent) {
+export function addToSubFilter(comp, filter, child, parent) {
     return {
         type: ADD_TO_SUB_FILTER,
+        comp: comp,
         filter: filter,
-        sub: sub,
+        child: child,
         parent: parent
     }
 }
 
-export function removeFromSubFilter(filter, sub, parent) {
+export function removeFromSubFilter(comp, filter, child, parent) {
     return {
         type: REMOVE_FROM_SUB_FILTER,
+        comp: comp,
         filter: filter,
-        sub: sub,
+        child: child,
         parent: parent
     }
 }
