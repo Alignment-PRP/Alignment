@@ -12,11 +12,19 @@ class CategoryCheckBox extends React.Component {
                       leftCheckbox={
                           <CheckBox onCheck={onCheck}
                                     value={category.name}
-                                    checked={filter[category.name] ? true : false}
+                                    checked={filter && filter.category && filter.category[category.name] ? true : false}
                           />}
                       nestedItems={
                           category.subcategories.map((cat, index) => {
-                              return <ListItem key={index} primaryText={cat.subcategoryName} leftCheckbox={<CheckBox checked={filter[category.name] ? filter[category.name].indexOf(cat.subcategoryName) !== -1 : false} onCheck={(event, checked) => onCheckSub(event, checked, category.name)} value={cat.subcategoryName}/>}/>
+                              return <ListItem key={index}
+                                               primaryText={cat.subcategoryName}
+                                               leftCheckbox={
+                                                   <CheckBox checked={filter && filter.category && filter.category[category.name] ? filter.category[category.name].indexOf(cat.subcategoryName) !== -1 : false}
+                                                             onCheck={(event, checked) => onCheckSub(event, checked, category.name)}
+                                                             value={cat.subcategoryName}
+                                                   />
+                                               }
+                              />
                           })
                       }
             />

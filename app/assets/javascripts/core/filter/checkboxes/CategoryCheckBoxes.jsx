@@ -14,7 +14,6 @@ class CategoryCheckBoxes extends React.Component {
         );
     }
 
-
 }
 
 export default CategoryCheckBoxes;

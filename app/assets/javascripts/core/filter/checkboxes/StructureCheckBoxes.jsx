@@ -4,11 +4,11 @@ import StructureCheckBox from './StructureCheckBox';
 class StructureCheckBoxes extends React.Component {
 
     render() {
-        const { filter, structures, onCheck } = this.props;
+        const { filter, structures, onCheck, onCheckSub } = this.props;
         return (
             <span>
-                {structures.map((structure, index) => {
-                    return <StructureCheckBox key={index} filter={filter} index={index} structure={structure} onCheck={onCheck} />
+                {Object.keys(structures).map((structure, index) => {
+                    return <StructureCheckBox key={index} filter={filter} index={index} structure={structure} values={structures[structure]} onCheck={onCheck} onCheckSub={onCheckSub} />
                 })}
             </span>
         );
