@@ -170,7 +170,15 @@ class ProjectRequirementView extends React.Component {
                     title="Rediger og legg til krav"
                     open={editAndAddProjectDialogIsOpen}
                     handleSubmit={(data) => {
-                        editAndAddRequirement(this.props.id, data);
+
+                        if (filter && Object.keys(filter).length > 0) {
+                            postRequirementToProjectWithFilter(id, data, 'project', 'projectRequirements');
+                            postProjectReqUpdate(data)
+                        } else {
+                            postRequirementToProject(id, data);
+                            postProjectReqUpdate(data)
+                        }
+
                         editAndAddDialog(false);
                         getRequirementsByProjectId(id);
                     }}
@@ -241,7 +249,7 @@ const mapDispatchToProps = (dispatch) => {
         getRequirementsByProjectId: (id) => dispatch(getRequirementsByProjectId(id)),
         postRequirementToProject: (projectID, requirement) => dispatch(postRequirementToProject(projectID, requirement)),
         updateRequirementMetadata: (requirement) => dispatch(updateRequirementMetadata(requirement)),
-        editAndAddRequirement: (id, data) => dispatch(editAndAddRequirement(id, data)),
+        editAndAddRequirement: (id, requirement, filter) => dispatch(editAndAddRequirement(id, requirement, filter)),
         postProjectReqUpdate: (data) => dispatch(postProjectReqUpdate(data)),
         postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp)),
         deleteRequirementToProject: (projectID, requirement) => dispatch(deleteRequirementToProject(projectID, requirement)),
