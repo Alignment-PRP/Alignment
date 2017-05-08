@@ -14,6 +14,7 @@ import DeleteDialog from './../core/dialog/DeleteDialog';
 import Filter from './Filter';
 import Ellipsis from './../core/popover/Ellipsis';
 import Popover from './../core/popover/Popover';
+import RequirementInfoDialog from "./dialog/RequirementInfoDialog";
 
 class Requirements extends React.Component {
 
@@ -34,7 +35,8 @@ class Requirements extends React.Component {
             updateRequiredValues, updateOptionalValues, deleteRequirement,
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
             structures, structureTypes, categories, users, newRequirementDialogIsOpen,
-            editRequirementDialogIsOpen, editDialog, postUpdateRequirement, addRequirement
+            editRequirementDialogIsOpen, editDialog, postUpdateRequirement, addRequirement,
+            updateRequirement, requirementInfoDialog, requirement, requirementInfoDialogIsOpen
         } = this.props;
 
         const config = {
@@ -68,6 +70,10 @@ class Requirements extends React.Component {
                 },
                 {label: 'Kategori', property: 'cName', width: '12%'},
                 {label: 'UnderKategori', property: 'scName', width: '12%'},
+                {type: 'INFO', action: (requirement) => {
+                    updateRequirement(requirement);
+                    requirementInfoDialog(true);
+                },width: '24px'},
                 {type: 'EDIT_ACTION', action: (requirement) => {
                     editDialog(true);
                     updateRequiredValues(requirement);
@@ -130,6 +136,13 @@ class Requirements extends React.Component {
                     structureTypes={structureTypes}
                 />
 
+                <RequirementInfoDialog
+                    title="Krav"
+                    open={requirementInfoDialogIsOpen}
+                    onRequestClose={requirementInfoDialog.bind(null, false)}
+                    requirement={requirement}
+                />
+
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -155,7 +168,9 @@ const mapStateToProps = (state) => {
         users: state.userReducer.users,
         categories: state.requirementReducer.categoryNames,
         structures: state.structureReducer.structures,
-        structureTypes: state.structureReducer.types
+        structureTypes: state.structureReducer.types,
+        requirement: state.requirementReducer.requirement,
+        requirementInfoDialogIsOpen: state.dialogReducer.requirementInfoDialog.isOpen
     };
 };
 
@@ -178,7 +193,8 @@ const mapDispatchToProps = (dispatch) => {
         getStructures: () => dispatch(getStructures()),
         getStructureTypes: () => dispatch(getStructureTypes()),
         postUpdateRequirement: (requirement) => dispatch(postUpdateRequirement(requirement)),
-        addRequirement: (requirement) => dispatch(addRequirement(requirement))
+        addRequirement: (requirement) => dispatch(addRequirement(requirement)),
+        requirementInfoDialog: (open) => dispatch(dialogOpen('requirementInfoDialog', open))
 
     };
 };
