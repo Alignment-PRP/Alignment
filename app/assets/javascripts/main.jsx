@@ -13,7 +13,6 @@ import ProjectView from './projects/project/ProjectView';
 
 //Requirements
 import Requirements from './requirements/Requirements';
-import UpdateRequirement from './requirements/UpdateRequirement';
 
 //Admin
 import Admin from './admin/Admin';
@@ -67,7 +66,6 @@ class App extends React.Component {
 
                             <Route path={"requirements"} component={Requirements}/>
 
-                            <Route path={"editrequirement"} component={UpdateRequirement}/>
                             <Route path={"logout"} onEnter={() => store.dispatch(logout())}/>
                             <Route path={"admin"} component={Admin} onEnter={() => {}}>
                                 <Route path={"users"}/>

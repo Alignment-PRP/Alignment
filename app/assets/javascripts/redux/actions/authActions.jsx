@@ -3,7 +3,6 @@ import { push } from 'react-router-redux';
 import { SENT, RECEIVED, ERROR } from './../utility';
 import { POST_REGISTER, POST_LOGIN, GET_LOGOUT, GET_LOGIN_CHECK, AUTH_CLEAR, LOGIN_CLEAR, REGISTER_CLEAR } from './../types';
 import { LOGIN_POST, LOGIN_CHECK_GET, LOGOUT_GET, REGISTER_POST } from './../../config';
-import { snackBar } from './snackBarActions';
 
 export function register(user) {
     return dispatch => {

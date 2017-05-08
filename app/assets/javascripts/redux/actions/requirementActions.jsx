@@ -5,7 +5,6 @@ import {snackBar} from "./snackBarActions";
 import {
     ADD_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
-
     FORM_UPDATE_REQUIREMENT,
     FORM_UPDATE_REQUIREMENT_METADATA,
     GET_CATEGORY_NAMES,
@@ -120,9 +119,11 @@ export function postProjectReqUpdate(requirement){
                 dispatch(getAllRequirements());
                 dispatch(RECEIVED(POST_UPDATE_PROJECT_REQUIREMENT, response));
                 dispatch(getRequirementsByProjectIdWithFilter(requirement.PID, 'project', 'projectRequirements'));
+                dispatch(snackBar(true, "Prosjektkravet ble oppdatert!"));
             })
             .catch(function (error) {
                 dispatch(ERROR(POST_UPDATE_PROJECT_REQUIREMENT, error));
+                dispatch(snackBar(true, "Noe gikk galt.."));
             });
         dispatch(SENT(POST_UPDATE_PROJECT_REQUIREMENT));
     }
