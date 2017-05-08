@@ -111,9 +111,10 @@ export function postUpdateRequirementMetadata(requirement){
     }
 }
 
+
+
 export function postProjectReqUpdate(requirement){
     return dispatch => {
-        console.log(requirement);
         axios.post(URLS.PROJECT_REQUIREMENT_POST_UPDATE, requirement)
             .then(function (response) {
                 dispatch(getAllRequirements());

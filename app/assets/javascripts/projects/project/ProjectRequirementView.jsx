@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 //Importing the methods declared in redux/actions. These methodes handles the global state of the app.
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
-import { getRequirementsByProjectId } from "../../redux/actions/projectActions";
+import { getRequirementsByProjectId, editAndAddRequirement } from "../../redux/actions/projectActions";
 import {
     getAllRequirements, postProjectReqUpdate, updateRequirement, updateRequirementMetadata
 } from '../../redux/actions/requirementActions';
@@ -14,6 +14,7 @@ import {
 import { dialogOpen } from '../../redux/actions/dialogActions';
 import { popoverAdd } from './../../redux/actions/popoverActions';
 import ProjectReqUpdateDialog from '../dialog/ProjectReqUpdateDialog';
+import ProjectEditAndAddDialog from '../dialog/ProjectEditAndAddDialog';
 import ProReqInfoDialog from "../dialog/ProReqInfoDialog";
 import ReqInfoDialog from "../dialog/ReqInfoDialog";
 import Filter from './Filter';
@@ -21,7 +22,6 @@ import Paper from 'material-ui/Paper';
 import DataTable from '../../core/table/DataTable';
 import Popover from './../../core/popover/Popover';
 import Ellipsis from './../../core/popover/Ellipsis';
-import ProjectEditAddDialog from "../dialog/ProjectEditAddDialog";
 
 
 
@@ -76,8 +76,8 @@ class ProjectRequirementView extends React.Component {
             filter,
             allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId, proReqInfoDialogIsOpen, reqInfoDialogIsOpen,
             allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata, proReqInfoDialog,
-            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter, reqInfoDialog,
-            deleteRequirementToProject, deleteRequirementToProjectWithFilter, id, updateRequirement, reqInfo
+            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter, reqInfoDialog, editAndAddDialog, editAndAddRequirement,
+            deleteRequirementToProject, deleteRequirementToProjectWithFilter, id, updateRequirement, reqInfo, editAndAddProjectDialogIsOpen
         } = this.props;
 
         const configLeft = {
@@ -101,9 +101,9 @@ class ProjectRequirementView extends React.Component {
                     updateRequirement(requirement);
                     reqInfoDialog(true);
                 },width: '24px'},
-                {type: 'EDIT_ACTION', action: (requirement) => {
-                    projectReqUpdateDialog(true);
+                {type: 'EDIT_AND_ADD_ACTION', action: (requirement) => {
                     updateRequirementMetadata(requirement);
+                    editAndAddDialog(true);
                 },width: '24px'},
                 {type: 'ADD_ACTION', action: (requirement) => {
                         if (filter && Object.keys(filter).length > 0) {
@@ -166,12 +166,17 @@ class ProjectRequirementView extends React.Component {
                     <DataTable config={configRight}/>
                 </div>
 
-                <ProjectEditAddDialog
-                    title={"Rediger krav og legg til"}
-                    open={editAddProjectDialogIsOpen}
-                    onRequestClose={editAddDialog.bind(null, false)}
-                    handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
+                <ProjectEditAndAddDialog
+                    title="Rediger og legg til krav"
+                    open={editAndAddProjectDialogIsOpen}
+                    handleSubmit={(data) => {
+                        editAndAddRequirement(this.props.id, data);
+                        editAndAddDialog(false);
+                        getRequirementsByProjectId(id);
+                    }}
+                    onRequestClose={editAndAddDialog.bind(null, false)}
                 />
+
 
                 <ProjectReqUpdateDialog
                     title="Tilleggsbeskrivelse av krav"
@@ -221,7 +226,7 @@ const mapStateToProps = (state) => {
         projectReqUpdateDialogIsOpen: state.dialogReducer.projectReqUpdate.isOpen,
         reqInfoDialogIsOpen: state.dialogReducer.reqInfoDialog.isOpen,
         proReqInfoDialogIsOpen: state.dialogReducer.proReqInfoDialog.isOpen,
-        editAddProjectDialogIsOpen: state.dialogReducer.projectEditAdd.isOpen,
+        editAndAddProjectDialogIsOpen: state.dialogReducer.projectEditAndAdd.isOpen
     };
 };
 
@@ -236,6 +241,7 @@ const mapDispatchToProps = (dispatch) => {
         getRequirementsByProjectId: (id) => dispatch(getRequirementsByProjectId(id)),
         postRequirementToProject: (projectID, requirement) => dispatch(postRequirementToProject(projectID, requirement)),
         updateRequirementMetadata: (requirement) => dispatch(updateRequirementMetadata(requirement)),
+        editAndAddRequirement: (id, data) => dispatch(editAndAddRequirement(id, data)),
         postProjectReqUpdate: (data) => dispatch(postProjectReqUpdate(data)),
         postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp)),
         deleteRequirementToProject: (projectID, requirement) => dispatch(deleteRequirementToProject(projectID, requirement)),
@@ -245,7 +251,7 @@ const mapDispatchToProps = (dispatch) => {
         reqInfoDialog: (open) => dispatch(dialogOpen('reqInfoDialog', open)),
         proReqInfoDialog: (open) => dispatch(dialogOpen('proReqInfoDialog', open)),
         updateRequirement: (requirement) => dispatch(updateRequirement(requirement)),
-        editAddDialog: (open) => dispatch(dialogOpen('projectEditAdd', open)),
+        editAndAddDialog: (open) => dispatch(dialogOpen('projectEditAndAdd', open))
     };
 };
 
