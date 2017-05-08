@@ -10,9 +10,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by andrfo on 24.02.2017.
@@ -511,10 +509,40 @@ public class ProjectController extends Controller {
 
         Map<String, Object> requirementMap = new HashMap<>();
         JsonNode projectRequirements = qh.executeQuery(Statement.GET_PROJECT_REQUIREMENTS, projectID);
+        JsonNode requirementsStructures = qh.executeQuery(Statement.GET_REQUIREMENTS_STRUCTURES);
         for (JsonNode pr:
                 projectRequirements) {
-            requirementMap.put(pr.get("RID").asText(), pr);
+            Map<String, Object> pReq= new HashMap<>();
+            Iterator<Map.Entry<String, JsonNode>> prs = pr.fields();
+            while(prs.hasNext()){
+                Map.Entry<String, JsonNode> p = prs.next();
+                pReq.put(p.getKey(), p.getValue());
+            }
+            pReq.put("structures", new ArrayList<Map<String, Object>>());
+            requirementMap.put(pr.get("RID").asText(), pReq);
+
         }
+
+        for (JsonNode struct :
+                requirementsStructures) {
+            String RID = struct.get("RID").asText();
+            if(!requirementMap.containsKey(RID)){
+                continue;
+            }
+            Map r = (HashMap<String, Object>)requirementMap.get(RID);
+            List<Map<String, Object>> str = (List<Map<String, Object>>)r.get("structures");
+
+            Iterator<Map.Entry<String, JsonNode>> fields = struct.fields();
+            Map<String, Object> s = new HashMap<>();
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+                s.put(n.getKey(), n.getValue());
+            }
+            str.add(s);
+
+        }
+
+
         return ok(Json.toJson(requirementMap));
     }
 
