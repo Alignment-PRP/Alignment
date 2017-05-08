@@ -25,7 +25,6 @@ class Header extends React.Component {
 
             return(
                 <div id="user-info">
-                    <p>Logget in som: </p>
                     <p>
                         <b>Username:</b> {USERNAME} | <b>Userclass:</b> {ucName} - {ucDesc}
                     </p>
@@ -60,9 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUserData: () => {
-            dispatch(getUserData())
-        }
+        getUserData: () => dispatch(getUserData())
     }
 };
 
