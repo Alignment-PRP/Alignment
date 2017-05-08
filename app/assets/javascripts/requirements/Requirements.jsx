@@ -4,7 +4,6 @@ import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequireme
 import { updateRequiredValues, updateOptionalValues, clearValues, changeStepperIndex } from '../redux/actions/requirementFormActions';
 import { getStructures, getStructureTypes } from './../redux/actions/structureActions';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
-import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import { popoverAdd } from './../redux/actions/popoverActions';
 import { getUsersWithClass } from './../redux/actions/userActions';
@@ -19,8 +18,6 @@ import Popover from './../core/popover/Popover';
 class Requirements extends React.Component {
 
     componentWillMount() {
-        this.props.addFilter('requirements');
-        this.props.addFiltered('requirements');
         this.props.popoverAdd('requirements');
 
 
@@ -42,7 +39,7 @@ class Requirements extends React.Component {
 
         const config = {
             table: 'requirements',
-            data: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
+            data: filter ? filterRequirementList : requirements,
             columns: [
                 {label: 'Navn', property: 'name', width: '10%'},
                 {label: 'Beskrivelse', property: 'description', width: '30%', wrap: {
@@ -76,8 +73,6 @@ class Requirements extends React.Component {
                     updateRequiredValues(requirement);
                     const structures = {};
                     requirement.structures.forEach(struc => structures[struc.type] = struc.content);
-                    console.log(requirement.structures);
-                    console.log(structures);
                     updateOptionalValues(structures);
                 },width: '24px'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
@@ -168,8 +163,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         clearValues: () => dispatch(clearValues()),
         changeStepperIndex: (index) => dispatch(changeStepperIndex(index)),
-        addFilter: (filter) => dispatch(addFilter(filter)),
-        addFiltered: (comp) => dispatch(addFiltered(comp)),
         newDialog: (open) => dispatch(dialogOpen('requirementNew', open)),
         editDialog: (open) => dispatch(dialogOpen('requirementEdit', open)),
         deleteDialogOpen: (open) => dispatch(dialogOpen('requirementDelete', open)),
