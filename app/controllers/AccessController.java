@@ -13,6 +13,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.db.Database;
 import database.Statement;
+import play.mvc.Result;
 
 import javax.inject.Inject;
 import java.util.concurrent.TimeUnit;
@@ -66,6 +67,10 @@ public class AccessController extends Controller{
             this.userRights = output;
             this.lastRefresh = now;
         }
+    }
+
+    public Result test(){
+        return ok(Json.toJson(this.userRights));
     }
 
     public void forceUpdateRights(){
