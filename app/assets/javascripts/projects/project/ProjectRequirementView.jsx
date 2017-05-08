@@ -176,14 +176,14 @@ class ProjectRequirementView extends React.Component {
                     title="Krav"
                     open={proReqInfoDialogIsOpen}
                     onRequestClose={proReqInfoDialog.bind(null, false)}
-                    reqInfo={reqInfo}
+                    requirement={reqInfo}
                 />
 
                 <ReqInfoDialog
                     title="Krav"
                     open={reqInfoDialogIsOpen}
                     onRequestClose={reqInfoDialog.bind(null, false)}
-                    reqInfo={reqInfo}
+                    requirement={reqInfo}
                 />
 
                 <Popover component="project"/>
