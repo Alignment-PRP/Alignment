@@ -12,7 +12,6 @@ import {
     deleteRequirementToProject, deleteRequirementToProjectWithFilter
 } from '../../redux/actions/projectActions';
 import { dialogOpen } from '../../redux/actions/dialogActions';
-import { addFilter, addFiltered } from './../../redux/actions/filterActions';
 import { popoverAdd } from './../../redux/actions/popoverActions';
 import ProjectReqUpdateDialog from '../dialog/ProjectReqUpdateDialog';
 import Filter from './Filter';
@@ -42,9 +41,6 @@ class ProjectRequirementView extends React.Component {
      * automatically rerenders when this gets called.
      */
     componentWillMount(){
-        this.props.addFilter('project');
-        this.props.addFiltered('allRequirements');
-        this.props.addFiltered('projectRequirements');
         this.props.popoverAdd('project');
     }
 
@@ -196,12 +192,6 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        addFilter: (filter) => {
-            dispatch(addFilter(filter));
-        },
-        addFiltered: (comp) => {
-            dispatch(addFiltered(comp));
-        },
         getAllRequirements: () => {
             dispatch(getAllRequirements());
         },

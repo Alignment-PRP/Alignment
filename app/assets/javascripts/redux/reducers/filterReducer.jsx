@@ -1,3 +1,8 @@
+/**
+ * Contains a reducer for {@link module:redux/actions/filter}.
+ * @module redux/reducers/filter
+ */
+
 import {
     UPDATE_FILTER_REQUIREMENT_LIST,
     ADD_TO_FILTER,
@@ -118,7 +123,7 @@ const filterReducer = (state = {
  */
 const filterOnCategory = (filter, requirements) => {
     if (!filter.category) return requirements;
-    
+
     const filter_c = filter.category;
     if (Object.keys(filter_c).length > 0) {
         return Object.keys(requirements).filter(key => {

@@ -5,33 +5,17 @@
 
 import {
     UPDATE_FILTER_REQUIREMENT_LIST,
-    UPDATE_FILTER,
     ADD_TO_FILTER,
     REMOVE_FROM_FILTER,
     ADD_TO_SUB_FILTER,
-    REMOVE_FROM_SUB_FILTER,
-    ADD_FILTER,
-    ADD_FILTERED
+    REMOVE_FROM_SUB_FILTER
 } from './../types';
 
-export function addFilter(filter) {
-    return {
-        type: ADD_FILTER,
-        filter: filter
-    }
-}
-
-export function addFiltered(comp) {
-    return {
-        type: ADD_FILTERED,
-        comp: comp
-    }
-}
-
 /**
- *
- * @param {String} comp
- * @param {Object.<Requirement>} unFiltered
+ * Filters the input with the filter, `comp`, and puts the result in the property `output`.
+ * @param {String} comp - Filter component name.
+ * @param {String} output - Output name.
+ * @param {Object.<Requirement>} unFiltered - List with requirements.
  * @returns {{type, comp: *, unFiltered: *}}
  */
 export function updateFilterRequirementList(comp, output, unFiltered) {
@@ -43,6 +27,13 @@ export function updateFilterRequirementList(comp, output, unFiltered) {
     }
 }
 
+/**
+ * Adds a new value to `filter`, in `comp`.
+ * @param {String} comp
+ * @param {String} filter
+ * @param {String} value
+ * @returns {{type, comp: *, filter: *, value: *}}
+ */
 export function addToFilter(comp, filter, value) {
     return {
         type: ADD_TO_FILTER,
@@ -52,6 +43,13 @@ export function addToFilter(comp, filter, value) {
     }
 }
 
+/**
+ * Removes a value from `filter` in `comp`.
+ * @param {String} comp
+ * @param {String} filter
+ * @param {String} value
+ * @returns {{type, comp: *, filter: *, value: *}}
+ */
 export function removeFromFilter(comp, filter, value) {
     return {
         type: REMOVE_FROM_FILTER,
@@ -61,6 +59,14 @@ export function removeFromFilter(comp, filter, value) {
     }
 }
 
+/**
+ * Adds a child to a value in `filter`.
+ * @param {String} comp
+ * @param {String} filter
+ * @param {String} child
+ * @param {String} parent
+ * @returns {{type, comp: *, filter: *, child: *, parent: *}}
+ */
 export function addToSubFilter(comp, filter, child, parent) {
     return {
         type: ADD_TO_SUB_FILTER,
@@ -71,6 +77,14 @@ export function addToSubFilter(comp, filter, child, parent) {
     }
 }
 
+/**
+ * Removes a child from a value in `filter`.
+ * @param {String} comp
+ * @param {String} filter
+ * @param {String} child
+ * @param {String} parent
+ * @returns {{type, comp: *, filter: *, child: *, parent: *}}
+ */
 export function removeFromSubFilter(comp, filter, child, parent) {
     return {
         type: REMOVE_FROM_SUB_FILTER,
