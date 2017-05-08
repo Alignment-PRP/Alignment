@@ -17,8 +17,8 @@ const LinkTo = ({icp, style, link, icon}) => {
 
 const Action = ({icp, style, onClick, icon}) => {
     return (
-        <TableRowColumn {...icp} style={{...style, padding: '1px 12px 1px 12px'}}>
-            <IconButton onClick={onClick}  style={{padding: 0, width: '24px', height: '24px'}} tooltip={icon} tooltipPosition="top-center">
+        <TableRowColumn {...icp} style={{...style, padding: '1px 12px 1px 12px',  overflow: 'visible'}}>
+            <IconButton onClick={onClick}  style={{padding: 0, width: '24px', height: '24px'}} tooltip={icon} tooltipPosition="top-left">
                 <FontIcon className="material-icons">{icon}</FontIcon>
             </IconButton>
         </TableRowColumn>

@@ -22,6 +22,7 @@ const dialogReducer = (state = {
     requirementEdit: {...init},
     reqInfoDialog: {...init},
     proReqInfoDialog: {...init},
+    requirementInfoDialog: {...init},
     userNew: {...init},
     userUpdate: {...init},
     userDelete: {...init},

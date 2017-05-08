@@ -72,6 +72,8 @@ GET     /api/category/all/names             controllers.RequirementController.ge
 
 POST    /api/subcategory/add                controllers.AdminController.addSubcategory()
 
+GET     /rights                             controllers.AccessController.test()
+
 
 
 
