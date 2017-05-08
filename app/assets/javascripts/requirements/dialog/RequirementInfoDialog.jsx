@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import {Divider, ListItem, RaisedButton} from "material-ui";
 
-class ProReqInfoDialog extends React.Component {
+class RequirementInfoDialog extends React.Component {
 
     /**
      * @param {Requirement} requirement
@@ -68,4 +68,4 @@ class ProReqInfoDialog extends React.Component {
 
 }
 
-export default ProReqInfoDialog;
+export default RequirementInfoDialog;
