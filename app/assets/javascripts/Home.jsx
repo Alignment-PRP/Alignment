@@ -4,20 +4,20 @@ import { getUserData } from './redux/actions/userActions';
 
 class Home extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getUserData();
     }
 
-    UserData(){
-        if(this.props.userdata){
-            const { USERNAME, ucDesc, ucName } = this.props.userdata;
-            return(
+    UserData() {
+        if (this.props.userdata) {
+            const {USERNAME, ucDesc, ucName} = this.props.userdata;
+            return (
                 <div id="user-info">
                     <p><b>Username:</b> {USERNAME} </p>
                     <p><b>Userclass:</b> {ucName} - {ucDesc} </p>
                 </div>
             )
-        }else {
+        } else {
             return (
                 <div id="user-info">
                     <p>Loading userdata</p>
@@ -30,11 +30,37 @@ class Home extends React.Component {
         return (
             <div id="home">
                 <h2>Velkommen</h2>
-                {this.UserData()}
+                <div>
+                    <p>
+                        Alignment er en webplatform for effektivisering av IT-prosjekter i Trondheim Kommune.<br/>
+                        Alignment gjør det lettere å finne og organisere relevante kvalitetskrav som skal brukes.
+                    </p>
+                    <p>
+                        Under <b>Prosjekter</b> kan du opprette et prosjekt og legge til kvalitetskrav. Her kan du også
+                        gi andre brukere <br/>
+                        tilgang til prosjektet ditt for å lese og redigere kvalitets-kravene.
+                    </p>
+                    <p>
+                        Under <b>Krav</b> kan du søke, legge til og redigere krav.
+                    </p>
+                    <p>
+                        I <b>Admin</b>panelet kan du søke, legge til, redigere brukere og administrere brukerrettigheter.
+                    </p>
+                </div>
+                {/*this.UserData()*/}
+                <div>
+                    <p>Arbeidsflyt</p>
+                    <ul>
+                        <ol>1. Lag et prosjekt</ol>
+                        <ol>2. Legg til krav</ol>
+                        <ol>3. Legge til brukere som har tilgang til prosjektet</ol>
+                    </ul>
+                </div>
             </div>
         );
     }
 }
+
 
 const mapStateToProps = (state) => {
     return {
