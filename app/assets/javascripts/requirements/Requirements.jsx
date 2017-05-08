@@ -4,7 +4,6 @@ import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequireme
 import { updateRequiredValues, updateOptionalValues, clearValues, changeStepperIndex } from '../redux/actions/requirementFormActions';
 import { getStructures, getStructureTypes } from './../redux/actions/structureActions';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
-import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import { popoverAdd } from './../redux/actions/popoverActions';
 import { getUsersWithClass } from './../redux/actions/userActions';
@@ -19,8 +18,6 @@ import Popover from './../core/popover/Popover';
 class Requirements extends React.Component {
 
     componentWillMount() {
-        this.props.addFilter('requirements');
-        this.props.addFiltered('requirements');
         this.props.popoverAdd('requirements');
 
 
@@ -166,8 +163,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         clearValues: () => dispatch(clearValues()),
         changeStepperIndex: (index) => dispatch(changeStepperIndex(index)),
-        addFilter: (filter) => dispatch(addFilter(filter)),
-        addFiltered: (comp) => dispatch(addFiltered(comp)),
         newDialog: (open) => dispatch(dialogOpen('requirementNew', open)),
         editDialog: (open) => dispatch(dialogOpen('requirementEdit', open)),
         deleteDialogOpen: (open) => dispatch(dialogOpen('requirementDelete', open)),

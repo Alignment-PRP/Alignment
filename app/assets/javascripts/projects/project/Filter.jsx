@@ -9,19 +9,36 @@ import { updateFilterRequirementList, addToFilter, removeFromFilter, addToSubFil
 import CategoryCheckBoxes from '../../core/filter/checkboxes/CategoryCheckBoxes';
 import StructureCheckBoxes from "../../core/filter/checkboxes/StructureCheckBoxes";
 
+/**
+ * Test filter
+ */
 class Filter extends React.Component {
 
+    /**
+     * Called when the componenet did mount.
+     * Fetches all category names and structures.
+     */
     componentDidMount(){
         this.props.getAllCategoryNames();
         this.props.getStructures();
     }
 
+    /**
+     * Updates
+     * @private
+     */
     _updateLists() {
         this.props.updateFilterRequirementList('allRequirements', this.props.requirements);
         this.props.updateFilterRequirementList('projectRequirements', this.props.projectRequirements);
     }
 
-    _updateFilter(filter, event, isChecked) {
+    /**
+     * Updates the filter and filters requirements.
+     * @param {String} filter
+     * @param {Object} event
+     * @param {Boolean} isChecked
+     */
+    updateFilter(filter, event, isChecked) {
         const value = event.target.value;
         if (isChecked) {
             this.props.addToFilter(filter, value);
@@ -31,7 +48,14 @@ class Filter extends React.Component {
         this._updateLists();
     }
 
-    _sub(filter, event, isChecked, parent) {
+    /**
+     * Updates the sub-filter and filters requirements.
+     * @param {String} filter
+     * @param {Object} event
+     * @param {Boolean} isChecked
+     * @param {String} parent
+     */
+    updateSubFilter(filter, event, isChecked, parent) {
         const value = event.target.value;
         if (isChecked) {
             this.props.addToSubFilter(filter, value, parent);
@@ -41,12 +65,18 @@ class Filter extends React.Component {
         this._updateLists();
     }
 
+    /**
+     * Renders the {@link StructureCheckboxes}
+     * @param {Array.<Structure>} structures
+     * @param {String} filter
+     * @returns {XML}
+     */
     renderStructureCheckboxes(structures, filter){
         if (structures){
             return <StructureCheckBoxes filter={filter}
                                         structures={structures}
-                                        onCheck={this._updateFilter.bind(this, 'structure')}
-                                        onCheckSub={this._sub.bind(this, 'structure')}
+                                        onCheck={this.updateFilter.bind(this, 'structure')}
+                                        onCheckSub={this.updateSubFilter.bind(this, 'structure')}
             />
         }
     }
@@ -60,8 +90,8 @@ class Filter extends React.Component {
                     <SubHeader>Kategori</SubHeader>
                     <CategoryCheckBoxes filter={filter}
                                         categories={categories}
-                                        onCheck={this._updateFilter.bind(this, 'category')}
-                                        onCheckSub={this._sub.bind(this, 'category')}
+                                        onCheck={this.updateFilter.bind(this, 'category')}
+                                        onCheckSub={this.updateSubFilter.bind(this, 'category')}
                     />
                 </List>
                 <Divider/>

@@ -1,12 +1,9 @@
-import { type } from './utility';
-
 /**
  * Contains action types for redux.
  * @module redux/types
  */
 
-
-
+import { type } from './utility';
 
 
 //Project
@@ -59,16 +56,10 @@ export const POST_UPDATE_PROJECT_REQUIREMENT_METADATA = type('POST_UPDATE_REQUIR
 
 //Filter
 export const UPDATE_FILTER_REQUIREMENT_LIST = 'UPDATE_FILTER_REQUIREMENT_LIST';
-export const UPDATE_FILTER = 'UPDATE_FILTER';
 export const ADD_TO_FILTER = 'ADD_TO_FILTER';
 export const REMOVE_FROM_FILTER = 'REMOVE_FROM_FILTER';
 export const ADD_TO_SUB_FILTER = 'ADD_TO_SUB_FILTER';
 export const REMOVE_FROM_SUB_FILTER = 'REMOVE_FROM_SUB_FILTER';
-export const ADD_FILTER = 'ADD_FILTER';
-export const ADD_FILTERED = 'ADD_FILTERED';
-
-//SideMenu
-export const CHANGE_SIDE_MENU_MODE = 'CHANGE_SIDE_MENU_MODE';
 
 //Snackbar
 export const SNACKBAR = 'SNACKBAR';
