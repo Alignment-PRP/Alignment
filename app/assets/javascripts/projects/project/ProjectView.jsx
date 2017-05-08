@@ -10,6 +10,7 @@ import ProjectUserAccess from './ProjectUserAccess';
 import ProjectClassAccess from './ProjectClassAccess';
 import ProjectInfo from './ProjectInfo';
 import DeleteDialog from "../../core/dialog/DeleteDialog";
+import ProjectEditAddDialog from "../dialog/ProjectEditAddDialog";
 
 
 
@@ -23,7 +24,8 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate, deleteDialogIsOpen, deleteDialog, deleteDialogAction } = this.props;
+        const { project, index, path, push, editDialog, editAddDialog,
+            editAddProjectDialogIsOpen, editProjectDialogIsOpen, postProjectUpdate, deleteDialogIsOpen, deleteDialog, deleteDialogAction } = this.props;
         return (
 
             <div>
@@ -70,8 +72,15 @@ class ProjectView extends React.Component {
 
                 <ProjectEditDialog
                     title={"Rediger Prosjekt"}
-                    open={editProjectDialogIsOpen}
+                    open={editAddProjectDialogIsOpen}
                     onRequestClose={editDialog.bind(null, false)}
+                    handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
+                />
+
+                <ProjectEditAddDialog
+                    title={"Rediger Prosjekt og legg til"}
+                    open={editProjectDialogIsOpen}
+                    onRequestClose={editAddDialog.bind(null, false)}
                     handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
                 />
 
@@ -137,6 +146,7 @@ const mapStateToProps = (state, props) => {
     return {
         path: props.location.pathname,
         editProjectDialogIsOpen: state.dialogReducer.projectEdit.isOpen,
+        editAddProjectDialogIsOpen: state.dialogReducer.projectEditAdd.isOpen,
         deleteDialogIsOpen: state.dialogReducer.projectDelete.isOpen,
         projectData: state.projectReducer.projectData
     };
@@ -146,6 +156,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         push: (url) => dispatch(push(url)),
         editDialog: (open) => dispatch(dialogOpen('projectEdit', open)),
+        editAddDialog: (open) => dispatch(dialogOpen('projectEditAdd', open)),
         deleteDialog: (open) => dispatch(dialogOpen('projectDelete', open)),
         postProjectUpdate: (project) => dispatch(postProjectUpdate(project)),
         deleteDialogAction: (id)=> dispatch(deleteProject(id))

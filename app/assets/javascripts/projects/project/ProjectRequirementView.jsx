@@ -104,6 +104,10 @@ class ProjectRequirementView extends React.Component {
                     updateRequirement(requirement);
                     reqInfoDialog(true);
                 },width: '24px'},
+                {type: 'EDIT_ACTION', action: (requirement) => {
+                    projectReqUpdateDialog(true);
+                    updateRequirementMetadata(requirement);
+                },width: '24px'},
                 {type: 'ADD_ACTION', action: (requirement) => {
                         if (filter && Object.keys(filter).length > 0) {
                             postRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
