@@ -21,6 +21,7 @@ import Paper from 'material-ui/Paper';
 import DataTable from '../../core/table/DataTable';
 import Popover from './../../core/popover/Popover';
 import Ellipsis from './../../core/popover/Ellipsis';
+import ProjectEditAddDialog from "../dialog/ProjectEditAddDialog";
 
 
 
@@ -165,6 +166,13 @@ class ProjectRequirementView extends React.Component {
                     <DataTable config={configRight}/>
                 </div>
 
+                <ProjectEditAddDialog
+                    title={"Rediger krav og legg til"}
+                    open={editAddProjectDialogIsOpen}
+                    onRequestClose={editAddDialog.bind(null, false)}
+                    handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
+                />
+
                 <ProjectReqUpdateDialog
                     title="Tilleggsbeskrivelse av krav"
                     open={projectReqUpdateDialogIsOpen}
@@ -213,6 +221,7 @@ const mapStateToProps = (state) => {
         projectReqUpdateDialogIsOpen: state.dialogReducer.projectReqUpdate.isOpen,
         reqInfoDialogIsOpen: state.dialogReducer.reqInfoDialog.isOpen,
         proReqInfoDialogIsOpen: state.dialogReducer.proReqInfoDialog.isOpen,
+        editAddProjectDialogIsOpen: state.dialogReducer.projectEditAdd.isOpen,
     };
 };
 
@@ -223,45 +232,20 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllRequirements: () => {
-            dispatch(getAllRequirements());
-        },
-        getRequirementsByProjectId: (id) => {
-            dispatch(getRequirementsByProjectId(id));
-        },
-        postRequirementToProject: (projectID, requirement) => {
-            dispatch(postRequirementToProject(projectID, requirement));
-        },
-        updateRequirementMetadata: (requirement) => {
-            dispatch(updateRequirementMetadata(requirement))
-        },
-        postProjectReqUpdate: (data) => {
-            dispatch(postProjectReqUpdate(data));
-        },
-        postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp));
-        },
-        deleteRequirementToProject: (projectID, requirement) => {
-            dispatch(deleteRequirementToProject(projectID, requirement));
-        },
-        deleteRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => {
-            dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp));
-        },
-        popoverAdd: (popover) => {
-            dispatch(popoverAdd(popover));
-        },
-        projectReqUpdateDialog: (open) => {
-            dispatch(dialogOpen('projectReqUpdate', open));
-        },
-        reqInfoDialog: (open) => {
-            dispatch(dialogOpen('reqInfoDialog', open));
-        },
-        proReqInfoDialog: (open) => {
-            dispatch(dialogOpen('proReqInfoDialog', open));
-        },
-        updateRequirement: (requirement) => {
-            dispatch(updateRequirement(requirement));
-        }
+        getAllRequirements: () => dispatch(getAllRequirements()),
+        getRequirementsByProjectId: (id) => dispatch(getRequirementsByProjectId(id)),
+        postRequirementToProject: (projectID, requirement) => dispatch(postRequirementToProject(projectID, requirement)),
+        updateRequirementMetadata: (requirement) => dispatch(updateRequirementMetadata(requirement)),
+        postProjectReqUpdate: (data) => dispatch(postProjectReqUpdate(data)),
+        postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp)),
+        deleteRequirementToProject: (projectID, requirement) => dispatch(deleteRequirementToProject(projectID, requirement)),
+        deleteRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => dispatch(deleteRequirementToProjectWithFilter(projectID, requirement, filter, comp)),
+        popoverAdd: (popover) => dispatch(popoverAdd(popover)),
+        projectReqUpdateDialog: (open) => dispatch(dialogOpen('projectReqUpdate', open)),
+        reqInfoDialog: (open) => dispatch(dialogOpen('reqInfoDialog', open)),
+        proReqInfoDialog: (open) => dispatch(dialogOpen('proReqInfoDialog', open)),
+        updateRequirement: (requirement) => dispatch(updateRequirement(requirement)),
+        editAddDialog: (open) => dispatch(dialogOpen('projectEditAdd', open)),
     };
 };
 
