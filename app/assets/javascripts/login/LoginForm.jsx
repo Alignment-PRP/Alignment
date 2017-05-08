@@ -74,7 +74,7 @@ class LoginForm extends React.Component {
                             id="loginSubmit"
                             primary={true}
                             type="submit"
-                            label="Login"
+                            label="Logg inn"
                             disabled={pristine || submitting}
                         />
                         <RaisedButton
