@@ -28,6 +28,7 @@ import {
 import {
     snackBar
 } from './snackBarActions';
+import { postProjectReqUpdate } from './requirementActions';
 import { updateFilterRequirementList } from './filterActions';
 
 /**
@@ -186,6 +187,23 @@ export function postRequirementToProject(projectID, requirement){
 function postRequirementToProjectAsync() {
     return {
         type: POST_REQUIREMENT_TO_PROJECT
+    }
+}
+
+export function editAndAddRequirement(projectID, requirement){
+    const post = {
+        ...requirement,
+        PID: projectID
+    };
+    return dispatch => {
+        axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
+            .then(function (response) {
+                dispatch(getRequirementsByProjectId(post.PID));
+                dispatch(postProjectReqUpdate(requirement))
+            })
+            .catch(function (error) {
+            });
+        dispatch(postRequirementToProjectAsync())
     }
 }
 

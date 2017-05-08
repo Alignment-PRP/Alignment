@@ -47,6 +47,8 @@ class DataTableRowColumn extends React.Component {
                 return <LinkTo icp={icp} style={defaultStyle} link={link} icon="edit" />;
             case "EDIT_ACTION":
                 return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="edit" />;
+            case "EDIT_AND_ADD_ACTION":
+                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="note_add" />;
             case "INFO":
                 return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="description" />;
             case "EDIT_LINK_ACTION":
