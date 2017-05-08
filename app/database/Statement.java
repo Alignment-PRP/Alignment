@@ -303,7 +303,16 @@ public enum Statement {
     INSERT_USERCLASS("INSERT INTO UserClass (NAME, description) VALUES (?,?)"),
     UPDATE_USERCLASS("UPDATE UserClass SET NAME=?, description=? WHERE NAME=?"),
     UPDATE_CHANGE_USERHASCLASS_NAME("UPDATE UserHasClass SET NAME=? WHERE NAME=?"),
-    DELETE_USERCLASS("DELETE FROM UserClass WHERE NAME=?");
+    DELETE_USERCLASS("DELETE FROM UserClass WHERE NAME=?"),
+    GET_USER_RIGHTS("SELECT r.name, r.description" +
+            "FROM " +
+            "(SELECT uhc.NAME " +
+            "FROM UserHasClass as uhc" +
+            "WHERE uhc.USERNAME = ?) as uhc" + //as uhc may not be nessecary will check when I have more time
+            "INNER JOIN ClassRight as cr" +
+            "ON uhc.NAME = cr.NAME" +
+            "INNER JOIN Rights as r" +
+            "ON cr.RID = r.ID");
 
 
 
