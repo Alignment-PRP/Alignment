@@ -10,8 +10,9 @@ class ReqInfoDialog extends React.Component {
      */
     renderStructure(requirement) {
         if (requirement.structures) {
-            return requirement.structures.map(struc =>
+            return requirement.structures.map((struc, index) =>
                 <ListItem
+                    key={index}
                     primaryText={struc.type}
                     secondaryText={<p style={{maxWidth: '512px'}}>{struc.content}</p>}
                 />
