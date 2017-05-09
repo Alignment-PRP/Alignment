@@ -89,15 +89,6 @@ class Filter extends React.Component {
                     <SubHeader>Struktur</SubHeader>
                     {this.renderStructureCheckboxes(structures, filter)}
                 </List>
-                <Divider/>
-                <List>
-                    <SubHeader>Krav Meny</SubHeader>
-                    <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <RaisedButton onClick={this.props.newDialog.bind(null, true)}
-                                      primary={true} label="Nytt Krav"
-                        />
-                    </div>
-                </List>
             </div>
         )
     }
