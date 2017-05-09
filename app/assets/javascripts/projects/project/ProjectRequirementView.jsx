@@ -3,7 +3,10 @@ import {connect} from 'react-redux'
 
 //Importing the methods declared in redux/actions. These methodes handles the global state of the app.
 //Some of these methods uses axios to get and send data to the DB. (GET/POST requiests).
-import { getRequirementsByProjectId, editAndAddRequirement } from "../../redux/actions/projectActions";
+import {
+    getRequirementsByProjectId,
+    editAndAddRequirementToProject
+} from "../../redux/actions/projectActions";
 import {
     getAllRequirements, postProjectReqUpdate, updateRequirement, updateRequirementMetadata
 } from '../../redux/actions/requirementActions';
@@ -76,7 +79,7 @@ class ProjectRequirementView extends React.Component {
             filter,
             allRequirements_filtered, projectRequirements_filtered, getRequirementsByProjectId, proReqInfoDialogIsOpen, reqInfoDialogIsOpen,
             allRequirements, projectRequirements, projectReqUpdateDialog, postProjectReqUpdate, updateRequirementMetadata, proReqInfoDialog,
-            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter, reqInfoDialog, editAndAddDialog, editAndAddRequirement,
+            projectReqUpdateDialogIsOpen, postRequirementToProject, postRequirementToProjectWithFilter, reqInfoDialog, editAndAddDialog, editAndAddRequirementToProject,
             deleteRequirementToProject, deleteRequirementToProjectWithFilter, id, updateRequirement, reqInfo, editAndAddProjectDialogIsOpen
         } = this.props;
 
@@ -170,17 +173,8 @@ class ProjectRequirementView extends React.Component {
                     title="Rediger og legg til krav"
                     open={editAndAddProjectDialogIsOpen}
                     handleSubmit={(data) => {
-
-                        if (filter && Object.keys(filter).length > 0) {
-                            postRequirementToProjectWithFilter(id, data, 'project', 'projectRequirements');
-                            postProjectReqUpdate(data)
-                        } else {
-                            postRequirementToProject(id, data);
-                            postProjectReqUpdate(data)
-                        }
-
+                        editAndAddRequirementToProject(id, data, 'project', 'projectRequirements');
                         editAndAddDialog(false);
-                        getRequirementsByProjectId(id);
                     }}
                     onRequestClose={editAndAddDialog.bind(null, false)}
                 />
@@ -249,7 +243,7 @@ const mapDispatchToProps = (dispatch) => {
         getRequirementsByProjectId: (id) => dispatch(getRequirementsByProjectId(id)),
         postRequirementToProject: (projectID, requirement) => dispatch(postRequirementToProject(projectID, requirement)),
         updateRequirementMetadata: (requirement) => dispatch(updateRequirementMetadata(requirement)),
-        editAndAddRequirement: (id, requirement, filter) => dispatch(editAndAddRequirement(id, requirement, filter)),
+        editAndAddRequirementToProject: (id, data, filter, comp) => dispatch(editAndAddRequirementToProject(id, data, filter, comp)),
         postProjectReqUpdate: (data) => dispatch(postProjectReqUpdate(data)),
         postRequirementToProjectWithFilter: (projectID, requirement, filter, comp) => dispatch(postRequirementToProjectWithFilter(projectID, requirement, filter, comp)),
         deleteRequirementToProject: (projectID, requirement) => dispatch(deleteRequirementToProject(projectID, requirement)),
