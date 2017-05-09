@@ -8,6 +8,7 @@ class DataTableRow extends React.Component {
         const { obj, meta, index, ...injectedRowProps } = this.props;
         return (
             <TableRow key={index} {...injectedRowProps}>
+                {injectedRowProps.children[0]}
                 {meta.map((row, index, objects, ...injectedColumnProps) => {
                     return <DataTableRowColumn obj={obj} row={row} key={index} {...injectedColumnProps}/>
                 })}
