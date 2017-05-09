@@ -27,6 +27,9 @@ public class UserController extends Controller {
 
 
     public Result updateUser() {
+        if(!AccessController.checkRights("Users write")){
+            return unauthorized("You do not have the right to update users");
+        }
         final JsonNode values = request().body().asJson();
 
         //String oldUSERNAME = values.get("oldUSERNAME").textValue();
@@ -98,6 +101,10 @@ public class UserController extends Controller {
     }
 
     public Result createUserJson() {
+        //TODO determine if this is used in other places
+        if(!AccessController.checkRights("Users write")){
+            return unauthorized("Du har ikke rett til å opprette brukere");
+        }
         final JsonNode values = request().body().asJson();
         final User user = makeUserFromJson(values);
         String ucName = values.get("ucName").textValue();
@@ -108,7 +115,7 @@ public class UserController extends Controller {
         }
         createUser(user, pass);
         qh.insertStatement(Statement.INSERT_USER_CLASS, user.USERNAME, ucName);
-        return ok("User created");
+        return ok("Bruker opprettet");
     }
 
     public void createUser(final User user, final String password){

@@ -19,6 +19,9 @@ public class UserClassController extends Controller {
     }
 
     public Result newUserClass() {
+        if(!AccessController.checkRights("UserClass write")){
+            return unauthorized("Du har ikke rett til å opprete nye bruker klasser");
+        }
         UserClass userClass = Json.fromJson(request().body().asJson(), UserClass.class);
 
         if (repo.userClassExists(userClass)) {
@@ -30,6 +33,9 @@ public class UserClassController extends Controller {
     }
 
     public Result updateUserClass() {
+        if(!AccessController.checkRights("UserClass write")){
+            return unauthorized("Du har ikke rett til å redigere bruker klasser");
+        }
         UserClass userClass = Json.fromJson(request().body().asJson(), UserClass.class);
 
         if (repo.userClassExists(userClass) && !userClass.isNameEqual()) {
@@ -41,6 +47,9 @@ public class UserClassController extends Controller {
     }
 
     public Result deleteUserClass() {
+        if(!AccessController.checkRights("UserClass write")){
+            return unauthorized("Du har ikke rett til å slette bruker klasser");
+        }
         UserClass userClass = Json.fromJson(request().body().asJson(), UserClass.class);
         final boolean b1 = repo.delete(userClass);
         return b1 ? ok("Brukerklasse slettet") : internalServerError("Noe gikk galt");

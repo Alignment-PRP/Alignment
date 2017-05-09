@@ -43,6 +43,9 @@ public class AdminController extends Controller {
      */
     public Result insertStructure(String type, String content){
         //Check if user is logged in
+        if(!AccessController.checkRights("Requirements write")){
+            return unauthorized("Du har ikke rett til å opprete nye strukturer");
+        }
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
@@ -50,6 +53,7 @@ public class AdminController extends Controller {
         qh.insertStatement(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
         return ok("Structure added");
     }
+
     private String insertStructureWithReturnID(String type, String content){
         return qh.insertStatementWithReturnID(Statement.INSERT_REQUIREMENT_STRUCTURE, type , content);
     }
@@ -60,7 +64,10 @@ public class AdminController extends Controller {
      * @param sid structureID
      */
     private void insertHasStructure(int rid, int sid){
-        qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, rid, sid);
+        //TODO check that this is the correct right.
+        if(AccessController.checkRights("Requirements write")) {
+            qh.insertStatement(Statement.INSERT_REQUIREMENT_HAS_STRUCTURE, rid, sid);
+        }
     }
 
     /**
@@ -80,6 +87,10 @@ public class AdminController extends Controller {
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
+        }
+        //TODO determine a suitable content for the return message
+        if(!AccessController.checkRights("Requirements write")){
+            return unauthorized("Du har ikke rett til å legge til krav");
         }
 
         //TODO: Validate user class
@@ -190,6 +201,10 @@ public class AdminController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
+        //TODO check that this does not conflict
+        if(!AccessController.checkRights("AdminPanel")){
+            return unauthorized("Du har ikke rett til å se krav statistik");
+        }
 
         return ok(qh.executeQuery(Statement.GET_PROJECTS_PER_REQUIREMENT));
     }
@@ -215,6 +230,9 @@ public class AdminController extends Controller {
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
+        }
+        if(!AccessController.checkRights("Requirements write")){
+            return unauthorized("Du har ikke rett til å redigere krav");
         }
 
         //TODO: Validate user class
@@ -318,6 +336,9 @@ public class AdminController extends Controller {
      * @return
      */
     public Result addSubcategory(){
+        if(!AccessController.checkRights("Categories write")){
+            return unauthorized("Du har ikke rett til å opprete nye kategorier");
+        }
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         String parent = values.get("parent")[0];
         String child = values.get("child")[0];
@@ -334,6 +355,9 @@ public class AdminController extends Controller {
     //================================= ADD CATEGORY TO (GLOBAL) REQUIREMENT ==========================================
 
     public Result insertRequirementCategory(){
+        if(!AccessController.checkRights("Requirements write")){
+            return unauthorized("Du har ikke rett til å legge til kategorier til krav krav");
+        }
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         int requirement = Integer.parseInt(values.get("requirementid")[0]);
         int category = Integer.parseInt(values.get("categoryid")[0]);
@@ -361,6 +385,9 @@ public class AdminController extends Controller {
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
+        }
+        if(!AccessController.checkRights("Requirements write")){
+            return unauthorized("Du har ikke rett til å slette krav");
         }
         final JsonNode values = request().body().asJson();
         int RID = values.get("RID").asInt();

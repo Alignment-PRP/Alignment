@@ -28,6 +28,8 @@ public class LoginController extends Controller{
     public Result logout(){
         session("connected", ""); //just to be sure. Not completely sure how session works yet.
         session().clear();
+        //dirty but effective way to reset all rights information once you're logged out
+        AccessController.clearRights();
         return ok("Logged out");
     }
 
@@ -50,6 +52,8 @@ public class LoginController extends Controller{
             session().clear();
             session("connected", user.USERNAME);
             session("timestamp", LocalDateTime.now().toString());
+            //Ensures your rights are always up to date on login
+            AccessController.forceUpdateRights();
             return ok("Success!");
         }
         return errorHandling("invalid USERNAME or pass");

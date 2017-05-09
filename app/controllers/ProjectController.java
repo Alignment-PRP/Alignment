@@ -60,7 +60,7 @@ public class ProjectController extends Controller {
      * @return Result 200 Ok or 401 Unauthorized
      */
     public Result newProject(){
-
+        //TODO determine if anyone can add new project or if this should be a right.
         //Check if user is logged in
         String username = session("connected");
         if(username == null){
@@ -109,11 +109,13 @@ public class ProjectController extends Controller {
         String managerID = project.get(0).get("managerID").asText();
         String creatorID = project.get(0).get("creatorID").asText();
 
-        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
-        String className = userClass.get(0).get("NAME").asText();
+        //JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        //String className = userClass.get(0).get("NAME").asText();
+
+        boolean globalEditRight = AccessController.checkRights("AllProjects write");
 
         //Checks if the connected user has permission to delete
-        if(!((userID != managerID) || (userID != creatorID) || className != "Admin")){
+        if(!((userID != managerID) || (userID != creatorID) || globalEditRight)){ //className != "Admin")){
             return unauthorized("You do not have permission to delete this project.");
         }
 
@@ -153,6 +155,7 @@ public class ProjectController extends Controller {
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
+        //TODO determine if this is intended to be ALL projects the user has access to (ie all if they are admin) or only those where they have been specficically added.
         return ok(mapProjectsToMap(qh.executeQuery(Statement.GET_PROJECTS_ACCESSIBLE_BY_USER, userID, userID)));
     }
 
@@ -217,10 +220,11 @@ public class ProjectController extends Controller {
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0).asBoolean(); //TODO: can those that have access edit?
         boolean isManager = projectData.get("managerID").asText().equals(userID);
         boolean isCreator = projectData.get("creatorID").asText().equals(userID);
-        boolean isAdmin = className.equals("Admin");
+        //boolean isAdmin = className.equals("Admin");
+        boolean hasGlobalEditRight = AccessController.checkRights("AllProjects write");
 
         //Checks if the user has permission to edit
-        if(!(hasAccess || isManager || isCreator || isAdmin)){
+        if(!(hasAccess || isManager || isCreator || hasGlobalEditRight)){  //isAdmin)){
             return unauthorized("You do not have permission to edit this project");
         }
 
@@ -310,9 +314,10 @@ public class ProjectController extends Controller {
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
         boolean isPublic = project.get("isPublic").asInt() == 1;
+        boolean hasGlobalReadRight = AccessController.checkRights("AllProjects read");
 
         //Checks if the user has access to the project
-        if(hasAccess || isCreator || isManager || isPublic){
+        if(hasAccess || isCreator || isManager || isPublic || hasGlobalReadRight){
             return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID).get(0));
         }
         return unauthorized("You do not have access to this project's meta data.");
@@ -350,10 +355,11 @@ public class ProjectController extends Controller {
 
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
-        boolean isAdmin = className.equals("Admin");
+        //boolean isAdmin = className.equals("Admin");
+        boolean hasGlobalEditRight = AccessController.checkRights("AllProjects write");
 
         //Checks if the connected user is the manager or the creator of the project in question.
-        if(!(isCreator || isManager || isAdmin)){
+        if(!(isCreator || isManager || hasGlobalEditRight)){ //isAdmin)){
             return unauthorized("Only the creator or the manager of this project can edit what userclasses or users have access");
         }
 
@@ -400,10 +406,11 @@ public class ProjectController extends Controller {
 
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
-        boolean isAdmin = className.equals("Admin");
+        //boolean isAdmin = className.equals("Admin");
+        boolean hasGlobalEditRight = AccessController.checkRights("AllProjects write");
 
         //Checks if the connected user is the manager or the creator of the project in question.
-        if(!(isCreator || isManager || isAdmin)){
+        if(!(isCreator || isManager || hasGlobalEditRight)){ //isAdmin)){
             return unauthorized("Only the creator or the manager of this project can edit what userclasses or users have access");
         }
 
@@ -444,10 +451,11 @@ public class ProjectController extends Controller {
         boolean hasAccess = hasAccessJ.get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
-        boolean isAdmin = className.equals("Admin");
+        //boolean isAdmin = className.equals("Admin");
+        boolean hasGlobalReadRight = AccessController.checkRights("AllProjects read");
 
         //Checks if the user has permission to edit
-        if(!(hasAccess || isManager || isCreator || isAdmin)){
+        if(!(hasAccess || isManager || isCreator || hasGlobalReadRight)){//isAdmin)){
             return unauthorized("You do not have permission to view this data");
         }
 
@@ -478,10 +486,11 @@ public class ProjectController extends Controller {
         boolean hasAccess = hasAccessJ.get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
-        boolean isAdmin = className.equals("Admin");
+        //boolean isAdmin = className.equals("Admin");
+        boolean hasGlobalReadRights = AccessController.checkRights("AllProjects read");
 
         //Checks if the user has permission to edit
-        if(!(hasAccess || isManager || isCreator || isAdmin)){
+        if(!(hasAccess || isManager || isCreator || hasGlobalReadRights)){//isAdmin)){
             return unauthorized("You do not have permission to view this data");
         }
 
@@ -571,8 +580,10 @@ public class ProjectController extends Controller {
 
         JsonNode hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID);
 
+        boolean hasGlobalWriteRight = AccessController.checkRights("AllProjects write");
+
         //Checks if the connected user has permission to delete
-        if(!((userID != managerID) || (userID != creatorID) || hasAccess.get("bool").asInt() < 1)){
+        if(!((userID != managerID) || (userID != creatorID) || hasAccess.get("bool").asInt() < 1) || hasGlobalWriteRight){
             return unauthorized("You do not have permission to delete a project requirement ");
         }
 
@@ -606,9 +617,10 @@ public class ProjectController extends Controller {
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0).get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean hasGlobalWriteRight = AccessController.checkRights("AllProjects write");
 
         //Checks if the user has access to the project
-        if(!(hasAccess || isCreator || isManager)){
+        if(!(hasAccess || isCreator || isManager || hasGlobalWriteRight)){
             return unauthorized("Unauthorized action");
         }
 
@@ -653,9 +665,10 @@ public class ProjectController extends Controller {
         boolean hasAccess = qh.executeQuery(Statement.GET_USER_HAS_ACCESS, className, userID, PID).get(0).get("bool").asBoolean();
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
+        boolean hasGlobalWriteRight = AccessController.checkRights("AllProjects write");
 
         //Checks if the user has access to the project
-        if(!(hasAccess || isCreator || isManager)){
+        if(!(hasAccess || isCreator || isManager || hasGlobalWriteRight)){
             System.out.println("whut?");
             return unauthorized("You do not have permission to edit this project.");
         }

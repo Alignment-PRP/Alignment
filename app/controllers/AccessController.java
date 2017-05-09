@@ -21,11 +21,11 @@ import java.util.concurrent.TimeUnit;
 public class AccessController extends Controller{
 
     //Used to determine if querying db for rights is needed again (note 0L = 1970)
-    private long lastRefresh = 0L;
-    private long timeout = 10;
+    private static long lastRefresh = 0L;
+    private static long timeout = 10;
     //private JsonNode userRights;
-    private List<Map<String, String>> userRights = new ArrayList<>();
-    private QueryHandler qh;
+    private static List<Map<String, String>> userRights = new ArrayList<>();
+    private static QueryHandler qh;
 
     @Inject
     public AccessController(Database db){
@@ -36,7 +36,7 @@ public class AccessController extends Controller{
     //============================================================================================ RIGHTS MANAGEMENT ===============================================================================================
     //note will need to update references to point to "qh.[insert function](Statement.[name], Object)" when moved
     //TODO determine if every function can be accessed based soley on one right (for now assume yes)
-    public boolean checkRights(String right){
+    public static boolean checkRights(String right){
         updateRights();
         for(Map<String, String> element : userRights){
             if(element.get("name").equals(right)){
@@ -46,7 +46,12 @@ public class AccessController extends Controller{
         return false;
     }
 
-    public void updateRights(){
+    public static void clearRights(){
+        userRights = new ArrayList<>();
+        lastRefresh = 0L;
+    }
+
+    public static void updateRights(){
         String username = session().get("connected");
         long now = System.nanoTime();
         long diff = now-lastRefresh;
@@ -64,8 +69,8 @@ public class AccessController extends Controller{
                 right.put(recieved.getKey(),recieved.getValue().asText());
                 output.add(right);
             }
-            this.userRights = output;
-            this.lastRefresh = now;
+            userRights = output;
+            lastRefresh = now;
         }
     }
 
@@ -73,14 +78,14 @@ public class AccessController extends Controller{
         long now = System.nanoTime();
         long diff = now-lastRefresh;
         diff = TimeUnit.NANOSECONDS.toMinutes(diff);
-        System.out.println(diff);
-        forceUpdateRights();
+        //System.out.println(diff);
+        //forceUpdateRights();
         //return ok(Json.toJson(this.userRights));
-        return ok(Json.toJson(checkRights("AdminPanel")));
-       //return ok(Json.toJson(diff));
+        //return ok(Json.toJson(checkRights("AdminPanel")));
+       return ok(Json.toJson(diff));
     }
 
-    public void forceUpdateRights(){
+    public static void forceUpdateRights(){
         //added so a user can force the client to update their rights in case they know their rights will change.
         String username = session().get("connected");
         System.out.println(username);
@@ -96,7 +101,7 @@ public class AccessController extends Controller{
             right.put(recieved.getKey(),recieved.getValue().asText());
             output.add(right);
         }
-        this.userRights = output;
-        this.lastRefresh = System.nanoTime();
+        userRights = output;
+        lastRefresh = System.nanoTime();
     }
 }
