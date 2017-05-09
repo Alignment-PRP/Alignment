@@ -46,9 +46,8 @@ class UserForm extends React.Component {
                         />
                         <Field
                             name="ucName"
-                            label="Brukerklasse"
+                            floatingLabelText="Brukerklasse"
                             component={renderSelectField}
-                            style={{marginTop: '24px'}}
                         >
                             {menuItemsClasses(classes)}
                         </Field>

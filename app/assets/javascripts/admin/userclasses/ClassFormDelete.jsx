@@ -14,12 +14,15 @@ class ClassForm extends React.Component {
         const { classes, handleSubmit, handleClose, pristine, submitting } = this.props;
         return (
             <form onSubmit={handleSubmit}>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
+                <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+                    <div>
+                        Velg ny brukerklasse for de brukerene som var i den klassen du sletter.
+                    </div>
                     <div className="form-inner-field">
                         <div className="tool-tip-container">
                             <Field
                                 name="replacement"
-                                label="Erstatter"
+                                floatingLabelText="Brukerklasse"
                                 disabled={false}
                                 component={renderSelectField}
                                 >
