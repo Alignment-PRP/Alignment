@@ -156,7 +156,7 @@ class ProjectRequirementView extends React.Component {
         return (
             <div className="container">
                 <div style={{display: 'flex'}}>
-                    <Paper>
+                    <Paper style={{padding: '12px'}}>
                         <Filter/>
                     </Paper>
                 </div>
