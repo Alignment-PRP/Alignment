@@ -22,7 +22,7 @@ const snackBarReducer = (state = {
         case POST_DELETE_REQUIREMENT.ERROR:
             return {
                 isOpen: true,
-                text: action.error.data.status === '401' ? "Ingen tilgang." : 'Noe gikk galt: ' + action.error.data.status
+                text: action.error.response.status === 401 ? "Ingen tilgang." : 'Noe gikk galt: ' + action.error.response.status
             };
         case DELETE_REQUIREMENT_TO_PROJECT.RECEIVED:
             return {
