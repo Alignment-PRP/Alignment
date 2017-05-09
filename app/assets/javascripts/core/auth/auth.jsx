@@ -41,6 +41,11 @@ export const Auth = (roles) =>
         );
     };
 
+/**
+ *
+ * @param {Array.<String>} roles
+ * @constructor
+ */
 export const AuthMin = (roles) =>
     (WrappedComponent) => {
         return connect(mapStateToProps, mapDispatchToProps)(
@@ -52,11 +57,8 @@ export const AuthMin = (roles) =>
                         if (roles.includes(user.ucName) || roles.length === 0) {
                             return <WrappedComponent {...this.props}/>
                         }
-                        return null
-                    } else {
-                        return <CircularProgress/>
                     }
-
+                    return null
                 }
             }
         );

@@ -8,6 +8,7 @@ class DataTableHeaderRows extends React.Component {
         return (
             <TableRow {...other}>
                 {meta.map((row, index, objects, ...icp) => {
+                        if (row.type === "CUSTOM") return row.renderHeader(row, index, icp);
                         return row.label ?
                             <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp} >{row.label}</TableHeaderColumn>
                             :
