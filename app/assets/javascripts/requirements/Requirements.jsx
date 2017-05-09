@@ -44,7 +44,7 @@ class Requirements extends React.Component {
             data: filter ? filterRequirementList : requirements,
             columns: [
                 {label: 'Navn', property: 'name', width: '10%'},
-                {label: 'Beskrivelse', property: 'description', width: '30%', wrap: {
+                {label: 'Beskrivelse', property: 'description', width: '50%', wrap: {
                         lines: 5,
                         ellipsis: (requirement) => {
                             const props = {
@@ -54,18 +54,6 @@ class Requirements extends React.Component {
                             };
                             return <Ellipsis {...props}/>;
                         }
-                    }
-                },
-                {label: 'Kommentar', property: 'comment', width: '20%', wrap: {
-                        lines: 5,
-                    ellipsis: (requirement) => {
-                        const props = {
-                            component: 'requirements',
-                            object: requirement,
-                            property: 'description'
-                        };
-                        return <Ellipsis {...props}/>;
-                    }
                     }
                 },
                 {label: 'Kategori', property: 'cName', width: '12%'},
