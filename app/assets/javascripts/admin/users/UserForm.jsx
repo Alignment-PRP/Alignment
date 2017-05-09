@@ -1,13 +1,14 @@
+/**
+ * Redux-form for user creation and updating.
+ */
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserForm as validate} from './../../core/render';
 import HelpToolTip from './../../core/HelpToolTip';
+import {FlatButton} from "material-ui";
 
-/**
- * Redux-form for user creation and updating.
- */
 class UserForm extends React.Component {
 
     render() {
@@ -72,9 +73,23 @@ class UserForm extends React.Component {
                         </div>
                     </div>
                     <div className="form-button-row">
-                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
-                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
-                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                        <FlatButton secondary={true}
+                                    label="Tilbakestill"
+                                    onClick={reset}
+                                    disabled={pristine}
+                                    style={{margin: '8px 8px 8px 8px'}}
+                        />
+                        <FlatButton secondary={true}
+                                    label="Avbryt"
+                                    style={{margin: '8px 0 8px auto'}}
+                                    onClick={handleClose}
+                        />
+                        <RaisedButton primary={true}
+                                      type="submit"
+                                      label="Lagre"
+                                      disabled={pristine || submitting}
+                                      style={{margin: '8px 8px 8px 8px'}}
+                        />
                     </div>
                 </form>
             </div>

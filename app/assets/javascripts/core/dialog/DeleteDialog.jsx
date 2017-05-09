@@ -8,15 +8,16 @@ class DeleteDialog extends React.Component {
     render() {
         const { title, desc, open, action, onRequestClose } = this.props;
         const actions = [
-            <RaisedButton
-                label="Slett"
-                secondary={true}
-                onClick={action}
-            />,
             <FlatButton
                 label="Avbryt"
-                primary={true}
+                secondary={true}
                 onClick={onRequestClose}
+            />,
+            <RaisedButton
+                style={{marginLeft: '8px'}}
+                label="Slett"
+                primary={true}
+                onClick={action}
             />
         ];
         return (
