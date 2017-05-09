@@ -19,7 +19,7 @@ class ClassForm extends React.Component {
                         <div className="tool-tip-container">
                             <Field
                                 name="replacement"
-                                label="Erstatter"
+                                floatingLabelText="Erstatter"
                                 disabled={false}
                                 component={renderSelectField}
                                 >
