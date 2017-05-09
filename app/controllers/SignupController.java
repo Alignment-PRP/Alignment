@@ -24,9 +24,6 @@ public class SignupController extends Controller{
     public Result register(){
         final User user = Json.fromJson(request().body().asJson(), User.class);
 
-        System.out.println(user);
-        System.out.println(user.USERNAME);
-
 
         if(userRepository.usernameExists(user.USERNAME)) {
             //TODO determine a good http response for "recource is ok and all but needs a different value"
