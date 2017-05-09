@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FILL_FORM, POST_USER_NEW, POST_USER_UPDATE, POST_USER_DELETE } from './../types';
 import { USER_POST_NEW, USER_POST_UPDATE, USER_POST_DELETE } from './../../config';
-import { getUsersWithClass } from './userActions';
+import { getUserData, getUsersWithClass } from './userActions';
 import { snackBar } from './snackBarActions';
 
 /**
@@ -57,6 +57,7 @@ export function postUserUpdate(user){
         axios.post(USER_POST_UPDATE, user)
             .then(function (response) {
                 dispatch(getUsersWithClass());
+                dispatch(getUserData());
                 dispatch(snackBar(true, "Bruker oppdatert!"));
             })
             .catch(function (error) {
