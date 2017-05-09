@@ -30,7 +30,7 @@ public class UserController extends Controller {
         final JsonNode values = request().body().asJson();
 
         //String oldUSERNAME = values.get("oldUSERNAME").textValue();
-        String oldUSERNAME = session("connected");
+        String oldUSERNAME = values.get("oldUSERNAME").textValue();
         String USERNAME = values.get("USERNAME").textValue();
         String firstName = values.get("firstName").textValue();
         String lastName = values.get("lastName").textValue();
