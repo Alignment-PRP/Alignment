@@ -44,7 +44,6 @@ export function getAllCategoryNames() {
 }
 
 export function addRequirement(requirement) {
-    console.log(requirement);
     return dispatch => {
         axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
             .then(function (response) {

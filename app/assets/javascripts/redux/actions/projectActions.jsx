@@ -1,3 +1,18 @@
+/**
+ * <p>
+ * All actions that changes the global state of the projectReducer is defined here.
+ * Async methods need to get defined in two separate functions because the axios.get
+ * method will take sometime before we want to send the data to the Reducer.
+ * This is made possible with react-thunk middleware.
+ * </p>
+ *
+ * <p>
+ * All actions returns a object with type: descriptive name of action,
+ * and payload: which hold the new data of the reducer(reducers holds the global state of the
+ * application.
+ * </p>
+ * @module redux/actions/project
+ */
 import axios from 'axios';
 import * as URLS from './../../config';
 
@@ -30,22 +45,7 @@ import {
 } from './snackBarActions';
 
 import { updateFilterRequirementList } from './filterActions';
-
-/**
- * <p>
- * All actions that changes the global state of the projectReducer is defined here.
- * Async methods need to get defined in two separate functions because the axios.get
- * method will take sometime before we want to send the data to the Reducer.
- * This is made possible with react-thunk middleware.
- * </p>
- *
- * <p>
- * All actions returns a object with type: descriptive name of action,
- * and payload: which hold the new data of the reducer(reducers holds the global state of the
- * application.
- * </p>
- * @module redux/actions/project
- */
+import {postProjectReqUpdate} from "./requirementActions";
 
 export function getProjectsPublic() {
     return dispatch => {
@@ -216,6 +216,42 @@ export function getRequirementsByProjectIdWithFilter(id, filter, comp) {
 
 }
 
+export function editAndAddRequirementToProject(id, requirement, filter, comp){
+
+    const post = {
+        ...requirement,
+        PID: id
+    };
+
+    //postRequirementToProjectWithFilter(id, requirement, 'project', 'projectRequirements');
+    if (filter && Object.keys(filter).length > 0) {
+        return dispatch => {
+            axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
+                .then((response) => {
+                    //postProjectReqUpdate(data)
+                    dispatch(postProjectReqUpdate(post));
+                })
+                .catch((error) => {
+                });
+            dispatch(postRequirementToProjectAsync())
+        }
+
+    } else {
+        //postRequirementToProject(id, requirement);
+        return dispatch => {
+            axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
+                .then(function (response) {
+                   dispatch(postProjectReqUpdate(post));
+                })
+                .catch(function (error) {
+                });
+            dispatch(postRequirementToProjectAsync())
+        }
+        //postProjectReqUpdate(data)
+    }
+
+}
+
 export function removeHasAccess(projectID, data){
     const post = {
         ...data,
@@ -277,7 +313,6 @@ export function deleteRequirementToProject(projectID, requirement){
                 dispatch(getRequirementsByProjectId(post.PID));
             })
             .catch((error) => {
-                console.log(error);
             });
         dispatch(deleteRequirementToProjectAsync())
     }
@@ -300,7 +335,6 @@ export function deleteRequirementToProjectWithFilter(projectID, requirement, fil
                 dispatch(getRequirementsByProjectIdWithFilter(post.PID, filter, comp));
             })
             .catch((error) => {
-                console.log(error);
             });
         dispatch(deleteRequirementToProjectAsync())
     }
@@ -371,7 +405,6 @@ export function deleteProject(project){
             })
             .catch(function (error) {
                 dispatch(snackBar(true, "Noe gikk galt.."));
-                console.log(error);
             });
         dispatch(deleteProjectAsync())
     }
