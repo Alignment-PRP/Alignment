@@ -23,7 +23,8 @@ class ProjectView extends React.Component {
      */
 
     render() {
-        const { project, index, path, push, editDialog, editProjectDialogIsOpen, postProjectUpdate, deleteDialogIsOpen, deleteDialog, deleteDialogAction } = this.props;
+        const { project, index, path, push, editDialog, editAddDialog,
+            editAddProjectDialogIsOpen, editProjectDialogIsOpen, postProjectUpdate, deleteDialogIsOpen, deleteDialog, deleteDialogAction } = this.props;
         return (
 
             <div>

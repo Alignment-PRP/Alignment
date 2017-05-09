@@ -32,6 +32,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import {getMuiTheme} from "material-ui/styles";
 import theme from './core/theme';
 
+import { Auth } from './core/auth/Auth';
+import { ADMIN_PAGE } from './core/auth/rights';
+import { getUserData } from './redux/actions/userActions';
+
 injectTapEventPlugin();
 
 const history = syncHistoryWithStore(browserHistory, store);
@@ -42,6 +46,10 @@ const history = syncHistoryWithStore(browserHistory, store);
  * Defines a provider for the redux store and routes with react-router
  */
 class App extends React.Component {
+
+    componentWillMount() {
+        store.dispatch(getUserData());
+    }
 
     render() {
         return (
@@ -67,7 +75,7 @@ class App extends React.Component {
                             <Route path={"requirements"} component={Requirements}/>
 
                             <Route path={"logout"} onEnter={() => store.dispatch(logout())}/>
-                            <Route path={"admin"} component={Admin} onEnter={() => {}}>
+                            <Route path={"admin"} component={Auth(ADMIN_PAGE)(Admin)} onEnter={() => {}}>
                                 <Route path={"users"}/>
                                 <Route path={"classes"}/>
                                 <Route path={"stats"}/>

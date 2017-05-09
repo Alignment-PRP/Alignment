@@ -59,14 +59,6 @@ class Users extends React.Component {
                         <ToolbarGroup>
                             <ToolbarSeparator />
                             <RaisedButton label="Ny Bruker" primary={true} onTouchTap={() => { updateDialog(true); fillForm(null); }} />
-                            <IconMenu
-                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                            >
-                                <MenuItem primaryText="Oppdater" />
-                                <MenuItem primaryText="Settings" />
-                            </IconMenu>
                         </ToolbarGroup>
                     );
                 }

@@ -9,27 +9,15 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { getUsersWithClass } from '../../redux/actions/userActions';
-import {renderTextField, renderMultiTextField, renderSelectField, renderCheckbox, warnNumberField, renderAutoComplete, validateProjectForm as validate} from './../../core/render';
-import {Divider, MenuItem, Subheader} from "material-ui";
+import {renderTextField, renderMultiTextField, renderCheckbox, warnNumberField, renderAutoComplete, validateProjectForm as validate} from './../../core/render';
 import HelpToolTip from './../../core/HelpToolTip';
+import {FlatButton} from "material-ui";
 
 class ProjectForm extends React.Component {
 
-    componentDidMount(){
+    componentWillMount(){
         this.props.getUsersWithClass();
-    }
-
-    renderManagerIDItems(managers){
-        const output = [];
-        if (managers) {
-            managers.forEach((manager, index) => {
-                if (index > 0) output.push(<Divider key={output.length}/>);
-                output.push(<MenuItem key={output.length} value={manager.USERNAME} primaryText={manager.USERNAME}/>)
-                });
-        }
-        return output;
     }
 
     render() {
@@ -47,16 +35,18 @@ class ProjectForm extends React.Component {
                                 label="Projektnavn"
                                 component={renderTextField}>
                             </Field>
-                            <HelpToolTip toolTip="Navn på prosjektet."/>
+                            <HelpToolTip toolTip="Ønsket navn på prosjektet."/>
                         </div>
                         <div className="tool-tip-container">
-                            <Field component={renderSelectField}
+                            <Field component={renderAutoComplete}
                                    name="managerID"
                                    floatingLabelText="Leder"
-                            >
-                                {this.renderManagerIDItems(users)}
-                            </Field>
-                            <HelpToolTip toolTip="Hvem skal styre prosjektet."/>
+                                   data={users ? users.map(u => u.USERNAME) : []}
+                                   hintText='Søk'
+                                   openOnFocus
+                                   required
+                            />
+                            <HelpToolTip toolTip="Hvem skal stå som manager av prosjektet."/>
                         </div>
                     </div>
                     <div className="form-field-row">
@@ -75,7 +65,7 @@ class ProjectForm extends React.Component {
                                 warn={warnNumberField}
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="1,2,3,4"/>
+                            <HelpToolTip toolTip="(1-4). Sier noe om sikkerhetsnivået. "/>
                         </div>
                     </div>
                     <div className="form-field-row">
@@ -85,7 +75,7 @@ class ProjectForm extends React.Component {
                                 label="Transaksjonsvolum"
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="1-100/dag, 100-1000/dag, 1000-10000/dag"/>
+                            <HelpToolTip toolTip="(1-100/dag, 100-1000/dag) Forventet bruksmengde pr tidsenhet."/>
                         </div>
                         <div className="tool-tip-container">
                             <Field
@@ -93,7 +83,7 @@ class ProjectForm extends React.Component {
                                 label="Brukerkanal"
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="Nettleser, Desktop, App"/>
+                            <HelpToolTip toolTip="(Nettleser, Desktop, App) Brukersystem."/>
                         </div>
                     </div>
                     <div className="form-field-row">
@@ -103,7 +93,7 @@ class ProjectForm extends React.Component {
                                 label="Deploymentstil"
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="On-premise, privat sky, publik sky. Ref. Mohsen 2017"/>
+                            <HelpToolTip toolTip="(On-premise, private sky, public sky) "/>
                         </div>
                         <div className="tool-tip-container" style={{width: '300px'}}>
                             <Field
@@ -112,15 +102,29 @@ class ProjectForm extends React.Component {
                                 component={renderCheckbox}
                                 style={{maxWidth: '256px', marginTop: '36px'}}
                             />
-                            <HelpToolTip toolTip="Hvorvidt prosjektet er offentlig synlig."/>
+                            <HelpToolTip toolTip="Hvorvidt prosjektet er offentlig synlig for alle."/>
                         </div>
 
                     </div>
                 </div>
                 <div className="form-button-row">
-                    <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
-                    <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
-                    <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <FlatButton secondary={true}
+                                label="Tilbakestill"
+                                onClick={reset}
+                                disabled={pristine}
+                                style={{margin: '8px 8px 8px 8px'}}
+                    />
+                    <FlatButton secondary={true}
+                                label="Avbryt"
+                                style={{margin: '8px 0 8px auto'}}
+                                onClick={handleClose}
+                    />
+                    <RaisedButton primary={true}
+                                  type="submit"
+                                  label="Lagre"
+                                  disabled={pristine || submitting}
+                                  style={{margin: '8px 8px 8px 8px'}}
+                    />
                 </div>
             </form>
         );
@@ -134,7 +138,7 @@ const mapStateToProps = (state) => {
         initialValues.proManager = state.userReducer.userdata.USERNAME;
     }
     return {
-        users: state.userReducer.users,
+        users: state.userReducer.users ? state.userReducer.users : [],
         initialValues: initialValues
     };
 };
