@@ -15,6 +15,7 @@ import Filter from './Filter';
 import Ellipsis from './../core/popover/Ellipsis';
 import Popover from './../core/popover/Popover';
 import RequirementInfoDialog from "./dialog/RequirementInfoDialog";
+import {RaisedButton, ToolbarGroup, ToolbarSeparator} from "material-ui";
 
 class Requirements extends React.Component {
 
@@ -36,7 +37,9 @@ class Requirements extends React.Component {
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
             structures, structureTypes, categories, users, newRequirementDialogIsOpen,
             editRequirementDialogIsOpen, editDialog, postUpdateRequirement, addRequirement,
-            updateRequirement, requirementInfoDialog, requirement, requirementInfoDialogIsOpen
+            updateRequirement, requirementInfoDialog, requirement, requirementInfoDialogIsOpen,
+            newDialog,
+
         } = this.props;
 
         const config = {
@@ -77,7 +80,14 @@ class Requirements extends React.Component {
             toolbar: {
                 title: 'Krav',
                 search: 'name',
-                render: () => {}
+                render: () => {
+                    return (
+                        <ToolbarGroup>
+                            <ToolbarSeparator />
+                            <RaisedButton label="Nytt Krav" primary={true} onTouchTap={() => { newDialog(true); }} />
+                        </ToolbarGroup>
+                    );
+                }
             }
         };
 
@@ -183,7 +193,6 @@ const mapDispatchToProps = (dispatch) => {
         postUpdateRequirement: (requirement) => dispatch(postUpdateRequirement(requirement)),
         addRequirement: (requirement) => dispatch(addRequirement(requirement)),
         requirementInfoDialog: (open) => dispatch(dialogOpen('requirementInfoDialog', open))
-
     };
 };
 
