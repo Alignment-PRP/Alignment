@@ -173,19 +173,13 @@ export function postRequirementToProject(projectID, requirement){
     return dispatch => {
         axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
             .then(function (response) {
-                console.log(response);
+                dispatch(RECEIVED(POST_REQUIREMENT_TO_PROJECT, response));
                 dispatch(getRequirementsByProjectId(post.PID));
             })
             .catch(function (error) {
-                console.log(error);
+                dispatch(ERROR(POST_REQUIREMENT_TO_PROJECT, error));
             });
-            dispatch(postRequirementToProjectAsync())
-    }
-}
-
-function postRequirementToProjectAsync() {
-    return {
-        type: POST_REQUIREMENT_TO_PROJECT
+        dispatch(SENT(POST_REQUIREMENT_TO_PROJECT));
     }
 }
 
@@ -197,12 +191,13 @@ export function postRequirementToProjectWithFilter(projectID, requirement, filte
     return dispatch => {
         axios.post(URLS.PROJECT_REQUIREMENT_POST_ADD, post)
             .then((response) => {
+                dispatch(RECEIVED(POST_REQUIREMENT_TO_PROJECT, response));
                 dispatch(getRequirementsByProjectIdWithFilter(post.PID, filter, comp));
             })
             .catch((error) => {
-                console.log(error);
+                dispatch(ERROR(POST_REQUIREMENT_TO_PROJECT, error));
             });
-        dispatch(postRequirementToProjectAsync())
+        dispatch(SENT(POST_REQUIREMENT_TO_PROJECT));
     }
 }
 
@@ -276,18 +271,13 @@ export function deleteRequirementToProject(projectID, requirement){
     return dispatch => {
         axios.post(URLS.PROJECT_REQUIREMENT_POST_DELETE, post)
             .then((response) => {
+                dispatch(RECEIVED(DELETE_REQUIREMENT_TO_PROJECT, response));
                 dispatch(getRequirementsByProjectId(post.PID));
             })
             .catch((error) => {
-                console.log(error);
+                dispatch(ERROR(DELETE_REQUIREMENT_TO_PROJECT, error));
             });
-        dispatch(deleteRequirementToProjectAsync())
-    }
-}
-
-function deleteRequirementToProjectAsync() {
-    return {
-        type: DELETE_REQUIREMENT_TO_PROJECT
+        dispatch(SENT(DELETE_REQUIREMENT_TO_PROJECT));
     }
 }
 
@@ -299,12 +289,13 @@ export function deleteRequirementToProjectWithFilter(projectID, requirement, fil
     return dispatch => {
         axios.post(URLS.PROJECT_REQUIREMENT_POST_DELETE, post)
             .then((response) => {
+                dispatch(RECEIVED(DELETE_REQUIREMENT_TO_PROJECT, response));
                 dispatch(getRequirementsByProjectIdWithFilter(post.PID, filter, comp));
             })
             .catch((error) => {
-                console.log(error);
+                dispatch(ERROR(DELETE_REQUIREMENT_TO_PROJECT, error));
             });
-        dispatch(deleteRequirementToProjectAsync())
+        dispatch(SENT(DELETE_REQUIREMENT_TO_PROJECT));
     }
 }
 
