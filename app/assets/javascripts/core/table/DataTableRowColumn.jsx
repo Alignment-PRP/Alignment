@@ -35,6 +35,8 @@ class DataTableRowColumn extends React.Component {
         const onClick = row.action ? row.action.bind(null, obj) : null;
 
         switch (row.type) {
+            case "CUSTOM":
+                return row.render(obj, row, icp);
             case "LINK":
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
