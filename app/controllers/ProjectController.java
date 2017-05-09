@@ -308,9 +308,10 @@ public class ProjectController extends Controller {
         boolean isManager = project.get("managerID").asText().equals(userID);
         boolean isCreator = project.get("creatorID").asText().equals(userID);
         boolean isPublic = project.get("isPublic").asInt() == 1;
+        boolean isAdmin = userClass.equals("Admin");
 
         //Checks if the user has access to the project
-        if(hasAccess || isCreator || isManager || isPublic){
+        if(hasAccess || isCreator || isManager || isPublic || isAdmin){
             return ok(qh.executeQuery(Statement.GET_PROJECT_META_DATA, PID).get(0));
         }
         return unauthorized("You do not have access to this project's meta data.");
