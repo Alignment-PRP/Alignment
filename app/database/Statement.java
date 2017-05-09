@@ -327,7 +327,17 @@ public enum Statement {
     DELETE_USERCLASS("DELETE FROM UserClass WHERE NAME=?"),
     DELETE_USER_HAS_CLASS("DELETE FROM UserHasClass WHERE USERNAME=?"),
     DELETE_USER_HAS_ACCESS_BY_USERNAME("DELETE FROM UserHasAccess WHERE USERNAME=?"),
-    DELETE_USER("DELETE FROM Users WHERE USERNAME = ?");
+    DELETE_USER("DELETE FROM Users WHERE USERNAME = ?"),
+    GET_USER_RIGHTS("SELECT r.name, r.description " +
+            "FROM " +
+            "(SELECT uhc.NAME " +
+            "FROM UserHasClass as uhc " +
+            "WHERE uhc.USERNAME = ?) as uhc " + //as uhc may not be nessecary will check when I have more time
+            "INNER JOIN ClassRight as cr " +
+            "ON uhc.NAME = cr.NAME " +
+            "INNER JOIN Rights as r " +
+            "ON cr.RID = r.ID ");
+    
 
 
 
