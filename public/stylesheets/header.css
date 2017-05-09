@@ -10,7 +10,7 @@
     background-size: cover;
 }
 #header #title {
-    margin: 10px 0px 0px -800px;
+    margin: auto;
     flex: 2;
 }
 #header h1 {
