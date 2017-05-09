@@ -222,6 +222,12 @@ public class AdminController extends Controller {
         //Gets the POST data as Json
         final JsonNode values = request().body().asJson();
 
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
+        if(!className.equals("Admin")){
+            return unauthorized("You do not have permission to delete requirements.");
+        }
 
         //Gets the meta data values
         int ID = values.get("ID").asInt();
