@@ -1,12 +1,22 @@
-import { type } from './utility';
-
 /**
  * Contains action types for redux.
  * @module redux/types
  */
 
+import { type } from './utility';
 
-//Project
+
+//Project Data
+export const GET_PROJECT_DATA_BY_ID = type('PROJECT_GET_DATA_BY_ID');
+export const GET_PROJECT_META_BY_ID = type('PROJECT_GET_META_BY_ID');
+
+//Project Access
+export const GET_USERS_THAT_HAVE_ACCESS = type('GET_USERS_THAT_HAVE_ACCESS');
+export const GET_CLASSES_THAT_HAVE_ACCESS = type('GET_CLASSES_THAT_HAVE_ACCESS');
+export const REMOVE_HAS_ACCESS = type('REMOVE_HAS_ACCESS');
+export const INSERT_HAS_ACCESS = type('INSERT_HAS_ACCESS');
+
+//Projects
 export const GET_PROJECTS_PUBLIC = type('GET_PROJECTS_PUBLIC');
 export const GET_PROJECTS_ACCESSIBLE = type('GET_PROJECTS_ACCESSIBLE');
 export const GET_PROJECTS_IS_CREATOR = type('GET_PROJECTS_IS_CREATOR');
@@ -19,6 +29,7 @@ export const POST_REQUIREMENT_TO_PROJECT = type('POST_REQUIREMENT_TO_PROJECT');
 export const DELETE_REQUIREMENT_TO_PROJECT = type('DELETE_REQUIREMENT_TO_PROJECT');
 
 export const POST_NEW_PROJECT = type('POST_NEW_PROJECT');
+export const POST_UPDATE_PROJECT = type('POST_UPDATE_PROJECT');
 export const POST_DELETE_PROJECT = type('POST_DELETE_PROJECT');
 
 export const CHANGE_PROJECTS_TABLE_MODE = 'CHANGE_PROJECTS_TABLE_MODE';
@@ -27,6 +38,8 @@ export const CHANGE_PROJECTS_TABLE_MODE = 'CHANGE_PROJECTS_TABLE_MODE';
 export const CHANGE_PROJECT_FORM_MODE = 'CHANGE_PROJECT_FORM_MODE';
 export const PROJECT_CLICKED = 'PROJECT_CLICKED';
 export const FILL_PROJECT_FORM = 'FILL_PROJECT_FORM';
+export const INIT_EDIT_PROJECT_FORM = 'INIT_EDIT_PROJECT_FORM';
+export const CLEAR_INIT_EDIT_PROJECT_FORM = 'CLEAR_INIT_EDIT_PROJECT_FORM';
 
 //Table actions
 export const TABLE_PAGE = 'TABLE_PAGE';
@@ -51,16 +64,10 @@ export const POST_UPDATE_PROJECT_REQUIREMENT_METADATA = type('POST_UPDATE_REQUIR
 
 //Filter
 export const UPDATE_FILTER_REQUIREMENT_LIST = 'UPDATE_FILTER_REQUIREMENT_LIST';
-export const UPDATE_FILTER = 'UPDATE_FILTER';
 export const ADD_TO_FILTER = 'ADD_TO_FILTER';
 export const REMOVE_FROM_FILTER = 'REMOVE_FROM_FILTER';
 export const ADD_TO_SUB_FILTER = 'ADD_TO_SUB_FILTER';
 export const REMOVE_FROM_SUB_FILTER = 'REMOVE_FROM_SUB_FILTER';
-export const ADD_FILTER = 'ADD_FILTER';
-export const ADD_FILTERED = 'ADD_FILTERED';
-
-//SideMenu
-export const CHANGE_SIDE_MENU_MODE = 'CHANGE_SIDE_MENU_MODE';
 
 //Snackbar
 export const SNACKBAR = 'SNACKBAR';
@@ -100,6 +107,13 @@ export const CLEAR_VALUES = 'CLEAR_VALUES';
 
 //Auth
 export const LOGGED_IN = 'LOGGED_IN';
+export const POST_REGISTER = type('POST_REGISTER');
+export const POST_LOGIN = type('POST_LOGIN');
+export const GET_LOGOUT = type('GET_LOGOUT');
+export const GET_LOGIN_CHECK = type('GET_LOGIN_CHECK');
+export const AUTH_CLEAR = 'AUTH_CLEAR';
+export const LOGIN_CLEAR = 'LOGIN_CLEAR';
+export const REGISTER_CLEAR = 'REGISTER_CLEAR';
 
 //Login Page
 export const REGISTER_FAILED = 'REGISTER_FAILED';
@@ -107,5 +121,5 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const LOGIN_PAGE_CHANGE_COMPONENT = 'LOGIN_PAGE_CHANGE_COMPONENT';
 
 //Structure
-export const STRUCTURE_GET_ALL = 'STRUCTURE_GET_ALL';
-export const STRUCTURE_GET_TYPES = 'STRUCTURE_GET_TYPES';
+export const STRUCTURE_GET_ALL = type('STRUCTURE_GET_ALL');
+export const STRUCTURE_GET_TYPES = type('STRUCTURE_GET_TYPES');

@@ -48,12 +48,12 @@ class Users extends React.Component {
                 {label: 'Fornavn', property: 'firstName', width: '15%'},
                 {label: 'Etternavn', property: 'lastName', width: '15%'},
                 {label: 'Epost', property: 'email', width: '20%'},
-                {type: 'EDIT_ACTION', action: (user) => { updateDialog(true); fillForm(user); }, width: '10%'},
-                {type: 'DELETE_ACTION', action: (user) => { deleteDialog(true); deleteDialogChangeAction(() => { postUserDelete(user); deleteDialog(false); }); }, width: '10%'}
+                {type: 'EDIT_ACTION', action: (user) => { updateDialog(true); fillForm(user); }, width: '24px'},
+                {type: 'DELETE_ACTION', action: (user) => { deleteDialog(true); deleteDialogChangeAction(() => { postUserDelete(user); deleteDialog(false); }); }, width: '24px'}
             ],
             toolbar: {
                 title: 'Brukere',
-                search: 'USERNAME|ucName',
+                search: 'USERNAME|firstName|lastName',
                 render: () => {
                     return (
                         <ToolbarGroup>
@@ -74,8 +74,8 @@ class Users extends React.Component {
         };
 
         return (
-            <div className="containerUsers">
-                <div className="usertable">
+            <div className="container" style={{justifyContent: 'center'}}>
+                <div className="table">
                     <DataTable config={config}/>
                 </div>
 

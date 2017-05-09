@@ -2,8 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {renderTextField, renderMultiTextField, validateClassForm as validate} from './../../core/render';
+import HelpToolTip from './../../core/HelpToolTip';
 
 /**
  * Redux-form for user creation and updating.
@@ -13,33 +13,35 @@ class ClassForm extends React.Component {
     render() {
         const {handleSubmit, handleClose, pristine, submitting, reset} = this.props;
         return (
-            <MuiThemeProvider>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-inner-class">
-                        <div className="form-inner-field">
+            <form onSubmit={handleSubmit}>
+                <div className="form-inner-class">
+                    <div className="form-field-row">
+                        <div className="tool-tip-container">
                             <Field
                                 name="NAME"
                                 label="Klassenavn"
                                 component={renderTextField}
                             />
+                            <HelpToolTip toolTip="Navnet på den nye brukerklassen."/>
                         </div>
-                        <div className="form-inner-field">
+                    </div>
+                    <div className="form-field-row">
+                        <div className="tool-tip-container">
                             <Field
                                 name="description"
                                 label="Beskrivelse"
-                                rows={4}
-                                maxRows={4}
                                 component={renderMultiTextField}
                             />
+                            <HelpToolTip toolTip="Beskrivelse av brukerklasse. Rettigheter og bruksområde. osv."/>
                         </div>
                     </div>
-                    <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
-                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
-                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
-                    </div>
-                </form>
-            </MuiThemeProvider>
+                </div>
+                <div className="form-button-row">
+                    <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
+                    <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
+                    <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                </div>
+            </form>
         );
     }
 

@@ -1,4 +1,4 @@
-.formInner {
+.form-inner {
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -9,3 +9,16 @@
     justify-content: space-around;
     align-content: center;
 }
+.form-button-row {
+    display: flex;
+    height: 48px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 24px;
+}
+.tool-tip-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+

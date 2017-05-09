@@ -5,15 +5,15 @@ const structureReducer = (state = {
     types: null
 }, action) => {
     switch (action.type) {
-        case STRUCTURE_GET_ALL:
+        case STRUCTURE_GET_ALL.RECEIVED:
             return {
                 ...state,
-                structures: action.structures
+                structures: action.response.data
             };
-        case STRUCTURE_GET_TYPES:
+        case STRUCTURE_GET_TYPES.RECEIVED:
             return {
                 ...state,
-                types: action.types
+                types: action.response.data
             };
         default:
             return state;

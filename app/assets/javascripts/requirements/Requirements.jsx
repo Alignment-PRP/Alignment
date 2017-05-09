@@ -3,9 +3,7 @@ import {connect} from 'react-redux';
 import { updateRequirement, deleteRequirement, getAllCategoryNames, addRequirement, postUpdateRequirement } from '../redux/actions/requirementActions';
 import { updateRequiredValues, updateOptionalValues, clearValues, changeStepperIndex } from '../redux/actions/requirementFormActions';
 import { getStructures, getStructureTypes } from './../redux/actions/structureActions';
-import { changeSideMenuMode } from '../redux/actions/sideMenuActions';
 import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
-import { addFilter, addFiltered } from './../redux/actions/filterActions';
 import { getAllRequirements } from './../redux/actions/requirementActions';
 import { popoverAdd } from './../redux/actions/popoverActions';
 import { getUsersWithClass } from './../redux/actions/userActions';
@@ -16,12 +14,12 @@ import DeleteDialog from './../core/dialog/DeleteDialog';
 import Filter from './Filter';
 import Ellipsis from './../core/popover/Ellipsis';
 import Popover from './../core/popover/Popover';
+import RequirementInfoDialog from "./dialog/RequirementInfoDialog";
+import {RaisedButton, ToolbarGroup, ToolbarSeparator} from "material-ui";
 
 class Requirements extends React.Component {
 
     componentWillMount() {
-        this.props.addFilter('requirements');
-        this.props.addFiltered('requirements');
         this.props.popoverAdd('requirements');
 
 
@@ -32,25 +30,24 @@ class Requirements extends React.Component {
         this.props.getStructures();
     }
 
-    componentDidMount() {
-        this.props.changeSideMenuMode("HIDE");
-    }
-
     render() {
         const {
             filterRequirementList, requirements, filter, clearValues, changeStepperIndex,
             updateRequiredValues, updateOptionalValues, deleteRequirement,
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
             structures, structureTypes, categories, users, newRequirementDialogIsOpen,
-            editRequirementDialogIsOpen, editDialog, postUpdateRequirement, addRequirement
+            editRequirementDialogIsOpen, editDialog, postUpdateRequirement, addRequirement,
+            updateRequirement, requirementInfoDialog, requirement, requirementInfoDialogIsOpen,
+            newDialog,
+
         } = this.props;
 
         const config = {
             table: 'requirements',
-            data: (filter ? Object.keys(filter).length > 0 : false) ? (filterRequirementList ? filterRequirementList : null ) : requirements,
+            data: filter ? filterRequirementList : requirements,
             columns: [
                 {label: 'Navn', property: 'name', width: '10%'},
-                {label: 'Beskrivelse', property: 'description', width: '30%', wrap: {
+                {label: 'Beskrivelse', property: 'description', width: '50%', wrap: {
                         lines: 5,
                         ellipsis: (requirement) => {
                             const props = {
@@ -62,44 +59,46 @@ class Requirements extends React.Component {
                         }
                     }
                 },
-                {label: 'Kommentar', property: 'comment', width: '20%', wrap: {
-                        lines: 5,
-                    ellipsis: (requirement) => {
-                        const props = {
-                            component: 'requirements',
-                            object: requirement,
-                            property: 'description'
-                        };
-                        return <Ellipsis {...props}/>;
-                    }
-                    }
-                },
                 {label: 'Kategori', property: 'cName', width: '12%'},
                 {label: 'UnderKategori', property: 'scName', width: '12%'},
+                {type: 'INFO', action: (requirement) => {
+                    updateRequirement(requirement);
+                    requirementInfoDialog(true);
+                },width: '24px'},
                 {type: 'EDIT_ACTION', action: (requirement) => {
                     editDialog(true);
                     updateRequiredValues(requirement);
                     const structures = {};
                     requirement.structures.forEach(struc => structures[struc.type] = struc.content);
-                    console.log(requirement.structures);
-                    console.log(structures);
                     updateOptionalValues(structures);
-                },width: '8%'},
+                },width: '24px'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     deleteDialogOpen(true);
                     deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
-                }, width: '8%'}
-            ]
+                }, width: '24px'}
+            ],
+            toolbar: {
+                title: 'Krav',
+                search: 'name',
+                render: () => {
+                    return (
+                        <ToolbarGroup>
+                            <ToolbarSeparator />
+                            <RaisedButton label="Nytt Krav" primary={true} onTouchTap={() => { newDialog(true); }} />
+                        </ToolbarGroup>
+                    );
+                }
+            }
         };
 
         return (
-            <div className="containerUsers">
+            <div className="container">
                 <div style={{display: 'flex'}}>
-                    <Paper>
+                    <Paper style={{padding: '12px'}}>
                         <Filter/>
                     </Paper>
                 </div>
-                <div className="usertable">
+                <div className="table">
                     <DataTable config={config}/>
                 </div>
 
@@ -135,6 +134,13 @@ class Requirements extends React.Component {
                     structureTypes={structureTypes}
                 />
 
+                <RequirementInfoDialog
+                    title="Krav"
+                    open={requirementInfoDialogIsOpen}
+                    onRequestClose={requirementInfoDialog.bind(null, false)}
+                    requirement={requirement}
+                />
+
                 <DeleteDialog
                     title="Slett Krav"
                     desc="Er du sikker på at du vil slette kravet?"
@@ -160,7 +166,9 @@ const mapStateToProps = (state) => {
         users: state.userReducer.users,
         categories: state.requirementReducer.categoryNames,
         structures: state.structureReducer.structures,
-        structureTypes: state.structureReducer.types
+        structureTypes: state.structureReducer.types,
+        requirement: state.requirementReducer.requirement,
+        requirementInfoDialogIsOpen: state.dialogReducer.requirementInfoDialog.isOpen
     };
 };
 
@@ -168,8 +176,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         clearValues: () => dispatch(clearValues()),
         changeStepperIndex: (index) => dispatch(changeStepperIndex(index)),
-        addFilter: (filter) => dispatch(addFilter(filter)),
-        addFiltered: (comp) => dispatch(addFiltered(comp)),
         newDialog: (open) => dispatch(dialogOpen('requirementNew', open)),
         editDialog: (open) => dispatch(dialogOpen('requirementEdit', open)),
         deleteDialogOpen: (open) => dispatch(dialogOpen('requirementDelete', open)),
@@ -180,14 +186,13 @@ const mapDispatchToProps = (dispatch) => {
         updateRequirement: (requirement) => dispatch(updateRequirement(requirement)),
         deleteRequirement: (requirement) => dispatch(deleteRequirement(requirement)),
         getAllCategoryNames: () => dispatch(getAllCategoryNames()),
-        changeSideMenuMode: (mode) => dispatch(changeSideMenuMode(mode)),
         popoverAdd: (popover) => dispatch(popoverAdd(popover)),
         getUsersWithClass: () => dispatch(getUsersWithClass()),
         getStructures: () => dispatch(getStructures()),
         getStructureTypes: () => dispatch(getStructureTypes()),
         postUpdateRequirement: (requirement) => dispatch(postUpdateRequirement(requirement)),
-        addRequirement: (requirement) => dispatch(addRequirement(requirement))
-
+        addRequirement: (requirement) => dispatch(addRequirement(requirement)),
+        requirementInfoDialog: (open) => dispatch(dialogOpen('requirementInfoDialog', open))
     };
 };
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserForm as validate} from './../../core/render';
 
 /**
@@ -13,9 +12,9 @@ class UserForm extends React.Component {
     render() {
         const {handleSubmit, handleClose, classes, pristine, submitting, reset} = this.props;
         return (
-            <MuiThemeProvider>
-                <div className="form-inner">
-                    <form onSubmit={handleSubmit}>
+            <div className="form-inner">
+                <form onSubmit={handleSubmit}>
+                    <div className="form-field-row">
                         <Field
                             name="USERNAME"
                             label="Brukernavn"
@@ -26,6 +25,8 @@ class UserForm extends React.Component {
                             label="Epost"
                             component={renderTextField}
                         />
+                    </div>
+                    <div className="form-field-row">
                         <Field
                             name="firstName"
                             label="Fornavn"
@@ -36,6 +37,8 @@ class UserForm extends React.Component {
                             label="Etternavn"
                             component={renderTextField}
                         />
+                    </div>
+                    <div className="form-field-row">
                         <Field
                             name="pass"
                             label="Passord"
@@ -43,20 +46,19 @@ class UserForm extends React.Component {
                         />
                         <Field
                             name="ucName"
-                            label="Brukerklasse"
+                            floatingLabelText="Brukerklasse"
                             component={renderSelectField}
                         >
                             {menuItemsClasses(classes)}
                         </Field>
-                        <br/>
-                        <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-                            <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
-                            <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
-                            <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
-                        </div>
-                    </form>
-                </div>
-            </MuiThemeProvider>
+                    </div>
+                    <div className="form-button-row">
+                        <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
+                        <RaisedButton className="form-button" label="Tilbakestill" onClick={reset} disabled={pristine}/>
+                        <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                    </div>
+                </form>
+            </div>
         );
     }
 

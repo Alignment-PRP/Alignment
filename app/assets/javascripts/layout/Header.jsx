@@ -60,9 +60,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUserData: () => {
-            dispatch(getUserData())
-        }
+        getUserData: () => dispatch(getUserData())
     }
 };
 
