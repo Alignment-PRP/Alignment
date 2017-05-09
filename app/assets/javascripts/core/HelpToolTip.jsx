@@ -49,7 +49,7 @@ class HelpToolTip extends React.Component {
                 //hoverColor={greenA200}
                 //color={blue500}
                 iconStyle={{...this.props.IconStyles, ...styles.standardIcon}}
-                disableTouchRipple="true"
+                disableTouchRipple={true}
                 style={{...this.props.Style, ...styles.small}}
                 tooltip={this.props.toolTip || "Default tooltip"}
                 tooltipPosition={this.props.toolTipPosition || 'bottom-left'}
