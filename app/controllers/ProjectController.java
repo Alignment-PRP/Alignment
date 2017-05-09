@@ -97,11 +97,12 @@ public class ProjectController extends Controller {
         int securityLevel = values.get("securityLevel").asInt();
         String transactionVolume = values.get("transactionVolume").asText();
         String userChannel = values.get("userChannel").asText();
+        String mangerID = values.get("managerID").asText();
         String deploymentStyle = values.get("deploymentStyle").asText();
         int ispublic = values.has("isPublic") && values.get("isPublic").asBoolean() ? 1 : 0;
 
         //Inserts a new Project and returns the ID of the project just inserted
-        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, description, ispublic);
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, mangerID, username, name, description, ispublic);
 
         //Inserts ProjectMetaData with the project
         qh.insertStatement(Statement.INSERT_PROJECT_META_DATA, Integer.parseInt(ID), securityLevel, transactionVolume, userChannel, deploymentStyle);
