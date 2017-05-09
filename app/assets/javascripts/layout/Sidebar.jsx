@@ -37,6 +37,7 @@ class Sidebar extends React.Component {
                 textColor: '#e8e8e8',
                 display: 'block',
                 position: 'fixed',
+                boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
                 zIndex: '99999'
 
 
