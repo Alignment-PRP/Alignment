@@ -18,6 +18,7 @@ GET     /api/add-category                   controllers.AdminController.addCateg
 GET     /api/add-requirementcategeory       controllers.AdminController.addCategeroyToRequirement()
 GET     /api/update-requirement             controllers.AdminController.updateReq()
 GET     /api/add-requirement                controllers.AdminController.addRequirement()
+GET     /api/jamatest                       controllers.ProjectController.jamaTest()
 
 #API CALLS
 GET     /api/users                          controllers.UserController.getUsers()

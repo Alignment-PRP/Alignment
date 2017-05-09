@@ -16,6 +16,8 @@ import Ellipsis from './../core/popover/Ellipsis';
 import Popover from './../core/popover/Popover';
 import RequirementInfoDialog from "./dialog/RequirementInfoDialog";
 import {RaisedButton, ToolbarGroup, ToolbarSeparator} from "material-ui";
+import { AuthMin } from './../core/auth/Auth';
+import { ADMIN_PAGE } from './../core/auth/rights';
 
 class Requirements extends React.Component {
 
@@ -64,14 +66,14 @@ class Requirements extends React.Component {
                 {type: 'INFO', action: (requirement) => {
                     updateRequirement(requirement);
                     requirementInfoDialog(true);
-                },width: '24px'},
+                }, width: '24px'},
                 {type: 'EDIT_ACTION', action: (requirement) => {
                     editDialog(true);
                     updateRequiredValues(requirement);
                     const structures = {};
                     requirement.structures.forEach(struc => structures[struc.type] = struc.content);
                     updateOptionalValues(structures);
-                },width: '24px'},
+                }, width: '24px'},
                 {type: 'DELETE_ACTION', action: (requirement) => {
                     deleteDialogOpen(true);
                     deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
@@ -82,10 +84,7 @@ class Requirements extends React.Component {
                 search: 'name',
                 render: () => {
                     return (
-                        <ToolbarGroup>
-                            <ToolbarSeparator />
-                            <RaisedButton label="Nytt Krav" primary={true} onTouchTap={() => { newDialog(true); }} />
-                        </ToolbarGroup>
+                        <NewRequirement onClick={newDialog.bind(null, true)}/>
                     );
                 }
             }
@@ -152,6 +151,15 @@ class Requirements extends React.Component {
         );
     }
 }
+
+const NewRequirement = AuthMin(ADMIN_PAGE)(({onClick}) => {
+    return (
+        <ToolbarGroup>
+            <ToolbarSeparator />
+            <RaisedButton label="Nytt Krav" primary={true} onClick={onClick} />
+        </ToolbarGroup>
+    );
+});
 
 const mapStateToProps = (state) => {
     return {
