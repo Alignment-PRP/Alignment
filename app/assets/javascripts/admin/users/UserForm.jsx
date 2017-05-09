@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import {renderTextField, renderPassField, renderSelectField, menuItemsClasses, validateUserForm as validate} from './../../core/render';
+import HelpToolTip from './../../core/HelpToolTip';
 
 /**
  * Redux-form for user creation and updating.
@@ -15,42 +16,60 @@ class UserForm extends React.Component {
             <div className="form-inner">
                 <form onSubmit={handleSubmit}>
                     <div className="form-field-row">
-                        <Field
-                            name="USERNAME"
-                            label="Brukernavn"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="email"
-                            label="Epost"
-                            component={renderTextField}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="USERNAME"
+                                label="Brukernavn"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="Ønsket brukernavn, unik identifikator for brukeren."/>
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="email"
+                                label="E-post"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="E-post for denne brukeren."/>
+                        </div>
                     </div>
                     <div className="form-field-row">
-                        <Field
-                            name="firstName"
-                            label="Fornavn"
-                            component={renderTextField}
-                        />
-                        <Field
-                            name="lastName"
-                            label="Etternavn"
-                            component={renderTextField}
-                        />
+                        <div className="tool-tip-container">
+                            <Field
+                                name="firstName"
+                                label="Fornavn"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="Fornavn på brukeren."/>
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="lastName"
+                                label="Etternavn"
+                                component={renderTextField}
+                            />
+                            <HelpToolTip toolTip="Etternavn på brukeren."/>
+                        </div>
                     </div>
                     <div className="form-field-row">
-                        <Field
-                            name="pass"
-                            label="Passord"
-                            component={renderPassField}
-                        />
-                        <Field
-                            name="ucName"
-                            floatingLabelText="Brukerklasse"
-                            component={renderSelectField}
-                        >
-                            {menuItemsClasses(classes)}
-                        </Field>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="pass"
+                                label="Passord"
+                                component={renderPassField}
+                            />
+                            <HelpToolTip toolTip="Passord, selvvalgt"/>
+                        </div>
+                        <div className="tool-tip-container">
+                            <Field
+                                name="ucName"
+                                floatingLabelText="Brukerklasse"
+                                component={renderSelectField}
+                            >
+                                {menuItemsClasses(classes)}
+                            </Field>
+                            <HelpToolTip toolTip="Velg en brukerklasse for denne brukeren."/>
+                        </div>
                     </div>
                     <div className="form-button-row">
                         <RaisedButton className="form-button" primary={true} type="submit" label="Lagre" disabled={pristine || submitting}/>
