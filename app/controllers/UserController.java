@@ -33,7 +33,7 @@ public class UserController extends Controller {
         final JsonNode values = request().body().asJson();
 
         //String oldUSERNAME = values.get("oldUSERNAME").textValue();
-        String oldUSERNAME = session("connected");
+        String oldUSERNAME = values.get("oldUSERNAME").textValue();
         String USERNAME = values.get("USERNAME").textValue();
         String firstName = values.get("firstName").textValue();
         String lastName = values.get("lastName").textValue();
@@ -64,6 +64,54 @@ public class UserController extends Controller {
             return unauthorized(views.html.login.render());
         }
         return ok(qh.executeQuery(Statement.GET_USERS));
+    }
+
+    public Result deleteUser(){
+        //Check if user is logged in
+        String userID = session("connected");
+        if(userID == null){
+            return unauthorized(views.html.login.render());
+        }
+
+        final JsonNode values = request().body().asJson();
+        
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+        boolean isAdmin = className.equals("Admin");
+        if (!isAdmin){
+            return unauthorized("Only an administrator may delete a user.");
+        }
+        
+        String deleteUser = values.get("USERNAME").asText();
+        final String ADMIN = "Admin";//DO NOT DELETE! This is the one admin user that cannot be deleted.
+        
+        if(deleteUser.equals(ADMIN)){
+            return unauthorized("The Admin user can not be deleted.");
+        }
+        
+        JsonNode projectsIsCreator = qh.executeQuery(Statement.GET_PROJECTS_USER_IS_CREATOR, deleteUser);
+        JsonNode projectsIsManager = qh.executeQuery(Statement.GET_PROJECTS_USER_IS_MANAGER, deleteUser);
+        JsonNode requirementsIsResponsible = qh.executeQuery(Statement.GET_REQUIREMENTS_IS_RESPONSIBLE, deleteUser);
+
+        for (JsonNode p :
+                projectsIsCreator) {
+            qh.executeUpdate(Statement.SET_PROJECT_CREATOR, ADMIN, p.get("ID").asInt());
+        }
+        for (JsonNode p :
+                projectsIsManager) {
+            qh.executeUpdate(Statement.SET_PROJECT_MANAGER, ADMIN, p.get("ID").asInt());
+        }
+        for (JsonNode r :
+                requirementsIsResponsible) {
+            qh.executeUpdate(Statement.SET_REQUIREMENT_RESPONSIBLE, ADMIN, r.get("RID").asInt());
+        }
+
+        qh.executeUpdate(Statement.DELETE_USER_HAS_ACCESS_BY_USERNAME, deleteUser);
+        qh.executeUpdate(Statement.DELETE_USER_HAS_CLASS, deleteUser);
+        qh.executeUpdate(Statement.DELETE_USER, deleteUser);
+
+        return ok("User " + deleteUser + " has been deleted.");
+
     }
 
     public Result getUsersWithClass() {
