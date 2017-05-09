@@ -1,13 +1,14 @@
+/**
+ * Redux-form for user creation and updating.
+ */
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import {renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../../core/render';
 import HelpToolTip from './../../core/HelpToolTip';
+import {FlatButton} from "material-ui";
 
-/**
- * Redux-form for user creation and updating.
- */
 class ClassForm extends React.Component {
 
     render() {
@@ -33,8 +34,8 @@ class ClassForm extends React.Component {
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <RaisedButton className="form-button" primary={true} type="submit" label="Slett" disabled={pristine || submitting}/>
-                    <RaisedButton className="form-button" secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <FlatButton secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <RaisedButton style={{marginLeft: '8px'}} primary={true} type="submit" label="Slett" disabled={pristine || submitting}/>
                 </div>
             </form>
         );
