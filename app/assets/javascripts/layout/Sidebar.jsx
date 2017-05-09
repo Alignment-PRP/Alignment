@@ -4,6 +4,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from "react-redux";
+
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import FontIcon from 'material-ui/FontIcon';
@@ -12,6 +13,9 @@ import { Card, CardHeader } from "material-ui";
 import {blue700, grey200, white} from "material-ui/styles/colors";
 
 import {getUserData} from "../redux/actions/userActions";
+
+import { AuthMin } from './../core/auth/Auth';
+import { ADMIN_PAGE } from './../core/auth/rights';
 
 class Sidebar extends React.Component {
 
@@ -100,13 +104,19 @@ class Sidebar extends React.Component {
                     <MenuItem primaryText="Hjem" containerElement={<Link to="/" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">home</FontIcon>}/>
                     <MenuItem primaryText="Prosjekter" containerElement={<Link to="/projects" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">assignment</FontIcon>} />
                     <MenuItem primaryText="Krav" containerElement={<Link to="/requirements" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">speaker_notes</FontIcon>}/>
-                    <MenuItem primaryText="Admin" containerElement={<Link to="/admin" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">not_interested</FontIcon>}/>
+                    <AdminPage style={this.style.menuItem} styleIcon={this.style.rightIcon}/>
                     <MenuItem primaryText="Logg ut" containerElement={<Link to="/logout" />} style={this.style.menuItem} rightIcon={<FontIcon style={this.style.rightIcon} className="material-icons">directions_run</FontIcon>}/>
                 </Menu>
             </div>
         );
     }
 }
+
+const AdminPage = AuthMin(ADMIN_PAGE)(({style, styleIcon}) => {
+    return (
+        <MenuItem primaryText="Admin" containerElement={<Link to="/admin" />} style={style} rightIcon={<FontIcon style={styleIcon} className="material-icons">not_interested</FontIcon>}/>
+    );
+});
 
 const mapStateToProps = (state) => {
     return {
