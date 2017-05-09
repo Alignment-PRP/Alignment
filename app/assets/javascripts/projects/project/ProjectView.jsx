@@ -71,7 +71,7 @@ class ProjectView extends React.Component {
 
                 <ProjectEditDialog
                     title={"Rediger Prosjekt"}
-                    open={editAddProjectDialogIsOpen}
+                    open={editProjectDialogIsOpen}
                     onRequestClose={editDialog.bind(null, false)}
                     handleSubmit={(data) => {postProjectUpdate(data); editDialog(false)}}
                 />
