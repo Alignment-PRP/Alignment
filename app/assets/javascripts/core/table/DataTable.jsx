@@ -136,13 +136,14 @@ class DataTable extends React.Component {
      * @param {Array.<Object>} datac - Data used to populate the table.
      * @param {number} nRows - Number of rows.
      * @param {number} page - Page number.
+     * @param {Object} injectedRowProps
      * @returns {XML}
      */
-    renderBody(columns, datac, nRows, page) {
+    renderBody(columns, datac, nRows, page, ...injectedRowProps) {
         if (datac) {
             if (datac.length > 0) {
                 return datac.slice((page - 1) * nRows, page * nRows).map((obj, index) => {
-                    return <DataTableRow obj={obj} key={index} index={index} meta={columns}/>
+                    return <DataTableRow obj={obj} key={index} index={index} meta={columns} {...injectedRowProps}/>
                 })
             } else {
                 return (
