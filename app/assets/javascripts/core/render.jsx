@@ -119,7 +119,8 @@ export const normalizeNumberField = value => {
  * @param {Project} values
  * @returns {{}}
  */
-export const validateProjectForm = (values) => {
+export const validateProjectForm = (values, props) => {
+    /** @type Project */
     const errors = {};
     const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle'];
     requiredFields.forEach(field => {
@@ -130,6 +131,9 @@ export const validateProjectForm = (values) => {
             errors[ field ] = "Må være et tall."
         }
     });
+    if (props.users.filter(user => user.USERNAME === values.managerID).length === 0) {
+        errors.managerID = 'Bruker eksisterer ikke'
+    }
     return errors
 };
 
