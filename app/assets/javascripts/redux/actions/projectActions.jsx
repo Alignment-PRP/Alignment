@@ -45,7 +45,7 @@ import {
 } from './snackBarActions';
 
 import { updateFilterRequirementList } from './filterActions';
-import {postProjectReqUpdate} from "./requirementActions";
+import { postProjectReqUpdate } from "./requirementActions";
 
 export function getProjectsPublic() {
     return dispatch => {
