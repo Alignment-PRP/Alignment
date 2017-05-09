@@ -34,7 +34,7 @@ class ProjectForm extends React.Component {
                                 label="Projektnavn"
                                 component={renderTextField}>
                             </Field>
-                            <HelpToolTip toolTip="Navn på prosjektet."/>
+                            <HelpToolTip toolTip="Ønsket navn på prosjektet."/>
                         </div>
                         <div className="tool-tip-container">
                             <Field component={renderAutoComplete}
@@ -45,7 +45,7 @@ class ProjectForm extends React.Component {
                                    openOnFocus
                                    required
                             />
-                            <HelpToolTip toolTip="Hvem skal styre prosjektet."/>
+                            <HelpToolTip toolTip="Hvem skal stå som manager av prosjektet."/>
                         </div>
                     </div>
                     <div className="form-field-row">
@@ -64,7 +64,7 @@ class ProjectForm extends React.Component {
                                 warn={warnNumberField}
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="1,2,3,4"/>
+                            <HelpToolTip toolTip="(1-4). Sier noe om sikkerhetsnivået. "/>
                         </div>
                     </div>
                     <div className="form-field-row">
@@ -74,7 +74,7 @@ class ProjectForm extends React.Component {
                                 label="Transaksjonsvolum"
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="1-100/dag, 100-1000/dag, 1000-10000/dag"/>
+                            <HelpToolTip toolTip="(1-100/dag, 100-1000/dag) Forventet bruksmengde pr tidsenhet."/>
                         </div>
                         <div className="tool-tip-container">
                             <Field
@@ -82,7 +82,7 @@ class ProjectForm extends React.Component {
                                 label="Brukerkanal"
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="Nettleser, Desktop, App"/>
+                            <HelpToolTip toolTip="(Nettleser, Desktop, App) Brukersystem."/>
                         </div>
                     </div>
                     <div className="form-field-row">
@@ -92,7 +92,7 @@ class ProjectForm extends React.Component {
                                 label="Deploymentstil"
                                 component={renderTextField}
                             />
-                            <HelpToolTip toolTip="On-premise, privat sky, publik sky. Ref. Mohsen 2017"/>
+                            <HelpToolTip toolTip="(On-premise, private sky, public sky) "/>
                         </div>
                         <div className="tool-tip-container" style={{width: '300px'}}>
                             <Field
@@ -101,7 +101,7 @@ class ProjectForm extends React.Component {
                                 component={renderCheckbox}
                                 style={{maxWidth: '256px', marginTop: '36px'}}
                             />
-                            <HelpToolTip toolTip="Hvorvidt prosjektet er offentlig synlig."/>
+                            <HelpToolTip toolTip="Hvorvidt prosjektet er offentlig synlig for alle."/>
                         </div>
 
                     </div>
