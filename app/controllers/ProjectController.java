@@ -264,8 +264,6 @@ public class ProjectController extends Controller {
             }
         }
 
-        System.out.println(Json.toJson(updateData));
-
         int isPublic;
         if(updateData.get("isPublic").equals("true")){
             isPublic = 1;
@@ -565,7 +563,6 @@ public class ProjectController extends Controller {
         JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
         String managerID = project.get(0).get("managerID").asText();
         String creatorID = project.get(0).get("creatorID").asText();
-        System.out.println(managerID + " " + creatorID);
 
         JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
         String className = userClass.get(0).get("NAME").asText();
@@ -657,7 +654,6 @@ public class ProjectController extends Controller {
 
         //Checks if the user has access to the project
         if(!(hasAccess || isCreator || isManager)){
-            System.out.println("whut?");
             return unauthorized("You do not have permission to edit this project.");
         }
 
