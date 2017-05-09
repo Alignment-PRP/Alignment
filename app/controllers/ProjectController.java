@@ -1,8 +1,23 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jamasoftware.services.restclient.JamaConfig;
+import com.jamasoftware.services.restclient.exception.RestClientException;
+import com.jamasoftware.services.restclient.jamadomain.core.JamaInstance;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaItem;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaItemType;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaProject;
 import database.QueryHandler;
 import database.Statement;
+
+import java.util.Base64; // Java 8
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.io.IOException;
 
 import play.db.Database;
 import play.libs.Json;
@@ -419,6 +434,28 @@ public class ProjectController extends Controller {
         }
 
         return badRequest("No userClass or userName was received.");
+    }
+
+    public Result jamaTest(){
+        Map<String, Object> projectsMap = new HashMap<>();
+        try {
+            JamaInstance jamaInstance = new JamaInstance(new JamaConfig(true, "conf/jama.properties"));
+            ArrayList<JamaProject> projects = (ArrayList<JamaProject>) jamaInstance.getProjects();
+            for (JamaProject project : projects) {
+                Map<String, Object>  pMap = new HashMap<>();
+                pMap.put("projectKey", project.getProjectKey());
+                pMap.put("projectID", project.getId());
+                pMap.put("projectName", project.getName());
+                pMap.put("description", project.getDescription());
+
+                projectsMap.put(project.getName(), pMap);
+            }
+        } catch(RestClientException e) {
+            e.printStackTrace();
+        }
+
+
+        return ok(Json.toJson(projectsMap));
     }
 
     /**

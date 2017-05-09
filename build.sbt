@@ -14,7 +14,14 @@ libraryDependencies ++= Seq(
   "org.hibernate" % "hibernate-core" % "5.2.5.Final",
   javaJdbc,
   "mysql" % "mysql-connector-java" % "5.1.36",
-  "org.mindrot" % "jbcrypt" % "0.4"
+  "org.mindrot" % "jbcrypt" % "0.4",
+  "org.apache.httpcomponents" % "httpclient" % "4.5.2",
+  "org.apache.httpcomponents" % "httpmime" % "4.5.2",
+  "org.apache.commons" % "commons-io" % "1.3.2",
+  "com.googlecode.json-simple" % "json-simple" % "1.1.1",
+  "org.skyscreamer" % "jsonassert" % "1.4.0"
+
+
 )
 
 /* Import settings */
