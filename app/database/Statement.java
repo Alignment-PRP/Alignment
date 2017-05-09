@@ -62,7 +62,7 @@ public enum Statement {
             "ON sc.catID = c.ID " +
             "WHERE rm.reqResponsible = ? "),
 
-    SET_REQUIREMENT_RESPONSIBLE("UDATE RequirementMetaData SET reqResponsible = ? WHERE RID = ? "),
+    SET_REQUIREMENT_RESPONSIBLE("UPDATE RequirementMetaData SET reqResponsible = ? WHERE RID = ? "),
     GET_GLOBAL_REQUIREMENTS("" +
             "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc " +
             "FROM Requirements AS r " +
