@@ -5,7 +5,8 @@ import {
     INSERT_HAS_ACCESS,
     REMOVE_HAS_ACCESS,
     POST_REQUIREMENT_TO_PROJECT,
-    DELETE_REQUIREMENT_TO_PROJECT
+    DELETE_REQUIREMENT_TO_PROJECT,
+    POST_DELETE_REQUIREMENT
 } from './../types';
 
 const snackBarReducer = (state = {
@@ -13,6 +14,16 @@ const snackBarReducer = (state = {
     text: ''
 }, action) => {
     switch (action.type) {
+        case POST_DELETE_REQUIREMENT.RECEIVED:
+            return {
+                isOpen: true,
+                text: "Krav slettet!"
+            };
+        case POST_DELETE_REQUIREMENT.ERROR:
+            return {
+                isOpen: true,
+                text: action.error.response.status === 401 ? "Ingen tilgang." : 'Noe gikk galt: ' + action.error.response.status
+            };
         case DELETE_REQUIREMENT_TO_PROJECT.RECEIVED:
             return {
                 isOpen: true,

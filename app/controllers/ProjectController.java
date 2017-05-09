@@ -1,8 +1,23 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jamasoftware.services.restclient.JamaConfig;
+import com.jamasoftware.services.restclient.exception.RestClientException;
+import com.jamasoftware.services.restclient.jamadomain.core.JamaInstance;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaItem;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaItemType;
+import com.jamasoftware.services.restclient.jamadomain.lazyresources.JamaProject;
 import database.QueryHandler;
 import database.Statement;
+
+import java.util.Base64; // Java 8
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.io.IOException;
 
 import play.db.Database;
 import play.libs.Json;
@@ -82,11 +97,12 @@ public class ProjectController extends Controller {
         int securityLevel = values.get("securityLevel").asInt();
         String transactionVolume = values.get("transactionVolume").asText();
         String userChannel = values.get("userChannel").asText();
+        String mangerID = values.get("managerID").asText();
         String deploymentStyle = values.get("deploymentStyle").asText();
         int ispublic = values.has("isPublic") && values.get("isPublic").asBoolean() ? 1 : 0;
 
         //Inserts a new Project and returns the ID of the project just inserted
-        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, username, username, name, description, ispublic);
+        String ID = qh.insertStatementWithReturnID(Statement.INSERT_PROJECT, mangerID, username, name, description, ispublic);
 
         //Inserts ProjectMetaData with the project
         qh.insertStatement(Statement.INSERT_PROJECT_META_DATA, Integer.parseInt(ID), securityLevel, transactionVolume, userChannel, deploymentStyle);
@@ -268,8 +284,6 @@ public class ProjectController extends Controller {
             }
         }
 
-        System.out.println(Json.toJson(updateData));
-
         int isPublic;
         if(updateData.get("isPublic").equals("true")){
             isPublic = 1;
@@ -429,6 +443,28 @@ public class ProjectController extends Controller {
         return badRequest("No userClass or userName was received.");
     }
 
+    public Result jamaTest(){
+        Map<String, Object> projectsMap = new HashMap<>();
+        try {
+            JamaInstance jamaInstance = new JamaInstance(new JamaConfig(true, "conf/jama.properties"));
+            ArrayList<JamaProject> projects = (ArrayList<JamaProject>) jamaInstance.getProjects();
+            for (JamaProject project : projects) {
+                Map<String, Object>  pMap = new HashMap<>();
+                pMap.put("projectKey", project.getProjectKey());
+                pMap.put("projectID", project.getId());
+                pMap.put("projectName", project.getName());
+                pMap.put("description", project.getDescription());
+
+                projectsMap.put(project.getName(), pMap);
+            }
+        } catch(RestClientException e) {
+            e.printStackTrace();
+        }
+
+
+        return ok(Json.toJson(projectsMap));
+    }
+
     /**
      * Gets the the names of the user classes that have access to the project
      * @return Result 200 Ok, 401 Unauthorized or 400 BadRequest
@@ -573,7 +609,6 @@ public class ProjectController extends Controller {
         JsonNode project = qh.executeQuery(Statement.GET_PROJECT_BY_ID, PID);
         String managerID = project.get(0).get("managerID").asText();
         String creatorID = project.get(0).get("creatorID").asText();
-        System.out.println(managerID + " " + creatorID);
 
         JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
         String className = userClass.get(0).get("NAME").asText();
@@ -669,7 +704,6 @@ public class ProjectController extends Controller {
 
         //Checks if the user has access to the project
         if(!(hasAccess || isCreator || isManager || hasGlobalWriteRight)){
-            System.out.println("whut?");
             return unauthorized("You do not have permission to edit this project.");
         }
 

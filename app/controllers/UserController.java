@@ -140,7 +140,6 @@ public class UserController extends Controller {
     public JsonNode makeJsonNode(String username){
         //CHANGED
         JsonNode userData = qh.executeQuery(Statement.GET_USER_WITH_PASS_BY_USERNAME,username);
-        System.out.println(userData);
         return userData;
     }
 
@@ -172,8 +171,6 @@ public class UserController extends Controller {
 
     public boolean usernameExists(String username){
         JsonNode exists = qh.executeQuery(Statement.GET_USERNAME_EXISTS,username);
-        //System.out.println(exists.get(0).get("bool"));
-        //System.out.println(exists.get(0).get("bool").asInt() == 1);
         return exists.get(0).get("bool").asInt() == 1;
     }
 

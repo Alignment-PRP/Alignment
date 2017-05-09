@@ -1,25 +1,29 @@
+/**
+ * Redux-form for user creation and updating.
+ */
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {connect} from "react-redux";
 import RaisedButton from 'material-ui/RaisedButton';
 import {renderSelectField, menuItemsClasses, validateDeleteClassForm as validate} from './../../core/render';
 import HelpToolTip from './../../core/HelpToolTip';
+import {FlatButton} from "material-ui";
 
-/**
- * Redux-form for user creation and updating.
- */
 class ClassForm extends React.Component {
 
     render() {
         const { classes, handleSubmit, handleClose, pristine, submitting } = this.props;
         return (
             <form onSubmit={handleSubmit}>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
+                <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+                    <div>
+                        Velg ny brukerklasse for de brukerene som var i den klassen du sletter.
+                    </div>
                     <div className="form-inner-field">
                         <div className="tool-tip-container">
                             <Field
                                 name="replacement"
-                                floatingLabelText="Erstatter"
+                                floatingLabelText="Brukerklasse"
                                 disabled={false}
                                 component={renderSelectField}
                                 >
@@ -30,8 +34,8 @@ class ClassForm extends React.Component {
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <RaisedButton className="form-button" primary={true} type="submit" label="Slett" disabled={pristine || submitting}/>
-                    <RaisedButton className="form-button" secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <FlatButton secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <RaisedButton style={{marginLeft: '8px'}} primary={true} type="submit" label="Slett" disabled={pristine || submitting}/>
                 </div>
             </form>
         );

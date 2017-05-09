@@ -78,21 +78,16 @@ public class AccessController extends Controller{
         long now = System.nanoTime();
         long diff = now-lastRefresh;
         diff = TimeUnit.NANOSECONDS.toMinutes(diff);
-        //System.out.println(diff);
-        //forceUpdateRights();
-        //return ok(Json.toJson(this.userRights));
-        //return ok(Json.toJson(checkRights("AdminPanel")));
+        forceUpdateRights();
        return ok(Json.toJson(diff));
     }
 
     public static void forceUpdateRights(){
         //added so a user can force the client to update their rights in case they know their rights will change.
         String username = session().get("connected");
-        System.out.println(username);
         //Store these for later use, query db if this is more than 10min outdated only (change time?)
         //this.userRights = qh.executeQuery(Statement.GET_USERCLASS_RIGHTS, className);
         JsonNode rights = qh.executeQuery(Statement.GET_USER_RIGHTS, username);
-        System.out.println(rights);
         Iterator<Map.Entry<String,JsonNode>> fields = rights.get(0).fields();
         List<Map<String, String>> output = new ArrayList<>();
         while(fields.hasNext()){

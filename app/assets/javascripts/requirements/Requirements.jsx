@@ -15,6 +15,12 @@ import Filter from './Filter';
 import Ellipsis from './../core/popover/Ellipsis';
 import Popover from './../core/popover/Popover';
 import RequirementInfoDialog from "./dialog/RequirementInfoDialog";
+import {
+    FontIcon, IconButton, RaisedButton, ToolbarGroup, ToolbarSeparator
+} from "material-ui";
+import { TableRowColumn, TableHeaderColumn } from 'material-ui/Table';
+import { AuthMin } from './../core/auth/Auth';
+import { ADMIN_PAGE } from './../core/auth/rights';
 
 class Requirements extends React.Component {
 
@@ -36,7 +42,9 @@ class Requirements extends React.Component {
             deleteDialogIsOpen, deleteDialogAction, deleteDialogOpen, deleteDialogChangeAction,
             structures, structureTypes, categories, users, newRequirementDialogIsOpen,
             editRequirementDialogIsOpen, editDialog, postUpdateRequirement, addRequirement,
-            updateRequirement, requirementInfoDialog, requirement, requirementInfoDialogIsOpen
+            updateRequirement, requirementInfoDialog, requirement, requirementInfoDialogIsOpen,
+            newDialog,
+
         } = this.props;
 
         const config = {
@@ -44,7 +52,7 @@ class Requirements extends React.Component {
             data: filter ? filterRequirementList : requirements,
             columns: [
                 {label: 'Navn', property: 'name', width: '10%'},
-                {label: 'Beskrivelse', property: 'description', width: '30%', wrap: {
+                {label: 'Beskrivelse', property: 'description', width: '40%', wrap: {
                         lines: 5,
                         ellipsis: (requirement) => {
                             const props = {
@@ -56,47 +64,70 @@ class Requirements extends React.Component {
                         }
                     }
                 },
-                {label: 'Kommentar', property: 'comment', width: '20%', wrap: {
-                        lines: 5,
-                    ellipsis: (requirement) => {
-                        const props = {
-                            component: 'requirements',
-                            object: requirement,
-                            property: 'description'
-                        };
-                        return <Ellipsis {...props}/>;
-                    }
-                    }
-                },
                 {label: 'Kategori', property: 'cName', width: '12%'},
                 {label: 'UnderKategori', property: 'scName', width: '12%'},
                 {type: 'INFO', action: (requirement) => {
                     updateRequirement(requirement);
                     requirementInfoDialog(true);
-                },width: '24px'},
-                {type: 'EDIT_ACTION', action: (requirement) => {
-                    editDialog(true);
-                    updateRequiredValues(requirement);
-                    const structures = {};
-                    requirement.structures.forEach(struc => structures[struc.type] = struc.content);
-                    updateOptionalValues(structures);
-                },width: '24px'},
-                {type: 'DELETE_ACTION', action: (requirement) => {
-                    deleteDialogOpen(true);
-                    deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
-                }, width: '24px'}
+                }, width: '24px'},
+                {type: 'CUSTOM', render: (requirement, row, icp) => {
+                    const handleClick = () => {
+                        editDialog(true);
+                        updateRequiredValues(requirement);
+                        const structures = {};
+                        requirement.structures.forEach(struc => structures[struc.type] = struc.content);
+                        updateOptionalValues(structures);
+                    };
+                    return (
+                        <AuthActionRow handleClick={handleClick}
+                                            icon="edit"
+                                            tooltip="Rediger"
+                                            row={row}
+                                            {...icp}
+
+                        />
+                    );
+                }, renderHeader: (row, index, icp) => {
+                    return <AuthHeaderRow row={row}
+                                          key={index}
+                                          {...icp}
+                    />
+                }, width: '24px'},
+                {type: 'CUSTOM', render: (requirement, row, icp) => {
+                    const handleClick = () => {
+                        deleteDialogOpen(true);
+                        deleteDialogChangeAction(() => {deleteRequirement(requirement); deleteDialogOpen(false)})
+                    };
+                    return (
+                        <AuthActionRow handleClick={handleClick}
+                                       icon="delete"
+                                       tooltip="Slett"
+                                       row={row}
+                                       {...icp}
+                        />
+                    );
+                }, renderHeader: (row, index, icp) => {
+                    return <AuthHeaderRow row={row}
+                                          key={index}
+                                          {...icp}
+                    />
+                }, width: '24px'},
             ],
             toolbar: {
                 title: 'Krav',
                 search: 'name',
-                render: () => {}
+                render: () => {
+                    return (
+                        <NewRequirement onClick={newDialog.bind(null, true)}/>
+                    );
+                }
             }
         };
 
         return (
             <div className="container">
                 <div style={{display: 'flex'}}>
-                    <Paper>
+                    <Paper style={{padding: '12px'}}>
                         <Filter/>
                     </Paper>
                 </div>
@@ -155,6 +186,34 @@ class Requirements extends React.Component {
     }
 }
 
+const AuthHeaderRow = AuthMin(ADMIN_PAGE)(({row, user, push, ...icp}) => {
+    return null;
+    return (
+        <TableHeaderColumn {...icp} style={{width: row.width, maxWidth: row.width, padding: '1px 12px 1px 12px'}}>
+            <div style={{width: '24px', height: '48px'}}/>
+        </TableHeaderColumn>
+    );
+});
+
+const AuthActionRow = AuthMin(ADMIN_PAGE)(({handleClick, icon, tooltip, row, user, push, ...icp}) => {
+    return (
+        <TableRowColumn {...icp} style={{...icp.style, width: row.width, maxWidth: row.width, padding: '1px 12px 1px 12px',  overflow: 'visible'}}>
+            <IconButton onClick={handleClick}  style={{padding: 0, width: '24px', height: '24px'}} tooltip={tooltip} tooltipPosition="top-left">
+                <FontIcon className="material-icons">{icon}</FontIcon>
+            </IconButton>
+        </TableRowColumn>
+    );
+});
+
+const NewRequirement = AuthMin(ADMIN_PAGE)(({onClick}) => {
+    return (
+        <ToolbarGroup>
+            <ToolbarSeparator />
+            <RaisedButton label="Nytt Krav" primary={true} onClick={onClick} />
+        </ToolbarGroup>
+    );
+});
+
 const mapStateToProps = (state) => {
     return {
         filterRequirementList: state.filterReducer.filterRequirementList['requirements'],
@@ -195,7 +254,6 @@ const mapDispatchToProps = (dispatch) => {
         postUpdateRequirement: (requirement) => dispatch(postUpdateRequirement(requirement)),
         addRequirement: (requirement) => dispatch(addRequirement(requirement)),
         requirementInfoDialog: (open) => dispatch(dialogOpen('requirementInfoDialog', open))
-
     };
 };
 

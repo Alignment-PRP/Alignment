@@ -240,6 +240,12 @@ public class AdminController extends Controller {
         //Gets the POST data as Json
         final JsonNode values = request().body().asJson();
 
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
+        if(!className.equals("Admin")){
+            return unauthorized("You do not have permission to delete requirements.");
+        }
 
         //Gets the meta data values
         int ID = values.get("ID").asInt();
@@ -344,7 +350,6 @@ public class AdminController extends Controller {
         String child = values.get("child")[0];
         //note: this should also cover the case of parent = child (returns 1 but not 2)
         JsonNode exists = qh.executeQuery(Statement.CATEGORY_EXISTS);
-        System.out.println(exists);
         if(exists.get(0).get("bool").asInt() != 2){
             return unauthorized("one or more of the selected categories do not exist");
         }
@@ -364,8 +369,6 @@ public class AdminController extends Controller {
 
         int reqExists = qh.executeQuery(Statement.REQUIREMENT_EXISTS, requirement).get(0).get("bool").asInt();
         int categoryExists = qh.executeQuery(Statement.CATEGORY_EXISTS, category).get(0).get("bool").asInt();
-        System.out.println(reqExists);
-        System.out.println(categoryExists);
 
         if(reqExists == 1 && categoryExists == 1){
             qh.addTableRelation(Statement.INSERT_CATEGORY, requirement, category);

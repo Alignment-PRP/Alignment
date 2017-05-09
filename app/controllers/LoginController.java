@@ -50,7 +50,7 @@ public class LoginController extends Controller{
 
         if (authenticator.authenticate(user, dbUser)) {
             session().clear();
-            session("connected", user.USERNAME);
+            session("connected", dbUser.USERNAME);
             session("timestamp", LocalDateTime.now().toString());
             //Ensures your rights are always up to date on login
             AccessController.forceUpdateRights();

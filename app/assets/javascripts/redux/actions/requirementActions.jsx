@@ -44,7 +44,6 @@ export function getAllCategoryNames() {
 }
 
 export function addRequirement(requirement) {
-    console.log(requirement);
     return dispatch => {
         axios.post(URLS.REQUIREMENT_POST_ADD, requirement)
             .then(function (response) {
@@ -111,9 +110,10 @@ export function postUpdateRequirementMetadata(requirement){
     }
 }
 
+
+
 export function postProjectReqUpdate(requirement){
     return dispatch => {
-        console.log(requirement);
         axios.post(URLS.PROJECT_REQUIREMENT_POST_UPDATE, requirement)
             .then(function (response) {
                 dispatch(getAllRequirements());
