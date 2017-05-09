@@ -11,7 +11,7 @@ class DataTableHeaderRows extends React.Component {
                         return row.label ?
                             <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp} >{row.label}</TableHeaderColumn>
                             :
-                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width}} key={index} {...icp}><div style={{width: '48px', height: '48px'}}/></TableHeaderColumn>;
+                            <TableHeaderColumn style={{width: row.width, maxWidth: row.width, padding: '1px 12px 1px 12px'}} key={index} {...icp}><div style={{width: '24px', height: '48px'}}/></TableHeaderColumn>;
                     }
                 )}
             </TableRow>

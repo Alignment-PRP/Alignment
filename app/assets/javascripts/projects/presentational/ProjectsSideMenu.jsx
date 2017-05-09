@@ -18,23 +18,21 @@ class ProjectsSideMenu extends React.Component {
             handlePrivate, handlePublic, handleAccessible, handleNew, className
         } = this.props;
         return (
-            <div className={className}>
-                <Paper>
-                    <List>
-                        <ListItem disabled={true} primaryText="PROSJEKT MENY"/>
-                    </List>
-                    <Divider/>
-                    <List>
-                        <ListItem primaryText="Mine Prosjekter" onClick={handlePrivate}/>
-                        <ListItem primaryText="Åpne Prosjekter" onClick={handlePublic}/>
-                        <ListItem primaryText="Tilgjengelige Prosjekter" onClick={handleAccessible}/>
-                    </List>
-                    <Divider/>
-                    <List style={{display: 'flex', justifyContent: 'center'}}>
-                        <RaisedButton onClick={handleNew} primary={true} label="Nytt Prosjekt" />
-                    </List>
-                </Paper>
-            </div>
+            <Paper className={className}>
+                <List>
+                    <ListItem disabled={true} primaryText="PROSJEKT MENY"/>
+                </List>
+                <Divider/>
+                <List>
+                    <ListItem primaryText="Mine Prosjekter" onClick={handlePrivate}/>
+                    <ListItem primaryText="Åpne Prosjekter" onClick={handlePublic}/>
+                    <ListItem primaryText="Tilgjengelige Prosjekter" onClick={handleAccessible}/>
+                </List>
+                <Divider/>
+                <List style={{display: 'flex', justifyContent: 'center'}}>
+                    <RaisedButton onClick={handleNew} primary={true} label="Nytt Prosjekt" />
+                </List>
+            </Paper>
         );
     }
 

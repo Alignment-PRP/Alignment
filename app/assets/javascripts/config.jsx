@@ -3,8 +3,7 @@
  * @module config
  */
 
-export const URL = "http://localhost:9000/";
-export const API = URL + "api";
+export const API = "/api";
 
 export const AUTH = API + "/auth";
 export const LOGIN_POST = AUTH + "/login";
@@ -19,7 +18,6 @@ export const USER_POST_DELETE = USER_GET + "/delete";
 export const USERS_GET = USER_GET + "s";
 export const USERS_GET_WITH_CLASS = USERS_GET + "_c";
 export const USER_GET_BY_ID = USERS_GET + "/";
-export const USER_GET_BY_ID_MIN = USER_GET_BY_ID.replace(URL, "");
 export const USER_GET_USERCLASSES = USER_GET + "/userClasses";
 
 export const USERCLASS = API + "/userclass";
@@ -29,7 +27,17 @@ export const USERCLASS_POST_DELETE = USERCLASS + "/delete";
 
 export const PROJECT = API + "/project";
 export const PROJECT_POST_NEW = PROJECT + "/new";
+export const PROJECT_POST_UPDATE = PROJECT + "/update";
+
+export const GET_USERS_THAT_HAVE_ACCESS = PROJECT + "/:id/hasAccess/users";
+export const GET_CLASSES_THAT_HAVE_ACCESS = PROJECT + "/:id/hasAccess/classes";
+export const REMOVE_HAS_ACCESS = PROJECT + "/hasAccess/remove";
+export const INSERT_HAS_ACCESS = PROJECT + "/hasAccess/add";
+
 export const PROJECT_GET_BY_ID = PROJECT + "/:id";
+export const PROJECT_GET_DATA_BY_ID = PROJECT_GET_BY_ID + "/data";
+export const PROJECT_GET_META_BY_ID = PROJECT_GET_BY_ID + "/meta";
+
 export const PROJECT_DELETE_BY_ID = PROJECT + "/delete";
 
 const PROJECTS = API + "/projects";

@@ -1,15 +1,22 @@
 import {
+    POST_NEW_PROJECT,
     GET_PROJECTS_PUBLIC,
     GET_PROJECTS_ACCESSIBLE,
-    GET_PROJECTS_IS_CREATOR,
     GET_PROJECTS_IS_MANAGER,
-    POST_NEW_PROJECT,
-    POST_DELETE_PROJECT,
+    GET_PROJECTS_IS_CREATOR,
+    GET_PROJECT_DATA_BY_ID,
+    GET_PROJECT_META_BY_ID,
     GET_PROJECT_BY_ID,
     GET_REQUIREMENTS_BY_PROJECT_ID,
-    POST_REQUIREMENT_TO_PROJECT,
-    DELETE_REQUIREMENT_TO_PROJECT,
-    CHANGE_PROJECTS_TABLE_MODE
+    CHANGE_PROJECTS_TABLE_MODE,
+    POST_DELETE_PROJECT,
+    INIT_EDIT_PROJECT_FORM,
+    CLEAR_INIT_EDIT_PROJECT_FORM,
+    GET_USERS_THAT_HAVE_ACCESS,
+    GET_CLASSES_THAT_HAVE_ACCESS,
+    REMOVE_HAS_ACCESS,
+    INSERT_HAS_ACCESS
+
 } from './../types';
 //Here is where the global state of the projectReducer actually get stored and changed. The projectReducer get passed actions.types into a switch function.
 //When updating, all other fields in the state needs to stay the same. The field that gets updated gets the action.payload data from redux actions.
@@ -17,13 +24,18 @@ import {
 //all reducers get gathered into one big reducer in store.jsx
 
 const projectReducer = (state = {
+    projectData: null,
+    projectMeta: null,
+    initEditProjectForm: null,
     projectsPublic: null,
     projectsAccessible: null,
     projectsIsCreator: null,
     projectsIsManager: null,
     tableMode: "PUBLIC",
     project: [],
-    projectRequirements: null
+    projectRequirements: null,
+    classesData: [],
+    usersData: null
 }, action) => {
     switch (action.type) {
         case POST_NEW_PROJECT.RECEIVED:
@@ -69,6 +81,28 @@ const projectReducer = (state = {
                 ...state,
                 projectsIsManager: action.response.data
             };
+
+        case GET_USERS_THAT_HAVE_ACCESS.RECEIVED:
+            return {
+                ...state,
+                usersData: action.response.data
+            };
+
+        case GET_CLASSES_THAT_HAVE_ACCESS.RECEIVED:
+            return {
+                ...state,
+                classesData: action.response.data
+            };
+        case GET_PROJECT_DATA_BY_ID.RECEIVED:
+            return {
+                ...state,
+                projectData: action.response.data
+            };
+        case GET_PROJECT_META_BY_ID.RECEIVED:
+            return {
+                ...state,
+                projectMeta: action.response.data
+            };
         case GET_PROJECT_BY_ID.RECEIVED:
             return {
                 ...state,
@@ -84,6 +118,17 @@ const projectReducer = (state = {
                 ...state,
                 tableMode: action.payload
             };
+        case INIT_EDIT_PROJECT_FORM:
+            return {
+                ...state,
+                initEditProjectForm: action.payload
+            };
+        case CLEAR_INIT_EDIT_PROJECT_FORM:
+            return {
+                ...state,
+                initEditProjectForm: action.payload
+            };
+        case POST_DELETE_PROJECT:
         default:
             return state;
     }

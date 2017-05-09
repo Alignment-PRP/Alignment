@@ -112,3 +112,31 @@
  * @property {String} RECEIVED
  * @property {String} ERROR
  */
+
+/**
+ * @global
+ * @typedef {Object} Requirement
+ * @property {String} ID
+ * @property {String} cDesc
+ * @property {String} cID
+ * @property {String} cName
+ * @property {String} comment
+ * @property {String} description
+ * @property {String} name
+ * @property {String} reqCode
+ * @property {String} reqNo
+ * @property {String} reqResponsible
+ * @property {String} scDesc
+ * @property {String} scID
+ * @property {String} scName
+ * @property {Array.<Structure>} structures
+ */
+
+/**
+ * @global
+ * @typedef {Object} Structure
+ * @property {String} RID
+ * @property {String} SID
+ * @property {String} content
+ * @property {String} type
+ */
