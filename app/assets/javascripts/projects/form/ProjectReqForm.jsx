@@ -52,8 +52,8 @@ class ProjectReqForm extends React.Component {
                     </div>
                 </div>
                 <div className="form-button-row">
-                    <RaisedButton className="form-button" primary={true} type="submit" label="Lagre"/>
-                    <RaisedButton className="form-button" style={{marginLeft: 'auto'}} secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <RaisedButton className="form-button" secondary={true} label="Avbryt" onClick={handleClose}/>
+                    <RaisedButton className="form-button" style={{marginLeft: 'auto'}} primary={true} type="submit" label="Lagre"/>
                 </div>
             </form>
         );
