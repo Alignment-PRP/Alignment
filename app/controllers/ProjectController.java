@@ -437,35 +437,25 @@ public class ProjectController extends Controller {
     }
 
     public Result jamaTest(){
+        Map<String, Object> projectsMap = new HashMap<>();
         try {
-            String baseURL = " https://sandbox-trondheim.jamacloud.com/rest/v1/";
+            JamaInstance jamaInstance = new JamaInstance(new JamaConfig(true, "conf/jama.properties"));
+            ArrayList<JamaProject> projects = (ArrayList<JamaProject>) jamaInstance.getProjects();
+            for (JamaProject project : projects) {
+                Map<String, Object>  pMap = new HashMap<>();
+                pMap.put("projectKey", project.getProjectKey());
+                pMap.put("projectID", project.getId());
+                pMap.put("projectName", project.getName());
+                pMap.put("description", project.getDescription());
 
-            // Username and password should be stored according
-            // to your organization's security policies
-            String username = "andrfo@stud.ntnu.no";
-            String password = "Ann10kkk";
-            String auth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
-
-            String resource = "projects";
-
-            URL url = new URL(baseURL + resource);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Authorization", "Basic " + auth);
-
-            InputStream content = connection.getInputStream();
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(content));
-            System.out.println(in.readLine());
-        }
-        catch (MalformedURLException e){
-            e.printStackTrace();
-        }
-        catch (IOException e){
+                projectsMap.put(project.getName(), pMap);
+            }
+        } catch(RestClientException e) {
             e.printStackTrace();
         }
 
 
-        return ok();
+        return ok(Json.toJson(projectsMap));
     }
 
     /**
