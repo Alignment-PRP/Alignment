@@ -133,7 +133,7 @@ class Projects extends React.Component {
                                 <CardTitle
                                     className="project-card-title"
                                     title={project.name}
-                                    subtitle={'Laget av:' + project.creatorID + '  ' + 'Sjef: ' + project.managerID}
+                                    subtitle={/*'Laget av:' + project.creatorID + '  ' + */'Prosjektleder: ' + project.managerID}
                                 />
                                 <CardActions>
                                     <Link to={'project/' + project.ID}>
