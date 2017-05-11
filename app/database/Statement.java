@@ -38,11 +38,31 @@ public enum Statement {
             "reqNo = ?, " +
             "name = ? " +
             "WHERE RID = ?"),
+    GET_REQUIREMENT_STRUCTURES("" +
+            "SELECT r.ID AS RID, s.ID AS SID, s.type AS type, s.content AS content  " +
+            "FROM Structure AS s " +
+            "INNER JOIN HasStructure AS hs " +
+            "ON hs.SID = s.ID " +
+            "INNER JOIN Requirements AS r " +
+            "ON r.ID = hs.RID " +
+            "WHERE r.ID = ? "),
     INSERT_REQUIREMENT_STRUCTURE("INSERT INTO Structure (type, content) VALUES(?,?)"),
     INSERT_REQUIREMENT_HAS_STRUCTURE("INSERT INTO HasStructure (RID, SID) VALUES(?,?)"),
     REQUIREMENT_EXISTS("SELECT count(1) as bool FROM Requirements WHERE ID = ?"),
-    GET_REQUIREMENTS_BY_CATEGORY_ID("" +
-            ""),//TODO
+    GET_REQUIREMENTS_IS_RESPONSIBLE("" +
+            "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc " +
+            "FROM Requirements AS r " +
+            "INNER JOIN RequirementMetaData AS rm " +
+            "ON r.ID = rm.RID " +
+            "INNER JOIN HasSubCategory AS hsc " +
+            "ON r.ID = hsc.RID " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON hsc.SID = sc.ID " +
+            "INNER JOIN Category AS c " +
+            "ON sc.catID = c.ID " +
+            "WHERE rm.reqResponsible = ? "),
+
+    SET_REQUIREMENT_RESPONSIBLE("UPDATE RequirementMetaData SET reqResponsible = ? WHERE RID = ? "),
     GET_GLOBAL_REQUIREMENTS("" +
             "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc " +
             "FROM Requirements AS r " +
@@ -54,6 +74,14 @@ public enum Statement {
             "ON hsc.SID = sc.ID " +
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID "),
+
+    GET_REQUIREMENTS_STRUCTURES("" +
+            "SELECT r.ID AS RID, s.ID AS SID, s.type AS type, s.content AS content " +
+            "FROM Requirements AS r " +
+            "INNER JOIN HasStructure AS hs " +
+            "ON hs.RID = r.ID " +
+            "INNER JOIN Structure AS s " +
+            "ON s.ID = hs.SID "),
 
     GET_GLOBAL_REQUIREMENT_BY_ID("" +
             "SELECT r.*, rm.*, sc.ID AS scID, sc.name AS scName, sc.description AS scDesc, c.ID AS cID, c.name AS cName, c.description AS cDesc " +
@@ -90,6 +118,7 @@ public enum Statement {
             "SELECT type " +
             "FROM Structure " +
             "GROUP BY type"),
+    GET_STRUCTURES("SELECT * FROM Structure"),
 
 
     //===========================================PROJECT=========================================================================
@@ -108,7 +137,19 @@ public enum Statement {
             "INNER JOIN Category AS c " +
             "ON sc.catID = c.ID " +
             "WHERE pr.PID = ?"),
+    GET_PROJECT_REQUREMENT("" +
+            "SELECT * " +
+            "FROM ProjectRequirements " +
+            "WHERE PID = ? AND RID = ?"),
     INSERT_PROJECT_REQUIREMENT("INSERT INTO ProjectRequirements (PID, RID, reqNo, reqCode, comment, description) VALUES(?,?,?,?,?,?)"),
+    UPDATE_PROJECT_REQUIREMENT("" +
+            "UPDATE ProjectRequirements " +
+            "SET " +
+            "reqNo = ?, " +
+            "reqCode = ?, " +
+            "comment = ?, " +
+            "description = ? " +
+            "WHERE PID = ? AND RID = ?"),
 
     //TODO:Requirements can be public or not. Need different methods for these.
 
@@ -134,6 +175,12 @@ public enum Statement {
     CATEGORY_EXISTS("SELECT count(1) as bool FROM Category WHERE ID = ?"),
     INSERT_SUBCATEGORY("INSERT INTO SubCategory (catID, name, description) VALUES (?,?,?)"),
     INSERT_HAS_SUBCATEGORY("INSERT INTO HasSubCategory (RID, SID) VALUES (?,?)"),
+    GET_REQUIREMENTS_BY_CATEGORY_ID("" +
+            "SELECT c.ID AS categoryID, sc.ID AS subCategoryID, c.name AS categoryName, c.description AS categoryDescription, sc.name AS subCategoryName, sc.description AS subCategoryDescription " +
+            "FROM Category AS c " +
+            "INNER JOIN SubCategory AS sc " +
+            "ON sc.catID = c.ID " +
+            "WHERE c.ID = ?"),
 
 
 
@@ -153,6 +200,9 @@ public enum Statement {
     DELETE_PROJECT_REQUIREMENTS_BY_PID("DELETE FROM ProjectRequirements WHERE PID = ? "),
 
     GET_PROJECT_META_DATA("SELECT * FROM ProjectMetaData WHERE PID = ?"),
+
+    SET_PROJECT_MANAGER("UPDATE Project SET managerID = ? WHERE ID = ?"),
+    SET_PROJECT_CREATOR("UPDATE Project SET creatorID = ? WHERE ID = ?"),
 
     PROJECT_EXISTS("SELECT count(1) as bool FROM Project WHERE ID = ?"),
     GET_PROJECT_BY_ID("SELECT *  FROM Project WHERE ID=?"),
@@ -184,16 +234,18 @@ public enum Statement {
     GET_USER_HAS_ACCESS("" +
             "SELECT count(1) as bool " +
             "FROM Project AS p " +
-            "INNER JOIN HasAccess AS ha " +
+            "LEFT JOIN HasAccess AS ha " +
             "ON ha.PID = p.ID " +
-            "WHERE ha.NAME = ? AND p.ID = ?"),
+            "LEFT JOIN UserHasAccess AS uha " +
+            "ON uha.PID = p.ID " +
+            "WHERE (ha.NAME = ? OR uha.USERNAME = ?) AND p.ID = ?"),
     UPDATE_PROJECT("" +
             "UPDATE Project " +
             "SET " +
             "managerID = ?, " +
             "name = ?, " +
             "description = ?, " +
-            "isPublic = ?, " +
+            "isPublic = ? " +
             "WHERE ID = ?"),
 
     UPDATE_PROJECT_META_DATA("" +
@@ -202,7 +254,7 @@ public enum Statement {
             "securityLevel = ?, " +
             "transactionVolume = ?, " +
             "userChannel = ?, " +
-            "deploymentStyle = ?, " +
+            "deploymentStyle = ? " +
             "WHERE PID = ?"),
 
     INSERT_PROJECT("INSERT INTO Project (managerID, creatorID, name, description, isPublic) VALUES(?,?,?,?,?)"),
@@ -250,7 +302,21 @@ public enum Statement {
             "INNER JOIN UserClass AS uc " +
             "ON uc.NAME = uhc.NAME "
     ),
+    GET_USERS_THAT_HAVE_ACCESS("" +
+            "SELECT u.USERNAME, u.firstName, u.lastName, u.email " +
+            "FROM Users AS u " +
+            "INNER JOIN UserHasAccess As uha " +
+            "ON u.USERNAME = uha.USERNAME " +
+            "WHERE uha.PID = ?"
+    ),
+    GET_CLASSES_THAT_HAVE_ACCESS("" +
+            "SELECT uc.* " +
+            "FROM UserClass As uc " +
+            "INNER JOIN HasAccess AS ha " +
+            "ON uc.NAME = ha.NAME " +
+            "WHERE ha.PID = ?"),
     UPDATE_USER("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=? WHERE USERNAME=?"),
+    UPDATE_USER_WITH_PASS("UPDATE Users SET USERNAME=?, firstName=?, lastName=?, email=?, pass=? WHERE USERNAME=?"),
     UPDATE_USER_CLASS("UPDATE UserHasClass SET USERNAME=?, NAME=? WHERE USERNAME=?"),
     INSERT_USER_CLASS("INSERT INTO UserHasClass (USERNAME, NAME) VALUES (?,?)"),
 
@@ -258,25 +324,22 @@ public enum Statement {
     INSERT_USERCLASS("INSERT INTO UserClass (NAME, description) VALUES (?,?)"),
     UPDATE_USERCLASS("UPDATE UserClass SET NAME=?, description=? WHERE NAME=?"),
     UPDATE_CHANGE_USERHASCLASS_NAME("UPDATE UserHasClass SET NAME=? WHERE NAME=?"),
-    DELETE_USERCLASS("DELETE FROM UserClass WHERE NAME=?");
+    DELETE_USERCLASS("DELETE FROM UserClass WHERE NAME=?"),
+    DELETE_USER_HAS_CLASS("DELETE FROM UserHasClass WHERE USERNAME=?"),
+    DELETE_USER_HAS_ACCESS_BY_USERNAME("DELETE FROM UserHasAccess WHERE USERNAME=?"),
+    DELETE_USER("DELETE FROM Users WHERE USERNAME = ?"),
+    GET_USER_RIGHTS("SELECT r.name, r.description " +
+            "FROM " +
+            "(SELECT uhc.NAME " +
+            "FROM UserHasClass as uhc " +
+            "WHERE uhc.USERNAME = ?) as uhc " + //as uhc may not be nessecary will check when I have more time
+            "INNER JOIN ClassRight as cr " +
+            "ON uhc.NAME = cr.NAME " +
+            "INNER JOIN Rights as r " +
+            "ON cr.RID = r.ID ");
+    
 
 
-
-    //NOTE LEAVE ALL OF THIS FOR WHEN WE GET TO DELETIONS (THEY'RE A FUCKING PAIN)
-    //DELETE_PROJECT_MANAGER(),
-
-    //DELETE_PROJECT_OWNER(),
-
-    /*DELETE_PROJECT("DELETE project, projectowner, projectmanager FROM " +
-            "project INNER JOIN projectowner INNER JOIN projectmanager " +
-            "WHERE project.projectid = projectowner.projectid AND project.projectid = projectmanager.projectid " +
-            "AND project.projectid= ?")*/
-    /*
-    DELETE_PROJECT_PEOPLE("DELETE projectowner, projectmanager, partof " +
-            "FROM projectowner INNER JOIN projectmanager INNER JOIN partof " +
-            "WHERE projectowner.projectid = projectmanager.projectid AND projectowner.projectid = partof.projectid AND projectowner.projectid = ?"),
-
-    DELETE_PROJECT("DELETE project");*/
 
 
     private final String statement;

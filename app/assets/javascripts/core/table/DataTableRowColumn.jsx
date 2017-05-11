@@ -5,9 +5,9 @@ import {FontIcon, IconButton, TableRowColumn} from "material-ui";
 
 const LinkTo = ({icp, style, link, icon}) => {
     return (
-        <TableRowColumn {...icp} style={style}>
+        <TableRowColumn {...icp} style={{...style, padding: '1px 12px 1px 12px'}}>
             <Link to={link}>
-                <IconButton>
+                <IconButton style={{padding: 0, width: '24px', height: '24px'}}>
                     <FontIcon className="material-icons">{icon}</FontIcon>
                 </IconButton>
             </Link>
@@ -15,10 +15,10 @@ const LinkTo = ({icp, style, link, icon}) => {
     );
 };
 
-const Action = ({icp, style, onClick, icon}) => {
+const Action = ({tooltip, icp, style, onClick, icon}) => {
     return (
-        <TableRowColumn {...icp} style={style}>
-            <IconButton onClick={onClick}>
+        <TableRowColumn {...icp} style={{...style, padding: '1px 12px 1px 12px',  overflow: 'visible'}}>
+            <IconButton onClick={onClick}  style={{padding: 0, width: '24px', height: '24px'}} tooltip={tooltip} tooltipPosition="top-left">
                 <FontIcon className="material-icons">{icon}</FontIcon>
             </IconButton>
         </TableRowColumn>
@@ -35,6 +35,8 @@ class DataTableRowColumn extends React.Component {
         const onClick = row.action ? row.action.bind(null, obj) : null;
 
         switch (row.type) {
+            case "CUSTOM":
+                return row.render(obj, row, icp);
             case "LINK":
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
@@ -46,13 +48,17 @@ class DataTableRowColumn extends React.Component {
             case "EDIT_LINK":
                 return <LinkTo icp={icp} style={defaultStyle} link={link} icon="edit" />;
             case "EDIT_ACTION":
-                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="edit" />;
+                return <Action tooltip="Rediger" icp={icp} style={defaultStyle} onClick={onClick} icon="edit" />;
+            case "EDIT_AND_ADD_ACTION":
+                return <Action tooltip="Rediger og legg til" icp={icp} style={defaultStyle} onClick={onClick} icon="note_add" />;
+            case "INFO":
+                return <Action tooltip="Info" icp={icp} style={defaultStyle} onClick={onClick} icon="description" />;
             case "EDIT_LINK_ACTION":
                 return (
                     <TableRowColumn {...icp} style={defaultStyle}>
                         <Link to={link}>
-                            <IconButton onClick={onClick}>
-                                <FontIcon className="material-icons">edit</FontIcon>
+                            <IconButton onClick={onClick} tooltip="Edit requirement">
+                                <FontIcon className="material-icons" >edit</FontIcon>
                             </IconButton>
                         </Link>
                     </TableRowColumn>
@@ -60,9 +66,9 @@ class DataTableRowColumn extends React.Component {
             case "DELETE_LINK":
                 return <LinkTo icp={icp} style={defaultStyle} link={link} icon="delete" />;
             case "DELETE_ACTION":
-                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="delete" />;
+                return <Action tooltip="Slett" icp={icp} style={defaultStyle} onClick={onClick} icon="delete" />;
             case "ADD_ACTION":
-                return <Action icp={icp} style={defaultStyle} onClick={onClick} icon="add" />;
+                return <Action tooltip="Legg til" icp={icp} style={defaultStyle} onClick={onClick} icon="add" />;
             default:
                 return (
                     <TableRowColumn{...icp} style={defaultStyle}>

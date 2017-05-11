@@ -126,19 +126,24 @@ class DataTable extends React.Component {
         this.getData = this.getData.bind(this);
     }
 
+    componentWillUnmount() {
+        this.props.tableSearchData(this.props.config.table, null);
+    }
+
     /**
      * Renders the body.
      * @param {Array.<Column>} columns - Array with {@link Column}.
      * @param {Array.<Object>} datac - Data used to populate the table.
      * @param {number} nRows - Number of rows.
      * @param {number} page - Page number.
+     * @param {Object} injectedRowProps
      * @returns {XML}
      */
-    renderBody(columns, datac, nRows, page) {
+    renderBody(columns, datac, nRows, page, ...injectedRowProps) {
         if (datac) {
             if (datac.length > 0) {
                 return datac.slice((page - 1) * nRows, page * nRows).map((obj, index) => {
-                    return <DataTableRow obj={obj} key={index} index={index} meta={columns}/>
+                    return <DataTableRow obj={obj} key={index} index={index} meta={columns} {...injectedRowProps}/>
                 })
             } else {
                 return (
@@ -184,7 +189,7 @@ class DataTable extends React.Component {
                             <span>Rader per side:</span>
                             <DropDownMenu
                                 value={nRows}
-                                onChange={(event, key, value) => {tableRows(table, value)}}
+                                onChange={(event, key, value) => {tablePage(table, 1); tableRows(table, value)}}
                                 underlineStyle={{}}
                             >
                                 <MenuItem value={10} primaryText="10"/>
@@ -226,10 +231,11 @@ class DataTable extends React.Component {
      * @param {String} input - User input.
      */
     searchData(event, input) {
-        const { config, tableSearchData } = this.props;
+        const { config, tableSearchData, tablePage } = this.props;
         const { data, table, toolbar } = config;
         const search = toolbar.search;
 
+        tablePage(table, 1);
         if (!input || input.length === 0 ) {
             tableSearchData(table, null)
         } else {
@@ -239,7 +245,7 @@ class DataTable extends React.Component {
             const properties = search.split('|');
             datac.forEach(obj => {
                 properties.forEach(prop => {
-                    if (obj[prop].match(regex)) {
+                    if (obj[prop].match(regex) && result.indexOf(obj) === -1) {
                         result.push(obj);
                     }
                 });
@@ -256,8 +262,8 @@ class DataTable extends React.Component {
     getData() {
         const { tables } = this.props;
         const { table, data } = this.props.config;
-        let datac;
 
+        let datac;
         if (tables[table]) {
             if (tables[table].searchData) {
                 datac = tables[table].searchData;

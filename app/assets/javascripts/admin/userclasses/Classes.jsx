@@ -60,24 +60,17 @@ class Classes extends React.Component {
                         }
                     }
                 },
-                {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '7%'},
-                {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '7%'}
+                {type: 'EDIT_ACTION', action: (uClass) => { updateDialog(true); fillForm(uClass); }, width: '24px'},
+                {type: 'DELETE_ACTION', action: (uClass) => { deleteDialog(true); fillForm(uClass); }, width: '24px'}
             ],
             toolbar: {
-                title: 'Brukerklasses',
+                title: 'Brukerklasser',
+                search: 'NAME',
                 render: () => {
                     return (
                         <ToolbarGroup>
                             <ToolbarSeparator />
                             <RaisedButton label="Ny Brukerklasse" primary={true} onTouchTap={() => { updateDialog(true); fillForm(null); }} />
-                            <IconMenu
-                                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                                targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                            >
-                                <MenuItem primaryText="Oppdater" />
-                                <MenuItem primaryText="Settings" />
-                            </IconMenu>
                         </ToolbarGroup>
                     );
                 }
@@ -85,8 +78,8 @@ class Classes extends React.Component {
         };
 
         return (
-            <div className="containerUsers">
-                <div className="usertable">
+            <div className="container" style={{justifyContent: 'center'}}>
+                <div className="table">
                     <DataTable config={config}/>
                 </div>
 

@@ -10,7 +10,7 @@
     background-size: cover;
 }
 #header #title {
-    margin: 10px 0px 0px -800px;
+    margin: auto;
     flex: 2;
 }
 #header h1 {
@@ -20,7 +20,7 @@
 }
 
 #header #user-info {
-    margin: 60px 0px 0px 65px;
+    margin: 60px 0px 0px 0px;
     font-size: 12px;
     text-align: left;
     font-weight: 200;

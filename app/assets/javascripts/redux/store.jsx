@@ -13,9 +13,10 @@ import loginPageReducer from './reducers/loginPageReducer';
 import popoverReducer from './reducers/popoverReducer';
 import projectReducer from './reducers/projectReducer';
 import requirementReducer from './reducers/requirementReducer';
-import sideMenuReducer from './reducers/sideMenuReducer';
+import requirementFormReducer from './reducers/requirementFormReducer';
 import snackBarReducer from './reducers/snackBarReducer';
 import statisticsReducer from './reducers/statisticsReducer';
+import structureReducer from './reducers/structureReducer';
 import tableReducer from './reducers/tableReducer';
 import userFormReducer from './reducers/userFormReducer';
 import userReducer from './reducers/userReducer';
@@ -37,9 +38,10 @@ const reducers = {
     popoverReducer,
     projectReducer,
     requirementReducer,
-    sideMenuReducer,
+    requirementFormReducer,
     snackBarReducer,
     statisticsReducer,
+    structureReducer,
     tableReducer,
     userFormReducer,
     userReducer,

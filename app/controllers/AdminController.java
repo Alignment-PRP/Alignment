@@ -4,16 +4,14 @@ import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import database.Statement;
-import play.api.libs.json.Json;
+import play.libs.Json;
 import play.db.Database;
 
 import database.QueryHandler;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Andreas on 05.03.2017.
@@ -132,29 +130,54 @@ public class AdminController extends Controller {
         qh.insertStatement(Statement.INSERT_HAS_SUBCATEGORY, ID, subCatID);
 
         //Inserts all the structures
-        for (String structureType: structures){
-            String content;
-            try{
-                content = values.get(structureType).asText();
+        for (JsonNode structure: values.get("structure")){
+
+            if(structure.has("id")){
+                insertHasStructure(ID, structure.get("id").asInt());
             }
-            catch (NullPointerException e){
-                continue;
-            }
-            int structureID;
-            try{
-                structureID = Integer.parseInt(content);
-                insertHasStructure(ID, structureID);
-            }
-            catch (NumberFormatException e){
-                String SID = insertStructureWithReturnID(structureType, content);
+            else if(structure.has("content")){
+                String SID = insertStructureWithReturnID(structure.get("type").asText(), structure.get("content").asText());
                 insertHasStructure(ID, Integer.parseInt(SID));
+
             }
-
         }
-        return ok("added requirement");
-
+        return ok(getGlobalRequirementById(ID));
     }
 
+    public Result getRequirementById(String ID){
+        return ok(getGlobalRequirementById(Integer.parseInt(ID)));
+    }
+
+    private JsonNode getGlobalRequirementById(int id) {
+
+
+        Map<String, Object> requirementMap = new HashMap<>();
+        JsonNode requirement = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, id).get(0);
+        JsonNode requirementStructure = qh.executeQuery(Statement.GET_REQUIREMENT_STRUCTURES, id);
+
+        Iterator<Map.Entry<String, JsonNode>> fields = requirement.fields();
+
+        while(fields.hasNext()){
+            Map.Entry<String, JsonNode> n = fields.next();
+
+            requirementMap.put(n.getKey(), n.getValue());
+        }
+
+
+        List<Map<String, Object>> structs = new ArrayList<>();
+        for (JsonNode str :
+                requirementStructure) {
+            Iterator<Map.Entry<String, JsonNode>> structFields = str.fields();
+            Map<String, Object> s = new HashMap<>();
+            while(structFields.hasNext()){
+                Map.Entry<String, JsonNode> n = structFields.next();
+                s.put(n.getKey(), n.getValue());
+            }
+            structs.add(s);
+        }
+        requirementMap.put("structures", structs);
+        return Json.toJson(requirementMap);
+    }
 
     private boolean validateReq(String source, String stimulus, String artifact, String response, String responsemeasure, String environment){
         //TODO
@@ -172,22 +195,6 @@ public class AdminController extends Controller {
     }
     //==================================== GET REQUIREMENT ===================================================
 
-    /**
-     * A method to get all the global requirements
-     * @return 200 OK or 401 Unauthorized
-     * If 200 OK, the body contains all global requirements with metadata and category
-     * TODO: Get structure as well?
-     */
-    public Result getReq(){
-        //Check if user is logged in
-        String userID = session("connected");
-        if(userID == null){
-            return unauthorized(views.html.login.render());
-        }
-        //TODO: validate user is admin (ADMIN DOESN'T EXIST YET)
-        JsonNode requirements = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
-        return ok(requirements);
-    }
 
     //==================================== UPDATE REQUIREMENT ================================================
 
@@ -215,6 +222,12 @@ public class AdminController extends Controller {
         //Gets the POST data as Json
         final JsonNode values = request().body().asJson();
 
+        JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
+        String className = userClass.get(0).get("NAME").asText();
+
+        if(!className.equals("Admin")){
+            return unauthorized("You do not have permission to delete requirements.");
+        }
 
         //Gets the meta data values
         int ID = values.get("ID").asInt();
@@ -258,26 +271,28 @@ public class AdminController extends Controller {
         qh.executeUpdate(Statement.DELETE_HAS_STRUCTURE, ID);
 
         //Inserts all the structures
-        for (String structureType: structures){
-            String content;
-            try{
-                content = values.get(structureType).asText();
-            }
-            catch (NullPointerException e){
-                continue;
-            }
-            int structureID;
-            try{
-                structureID = Integer.parseInt(content);
-                insertHasStructure(ID, structureID);
-            }
-            catch (NumberFormatException e){
-                String SID = insertStructureWithReturnID(structureType, content);
-                insertHasStructure(ID, Integer.parseInt(SID));
-            }
+        for (JsonNode structure: values.get("structure")){
 
+            if(structure.has("id")){
+                insertHasStructure(ID, structure.get("id").asInt());
+            }
+            else if(structure.has("content")){
+                String SID = insertStructureWithReturnID(structure.get("type").asText(), structure.get("content").asText());
+                insertHasStructure(ID, Integer.parseInt(SID));
+
+            }
         }
-        return ok("updated requirement");
+
+        req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENT_BY_ID, ID).get(0);
+
+
+
+
+
+
+
+
+        return ok(getGlobalRequirementById(ID));
 
 
     }
@@ -314,7 +329,6 @@ public class AdminController extends Controller {
         String child = values.get("child")[0];
         //note: this should also cover the case of parent = child (returns 1 but not 2)
         JsonNode exists = qh.executeQuery(Statement.CATEGORY_EXISTS);
-        System.out.println(exists);
         if(exists.get(0).get("bool").asInt() != 2){
             return unauthorized("one or more of the selected categories do not exist");
         }
@@ -331,8 +345,6 @@ public class AdminController extends Controller {
 
         int reqExists = qh.executeQuery(Statement.REQUIREMENT_EXISTS, requirement).get(0).get("bool").asInt();
         int categoryExists = qh.executeQuery(Statement.CATEGORY_EXISTS, category).get(0).get("bool").asInt();
-        System.out.println(reqExists);
-        System.out.println(categoryExists);
 
         if(reqExists == 1 && categoryExists == 1){
             qh.addTableRelation(Statement.INSERT_CATEGORY, requirement, category);
@@ -354,7 +366,7 @@ public class AdminController extends Controller {
             return unauthorized(views.html.login.render());
         }
         final JsonNode values = request().body().asJson();
-        Integer RID = values.get("RID").asInt();
+        int RID = values.get("RID").asInt();
 
         JsonNode userClass = qh.executeQuery(Statement.GET_USER_CLASS_BY_USERNAME, userID);
         String className = userClass.get(0).get("NAME").asText();
@@ -370,8 +382,7 @@ public class AdminController extends Controller {
         qh.executeUpdate(Statement.DELETE_PROJECT_REQUIREMENTS_BY_RID, RID);//TODO: This is unfortunate.
         qh.executeUpdate(Statement.DELETE_GLOBAL_REQUIREMENT, RID);
 
-
-        return ok("Global Requirement and all related data deleted");
+        return ok(Integer.toString(RID));
     }
 
     /*public Result deleteProjects(){

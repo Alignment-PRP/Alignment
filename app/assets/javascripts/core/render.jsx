@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
+import {AutoComplete} from "material-ui";
 
 /**
  * Contains functions for rendering and
@@ -118,7 +119,8 @@ export const normalizeNumberField = value => {
  * @param {Project} values
  * @returns {{}}
  */
-export const validateProjectForm = (values) => {
+export const validateProjectForm = (values, props) => {
+    /** @type Project */
     const errors = {};
     const requiredFields = [ 'name', 'securityLevel', 'transactionVolume', 'userChannel', 'deploymentStyle'];
     requiredFields.forEach(field => {
@@ -129,6 +131,9 @@ export const validateProjectForm = (values) => {
             errors[ field ] = "Må være et tall."
         }
     });
+    if (props.users.filter(user => user.USERNAME === values.managerID).length === 0) {
+        errors.managerID = 'Bruker eksisterer ikke'
+    }
     return errors
 };
 
@@ -217,6 +222,12 @@ export const menuItemsClasses = (classes) => {
     })
 };
 
+export const menuItemsUsers = (users) => {
+    return users.map((item, index) => {
+        return <MenuItem key={index} value={item.USERNAME} primaryText={item.USERNAME}/>
+    })
+};
+
 export const menuItemsCategories = (classes) => {
     return classes.map((item, index) => {
         return <MenuItem key={index} value={item.scID} primaryText={item.NAME}/>
@@ -226,23 +237,26 @@ export const menuItemsCategories = (classes) => {
 /**
  * Renders a SelectField from Material-UI.
  * Redux-form injects parameters.
- * @function
- * @param {Array} input
- * @param {string} label
- * @param {Object} meta
- * @param {boolean} meta.touched
- * @param {string} meta.error
- * @param {Array} children
- * @param {Array} custom
+ * @param {Function} onChange
+ * @param {String} value
+ * @param {Function} onBlur
+ * @param {Object} inputProps
+ * @param {Function} onChangeField
+ * @param {Object} props
  */
-export const renderSelectField = ({ input, label, meta: { touched, error }, children, ...custom }) => (
+export const renderSelectField = ({input: {onChange, value, onBlur, ...inputProps}, onChange: onChangeField, ...props}) => (
     <SelectField
-        floatingLabelText={label}
-        errorText={touched && error}
-        {...input}
-        onChange={(event, index, value) => input.onChange(value)}
-        children={children}
-        {...custom}/>
+        {...error(props)}
+        {...inputProps}
+        onChange={(event, index, value) => {
+            onChange(value);
+            if (onChangeField) {
+                onChangeField(value);
+            }
+        }}
+        onBlur={() => onBlur(value)}
+        value={value}
+    />
 );
 
 /**
@@ -251,10 +265,9 @@ export const renderSelectField = ({ input, label, meta: { touched, error }, chil
  * @function
  * @param {Array} input
  * @param {string} label
- * @param {Object} meta
- * @param {boolean} meta.touched
- * @param {string} meta.error
- * @param {string} meta.warning
+ * @param {boolean} touched
+ * @param {string} error
+ * @param {string} warning
  * @param {Array} custom
  */
 export const renderTextField = ({ input, label, meta: { touched, error, warning }, ...custom }) => (
@@ -272,20 +285,50 @@ export const renderTextField = ({ input, label, meta: { touched, error, warning 
  * @function
  * @param {Array} input
  * @param {string} label
- * @param {Object} meta
- * @param {boolean} meta.touched
- * @param {string} meta.error
+ * @param {boolean} touched
+ * @param {string} error
  * @param {Array} custom
  */
 export const renderMultiTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-    <TextField hintText={label}
-               multiLine={true}
-               style={{width: '512px'}}
-               rows={3}
+    <TextField multiLine={true}
+               style={{width: '256px'}}
+               rows={1}
+               rowsMax={4}
                floatingLabelText={label}
                errorText={touched && error}
                {...input}
                {...custom}
+    />
+);
+
+/**
+ * Renders a AutoComplete component from Material-ui.
+ * @param {Function} onChange
+ * @param {String} value
+ * @param {Array} data
+ * @param {Object} dataConfig
+ * @param {Function} onNewRequest
+ * @param {Object} props
+ */
+export const renderAutoComplete = ({ input: { onChange, value }, data, dataConfig, onNewRequest, ...props}) => (
+    <AutoComplete
+        {...error(props)}
+        dataSource={data}
+        dataSourceConfig={dataConfig}
+        searchText={ dataConfig && data ? (data.find(item => item[dataConfig.value] === value) || {})[dataConfig.text] : value}
+        onNewRequest={value => {
+            onChange(typeof  value === 'object' && dataConfig ? value[dataConfig.value] : value);
+            if (onNewRequest) {
+                onNewRequest(value);
+            }
+        }}
+        onUpdateInput={value => {
+            if (!dataConfig) {
+                onChange(value);
+            }
+        }}
+        filter={(searchText, key) => (key.indexOf(searchText) !== -1)}
+        listStyle={{maxHeight: '256px', overflow: 'auto'}}
     />
 );
 
@@ -295,9 +338,8 @@ export const renderMultiTextField = ({ input, label, meta: { touched, error }, .
  * @function
  * @param {Array} input
  * @param {string} label
- * @param {Object} meta
- * @param {boolean} meta.touched
- * @param {string} meta.error
+ * @param {boolean} touched
+ * @param {string} error
  * @param {Array} custom
  */
 export const renderPassField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -316,9 +358,8 @@ export const renderPassField = ({ input, label, meta: { touched, error }, ...cus
  * @function
  * @param {Array} input
  * @param {string} label
- * @param {Object} meta
- * @param {boolean} meta.touched
- * @param {string} meta.error
+ * @param {boolean} touched
+ * @param {string} error
  * @param {Array} custom
  */
 export const renderCheckbox = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -328,3 +369,7 @@ export const renderCheckbox = ({ input, label, meta: { touched, error }, ...cust
               {...custom}
     />
 );
+
+const error = ({meta: {touched, error, warning} = {}, input, ...props}) => {
+    return (touched && (error || warning)) ? { ...props, ...input, ['errorText']: error || warning} : {...input, ...props};
+};

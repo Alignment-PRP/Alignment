@@ -10,10 +10,7 @@ import play.mvc.Result;
 import static play.mvc.Results.ok;
 import javax.inject.Inject;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Kim Erling on 02.03.2017.
@@ -52,22 +49,51 @@ public class RequirementController extends Controller{
      * If 200 OK, The body contains the Relevant requirements and accompanying MetaData and Structure.
      */
     public Result getGlobalRequirements(){
-        //Checks if the user is logged in
+        //Check if user is logged in
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        //Returns and 200 OK with a JsonNode as Body.
+        //TODO: validate user is admin (ADMIN DOESN'T EXIST YET)
         Map<String, Object> requirementMap = new HashMap<>();
-        JsonNode req = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
+        JsonNode requirements = qh.executeQuery(Statement.GET_GLOBAL_REQUIREMENTS);
+        JsonNode requirementsStructures = qh.executeQuery(Statement.GET_REQUIREMENTS_STRUCTURES);
         for (JsonNode r:
-                req) {
-            requirementMap.put(r.get("RID").asText(), r);
+                requirements) {
+
+            Map<String, Object> requirementSingle = new HashMap<>();
+            Iterator<Map.Entry<String, JsonNode>> fields = r.fields();
+
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+
+                requirementSingle.put(n.getKey(), n.getValue());
+            }
+            List<Map<String, Object>> structs = new ArrayList<>();
+
+
+            requirementSingle.put("structures", structs);
+
+            requirementMap.put(r.get("RID").asText(), requirementSingle);
         }
+        for (JsonNode struct :
+                requirementsStructures) {
+            String RID = struct.get("RID").asText();
+            Map r = (HashMap<String, Object>)requirementMap.get(RID);
+            List<Map<String, Object>> str = (List<Map<String, Object>>)r.get("structures");
+
+            Iterator<Map.Entry<String, JsonNode>> fields = struct.fields();
+            Map<String, Object> s = new HashMap<>();
+            while(fields.hasNext()){
+                Map.Entry<String, JsonNode> n = fields.next();
+                s.put(n.getKey(), n.getValue());
+            }
+            str.add(s);
+
+        }
+
         return ok(Json.toJson(requirementMap));
     }
-
-
 
     /**
      * Returns a HTML form to insert a requirement. For testing.
@@ -125,46 +151,46 @@ public class RequirementController extends Controller{
 
     }
 
-    /*
-        //Checks if the user is logged in
-        String userID = session("connected");
-        if(userID == null){
-            return unauthorized(views.html.login.render());
-        }
-        //Returns and 200 OK with a JsonNode as Body.
-        JsonNode req = qh.executeQuery(Statement.GET_CATEGORY_NAMES);
-        return ok(req);
-    }*/
 
-
-    @Deprecated //need to use ID to get categories now.
-    public Result getRequirementsByCategoryName(String name){
-        String userID = session("connected");
-        if(userID == null){
-            return unauthorized(views.html.login.render());
-        }
-        //Returns and 200 OK with a JsonNode as Body.
-        //JsonNode req = qh.getRequirementByCategoryName(name);
-        JsonNode req = qh.executeQuery(Statement.GET_REQUIREMENTS_BY_CATEGORY_ID,name);
-        return ok(req);
-    }
 
     public Result getStructureTypes(){
         String userID = session("connected");
         if(userID == null){
             return unauthorized(views.html.login.render());
         }
-        Map<String, Object> structuresMap = new HashMap<>();
-        List<String> typeList = new ArrayList<>();
-        JsonNode types = qh.executeQuery(Statement.GET_STRUCTURE_TYPES);
 
-        for (JsonNode n:
-             types) {
-            typeList.add(n.get("type").asText());
+        final JsonNode types = qh.executeQuery(Statement.GET_STRUCTURE_TYPES);
+        final List<String> typeList = new ArrayList<>();
+
+        for (JsonNode node : types) {
+            typeList.add(node.get("type").asText());
         }
-        structuresMap.put("types", typeList);
-        return ok(Json.toJson(structuresMap));
+        return ok(Json.toJson(typeList));
     }
+
+    public Result getStructures(){
+        JsonNode structures = qh.executeQuery(Statement.GET_STRUCTURES);
+        //List<Map<String, List>> structureList = new ArrayList<>();
+        Map<String, List> types = new HashMap<>();
+        for(int i = 0; i < structures.size(); i++){
+            JsonNode content = structures.get(i);
+            String type = content.get("type").asText();
+            Map<String, String> instanceContent = new HashMap<>();
+            instanceContent.put("ID", content.get("ID").asText());
+            instanceContent.put("content", content.get("content").asText());
+            if(! types.containsKey(type)){
+                List<Map> instances = new ArrayList<>();
+                instances.add(instanceContent);
+                types.put(type, instances);
+            }
+            else{
+                List<Map> instances = types.get(type);
+                instances.add(instanceContent);
+            }
+        }
+        return ok(Json.toJson(types));
+    }
+
 }
 
 

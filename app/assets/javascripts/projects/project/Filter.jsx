@@ -1,74 +1,103 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import Checkbox from 'material-ui/Checkbox';
 import SubHeader from 'material-ui/Subheader';
 import { getAllCategoryNames } from '../../redux/actions/requirementActions';
-import { updateFilter, updateFilterRequirementList, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter  } from '../../redux/actions/filterActions';
+import { getStructures } from "../../redux/actions/structureActions";
+import { updateFilterRequirementList, addToFilter, removeFromFilter, addToSubFilter, removeFromSubFilter } from '../../redux/actions/filterActions';
 import CategoryCheckBoxes from '../../core/filter/checkboxes/CategoryCheckBoxes';
+import StructureCheckBoxes from "../../core/filter/checkboxes/StructureCheckBoxes";
 
+/**
+ * Test filter
+ */
 class Filter extends React.Component {
 
+    /**
+     * Called when the componenet did mount.
+     * Fetches all category names and structures.
+     */
     componentDidMount(){
-        this.props.getAllCategoryNames()
+        this.props.getAllCategoryNames();
+        this.props.getStructures();
     }
 
+    /**
+     * Updates
+     * @private
+     */
     _updateLists() {
         this.props.updateFilterRequirementList('allRequirements', this.props.requirements);
         this.props.updateFilterRequirementList('projectRequirements', this.props.projectRequirements);
     }
 
-    _updateFilter(event, isChecked) {
+    /**
+     * Updates the filter and filters requirements.
+     * @param {String} filter
+     * @param {Object} event
+     * @param {Boolean} isChecked
+     */
+    updateFilter(filter, event, isChecked) {
         const value = event.target.value;
         if (isChecked) {
-            this.props.addToFilter(value);
+            this.props.addToFilter(filter, value);
         } else {
-            this.props.removeFromFilter(value);
+            this.props.removeFromFilter(filter, value);
         }
         this._updateLists();
     }
 
-    _sub(event, isChecked, parent) {
+    /**
+     * Updates the sub-filter and filters requirements.
+     * @param {String} filter
+     * @param {Object} event
+     * @param {Boolean} isChecked
+     * @param {String} parent
+     */
+    updateSubFilter(filter, event, isChecked, parent) {
         const value = event.target.value;
         if (isChecked) {
-            if (!this.props.filter[parent]) {
-                this.props.addToFilter(parent);
-            }
-            this.props.addToSubFilter(value, parent);
+            this.props.addToSubFilter(filter, value, parent);
         } else {
-            this.props.removeFromSubFilter(value, parent);
+            this.props.removeFromSubFilter(filter, value, parent);
         }
         this._updateLists();
+    }
+
+    /**
+     * Renders the {@link StructureCheckboxes}
+     * @param {Array.<Structure>} structures
+     * @param {String} filter
+     * @returns {XML}
+     */
+    renderStructureCheckboxes(structures, filter){
+        if (structures){
+            return <StructureCheckBoxes filter={filter}
+                                        structures={structures}
+                                        onCheck={this.updateFilter.bind(this, 'structure')}
+                                        onCheckSub={this.updateSubFilter.bind(this, 'structure')}
+            />
+        }
     }
 
     render() {
-        const { categories, filter, title } = this.props;
+        const { categories, structures, filter, title } = this.props;
         return (
             <div style={{minWidth: '250px', height: '100%'}}>
                 <h2>{title}</h2>
                 <List>
                     <SubHeader>Kategori</SubHeader>
-                    <CategoryCheckBoxes filter={filter} categories={categories} onCheck={this._updateFilter.bind(this)} onCheckSub={this._sub.bind(this)}/>
+                    <CategoryCheckBoxes filter={filter}
+                                        categories={categories}
+                                        onCheck={this.updateFilter.bind(this, 'category')}
+                                        onCheckSub={this.updateSubFilter.bind(this, 'category')}
+                    />
                 </List>
                 <Divider/>
-                {/*Temporary placeholder before structure gets in place*/}
                 <List>
                     <SubHeader>Struktur</SubHeader>
-                    <ListItem primaryText="Source" leftCheckbox={<Checkbox/>}/>
-                    <ListItem primaryText="Stimulus" leftCheckbox={<Checkbox/>}/>
-                    <ListItem primaryText="Artifact" leftCheckbox={<Checkbox/>}/>
-                </List>
-                <Divider/>
-                <List>
-                    <SubHeader>Krav Meny</SubHeader>
-                    <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <Link to="newrequirement">
-                            <RaisedButton primary={true} label="Nytt Krav" />
-                        </Link>
-                    </div>
+                    {this.renderStructureCheckboxes(structures, filter)}
                 </List>
             </div>
         )
@@ -80,33 +109,20 @@ const mapStateToProps = (state) => {
         requirements: state.requirementReducer.requirements,
         projectRequirements: state.projectReducer.projectRequirements,
         filter: state.filterReducer.filters['project'],
-        categories: state.requirementReducer.categoryNames
+        categories: state.requirementReducer.categoryNames,
+        structures: state.structureReducer.structures
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateFilter: (newFilter) => {
-            dispatch(updateFilter(newFilter))
-        },
-        addToFilter: (category) => {
-            dispatch(addToFilter('project', category));
-        },
-        removeFromFilter: (category) => {
-            dispatch(removeFromFilter('project', category));
-        },
-        addToSubFilter: (sub, parent) => {
-            dispatch(addToSubFilter('project', sub, parent));
-        },
-        removeFromSubFilter: (sub, parent) => {
-            dispatch(removeFromSubFilter('project', sub, parent));
-        },
-        updateFilterRequirementList: (comp, unFiltered) => {
-            dispatch(updateFilterRequirementList('project', comp, unFiltered))
-        },
-        getAllCategoryNames: () => {
-            dispatch(getAllCategoryNames())
-        }
+        addToFilter: (filter, value) => dispatch(addToFilter('project', filter, value)),
+        removeFromFilter: (filter, value) => dispatch(removeFromFilter('project', filter, value)),
+        addToSubFilter: (filter, child, parent) => dispatch(addToSubFilter('project', filter, child, parent)),
+        removeFromSubFilter: (filter, child, parent) => dispatch(removeFromSubFilter('project', filter, child, parent)),
+        updateFilterRequirementList: (output, unFiltered) => dispatch(updateFilterRequirementList('project', output, unFiltered)),
+        getAllCategoryNames: () => dispatch(getAllCategoryNames()),
+        getStructures: () => dispatch(getStructures())
     }
 };
 

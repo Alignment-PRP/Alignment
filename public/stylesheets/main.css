@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-@import url('admin.css');
 @import url('layout.css');
 @import url('header.css');
 @import url('home.css');
@@ -9,3 +8,4 @@
 @import url('userform.css');
 @import url('404.css');
 @import url('403.css');
+@import url('form.css');

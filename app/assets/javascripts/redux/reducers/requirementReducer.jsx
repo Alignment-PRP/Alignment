@@ -1,36 +1,60 @@
 import {
-    ADD_REQUIREMENT,
+
+    FORM_UPDATE_REQUIREMENT,
+    FORM_UPDATE_REQUIREMENT_METADATA,
+    GET_CATEGORY_NAMES,
+    GET_REQUIREMENTS,
+    POST_ADD_REQUIREMENT,
     POST_UPDATE_REQUIREMENT,
-    UPDATE_REQUIREMENT,
-    DELETE_REQUIREMENT,
-    GET_ALL_CATEGORY_NAMES,
-    GET_ALL_REQUIREMENTS
+    POST_DELETE_REQUIREMENT
 } from './../types';
 
 const requirementReducer = (state = {
     requirements: null,
     requirement: [],
+    requirementMetadata: null,
     categoryNames: []
 }, action) => {
     switch (action.type) {
-        case GET_ALL_REQUIREMENTS:
+        case POST_UPDATE_REQUIREMENT.RECEIVED:
+        case POST_ADD_REQUIREMENT.RECEIVED:
+            const req = action.response.data;
             return {
                 ...state,
-                requirements: action.payload,
+                requirements: {
+                    ...state.requirements,
+                    [req.ID]: req
+                }
             };
-        case UPDATE_REQUIREMENT:
+        case POST_DELETE_REQUIREMENT.RECEIVED:
+            const requirements = Object.assign({}, state.requirements);
+            delete requirements[action.response.data];
+            return {
+                ...state,
+                requirements: {
+                    ...requirements
+                }
+            };
+        case GET_REQUIREMENTS.RECEIVED:
+            return {
+                ...state,
+                requirements: action.response.data,
+            };
+        case FORM_UPDATE_REQUIREMENT:
             return {
                 ...state,
                 requirement: action.payload
             };
-        case GET_ALL_CATEGORY_NAMES:
+        case FORM_UPDATE_REQUIREMENT_METADATA:
             return {
                 ...state,
-                categoryNames: action.payload
+                requirementMetadata: action.payload
             };
-        case ADD_REQUIREMENT:
-        case POST_UPDATE_REQUIREMENT:
-        case DELETE_REQUIREMENT:
+        case GET_CATEGORY_NAMES.RECEIVED:
+            return {
+                ...state,
+                categoryNames: action.response.data
+            };
         default:
             return state
     }

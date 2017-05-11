@@ -18,6 +18,7 @@ GET     /api/add-category                   controllers.AdminController.addCateg
 GET     /api/add-requirementcategeory       controllers.AdminController.addCategeroyToRequirement()
 GET     /api/update-requirement             controllers.AdminController.updateReq()
 GET     /api/add-requirement                controllers.AdminController.addRequirement()
+GET     /api/jamatest                       controllers.ProjectController.jamaTest()
 
 #API CALLS
 GET     /api/users                          controllers.UserController.getUsers()
@@ -25,6 +26,7 @@ GET     /api/users_c                        controllers.UserController.getUsersW
 GET     /api/users/:name                    controllers.UserController.getUserByUsername(name: String)
 GET     /api/user                           controllers.UserController.getConnectedUser()
 GET     /api/user/userClasses               controllers.UserController.getUserClasses()
+POST    /api/user/delete                    controllers.UserController.deleteUser()
 POST    /api/user/update                    controllers.UserController.updateUser()
 POST    /api/user/new                       controllers.UserController.createUserJson()
 
@@ -45,7 +47,10 @@ POST    /api/project/new                    controllers.ProjectController.newPro
 POST    /api/project/update                 controllers.ProjectController.updateProject()
 POST    /api/project/hasAccess/remove       controllers.ProjectController.removeHasAccess()
 POST    /api/project/hasAccess/add          controllers.ProjectController.insertHasAccess()
+GET     /api/project/:id/hasAccess/users    controllers.ProjectController.getUsersHaveAccess(id: String)
+GET     /api/project/:id/hasAccess/classes  controllers.ProjectController.getClassesHaveAccess(id: String)
 POST    /api/project/requirement/add        controllers.ProjectController.addReq()
+POST    /api/project/requirement/update     controllers.ProjectController.updateReq()
 GET     /api/project/requirements/:id       controllers.ProjectController.getProjectRequirements(id: String)
 GET     /api/project/:id/data               controllers.ProjectController.getProjectByProjectID(id: String)
 GET     /api/project/:id/meta               controllers.ProjectController.getProjectMetaData(id: String)
@@ -57,16 +62,19 @@ POST    /api/requirement/delete             controllers.AdminController.deleteRe
 POST    /api/requirement/update             controllers.AdminController.updateRequirement()
 POST    /api/requirement/category/add       controllers.AdminController.insertRequirementCategory()
 GET     /api/requirement/category/:id       controllers.RequirementController.getRequirementsByCategoryID(id: String)
-GET     /api/requirements/admin             controllers.AdminController.getReq()
 GET     /api/requirements                   controllers.RequirementController.getGlobalRequirements()
 GET     /api/requirements/usage             controllers.AdminController.getRequirementUsage()
 GET     /api/requirement/structure/types    controllers.RequirementController.getStructureTypes()
+GET     /api/requirement/:id                controllers.AdminController.getRequirementById(id: String)
+
+GET     /api/structures/all                  controllers.RequirementController.getStructures()
 
 POST    /api/category/add                   controllers.AdminController.insertRequirementCategory()
 GET     /api/category/all/names             controllers.RequirementController.getCategories()
-GET     /api/category/byname/:name          controllers.RequirementController.getRequirementsByCategoryName(name: String)
 
 POST    /api/subcategory/add                controllers.AdminController.addSubcategory()
+
+GET     /rights                             controllers.AccessController.test()
 
 
 

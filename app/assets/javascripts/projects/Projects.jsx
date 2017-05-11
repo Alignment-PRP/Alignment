@@ -1,35 +1,3 @@
-import React from 'react';
-import {connect} from "react-redux";
-import { push } from 'react-router-redux';
-import { getPublicProjects, getPrivateProjects, getArchivedProjects, postProjectNew, deleteProject, changeProjectsTableMode } from "../redux/actions/projectActions";
-import { changeSideMenuMode } from "../redux/actions/sideMenuActions";
-import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
-import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
-import { snackBar } from './../redux/actions/snackBarActions';
-import ProjectTable from './ProjectTable';
-import ProjectsSideMenu from './presentational/ProjectsSideMenu';
-import ProjectNewDialog from './dialog/ProjectNewDialog';
-import DeleteDialog from "./../core/dialog/DeleteDialog";
-import {
-    Card, CardActions, CardHeader, CardText, CardTitle, FlatButton, GridList,
-    GridTile
-} from "material-ui";
-import {
-    amber200, blue200, blueGrey200, brown200, cyan200, deepOrange200, deepPurple200, green200,
-    grey200, indigo200, lightBlue200, lightGreen200, lime200, orange200, pink200,
-    purple200, red200, teal200, yellow200
-} from "material-ui/styles/colors";
-import {Link} from "react-router";
-import Popover from "../core/popover/Popover";
-
-const colors = [
-    red200, pink200, purple200, deepPurple200,
-    indigo200, blue200, lightBlue200, cyan200,
-    teal200, green200, lightGreen200, lime200,
-    yellow200, amber200, orange200, deepOrange200,
-    brown200, blueGrey200, grey200
-];
-
 /**
  * Class represents /projects.
  * @see ProjectTable
@@ -52,17 +20,57 @@ const colors = [
  * @param {function} snackBar {@link module:redux/actions/projectForm.snackBar}
  * @param {function} changeSideMenuMode {@link module:redux/actions/sideMenu.changeSideMenuMode}
  */
+import React from 'react';
+import {connect} from "react-redux";
+import { push } from 'react-router-redux';
+import {
+    getProjectsPublic, getProjectsAccessible, getProjectsIsCreator, getProjectsIsManager,
+    postProjectNew, deleteProject, clearInitEditProjectForm
+} from "../redux/actions/projectActions";
+import { dialogOpen, dialogChangeAction } from './../redux/actions/dialogActions';
+import { popoverAnchor, popoverContent, popoverOpen, popoverAdd } from './../redux/actions/popoverActions';
+import ProjectsSideMenu from './presentational/ProjectsSideMenu';
+import ProjectNewDialog from './dialog/ProjectNewDialog';
+import {
+    Card, CardActions, CardHeader, CardText, CardTitle, CircularProgress, FlatButton, GridList,
+    GridTile
+} from "material-ui";
+import {
+    amber200, blue200, blueGrey200, brown200, cyan200, deepOrange200, deepPurple200, green200,
+    grey200, indigo200, lightBlue200, lightGreen200, lime200, orange200, pink200,
+    purple200, red200, teal200, yellow200
+} from "material-ui/styles/colors";
+import {Link} from "react-router";
+import Popover from "../core/popover/Popover";
+
+const colors = [
+    red200, pink200, purple200, deepPurple200,
+    indigo200, blue200, lightBlue200, cyan200,
+    teal200, green200, lightGreen200, lime200,
+    yellow200, amber200, orange200, deepOrange200,
+    brown200, blueGrey200, grey200
+];
+
 class Projects extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.renderProjects = this.renderProjects.bind(this);
+        this._projects = this._projects.bind(this);
+    }
 
     componentWillMount() {
         this.props.popoverAdd('projects');
     }
 
     componentDidMount(){
-        this.props.getPublicProjects();
-        this.props.getPrivateProjects();
-        this.props.getArchivedProjects();
-        this.props.changeSideMenuMode("HIDE");
+        this.props.clearInitEditProjectForm();
+        this.props.getProjectsPublic();
+        this.props.getProjectsAccessible();
+        this.props.getProjectsIsCreator();
+        this.props.getProjectsIsManager();
+
         this.props.newDialog(false);
         this.props.deleteDialog(false);
     }
@@ -74,13 +82,17 @@ class Projects extends React.Component {
      * @private
      */
     _projects(mode) {
+        const { projectsPublic, projectsAccessible, projectsIsManager, projectsIsCreator } = this.props;
         switch (mode) {
-            case "private":
-                return this.props.privateProjects;
-            case "archive":
-                return this.props.archivedProjects;
+            case 'private':
+                if (projectsIsCreator && projectsIsManager) {
+                    return Object.values({...projectsIsCreator, ...projectsIsManager});
+                }
+                return null;
+            case 'accessible':
+                return projectsAccessible ? Object.values(projectsAccessible) : null;
             default:
-                return this.props.publicProjects;
+                return projectsPublic ? Object.values(projectsPublic) : null;
         }
     }
 
@@ -88,8 +100,8 @@ class Projects extends React.Component {
         switch (mode) {
             case "private":
                 return <h2>Mine Prosjekter</h2>;
-            case "archive":
-                return <h2>Arkiverte Prosjekter</h2>;
+            case "accessible":
+                return <h2>Tilgjengelige Prosjekter</h2>;
             default:
                 return <h2>Åpne Prosjekter</h2>;
         }
@@ -109,56 +121,61 @@ class Projects extends React.Component {
         return colors[this.hashCode(title) % colors.length];
     }
 
+    renderProjects() {
+        const { path, popoverOpen, popoverContent, popoverAnchor } = this.props;
+        const tableMode = path.replace('/projects/', '');
+        if (this._projects(tableMode)) {
+            return (
+                <div className="project-cards">
+                    {this._projects(tableMode).map((project, index) => {
+                        return (
+                            <Card key={index} className="project-card" style={{backgroundColor: this.getCardColor(project.name)}}>
+                                <CardTitle
+                                    className="project-card-title"
+                                    title={project.name}
+                                    subtitle={/*'Laget av:' + project.creatorID + '  ' + */'Prosjektleder: ' + project.managerID}
+                                />
+                                <CardActions>
+                                    <Link to={'project/' + project.ID}>
+                                        <FlatButton label='Åpne'/>
+                                    </Link>
+                                    <FlatButton label="Info" onTouchTap={(event) => {
+                                        popoverOpen(true);
+                                        popoverContent(project.description);
+                                        popoverAnchor(event.currentTarget);
+                                    }}/>
+                                </CardActions>
+                            </Card>
+                        );
+                    })}
+                </div>
+            );
+        }
+        return (
+            <CircularProgress/>
+        );
+    }
+
     /**
      * Render method
      * @returns {XML}
      */
     render(){
-        const {
-            newDialogIsOpen, deleteDialogIsOpen,
-            newDialog, deleteDialog, deleteDialogAction, deleteDialogChangeAction,
-            postProjectNew,
-            deleteProject,
-            push, path,
-            popoverOpen, popoverAnchor, popoverContent
-        } = this.props;
-        const tableMode = path.replace('/projects/', '');
+        const { newDialogIsOpen, newDialog, postProjectNew, push } = this.props;
 
         return (
-            <div style={{display: 'flex'}}>
+            <div className="container">
                 <ProjectsSideMenu
                     className="projects-sidemenu"
-                    handleUser={push.bind(null, '/projects/private')}
-                    handleAll={push.bind(null, '/projects')}
-                    handleArchived={push.bind(null, '/projects/archive')}
+                    handlePrivate={push.bind(null, '/projects/private')}
+                    handlePublic={push.bind(null, '/projects')}
+                    handleAccessible={push.bind(null, '/projects/accessible')}
                     handleNew={newDialog.bind(null, true)}
                 />
                 <div>
-                    <div className="containerUsers">
-                        <div style={{display: 'flex', flexWrap: 'wrap', margin: '8px'}}>
-                            {this._projects(tableMode).map((project, index) => {
-                                const color = this.getCardColor(project.name);
-                                return (
-                                    <Card key={index} style={{margin: '8px', minWidth: '150px', backgroundColor: color}}>
-                                        <CardTitle
-                                            style={{paddingBottom: 0}}
-                                            title={project.name}
-                                            subtitle={'Laget av:' + project.creatorID + '  ' + 'Sjef: ' + project.managerID}
-                                        />
-                                        <CardActions>
-                                            <Link to={'project/' + project.ID}>
-                                                <FlatButton label='Åpne'/>
-                                            </Link>
-                                            <FlatButton label="Info" onTouchTap={(event) => {
-                                                popoverOpen(true);
-                                                popoverContent(project.description);
-                                                popoverAnchor(event.currentTarget);
-                                            }}/>
-                                        </CardActions>
-                                    </Card>
-                                );
-                            })}
-                        </div>
+                    <div className="container">
+
+                        {this.renderProjects()}
 
                         <Popover component="projects"/>
 
@@ -168,14 +185,6 @@ class Projects extends React.Component {
                             handleSubmit={(values, dispatch, props) => {postProjectNew(values, dispatch, props); newDialog(false)}}
                             onRequestClose={newDialog.bind(null, false)}
                         />
-                        <DeleteDialog
-                            title="Slett Prosjekt"
-                            desc="Er du sikker på at du vil slette prosjektet?"
-                            open={deleteDialogIsOpen}
-                            action={deleteDialogAction}
-                            onRequestClose={deleteDialog.bind(null, false)}
-                        />
-
                     </div>
                 </div>
             </div>
@@ -186,9 +195,10 @@ class Projects extends React.Component {
 const mapStateToProps = (state, props) => {
     return {
         path: props.location.pathname,
-        publicProjects: state.projectReducer.publicProjects,
-        privateProjects: state.projectReducer.privateProjects,
-        archivedProjects: state.projectReducer.archivedProjects,
+        projectsPublic: state.projectReducer.projectsPublic,
+        projectsAccessible: state.projectReducer.projectsAccessible,
+        projectsIsCreator: state.projectReducer.projectsIsCreator,
+        projectsIsManager: state.projectReducer.projectsIsManager,
         tableMode: state.projectReducer.tableMode,
         newDialogIsOpen: state.dialogReducer.projectNew.isOpen,
         deleteDialogIsOpen: state.dialogReducer.projectDelete.isOpen,
@@ -198,48 +208,21 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        push: (url) => {
-            dispatch(push(url));
-        },
-        getPublicProjects: () => {
-            dispatch(getPublicProjects());
-        },
-        getPrivateProjects: () => {
-            dispatch(getPrivateProjects());
-        },
-        getArchivedProjects: () => {
-            dispatch(getArchivedProjects());
-        },
-        changeSideMenuMode: (mode) => {
-            dispatch(changeSideMenuMode(mode));
-        },
-        postProjectNew: (data) => {
-            dispatch(postProjectNew(data));
-        },
-        deleteProject: (project) => {
-            dispatch(deleteProject(project));
-        },
-        newDialog: (open) => {
-            dispatch(dialogOpen('projectNew', open));
-        },
-        deleteDialog: (open) => {
-            dispatch(dialogOpen('projectDelete', open));
-        },
-        deleteDialogChangeAction: (action) => {
-            dispatch(dialogChangeAction('projectDelete', action))
-        },
-        popoverOpen: (open) => {
-            dispatch(popoverOpen('projects', open));
-        },
-        popoverAnchor: (anchor) => {
-            dispatch(popoverAnchor('projects', anchor));
-        },
-        popoverContent: (content) => {
-            dispatch(popoverContent('projects', content));
-        },
-        popoverAdd: (popover) => {
-            dispatch(popoverAdd(popover));
-        }
+        push: (url) => dispatch(push(url)),
+        clearInitEditProjectForm: () => dispatch(clearInitEditProjectForm()),
+        getProjectsPublic: () => dispatch(getProjectsPublic()),
+        getProjectsAccessible: () => dispatch(getProjectsAccessible()),
+        getProjectsIsCreator: () => dispatch(getProjectsIsCreator()),
+        getProjectsIsManager: () => dispatch(getProjectsIsManager()),
+        postProjectNew: (data) => dispatch(postProjectNew(data)),
+        deleteProject: (project) => dispatch(deleteProject(project)),
+        newDialog: (open) => dispatch(dialogOpen('projectNew', open)),
+        deleteDialog: (open) => dispatch(dialogOpen('projectDelete', open)),
+        deleteDialogChangeAction: (action) => dispatch(dialogChangeAction('projectDelete', action)),
+        popoverOpen: (open) => dispatch(popoverOpen('projects', open)),
+        popoverAnchor: (anchor) => dispatch(popoverAnchor('projects', anchor)),
+        popoverContent: (content) => dispatch(popoverContent('projects', content)),
+        popoverAdd: (popover) => dispatch(popoverAdd(popover))
     };
 };
 
