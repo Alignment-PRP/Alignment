@@ -1,7 +1,7 @@
 import sbt._
 
-name := """play-java-intro"""
-version := "1.0-SNAPSHOT"
+name := """alignment"""
+version := "1.0"
 scalaVersion := "2.11.8"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava, SbtWeb)

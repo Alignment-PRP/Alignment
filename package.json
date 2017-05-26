@@ -1,7 +1,7 @@
 {
-  "name": "vitaminbjorner",
+  "name": "alignment-client",
   "version": "1.0.0",
-  "description": "Not sure if we want a README but I'll leave this here just in case",
+  "description": "Client for the Alignment software.",
   "main": "main.js",
   "directories": {
     "test": "test"
@@ -32,7 +32,7 @@
     "babel-preset-stage-3": "^6.22.0",
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",
-    "docdash": "https://github.com/WoodStone/docdash.git",
+    "docdash": "https://github.com/Alignment-PRP/docdash.git",
     "jsdoc": "^3.4.3"
   },
   "scripts": {
@@ -40,12 +40,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Risvaag/vitaminbjorner.git"
+    "url": "git+https://github.com/Alignment-PRP/Alignment.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Alignment-PRP",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Risvaag/vitaminbjorner/issues"
+    "url": "https://github.com/Alignment-PRP/Alignment/issues"
   },
-  "homepage": "https://github.com/Risvaag/vitaminbjorner#readme"
+  "homepage": "https://github.com/Alignment-PRP/Alignment#readme"
 }
