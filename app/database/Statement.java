@@ -15,6 +15,7 @@ import java.sql.SQLException;
  */
 public enum Statement {
 
+    SHOW_TABLES("SHOW TABLES"),
 
     //Gets the PK of the last inserted row.
     SELECT_LAST_INSERT_ID("SELECT LAST_INSERT_ID()"),
