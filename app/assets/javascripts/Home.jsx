@@ -56,6 +56,9 @@ class Home extends React.Component {
                         <ol>3. Legge til brukere som har tilgang til prosjektet</ol>
                     </ul>
                 </div>
+                <div id="logo-credit">
+                    <p><b>Logo created with:</b> <a href="http://logomakr.com">http://logomakr.com</a></p>
+                </div>
             </div>
         );
     }
