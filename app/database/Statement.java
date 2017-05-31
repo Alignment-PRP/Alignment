@@ -17,6 +17,8 @@ public enum Statement {
 
     SHOW_TABLES("SHOW TABLES"),
 
+    TABLE_EXISTS("SELECT 1 FROM Users LIMIT 1"),
+
     //Gets the PK of the last inserted row.
     SELECT_LAST_INSERT_ID("SELECT LAST_INSERT_ID()"),
 
