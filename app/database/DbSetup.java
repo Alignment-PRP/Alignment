@@ -38,7 +38,7 @@ public class DbSetup {
                 String path = new File("").getAbsolutePath();
                 //System.out.println(path);
                 //NOTE the sql file exists in master but not in this branch (the actual running of the program was tested on the original private repo for the system
-                path = path.concat("\\SQL\\prosjekt2SQL.sql");
+                path = path.concat("\\SQL\\dbsql.sql");
                 //System.out.println(path);
                 //System.out.println("foo");
                 runner.runScript(new BufferedReader(new FileReader(path)));
